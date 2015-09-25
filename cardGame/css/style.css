@@ -123,32 +123,3 @@ body {
     height: 70%;
     top: 20%;
 }
-
-.content-card ul {
-    padding-top: 2%;
-    padding-bottom: 2%;
-    width: 90%;
-    height: 45%;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-}
-
-.content-card ul li {
-    width  : 30%;
-    height : 100%;
-    border : 1px solid red;
-    float  : left;
-    -webkit-box-sizing:border-box;
-    box-sizing:border-box;
-    border-radius: 10px;
-    background-image: url("../images/1.png");
-    background-size: 100% 100%;
-}
-
-.content-card ul li:nth-child(2){
-    margin-left:5%;
-}
-
-.content-card ul li:nth-child(3){
-    margin-left:5%;
-}

@@ -5,30 +5,94 @@
 var cardGames = function(element) {
 
     //页面容器
-    var container    = $(element);
-    //页面可视区域
-    var visualWidth  = container.width()
-    var visualHeight = container.height()
+    var $container = $(element);
+    this.$container = $container;
 
+    //区域尺寸
+    this.contentWidth = parseInt($container.css('width'))
+    this.contentHeight = parseInt($container.css('Height'))
 
-    //时间设置(时间毫秒）
-    var setTime = {
-        walkToThird  : 6000, //走第一段路，1/3屏幕宽度所用的时间，走完毕背景动
-        walkToMiddle : 6500, //走第二段路，1/2屏幕宽度所用的时间，走到商店
-        walkToEnd    : 6500, //走第三段路，走到桥
-        
-        walkTobridge : 2000, //上桥
-        bridgeWalk   : 2000, //桥上走路到中间
+    //区域布局
+    var offset = $container.offset()
+    this.contentLeft = offset.left;
+    this.contentTop = offset.top
 
-        walkToShop   : 1000, //进商店时间
-        walkOutShop  : 1000, //出商店时间
-        
-        openDoorTime : 800, //开门时间
-        shutDoorTime : 500, //关门时间
-        
-        waitRotate   : 850,//男女等待转身的时间
-        waitFlower   : 800 //模拟取花的等待时间
-    }
+    this.imageSrc = "images/1.png"
+
+    console.log(this)
+
+    //初始化创建
+    this.initCreate();
 
 };
 
+
+cardGames.prototype = {
+
+
+    initCreate: function() {
+        this.level = {
+            row: 3, //横行
+            col: 2 //竖列
+        }
+        this.debrisWidth = this.contentWidth / this.level.row;
+        this.debrisHeight = this.contentHeight / this.level.col;
+        //初始化布局
+        this.initLayer();
+    },
+
+    initLayer: function() {
+        var index;
+        var $ul;
+        var $li;
+        var uls = [];
+        var debrisWidth = this.debrisWidth;
+        var debrisHeight = this.debrisHeight;
+        var row = this.level.row;
+        var col = this.level.col;
+
+        //布局的原始排序
+        this.originalOrder = [];
+        //碎片快速索引
+        this.$debrisMap = {};
+
+        var uls = [];
+        //生成 row * col 的矩阵
+        for (var i = 0; i < col; i++) {
+            $ul = $(document.createElement('ul')).css({
+                'width': this.contentWidth,
+                'height': this.contentHeight / 2
+
+            });
+            for (var j = 0; j < row; j++) {
+                $li = $(document.createElement('li')).css({
+                    'width'             : (debrisWidth) + 'px',
+                    'height'            : (debrisHeight) + 'px',
+                    'left'              : j * debrisWidth + 'px',
+                    'top'               : i * debrisHeight + 'px',
+                    'backgroundImage'   : "url('" + this.imageSrc + "')",
+                    'backgroundSize'    : '100% 100%',
+                    'position'          : 'absolute',
+                    '-webkit-transform' : 'scale(0.9)'
+                });
+                $ul.append($li)
+                //用来对比随机后正确的顺序
+                index = i * col + j;
+                this.originalOrder.push(index);
+                //保存碎片节点合集
+                this.$debrisMap[index] = $li
+            }
+            uls.push($ul)
+        }
+
+        var $fragment = $(document.createElement('createDocumentFragment'));
+        $.each(uls, function(index, ul) {
+            $fragment.append(ul)
+        })
+        this.$container.append($fragment[0].childNodes);
+
+    }
+
+
+
+}
