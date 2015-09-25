@@ -115,7 +115,7 @@ puzzleGame.prototype = {
                     'height'             : (debrisHeight - 2) + 'px',
                     'left'               : j * debrisWidth + 'px',
                     'top'                : i * debrisHeight + 'px',
-                    "background"         : "url('" + this.imageSrc + "')",
+                    "backgroundImage"    : "url('" + this.imageSrc + "')",
                     'backgroundPosition' : (-j) * debrisWidth + 'px ' + (-i) * debrisHeight + 'px'
                 });
                 $fragment.append(debrisDiv)

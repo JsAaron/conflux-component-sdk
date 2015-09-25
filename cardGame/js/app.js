@@ -52,7 +52,8 @@ cardGames.prototype = {
         var col = this.level.col;
 
         //布局的原始排序
-        this.originalOrder = [];
+        this.originalOrder = {};
+
         //碎片快速索引
         this.$debrisMap = {};
 
@@ -76,11 +77,11 @@ cardGames.prototype = {
                     '-webkit-transform' : 'scale(0.9)'
                 });
                 $ul.append($li)
-                //用来对比随机后正确的顺序
-                index = i * col + j;
-                this.originalOrder.push(index);
-                //保存碎片节点合集
-                this.$debrisMap[index] = $li
+
+                if(!this.originalOrder[i]){
+                    this.originalOrder[i] = [];
+                }
+                this.originalOrder[i].push(j)
             }
             uls.push($ul)
         }
