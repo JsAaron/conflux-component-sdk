@@ -6,28 +6,6 @@
 
     'use strict';
 
-    var  _cache = {};
-    var  _style = document.documentElement.style;
-    function prefixStyle(attr) {
-        var vendors = ['webkit', 'Moz', 'ms', 'o'];
-        var name;
-        if (_cache[attr]) {
-            return _cache[attr];
-        }
-        if (attr in _style) {
-            return _cache[attr] = attr;
-        }
-        //需要加前缀
-        _.each(vendors, function(v) {
-            if (jQuery.camelCase(v + '-' + attr) in _style) {
-                name = '-' + v + '-' + attr;
-                return _cache[attr] = name;
-            }
-        })
-        return name;
-    }
-    var transform = prefixStyle('transform');
-    var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
 
     //配置文件
     var config = {
@@ -49,6 +27,33 @@
 
     }
 
+
+
+    var _cache = {};
+    var _style = document.documentElement.style;
+    function prefixStyle(attr) {
+        var vendors = ['webkit', 'Moz', 'ms', 'o'];
+        var name;
+        if (_cache[attr]) {
+            return _cache[attr];
+        }
+        if (attr in _style) {
+            return _cache[attr] = attr;
+        }
+        //需要加前缀
+        _.each(vendors, function(v) {
+            if (jQuery.camelCase(v + '-' + attr) in _style) {
+                name = '-' + v + '-' + attr;
+                return _cache[attr] = name;
+            }
+        })
+        return name;
+    }
+
+    var transform = prefixStyle('transform');
+    var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
+
+
     function format(format) {
         var args = [].slice.call(arguments, 1, arguments.length);
         return format.replace(/\{(\d+)\}/g, function(m, i) {
@@ -60,12 +65,9 @@
     config.rotateY = config.direction === 'left' ? '180deg' : '-180deg';
 
 
-
     function cardGames() {
 
     }
-
-
 
 
 
