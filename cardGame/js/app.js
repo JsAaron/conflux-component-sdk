@@ -1,3 +1,12 @@
+
+function format(format) {
+    var args = [].slice.call(arguments, 1, arguments.length);
+    return format.replace(/\{(\d+)\}/g, function(m, i) {
+        return args[i];
+    });
+}
+
+
 /**
  * 翻牌小游戏
  * @type {Object}
@@ -17,9 +26,10 @@ var cardGames = function(element) {
     this.contentLeft = offset.left;
     this.contentTop = offset.top
 
-    this.imageSrc = "images/1.png"
-
-    console.log(this)
+    this.images = {
+        front : "images/1.png",
+        back  : "images/3.jpg"
+    }
 
     this.initCreate();
     this.creatEvent();
@@ -44,11 +54,12 @@ cardGames.prototype = {
         var index;
         var $ul;
         var $li;
-        var uls = [];
-        var debrisWidth = this.debrisWidth;
+        var uls          = [];
+        var debrisWidth  = this.debrisWidth;
         var debrisHeight = this.debrisHeight;
-        var row = this.level.row;
-        var col = this.level.col;
+        var row          = this.level.row;
+        var col          = this.level.col;
+        var images       = this.images;
 
         //布局的原始排序
         this.originalOrder = {};
@@ -57,6 +68,36 @@ cardGames.prototype = {
         this.$debrisMap = {};
 
         var uls = [];
+
+        var createStr = function(i,j) {
+            var fill = function() {
+                return 'width:100%;height:100%;position:absolute;top:0;left:0;background-size:100% 100%;backface-visibility: hidden;'
+            }
+            var innerdiv = function() {
+                return format(
+                    '<div style="{0};left;z-index:2;background-image:{1}"></div>'+
+                    '<div style="{0};transform: rotateY(180deg);-webkit-transform:rotateY(180deg);background-image:{2};"></div>',
+                    fill(), "url('" + images.front + "')", "url('" + images.back + "')"
+                )
+            }
+            var str = format(
+                '<li data-page = {0} data-index ={1} '+
+                    'style="width:{2}px;height:{3}px;left:{4}px;top:{5}px;'+
+                    'background-size:100% 100%;'+
+                    'position:absolute;' +
+                    'transition: 0.6s;' +
+                    'transform-style: preserve-3d;' +
+                    'transform:scale(0.9);' +
+                    '-webkit-transition: 0.6s;' +
+                    '-webkit-transform-style: preserve-3d;' +
+                    '-webkit-transform:scale(0.9);"' +
+                '>'+ innerdiv() +'</li>', 
+                i, j,
+                debrisWidth, debrisHeight, j * debrisWidth, i * debrisHeight
+            )
+            return $(str)
+        }
+
         //生成 row * col 的矩阵
         for (var i = 0; i < col; i++) {
             $ul = $(document.createElement('ul')).css({
@@ -64,20 +105,8 @@ cardGames.prototype = {
                 'height': this.contentHeight / 2
             });
             for (var j = 0; j < row; j++) {
-                $li = $(document.createElement('li')).css({
-                    'width': (debrisWidth) + 'px',
-                    'height': (debrisHeight) + 'px',
-                    'left': j * debrisWidth + 'px',
-                    'top': i * debrisHeight + 'px',
-                    'backgroundImage': "url('" + this.imageSrc + "')",
-                    'backgroundSize': '100% 100%',
-                    'position': 'absolute',
-                    '-webkit-transform': 'scale(0.9)'
-                });
-                $li.attr('data-page', i)
-                $li.attr('data-index', j)
+                $li = createStr(i,j);
                 $ul.append($li)
-
                 if (!this.originalOrder[i]) {
                     this.originalOrder[i] = [];
                 }
@@ -95,16 +124,23 @@ cardGames.prototype = {
 
 
     onClick: function(event) {
-        var element = event.target;
-        var page = element.getAttribute('data-page');
-        //如果存在
-        if (page || page == 0) {
-            console.log(element)
+        var element, elementName, page;
+        element = event.target;
+        if (element && (element = element.parentNode)) {
+            elementName = element.nodeName.toLowerCase();
+            if (elementName == 'li') {
+                page = element.getAttribute('data-page');
+                if (page || page == 0) {
+                    $(element).css({
+                        'transform': 'rotateY(180deg),scale(0.9)'
+                    })
+                }
+            }
         }
     },
 
-    transitionend:function(){
-        
+    transitionend: function() {
+
     },
 
     creatEvent: function() {
