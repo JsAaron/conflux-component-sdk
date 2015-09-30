@@ -1,9 +1,33 @@
-
 /**
  * 翻牌小游戏
  * @type {Object}
  */
-;(function() {
+(function() {
+
+    'use strict';
+
+    var  _cache = {};
+    var  _style = document.documentElement.style;
+    function prefixStyle(attr) {
+        var vendors = ['webkit', 'Moz', 'ms', 'o'];
+        var name;
+        if (_cache[attr]) {
+            return _cache[attr];
+        }
+        if (attr in _style) {
+            return _cache[attr] = attr;
+        }
+        //需要加前缀
+        _.each(vendors, function(v) {
+            if (jQuery.camelCase(v + '-' + attr) in _style) {
+                name = '-' + v + '-' + attr;
+                return _cache[attr] = name;
+            }
+        })
+        return name;
+    }
+    var transform = prefixStyle('transform');
+    var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
 
     //配置文件
     var config = {
@@ -17,11 +41,11 @@
         },
 
         //翻转的速度单位ms //默认0.6秒
-        speed:600,
+        speed: 600,
 
         //反转的反向
         //顺时针//逆时针 left or rigth
-        direction:'left'
+        direction: 'left'
 
     }
 
@@ -36,7 +60,16 @@
     config.rotateY = config.direction === 'left' ? '180deg' : '-180deg';
 
 
-    var cardGames = function(element, options) {
+
+    function cardGames() {
+
+    }
+
+
+
+
+
+    var Manager = function(element, options) {
 
         //页面容器
         var $container = $(element);
@@ -59,7 +92,7 @@
     };
 
 
-    cardGames.prototype = {
+    Manager.prototype = {
 
         initCreate: function() {
             this.level = {
@@ -98,8 +131,12 @@
                 var innerdiv = function() {
                     return format(
                         '<div style="{0};left;z-index:2;background-image:{1}"></div>' +
-                        '<div style="{0};transform: rotateY({2});-webkit-transform:rotateY({2});background-image:{3};"></div>',
-                        fill(), "url('" + images.front + "')", config.rotateY, "url('" + images.back[j] + "')"
+                        '<div style="{0};{4}:rotateY({2});background-image:{3};"></div>',
+                        fill(),
+                        "url('" + images.front + "')",
+                        config.rotateY,
+                        "url('" + images.back[j] + "')",
+                        transform
                     )
                 }
                 var str = format(
@@ -107,13 +144,12 @@
                     'style="width:{2}px;height:{3}px;left:{4}px;top:{5}px;' +
                     'background-size:100% 100%;' +
                     'position:absolute;' +
-                    'transform-style: preserve-3d;' +
-                    'transform:scale(0.9);' +
-                    '-webkit-transform-style: preserve-3d;' +
-                    '-webkit-transform:scale(0.9);"' +
+                    '{6}-style: preserve-3d;' +
+                    '{6}:scale(0.9);"' +
                     '>' + innerdiv() + '</li>',
                     i, j,
-                    debrisWidth, debrisHeight, j * debrisWidth, i * debrisHeight
+                    debrisWidth, debrisHeight, j * debrisWidth, i * debrisHeight,
+                    transform
                 )
                 return $(str)
             }
@@ -150,7 +186,7 @@
                 if (elementName == 'li') {
                     $(element).css({
                         'transition-duration': config.speed + 'ms',
-                        'transform': 'rotateY(' + config.rotateY + '),scale(0.9)'
+                        transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
                     })
                     this.trigger.push(element);
                 }
@@ -158,7 +194,7 @@
         },
 
         transitionend: function(e) {
-           
+
         },
 
         creatEvent: function() {
@@ -170,12 +206,11 @@
             this.$container.on('mousedown touchstart', function(event) {
                 stopBehavior(event)
                 self.onClick(event)
-            }).on('transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd', function(event) {
+            }).on(transitionend, function(event) {
                 self.transitionend(event)
             });
         }
     }
 
-
-    window.cardGames = cardGames;
+    window['cardGames'] = Manager;
 })();
