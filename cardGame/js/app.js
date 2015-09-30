@@ -21,9 +21,8 @@ var cardGames = function(element) {
 
     console.log(this)
 
-    //初始化创建
     this.initCreate();
-
+    this.creatEvent();
 };
 
 
@@ -63,22 +62,23 @@ cardGames.prototype = {
             $ul = $(document.createElement('ul')).css({
                 'width': this.contentWidth,
                 'height': this.contentHeight / 2
-
             });
             for (var j = 0; j < row; j++) {
                 $li = $(document.createElement('li')).css({
-                    'width'             : (debrisWidth) + 'px',
-                    'height'            : (debrisHeight) + 'px',
-                    'left'              : j * debrisWidth + 'px',
-                    'top'               : i * debrisHeight + 'px',
-                    'backgroundImage'   : "url('" + this.imageSrc + "')",
-                    'backgroundSize'    : '100% 100%',
-                    'position'          : 'absolute',
-                    '-webkit-transform' : 'scale(0.9)'
+                    'width': (debrisWidth) + 'px',
+                    'height': (debrisHeight) + 'px',
+                    'left': j * debrisWidth + 'px',
+                    'top': i * debrisHeight + 'px',
+                    'backgroundImage': "url('" + this.imageSrc + "')",
+                    'backgroundSize': '100% 100%',
+                    'position': 'absolute',
+                    '-webkit-transform': 'scale(0.9)'
                 });
+                $li.attr('data-page', i)
+                $li.attr('data-index', j)
                 $ul.append($li)
 
-                if(!this.originalOrder[i]){
+                if (!this.originalOrder[i]) {
                     this.originalOrder[i] = [];
                 }
                 this.originalOrder[i].push(j)
@@ -91,9 +91,35 @@ cardGames.prototype = {
             $fragment.append(ul)
         })
         this.$container.append($fragment[0].childNodes);
+    },
 
+
+    onClick: function(event) {
+        var element = event.target;
+        var page = element.getAttribute('data-page');
+        //如果存在
+        if (page || page == 0) {
+            console.log(element)
+        }
+    },
+
+    transitionend:function(){
+        
+    },
+
+    creatEvent: function() {
+        var stopBehavior = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        var self = this;
+        this.$container.on('mousedown touchstart', function(event) {
+            stopBehavior(event)
+            self.onClick(event)
+        }).on('transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd', function(event) {
+            self.transitionend(event)
+        });
     }
-
 
 
 }
