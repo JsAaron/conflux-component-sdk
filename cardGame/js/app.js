@@ -28,7 +28,6 @@
     }
 
 
-
     var _cache = {};
     var _style = document.documentElement.style;
     function prefixStyle(attr) {
@@ -49,7 +48,6 @@
         })
         return name;
     }
-
     var transform = prefixStyle('transform');
     var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
 
@@ -65,8 +63,45 @@
     config.rotateY = config.direction === 'left' ? '180deg' : '-180deg';
 
 
-    function cardGames() {
+    //原始布局
+    function calculateOrder(row, col) {
+        var order = [];
+        var i;
+        var j;
+        for (i = 0; i < col; i++) {
+            for (j = 0; j < row; j++) {
+                if (!order[i]) {
+                    order[i] = [];
+                }
+                order[i].push(j)
+            }
+        }
+        return order;
+    }
 
+    //随机布局
+    function calculateRandom(originalOrder) {
+        var randomOrder = [];
+        var order;
+        //计算随机
+        var calculate = function(len) {
+            return Math.floor(Math.random() * len);
+        }
+        for (var i = 0, len = originalOrder.length; i < len; i++) {
+            randomOrder[i] = [];
+            for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
+                //随机数
+                order = calculate(orderLen);
+                //去重,保证唯一
+                if (randomOrder[i].length > 0) {
+                    while (jQuery.inArray(order, randomOrder[i]) > -1) {
+                        order = calculate(orderLen)
+                    }
+                }
+                randomOrder[i].push(order);
+            }
+        }
+        return randomOrder;
     }
 
 
@@ -74,57 +109,57 @@
     var Manager = function(element, options) {
 
         //页面容器
-        var $container = $(element);
-        this.$container = $container;
+        var $container = this.$container = $(element);
 
         //区域尺寸
         this.contentWidth = parseInt($container.css('width'))
         this.contentHeight = parseInt($container.css('Height'))
 
-        //区域布局
-        var offset = $container.offset()
-        this.contentLeft = offset.left;
-        this.contentTop = offset.top
+        //布局
+        var level = this.level = {
+            row: 3, //横行
+            col: 2 //竖列
+        }
 
         //触发翻转动画
         this.trigger = [];
+        //布局的原始排序
+        this.originalOrder = calculateOrder(level.row, level.col);
+        //新是随机排序
+        this.randomOrder = [];
 
+        //创建
         this.initCreate();
         this.creatEvent();
+
+        console.log(this)
     };
 
 
     Manager.prototype = {
 
         initCreate: function() {
-            this.level = {
-                row: 3, //横行
-                col: 2 //竖列
-            }
             this.debrisWidth = this.contentWidth / this.level.row;
             this.debrisHeight = this.contentHeight / this.level.col;
-            //初始化布局
+            //随机
+            this.randomOrder = calculateRandom(this.originalOrder);
+            //布局
             this.initLayer();
         },
+
 
         initLayer: function() {
             var index;
             var $ul;
             var $li;
             var uls = [];
-            var debrisWidth = this.debrisWidth;
+            var debrisWidth  = this.debrisWidth;
             var debrisHeight = this.debrisHeight;
-            var row = this.level.row;
-            var col = this.level.col;
-            var images = config.images;
-
-            //布局的原始排序
-            this.originalOrder = {};
-
-            //碎片快速索引
-            this.$debrisMap = {};
-
-            var uls = [];
+            var row          = this.level.row;
+            var col          = this.level.col;
+            var images       = config.images;
+            var randomOrder  = this.randomOrder;
+            var uls          = [];
 
             var createStr = function(i, j) {
                 var fill = function() {
@@ -137,12 +172,12 @@
                         fill(),
                         "url('" + images.front + "')",
                         config.rotateY,
-                        "url('" + images.back[j] + "')",
+                        "url('" + images.back[randomOrder[i][j]] + "')",
                         transform
                     )
                 }
                 var str = format(
-                    '<li data-page = {0} data-index ={1} ' +
+                    '<li data-col={0} data-row={1} ' +
                     'style="width:{2}px;height:{3}px;left:{4}px;top:{5}px;' +
                     'background-size:100% 100%;' +
                     'position:absolute;' +
@@ -180,23 +215,47 @@
             this.$container.append($fragment[0].childNodes);
         },
 
-        onClick: function(event) {
-            var element, elementName, page;
-            element = event.target;
-            if (element && (element = element.parentNode)) {
-                elementName = element.nodeName.toLowerCase();
+        getPos: function(element) {
+            return {
+                'col' : parseInt(element.getAttribute('data-col')),
+                'row' : parseInt(element.getAttribute('data-row'))
+            }
+        },
+
+        target: function(event) {
+            var element;
+            var nodeName = function(element) {
+                var elementName = element.nodeName.toLowerCase();
                 if (elementName == 'li') {
-                    $(element).css({
-                        'transition-duration': config.speed + 'ms',
-                        transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
-                    })
-                    this.trigger.push(element);
+                    return element;
                 }
+            }
+            if (element = event.target) {
+                return nodeName(element) || nodeName(element.parentNode) 
+            }
+        },
+
+        onClick: function(event) {
+            console.log( this.trigger)
+            var element;
+            if (element = this.target(event)) {
+                $(element).css({
+                    'transition-duration': config.speed + 'ms',
+                    transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
+                })
+                var pos = this.getPos(element);
+                console.log(element,pos)
+                this.trigger.push(element);
             }
         },
 
         transitionend: function(e) {
+            var element;
+            if (element = this.target(event)) {
+                var page = element.getAttribute('data-page');
+                var index = element.getAttribute('data-index');
 
+            }
         },
 
         creatEvent: function() {
