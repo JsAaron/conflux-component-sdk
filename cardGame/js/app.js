@@ -2,10 +2,9 @@
  * 翻牌小游戏
  * @type {Object}
  */
-(function() {
+;(function() {
 
     'use strict';
-
 
     //配置文件
     var config = {
@@ -37,15 +36,17 @@
     var _style = document.documentElement.style;
     function prefixStyle(attr) {
         var vendors = ['webkit', 'Moz', 'ms', 'o'];
+
         var name;
         if (_cache[attr]) {
             return _cache[attr];
         }
+
         if (attr in _style) {
             return _cache[attr] = attr;
         }
         //需要加前缀
-        _.each(vendors, function(v) {
+        vendors.forEach(function(v) {
             if (jQuery.camelCase(v + '-' + attr) in _style) {
                 name = '-' + v + '-' + attr;
                 return _cache[attr] = name;
@@ -53,6 +54,7 @@
         })
         return name;
     }
+
     var transform = prefixStyle('transform');
     var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
 
@@ -123,8 +125,6 @@
         return randomOrder;
     }
 
-
-
     var Manager = function(element, options) {
 
         //页面容器
@@ -142,10 +142,8 @@
 
         //触发翻转动画
         this.trigger = [];
-
         //临时记录
         this.tempCompare = [];
-
         //布局的原始排序
         this.originalOrder = calculateOrder(level.row, level.col);
         //新是随机排序
@@ -154,8 +152,6 @@
         //创建
         this.initCreate();
         this.creatEvent();
-
-        console.log(this.randomOrder)
     };
 
 
@@ -270,7 +266,7 @@
                 for (var i = 0; i < elems.length; i++) {
                     elem = elems[i];
                     //元素本身与锁定触发后元素
-                    if (elem == element || elem === 'Lock') {
+                    if (elem === 'Lock') {
                         return true;
                     }
                 }
@@ -284,10 +280,15 @@
                 if (this.repeatClick(element,pos)) {
                     return;
                 }
-                $(element).css({
-                    'transition-duration': config.speed + 'ms',
-                    transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
-                })
+
+                $(element).transition({
+                    'transform': 'rotateY(180deg) scale(0.9)'
+                });
+
+/*                $(element).css({
+                    'transition-duration': '1000ms',
+                    '-webkit-transform': 'rotateY(180deg),scale(0.9)'
+                })*/
                 this.isArray(this.trigger, pos.col, function(arr) {
                     arr.push(element);
                     arr.push('Lock')
@@ -305,6 +306,11 @@
 
             var self = this;
             var isLock = 0; //已经锁定数量
+
+            //保证有效
+            if(!this.tempCompare.length){
+                return
+            }
 
             //当前行
             if (elems = this.trigger) {
@@ -348,18 +354,21 @@
                 if (succeed) { //成功
                     tempCompare.forEach(function(elem){
                         $(elem).css({
-                            'transition-duration': '2000ms',
+                            'transition-delay'    : '200ms',
+                            'transition-duration' : '2000ms',
                             opacity: 0
                         })
                     })
                 } else { //失败
                     tempCompare.forEach(function(elem){
                         $(elem).css({
-                            'transition-duration': config.speed + 'ms',
-                            transform: 'rotateY(0),scale(0.9)'
+                            'transition-delay'    : '200ms',
+                            'transition-duration' : config.speed + 'ms',
+                            transform             : 'rotateY(0),scale(0.9)'
                         })
                     })
                 }
+
                 this.tempCompare = [];
             }
         },
@@ -379,5 +388,6 @@
         }
     }
 
-    window['cardGames'] = Manager;
+
+    window['CardGames'] = Manager;
 })();
