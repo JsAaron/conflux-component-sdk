@@ -103,7 +103,7 @@
                 randomOrder[i].push(order);
             }
         }
-        
+
         for (i = 0; i < randomOrder.length; i++) {
             order = randomOrder[i];
             if (beforeOrder) {
@@ -173,7 +173,6 @@
             var col          = this.level.col;
             var images       = config.images;
             var randomOrder  = this.randomOrder;
-            var uls          = [];
 
             var createStr = function(i, j) {
                 var fill = function() {
@@ -214,7 +213,7 @@
                 for (var j = 0; j < row; j++) {
                     $li = createStr(i, j);
                     $ul.append($li)
-                    this.isArray(this.originalOrder,i, function(arr) {
+                    this.isArray(this.originalOrder, i, function(arr) {
                         arr.push(j);
                     })
                 }
@@ -252,11 +251,10 @@
             if (!obj[key]) {
                 obj[key] = [];
             }
-            fn.call(this, obj)
+            fn.call(this, obj[key])
         },
 
         onClick: function(event) {
-            console.log( this.trigger)
             var element,pos;
             if (element = this.target(event)) {
                 $(element).css({
