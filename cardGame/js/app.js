@@ -10,6 +10,11 @@
     //配置文件
     var config = {
 
+        level: {
+            col: 2,
+            row: 3
+        },
+
         //图片
         images: {
             //正面图
@@ -137,6 +142,10 @@
 
         //触发翻转动画
         this.trigger = [];
+
+        //临时记录
+        this.tempCompare = [];
+
         //布局的原始排序
         this.originalOrder = calculateOrder(level.row, level.col);
         //新是随机排序
@@ -146,7 +155,7 @@
         this.initCreate();
         this.creatEvent();
 
-        console.log(this)
+        console.log(this.randomOrder)
     };
 
 
@@ -283,12 +292,20 @@
                     arr.push(element);
                     arr.push('Lock')
                 })
+                this.tempCompare.push(element);
             }
         },
 
         transitionend: function(e) {
-            var elem, elems;
+            var elem, 
+                pos, 
+                elems,
+                index,
+                standardElement;
+
+            var self = this;
             var isLock = 0; //已经锁定数量
+
             //当前行
             if (elems = this.trigger) {
                 for (var i = 0; i < elems.length; i++) {
@@ -307,6 +324,43 @@
                     elem = elems[i];
                     elem.pop(elem.length)
                 }
+            }
+            //得到正确索引
+            var getIndex = function(element) {
+                var pos = self.getPos(element);
+                return self.randomOrder[pos.col][pos.row];
+            }
+
+            //动作
+            var succeed = true;
+            var tempCompare = this.tempCompare;
+            if (tempCompare.length == this.level.col) {
+                //取出第一个对比值
+                standardElement = this.tempCompare[0];
+                index = getIndex(standardElement)
+                for (i = 1; i < this.tempCompare.length; i++) {
+                    elem = this.tempCompare[i];
+                    if (index != getIndex(elem)) {
+                        succeed = false;
+                        break;
+                    }
+                }
+                if (succeed) { //成功
+                    tempCompare.forEach(function(elem){
+                        $(elem).css({
+                            'transition-duration': '2000ms',
+                            opacity: 0
+                        })
+                    })
+                } else { //失败
+                    tempCompare.forEach(function(elem){
+                        $(elem).css({
+                            'transition-duration': config.speed + 'ms',
+                            transform: 'rotateY(0),scale(0.9)'
+                        })
+                    })
+                }
+                this.tempCompare = [];
             }
         },
 
