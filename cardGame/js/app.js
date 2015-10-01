@@ -254,26 +254,59 @@
             fn.call(this, obj[key])
         },
 
+        repeatClick: function(element, pos) {
+            var elem,elems;
+            //当前行
+            if (elems = this.trigger[pos.col]) {
+                for (var i = 0; i < elems.length; i++) {
+                    elem = elems[i];
+                    //元素本身与锁定触发后元素
+                    if (elem == element || elem === 'Lock') {
+                        return true;
+                    }
+                }
+            }
+        },
+
         onClick: function(event) {
-            var element,pos;
+            var element, pos;
             if (element = this.target(event)) {
+                pos = this.getPos(element);
+                if (this.repeatClick(element,pos)) {
+                    return;
+                }
                 $(element).css({
                     'transition-duration': config.speed + 'ms',
                     transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
                 })
-                pos = this.getPos(element);
                 this.isArray(this.trigger, pos.col, function(arr) {
                     arr.push(element);
+                    arr.push('Lock')
                 })
             }
         },
 
         transitionend: function(e) {
-            var element;
-            if (element = this.target(event)) {
-                var page = element.getAttribute('data-page');
-                var index = element.getAttribute('data-index');
-
+            var elem, elems;
+            var isLock = 0; //已经锁定数量
+            //当前行
+            if (elems = this.trigger) {
+                for (var i = 0; i < elems.length; i++) {
+                    elem = elems[i];
+                    if (typeof elem === 'undefined') {
+                        continue;
+                    }
+                    if (elem[elem.length - 1] === 'Lock') {
+                        isLock++
+                    }
+                }
+            }
+            //全部解锁
+            if(this.level.col === isLock){
+                for (i = 0; i < elems.length; i++) {
+                    elem = elems[i];
+                    elem.pop(elem.length)
+                }
             }
         },
 
