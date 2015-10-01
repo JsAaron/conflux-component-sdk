@@ -82,11 +82,13 @@
     //随机布局
     function calculateRandom(originalOrder) {
         var randomOrder = [];
+        var beforeOrder;
         var order;
         //计算随机
         var calculate = function(len) {
             return Math.floor(Math.random() * len);
         }
+
         for (var i = 0, len = originalOrder.length; i < len; i++) {
             randomOrder[i] = [];
             for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
@@ -101,6 +103,18 @@
                 randomOrder[i].push(order);
             }
         }
+        
+        for (i = 0; i < randomOrder.length; i++) {
+            order = randomOrder[i];
+            if (beforeOrder) {
+                //保证不一致
+                if (order.toString() == beforeOrder.toString()) {
+                    return calculateRandom(originalOrder);
+                }
+            }
+            beforeOrder = order;
+        }
+
         return randomOrder;
     }
 
@@ -200,10 +214,9 @@
                 for (var j = 0; j < row; j++) {
                     $li = createStr(i, j);
                     $ul.append($li)
-                    if (!this.originalOrder[i]) {
-                        this.originalOrder[i] = [];
-                    }
-                    this.originalOrder[i].push(j)
+                    this.isArray(this.originalOrder,i, function(arr) {
+                        arr.push(j);
+                    })
                 }
                 uls.push($ul)
             }
@@ -235,17 +248,25 @@
             }
         },
 
+        isArray: function(obj, key, fn) {
+            if (!obj[key]) {
+                obj[key] = [];
+            }
+            fn.call(this, obj)
+        },
+
         onClick: function(event) {
             console.log( this.trigger)
-            var element;
+            var element,pos;
             if (element = this.target(event)) {
                 $(element).css({
                     'transition-duration': config.speed + 'ms',
                     transform: 'rotateY(' + config.rotateY + '),scale(0.9)'
                 })
-                var pos = this.getPos(element);
-                console.log(element,pos)
-                this.trigger.push(element);
+                pos = this.getPos(element);
+                this.isArray(this.trigger, pos.col, function(arr) {
+                    arr.push(element);
+                })
             }
         },
 
