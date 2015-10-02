@@ -149,6 +149,9 @@
         //新是随机排序
         this.randomOrder = [];
 
+        //收集回调
+        this.trackAnims = [];
+
         //创建
         this.initCreate();
         this.creatEvent();
@@ -197,10 +200,10 @@
                 var innerdiv = function() {
                     return format(
                         '<ul class="cd-item-wrapper" style="position:relative;">'+
-                            '<li class="is-visible"> '+
+                            '<li data-type="front" class="is-visible"> '+
                                 '<img src="{1}" width="{5}" height="{6}">' +
                             '</li>' +
-                            '<li class="is-hidden">'+
+                            '<li data-type="back" class="is-hidden">'+
                                 '<img src="{4}" width="{5}" height="{6}">' +
                             '</li>' +
                         '</ul>',
@@ -307,9 +310,7 @@
                 if (this.repeatClick(element,pos)) {
                     return;
                 }
-                $(element).find('.is-hidden').css({
-                    'opacity': 1
-                })
+                $(element).find('.is-hidden').addClass('is-selected')
                 $(element).addClass('is-switched')
                 this.isArray(this.trigger, pos.col, function(arr) {
                     arr.push(element);
@@ -319,15 +320,30 @@
             }
         },
 
-        transitionend: function(e) {
+
+        animationend: function(e) {
             var elem, 
                 pos, 
                 elems,
                 index,
                 standardElement;
 
+            //还原动画
+            var $elem = $(event.target);
+            var filter = $elem.data('type');
+            this.resetReverse($elem, filter)
+
+            //收集回调
+            this.trackAnims.push(e.target)
+            if (this.trackAnims.length <= 1) {
+                return;
+            }
+
             var self = this;
             var isLock = 0; //已经锁定数量
+
+            console.log(this.trigger)
+
 
             //保证有效
             if(!this.tempCompare.length){
@@ -395,18 +411,28 @@
             }
         },
 
-        creatEvent: function() {
-            var stopBehavior = function(event) {
-                event.preventDefault();
-                event.stopPropagation();
+
+        resetReverse: function(element, filter) {
+            var related = {
+                front: function() {
+                    element.removeClass('is-visible is-selected').addClass('is-hidden');
+                },
+                back: function() {
+                    element.addClass('is-visible').removeClass('is-hidden is-selected');
+                }
             }
+            related[filter]();
+            element.parent().removeClass('is-switched')
+        },
+
+        creatEvent: function() {
             var self = this;
             this.$container.on('mousedown touchstart', function(event) {
-                stopBehavior(event)
+                event.preventDefault();
                 self.onClick(event)
             }).on(animationend, function(event) {
-                console.log(event.target)
-                self.transitionend(event)
+                event.preventDefault();
+                self.animationend(event);
             });
         }
     }

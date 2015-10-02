@@ -170,7 +170,11 @@ img {
 
 
 
-
+.cd-gallery li.is-selected {
+    /* the next item that will be visible */
+    
+    z-index: 3 !important;
+}
 
 
 
@@ -197,7 +201,7 @@ img {
     opacity: 0;
 }
 
-.cd-gallery .cd-item-wrapper.is-switched .is-selected {
+.cd-item-wrapper.is-switched .is-selected {
     opacity: 1;
 }
 
