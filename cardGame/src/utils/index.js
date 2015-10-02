@@ -130,5 +130,6 @@ utils.extend(utils.style, {
     animationend: ANIMATION_END,
     transitionend: TRANSITION_END
 })
-     
+    
+
 module.exports = utils;

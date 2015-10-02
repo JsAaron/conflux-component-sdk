@@ -16,7 +16,7 @@ exports.nature = function(row, col) {
     }
     return order;
 }
- 
+
 //随机布局
 exports.random = function(originalOrder) {
     var randomOrder = [];
@@ -54,4 +54,31 @@ exports.random = function(originalOrder) {
     }
 
     return randomOrder;
+}
+
+
+//找到容器ul
+exports.findContainer = function(event, appoint) {
+    var elem, elementName;
+    if (elem = event.target) {
+        //指定元素
+        if (appoint && appoint != elem.nodeName.toLowerCase()) {
+            return;
+        }
+        while ((elem = elem['parentNode']) && elem.nodeType !== 9) {
+            if (elem.nodeType === 1) {
+                elementName = elem.nodeName.toLowerCase();
+                if (elementName == 'ul') {
+                    return elem;
+                }
+            }
+        }
+    }
+}
+
+exports.pushArray = function(obj, key, fn) {
+    if (!obj[key]) {
+        obj[key] = [];
+    }
+    fn(obj[key])
 }
