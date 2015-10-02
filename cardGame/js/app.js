@@ -2,7 +2,8 @@
  * 翻牌小游戏
  * @type {Object}
  */
-;(function() {
+;
+(function() {
 
     'use strict';
 
@@ -34,6 +35,7 @@
 
     var _cache = {};
     var _style = document.documentElement.style;
+
     function prefixStyle(attr) {
         var vendors = ['webkit', 'Moz', 'ms', 'o'];
 
@@ -142,17 +144,17 @@
 
         //触发翻转动画
         this.trigger = [];
-        //临时记录
-        this.tempCompare = [];
         //布局的原始排序
         this.originalOrder = calculateOrder(level.row, level.col);
         //新是随机排序
         this.randomOrder = [];
-
+        //一个元素动画2次回调处理
+        this.triggerCache = []
         //收集回调
-        this.trackAnims ={
-            trigger : [], //手动触发
-            auto    : []  //动画恢复
+        this.trackAnims = {
+            elems       : [], //触发的元素
+            triggerTime : [], //手动触发
+            autoTime    : [] //动画恢复
         }
 
         //创建
@@ -178,21 +180,21 @@
             var $ul;
             var $li;
             var uls = [];
-            var debrisWidth  = this.debrisWidth;
+            var debrisWidth = this.debrisWidth;
             var debrisHeight = this.debrisHeight;
-            var row          = this.level.row;
-            var col          = this.level.col;
-            var images       = config.images;
-            var randomOrder  = this.randomOrder;
+            var row = this.level.row;
+            var col = this.level.col;
+            var images = config.images;
+            var randomOrder = this.randomOrder;
 
             var createStr = function(i, j) {
                 var innerdiv = function() {
                     return format(
-                        '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;">'+
-                            '<li data-type="front" class="is-visible"> '+
+                        '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;">' +
+                            '<li data-type="front" class="is-visible"> ' +
                                 '<img src="{2}" width="{4}" height="{5}">' +
                             '</li>' +
-                            '<li data-type="back" class="is-hidden">'+
+                            '<li data-type="back" class="is-hidden">' +
                                 '<img src="{3}" width="{4}" height="{5}">' +
                             '</li>' +
                         '</ul>',
@@ -209,12 +211,11 @@
                         'height:{3}px;' +
                         'left:{4}px;' +
                         'position:absolute;' +
-                    '">' 
-                        + innerdiv() + 
+                        '">' + innerdiv() +
                     '</li>',
                     i, j,
-                    debrisWidth, 
-                    debrisHeight, 
+                    debrisWidth,
+                    debrisHeight,
                     j * debrisWidth
                 )
                 return $(str)
@@ -225,14 +226,14 @@
                 $ul = $(document.createElement('ul')).css({
                     'width': this.contentWidth,
                     'height': this.contentHeight / 2,
-                    'overflow':'hidden',//1111111
-                    'position':'relative' //1111111
+                    'overflow': 'hidden', //1111111
+                    'position': 'relative' //1111111
                 });
                 $ul.addClass('cd-gallery cd-container')
                 for (var j = 0; j < row; j++) {
                     $li = createStr(i, j);
                     $ul.append($li)
-                    this.isArray(this.originalOrder, i, function(arr) {
+                    this.pushArray(this.originalOrder, i, function(arr) {
                         arr.push(j);
                     })
                 }
@@ -247,15 +248,19 @@
 
         getPos: function(element) {
             return {
-                'col' : parseInt(element.getAttribute('data-col')),
-                'row' : parseInt(element.getAttribute('data-row'))
+                'col': parseInt(element.getAttribute('data-col')),
+                'row': parseInt(element.getAttribute('data-row'))
             }
         },
 
         //找到容器ul
-        findContainer: function(event) {
+        findContainer: function(event, appoint) {
             var elem, elementName;
             if (elem = event.target) {
+                //指定元素
+                if (appoint && appoint != elem.nodeName.toLowerCase()) {
+                    return;
+                }
                 while ((elem = elem['parentNode']) && elem.nodeType !== 9) {
                     if (elem.nodeType === 1) {
                         elementName = elem.nodeName.toLowerCase();
@@ -267,131 +272,165 @@
             }
         },
 
-        isArray: function(obj, key, fn) {
+        pushArray: function(obj, key, fn) {
             if (!obj[key]) {
                 obj[key] = [];
             }
             fn.call(this, obj[key])
         },
 
-        repeatClick: function(element, pos) {
-            var elem,elems;
-            //当前行
-            if (elems = this.trigger[pos.col]) {
-                for (var i = 0; i < elems.length; i++) {
-                    elem = elems[i];
-                    //元素本身与锁定触发后元素
-                    if (elem === 'Lock') {
-                        return true;
-                    }
-                }
-            }
-        },
-
-        runAnim: function(element,restore) {
+        runAnim: function(element, status) {
             var $element = $(element)
             $element.find('.is-hidden').addClass('is-selected')
-            $element.addClass('is-switched')
-            if (restore) {
-                $element.attr('data-restore', true)
-            }            
-        },
-
-        onClick: function(event) {
-            var element, pos;
-            if (element = this.findContainer(event)) {
-                pos = this.getPos(element);
-                if (this.repeatClick(element,pos)) {
-                    return;
-                }
-                this.runAnim(element);
-                this.isArray(this.trigger, pos.col, function(arr) {
-                    arr.push(element);
-                    arr.push('Lock')
+            $element.addClass('is-switched');
+            if (status) {
+                //给每一个li ->anim  增加状态
+                var $children = $element.children();
+                $children.each(function(i, elem) {
+                    elem.setAttribute('data-status', status)
                 })
-                this.tempCompare.push(element);
             }
         },
 
-        resetReverse: function(element, filter) {
+        checkRepeat: function(element, pos) {
+            var elem, elems;
+            if (elems = this.trigger[pos.col]) {
+                if ('Lock' == elems[elems.length - 1]) {
+                    return true;
+                }
+            }
+        },
+
+        triggerClick: function(event) {
+            var element, pos;
+            if (element = this.findContainer(event,'img')) {
+                pos = this.getPos(element);
+                if (this.checkRepeat(element, pos)) {
+                    return;
+                }
+                this.pushArray(this.trigger, pos.col, function(arr) {
+                    arr.push(element, 'Lock');
+                })
+                this.runAnim(element);
+                this.trackAnims.elems.push(element);
+            }
+        },
+
+        resetProperties: function(context, filter, callback) {
             var related = {
                 front: function() {
-                    element.removeClass('is-visible is-selected').addClass('is-hidden');
+                    context.removeClass('is-visible is-selected').addClass('is-hidden');
                 },
                 back: function() {
-                    element.addClass('is-visible').removeClass('is-hidden is-selected');
+                    context.addClass('is-visible').removeClass('is-hidden is-selected');
                 }
             }
             related[filter]();
+            callback && callback.call(this)
         },
 
 
-        animationend: function(e) {
-            var elem, 
-                ul,
-                pos, 
+        //检测回调的唯一性
+        checkUnique:function(event){
+            var ul = this.findContainer(event);
+            var index = this.triggerCache.indexOf(ul);
+            if (~index) {
+                this.triggerCache.splice(index, 1)
+                return false;
+            }
+            this.triggerCache.push(ul);
+            return true;
+        },
+
+        animCallback: function(event) {
+            var ul,
+                $ul,
+                pos,
+                elem,
+                $elem,
                 elems,
                 index,
                 filter,
-                standardElement;
+                parent,
+                $parent;
 
-            if (ul = this.findContainer(e)) {
-                //自动动画
-                if (ul.getAttribute('data-restore')) {
-                    ul.setAttribute('data-restore', false);
-                    //收集自动回调
-                    this.trackAnims.auto.push(e.target)
-                    if (this.trackAnims.auto.length <= 1) {
-                        //多动画去从重
-                        return;
+            elem = event.target;
+            parent = this.findContainer(event)
+            $elem = $(elem);
+            $parent = $(parent);
+
+
+            //////////////////////////////////
+            ///
+            ///  自动动画：
+            ///     比较动画后，不一致自动还原
+            ///     
+            ///===============================
+            var status = elem.getAttribute('data-status');
+            if (status === 'autoRestore') {
+                elem.setAttribute('data-status', '');
+                filter = elem.getAttribute('data-type')
+                var related = {
+                    back: function() {
+                        $elem.removeClass('is-visible is-selected').addClass('is-hidden');
+                    },
+                    front: function() {
+                        $elem.addClass('is-visible').removeClass('is-hidden is-selected');
                     }
-                    //复位
-                    this.trackAnims.auto.forEach(function(elem) {
-                        filter = elem.getAttribute('data-type')
-
-                        var related = {
-                            back: function() {
-                                $(elem).removeClass('is-visible is-selected').addClass('is-hidden');
-                            },
-                            front: function() {
-                                $(elem).addClass('is-visible').removeClass('is-hidden is-selected');
-                            }
-                        }
-                        related[filter]();
-
-                        // this.resetReverse($(elem), filter)
-                    }.bind(this));
-                    $(ul).removeClass('is-switched')
-                    this.trackAnims.auto = [];
-                    return;
                 }
-
-                //手动动画
-                filter = event.target.getAttribute('data-type')
-                this.resetReverse($(event.target), filter)
-                $(ul).removeClass('is-switched')
-            }
-
-
-            // console.log($elem)
-            //收集回调
-            this.trackAnims.trigger.push(e.target)
-            if (this.trackAnims.trigger.length <= 1) {
+                related[filter]();
+                $parent.removeClass('is-switched')
                 return;
             }
 
 
+            //////////////////////////////////
+            ///
+            ///  过滤：
+            ///  1 每个元素动画的2个li回调
+            ///  2 每col都运行了动画
+            ///     
+            ///===============================
+
+
+            //处理动画元素
+            //每个li元素都会执行
+            filter = elem.getAttribute('data-type')
+            this.resetProperties($elem, filter, function() {
+                $parent.removeClass('is-switched')
+            })
+
+            //保证只回调一次
+            if (this.checkUnique(event)) {
+                return false;
+            }
+
+            //收集触发回调
+            //合并所有的触发
+            //每一列col必须都要触发一次
+            this.trackAnims.triggerTime.push(elem)
+            if (this.trackAnims.triggerTime.length !== this.level.col) {
+                return;
+            }
+            this.trackAnims.triggerTime.length = 0;
+
+
+            //////////////////////////////////
+            ///
+            ///  过滤后：
+            ///   检查lock的数量与col是否一致
+            ///   触发点全部解锁
+            ///     
+            ///===============================
+
+            var i;
             var self = this;
             var isLock = 0; //已经锁定数量
 
-            //保证有效
-            if(!this.tempCompare.length){
-                return
-            }
-
-            //当前行
+            //找到每一个col中的lock
+            //确保数量
             if (elems = this.trigger) {
-                for (var i = 0; i < elems.length; i++) {
+                for (i = 0; i < elems.length; i++) {
                     elem = elems[i];
                     if (typeof elem === 'undefined') {
                         continue;
@@ -402,61 +441,82 @@
                 }
             }
             //全部解锁
-            if(this.level.col === isLock){
+            if (this.level.col == isLock) {
                 for (i = 0; i < elems.length; i++) {
                     elem = elems[i];
                     elem.pop(elem.length)
                 }
+            }else{
+                alert('lock错误')
             }
+
+
+            //////////////////////////////////
+            ///
+            ///  运行：
+            ///     
+            ///===============================
+
+
             //得到正确索引
+            var standardElement;
+            //动作
+            var succeed = true;
+            //获取定位坐标
             var getIndex = function(element) {
                 var pos = self.getPos(element);
                 return self.randomOrder[pos.col][pos.row];
+            };
+
+            elems = this.trackAnims.elems;
+
+            var clean = function() {
+                self.trackAnims.elems.length = 0
             }
 
-            //动作
-            var succeed = true;
-            var tempCompare = this.tempCompare;
-            if (tempCompare.length == this.level.col) {
+            if (elems.length == this.level.col) {
                 //取出第一个对比值
-                standardElement = this.tempCompare[0];
+                standardElement = elems[0];
                 index = getIndex(standardElement)
-                for (i = 1; i < this.tempCompare.length; i++) {
-                    elem = this.tempCompare[i];
+                //开始比对
+                for (i = 1; i < elems.length; i++) {
+                    elem = elems[i];
                     if (index != getIndex(elem)) {
                         succeed = false;
                         break;
                     }
                 }
-                if (succeed) { //成功
-                    tempCompare.forEach(function(elem){
+
+                if (succeed) { 
+                    elems.forEach(function(elem) {
+                        //完成
                         $(elem).css({
                             'transition-delay'    : '100ms',
                             'transition-duration' : '2000ms',
                             opacity: 0
                         })
                     })
-                    this.tempCompare = [];
+                    clean()
                 } else { //失败
                     setTimeout(function() {
-                        tempCompare.forEach(function(elem, index) {
-                            this.runAnim(elem,'restore')
-                            this.tempCompare = [];
-                        }.bind(this))
-                    }.bind(this), 500)
+                        elems.forEach(function(elem, index) {
+                            self.runAnim(elem, 'autoRestore')
+                        })
+                        clean()
+                    }, 300);
                 }
             }
+
         },
 
         creatEvent: function() {
-            var self = this;
             this.$container.on('mousedown touchstart', function(event) {
                 event.preventDefault();
-                self.onClick(event)
-            }).on(animationend, function(event) {
+                this.triggerClick(event)
+            }.bind(this)).on(animationend, function(event) {
                 event.preventDefault();
-                self.animationend(event);
-            });
+                this.animCallback(event);
+            }.bind(this));
         }
     }
 
