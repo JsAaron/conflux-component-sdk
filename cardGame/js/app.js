@@ -150,7 +150,10 @@
         this.randomOrder = [];
 
         //收集回调
-        this.trackAnims = [];
+        this.trackAnims ={
+            trigger : [], //手动触发
+            auto    : []  //动画恢复
+        }
 
         //创建
         this.initCreate();
@@ -183,47 +186,30 @@
             var randomOrder  = this.randomOrder;
 
             var createStr = function(i, j) {
-
-                var styleCommon = function(){
-                    return 
-                }
-
-                var styleVisible = function() {
-                    return 'position:relative;backface-visibility:hidden;z-index:5;'
-                }
-                var styleHidden = function() {
-                    return 'width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;transform:rotateY(180deg);'
-                } 
-                var styleImg = function(){
-                   return 'width:100%;height:100%;max-width:100%;display:block;';
-                }
                 var innerdiv = function() {
                     return format(
-                        '<ul class="cd-item-wrapper" style="position:relative;">'+
+                        '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;">'+
                             '<li data-type="front" class="is-visible"> '+
-                                '<img src="{1}" width="{5}" height="{6}">' +
+                                '<img src="{2}" width="{4}" height="{5}">' +
                             '</li>' +
                             '<li data-type="back" class="is-hidden">'+
-                                '<img src="{4}" width="{5}" height="{6}">' +
+                                '<img src="{3}" width="{4}" height="{5}">' +
                             '</li>' +
                         '</ul>',
-                        styleVisible(),
+                        i, j,
                         images.front,
-                        styleHidden(),
-                        styleImg(),
                         images.back[randomOrder[i][j]],
                         debrisWidth,
                         debrisHeight
                     )
                 }
                 var str = format(
-                    '<li data-col={0} data-row={1} ' +
-                        'style=" '+
-                            'width:{2}px;' +
-                            'height:{3}px;' +
-                            'left:{4}px;' +
-                            'position:absolute;' +
-                        '">' 
+                    '<li style="' +
+                        'width:{2}px;' +
+                        'height:{3}px;' +
+                        'left:{4}px;' +
+                        'position:absolute;' +
+                    '">' 
                         + innerdiv() + 
                     '</li>',
                     i, j,
@@ -252,7 +238,6 @@
                 }
                 uls.push($ul)
             }
-
             var $fragment = $(document.createElement('createDocumentFragment'));
             $.each(uls, function(index, ul) {
                 $fragment.append(ul)
@@ -267,18 +252,18 @@
             }
         },
 
-        target: function(event) {
-            var element;
-            var nodeName = function(element) {
-                var elementName = element.nodeName.toLowerCase();
-                if (elementName == 'ul') {
-                    return element;
+        //找到容器ul
+        findContainer: function(event) {
+            var elem, elementName;
+            if (elem = event.target) {
+                while ((elem = elem['parentNode']) && elem.nodeType !== 9) {
+                    if (elem.nodeType === 1) {
+                        elementName = elem.nodeName.toLowerCase();
+                        if (elementName == 'ul') {
+                            return elem;
+                        }
+                    }
                 }
-            }
-            if (element = event.target) {
-                return nodeName(element) 
-                    || nodeName(element.parentNode) 
-                    || nodeName(element.parentNode.parentNode) 
             }
         },
 
@@ -303,15 +288,19 @@
             }
         },
 
+        runAnim: function(element) {
+            $(element).find('.is-hidden').addClass('is-selected')
+            $(element).addClass('is-switched')
+        },
+
         onClick: function(event) {
             var element, pos;
-            if (element = this.target(event)) {
+            if (element = this.findContainer(event)) {
                 pos = this.getPos(element);
                 if (this.repeatClick(element,pos)) {
                     return;
                 }
-                $(element).find('.is-hidden').addClass('is-selected')
-                $(element).addClass('is-switched')
+                this.runAnim(element);
                 this.isArray(this.trigger, pos.col, function(arr) {
                     arr.push(element);
                     arr.push('Lock')
@@ -320,30 +309,76 @@
             }
         },
 
+        resetReverse: function(element, filter) {
+            var related = {
+                front: function() {
+                    element.removeClass('is-visible is-selected').addClass('is-hidden');
+                },
+                back: function() {
+                    element.addClass('is-visible').removeClass('is-hidden is-selected');
+                }
+            }
+            related[filter]();
+        },
+
 
         animationend: function(e) {
             var elem, 
+                ul,
                 pos, 
                 elems,
                 index,
+                filter,
                 standardElement;
 
-            //还原动画
-            var $elem = $(event.target);
-            var filter = $elem.data('type');
-            this.resetReverse($elem, filter)
+            if (ul = this.findContainer(e)) {
+                //自动动画
+                if (ul.getAttribute('data-restore')) {
+                    ul.setAttribute('data-restore', false);
+                    //收集自动回调
+                    this.trackAnims.auto.push(e.target)
+                    if (this.trackAnims.auto.length <= 1) {
+                        //多动画去从重
+                        return;
+                    }
+                    //复位
+                    this.trackAnims.auto.forEach(function(elem) {
+                        filter = elem.getAttribute('data-type')
 
+                        var related = {
+                            back: function() {
+                                $(elem).removeClass('is-visible is-selected').addClass('is-hidden');
+                            },
+                            front: function() {
+                                $(elem).addClass('is-visible').removeClass('is-hidden is-selected');
+                            }
+                        }
+                        related[filter]();
+
+                        // this.resetReverse($(elem), filter)
+                    }.bind(this));
+                    $(ul).removeClass('is-switched')
+                    this.trackAnims.auto = [];
+                    return;
+                }
+
+                //手动动画
+                filter = event.target.getAttribute('data-type')
+                this.resetReverse($(event.target), filter)
+                $(ul).removeClass('is-switched')
+            }
+
+
+            // console.log($elem)
             //收集回调
-            this.trackAnims.push(e.target)
-            if (this.trackAnims.length <= 1) {
+            this.trackAnims.trigger.push(e.target)
+            if (this.trackAnims.trigger.length <= 1) {
                 return;
             }
 
+
             var self = this;
             var isLock = 0; //已经锁定数量
-
-            console.log(this.trigger)
-
 
             //保证有效
             if(!this.tempCompare.length){
@@ -392,37 +427,27 @@
                 if (succeed) { //成功
                     tempCompare.forEach(function(elem){
                         $(elem).css({
-                            'transition-delay'    : '200ms',
+                            'transition-delay'    : '100ms',
                             'transition-duration' : '2000ms',
                             opacity: 0
                         })
                     })
+                    this.tempCompare = [];
                 } else { //失败
-                    tempCompare.forEach(function(elem){
-                        $(elem).css({
-                            'transition-delay'    : '200ms',
-                            'transition-duration' : config.speed + 'ms',
-                            transform             : 'rotateY(0),scale(0.9)'
-                        })
-                    })
-                }
+                    setTimeout(function() {
+                        tempCompare.forEach(function(elem, index) {
 
-                this.tempCompare = [];
-            }
-        },
+                            // if (index > 0) return
 
+                            $(elem).find('.is-hidden').addClass('is-selected')
+                            $(elem).addClass('is-switched')
+                            $(elem).attr('data-restore', true)
 
-        resetReverse: function(element, filter) {
-            var related = {
-                front: function() {
-                    element.removeClass('is-visible is-selected').addClass('is-hidden');
-                },
-                back: function() {
-                    element.addClass('is-visible').removeClass('is-hidden is-selected');
+                            this.tempCompare = [];
+                        }.bind(this))
+                    }.bind(this), 500)
                 }
             }
-            related[filter]();
-            element.parent().removeClass('is-switched')
         },
 
         creatEvent: function() {
@@ -439,4 +464,5 @@
 
 
     window['CardGames'] = Manager;
+
 })();
