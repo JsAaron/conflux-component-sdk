@@ -32,44 +32,294 @@
 
     }
 
+    var utils = (function () {
+        var me = {};
 
-    var _cache = {};
-    var _style = document.documentElement.style;
+        var _elementStyle = document.createElement('div').style;
+        var _vendor = (function () {
+            var vendors = ['t', 'webkitT', 'MozT', 'msT', 'OT'],
+                transform,
+                i = 0,
+                l = vendors.length;
 
-    function prefixStyle(attr) {
-        var vendors = ['webkit', 'Moz', 'ms', 'o'];
-
-        var name;
-        if (_cache[attr]) {
-            return _cache[attr];
-        }
-
-        if (attr in _style) {
-            return _cache[attr] = attr;
-        }
-        //需要加前缀
-        vendors.forEach(function(v) {
-            if (jQuery.camelCase(v + '-' + attr) in _style) {
-                name = '-' + v + '-' + attr;
-                return _cache[attr] = name;
+            for ( ; i < l; i++ ) {
+                transform = vendors[i] + 'ransform';
+                if ( transform in _elementStyle ) return vendors[i].substr(0, vendors[i].length-1);
             }
-        })
-        return name;
-    }
 
-    var transform = prefixStyle('transform');
+            return false;
+        })();
+
+        function _prefixStyle (style) {
+            if ( _vendor === false ) return false;
+            if ( _vendor === '' ) return style;
+            return _vendor + style.charAt(0).toUpperCase() + style.substr(1);
+        }
+
+        me.getTime = Date.now || function getTime () { return new Date().getTime(); };
+
+        me.extend = function(dest, src, merge) {
+            var keys = Object.keys(src);
+            var i = 0;
+            while (i < keys.length) {
+                if (!merge || (merge && dest[keys[i]] === undefined)) {
+                    dest[keys[i]] = src[keys[i]];
+                }
+                i++;
+            }
+            return dest;
+        };
+
+        me.merge = function(dest, src) {
+            return me.extend(dest, src, true);
+        }
+
+        me.addEvent = function (el, type, fn, capture) {
+            el.addEventListener(type, fn, !!capture);
+        };
+
+        me.removeEvent = function (el, type, fn, capture) {
+            el.removeEventListener(type, fn, !!capture);
+        };
+
+        var _transform = _prefixStyle('transform');
+
+        me.extend(me, {
+            hasTransform: _transform !== false,
+            hasPerspective: _prefixStyle('perspective') in _elementStyle,
+            hasTouch: 'ontouchstart' in window,
+            hasPointer: navigator.msPointerEnabled,
+            hasTransition: _prefixStyle('transition') in _elementStyle
+        });
+        me.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
+      
+        me.extend(me.style = {}, {
+            transform: _transform,
+            transitionTimingFunction: _prefixStyle('transitionTimingFunction'),
+            transitionDuration: _prefixStyle('transitionDuration'),
+            transitionDelay: _prefixStyle('transitionDelay'),
+            transformOrigin: _prefixStyle('transformOrigin')
+        });
+       
+        me.hasClass = function (e, c) {
+            var re = new RegExp("(^|\\s)" + c + "(\\s|$)");
+            return re.test(e.className);
+        };
+      
+        me.addClass = function (e, c) {
+            if ( me.hasClass(e, c) ) {
+                return;
+            }
+            var newclass = e.className.split(' ');
+            newclass.push(c);
+            e.className = newclass.join(' ');
+        };
+
+        me.removeClass = function (e, c) {
+            if ( !me.hasClass(e, c) ) {
+                return;
+            }
+            var re = new RegExp("(^|\\s)" + c + "(\\s|$)", 'g');
+            e.className = e.className.replace(re, ' ');
+        };
+
+        me.format = function(content) {
+            var args = [].slice.call(arguments, 1, arguments.length);
+            return content.replace(/\{(\d+)\}/g, function(m, i) {
+                return args[i];
+            });
+        }
+        return me;
+    })();
+
+
     var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
 
-    function format(format) {
-        var args = [].slice.call(arguments, 1, arguments.length);
-        return format.replace(/\{(\d+)\}/g, function(m, i) {
-            return args[i];
-        });
+    var styleElement = null;
+    function css3KeyAnimate() { 
+        //插入
+        function insertCSSRule(rule) {
+            var number, sheet, cssRules;
+            if (styleElement) {
+                number = 0
+                try {
+                    sheet = styleElement.sheet;
+                    cssRules = sheet.cssRules;
+                    number = cssRules.length;
+                    sheet.insertRule(rule, number);
+                } catch (e) {
+                    console.log(e.message + rule);
+                }
+            } else {
+                styleElement = document.createElement("style");
+                styleElement.type = 'text/css';
+                styleElement.innerHTML = rule;
+                document.head.appendChild(styleElement);
+            }
+        }
+
+        //删除
+        function deleteCSSRule(ruleName) {
+            if (styleElement) {
+                var sheet = styleElement.sheet,
+                    cssRules = sheet.cssRules,
+                    rule;
+                for (var i = 0, n = cssRules.length; i < n; i++) {
+                    rule = cssRules[i];
+                    if (rule.name === ruleName) {
+                        sheet.deleteRule(i);
+                        break;
+                    }
+                }
+                if (cssRules.length == 0) {
+                    DOC.head.removeChild(styleElement);
+                    styleElement = null;
+                }
+            }
+        }
+
+        //设置动画样式
+        function setAnimition($element, rule) {
+            if (animation) {
+                $element.css(animation, rule);
+            }
+        }
+
+        //添加到样式规则中
+        function setKeyframes(rule) {
+            if (keyframes) {
+                insertCSSRule(keyframes + rule);
+            }
+        }
+
+        //格式化样式表达式
+        function setStep(aniName, time, count, loop) {
+            rule = '{0} {1}s steps({2}, end) {3}';
+            return String.format(rule, aniName, time, count, loop);
+        }
+
+        //设置精灵动画位置
+        function setPostion(aniName, x) {
+            rule = '{0} {from { background-position:0 0; } to { background-position: -{1}px 0px}}';
+            return String.format(rule, aniName, Math.round(x));
+        }
+
+        var compileRule = function(ruleObj) {
+            var str = "";
+            var left = " {"
+            var semicolon = ":"
+            var right = ";}"
+            var createStr = function(className, styleObj) {
+                var styles = [];
+                for (var key in styleObj) {
+                    styles.push(key + semicolon + styleObj[key])
+                }
+                return className + left + styles.join(";") + right;;
+            }
+            for (var key in ruleObj) {
+                str += createStr(key, ruleObj[key])
+            }
+            return str;
+        }
+
+
+        var styleRule = {
+            '.cd-gallery .cd-item-wrapper > li': {
+                '-webkit-backface-visibility': 'hidden',
+                'backface-visibility': 'hidden',
+                'border-radius': '0.25em',
+                'box-shadow': '0 1px 3px rgba(0, 0, 0, 0.1)'
+            },
+            '.cd-gallery li.is-selected': {
+                'z-index': '3 !important'
+            },
+            '.cd-gallery li.is-visible': {
+                'position': 'relative',
+                'z-index': 5
+            },
+            '.cd-gallery .cd-item-wrapper > li img':{
+                'display'       :'block',
+                'width'         :'100%',
+                'border-radius' :'0.25em'
+            },
+            '.cd-gallery li.is-hidden':{
+                'position'          : 'absolute',
+                'top'               : 0,
+                'left'              : 0,
+                'height'            : '100%',
+                'width'             : '100%',
+                'z-index'           : '1',
+                '-webkit-transform' : 'rotateY(180deg)',
+                '-moz-transform'    : 'rotateY(180deg)',
+                '-ms-transform'     : 'rotateY(180deg)',
+                '-o-transform'      : 'rotateY(180deg)',
+                'transform'         : 'rotateY(180deg)'
+            },
+            '.cd-item-wrapper.is-switched .is-visible':{
+                '-webkit-transform' : 'rotateY(180deg)',
+                '-moz-transform'    : 'rotateY(180deg)',
+                '-ms-transform'     : 'rotateY(180deg)',
+                '-o-transform'      : 'rotateY(180deg)',
+                'transform'         : 'rotateY(180deg)',
+                '-webkit-animation' : 'cd-rotate 0.5s',
+                '-moz-animation'    : 'cd-rotate 0.5s',
+                'animation'         : 'cd-rotate 0.5s'
+            },
+            '.cd-item-wrapper.is-switched .is-hidden':{
+                '-webkit-transform' : 'rotateY(0)',
+                '-moz-transform'    : 'rotateY(0)',
+                '-ms-transform'     : 'rotateY(0)',
+                '-o-transform'      : 'rotateY(0)',
+                'transform'         : 'rotateY(0)',
+                '-webkit-animation' : 'cd-rotate-inverse 0.5s',
+                '-moz-animation'    : 'cd-rotate-inverse 0.5s',
+                'animation'         : 'cd-rotate-inverse 0.5s',
+                'opacity'           : 0
+            },
+            '.cd-item-wrapper.is-switched .is-selected':{
+                'opacity': 1
+            }
+        }
+
+        var baseStyle = utils.format( compileRule(styleRule))
+
+
+        /**
+         *  css3关键帧算法
+         */
+        function calculationKeyframes(col, row, count) {
+            //矩阵生成step的处理
+            //  0 1 2
+            //  3 4 5
+            //  6 7 8
+            var keyframes = [];
+            var base = 100 / count;
+            //首次
+            keyframes.push(0 + '% { background-position:0% 0%}')
+            for (var i = 0; i < count; i++) {
+                //当前行数
+                var currRow = Math.ceil((i + 1) / col); //当前行数
+                var currCol = Math.floor(i / col); //当前列数  
+                var period = currCol * col; //每段数量  
+                var x = 100 * (i - period)
+                var y = 100 * currCol;
+                x = x == 0 ? x : "-" + x;
+                y = y == 0 ? y : "-" + y;
+                keyframes.push(((i + 1) * base) + '% { background-position: ' + x + '% ' + y + '%}')
+            }
+            return keyframes.join("")
+        }
+
+
+        insertCSSRule(baseStyle)
+
+        // setAnimition($element, rule1);
+        // setKeyframes(rule2);
+        // $element.on(ANIMATION_EV, callback);
     }
 
-
-    config.rotateY = config.direction === 'left' ? '180deg' : '-180deg';
+    css3KeyAnimate();
 
 
     //原始布局
@@ -128,35 +378,27 @@
     }
 
     var Manager = function(element, options) {
-
         //页面容器
         var $container = this.$container = $(element);
-
+        this.options = utils.merge(options, config);
         //区域尺寸
         this.contentWidth = parseInt($container.css('width'))
         this.contentHeight = parseInt($container.css('Height'))
 
-        //布局
-        var level = this.level = {
-            row: 3, //横行
-            col: 3 //竖列
-        }
-
         //触发翻转动画
         this.trigger = [];
         //布局的原始排序
-        this.originalOrder = calculateOrder(level.row, level.col);
+        this.originalOrder = calculateOrder(options.level.row, options.level.col);
         //新是随机排序
-        this.randomOrder = [];
+        this.randomOrder   = calculateRandom(this.originalOrder);
         //一个元素动画2次回调处理
-        this.triggerCache = []
-        //收集回调
+        this.triggerCache = [];
+         //收集回调
         this.trackAnims = {
             elems       : [], //触发的元素
             triggerTime : [], //手动触发
             autoTime    : [] //动画恢复
         }
-
         //创建
         this.initCreate();
         this.creatEvent();
@@ -166,11 +408,9 @@
     Manager.prototype = {
 
         initCreate: function() {
-            this.debrisWidth = this.contentWidth / this.level.row;
-            this.debrisHeight = this.contentHeight / this.level.col;
-            //随机
-            this.randomOrder = calculateRandom(this.originalOrder);
-            //布局
+            var level = this.options.level;
+            this.debrisWidth  = this.contentWidth / level.row;
+            this.debrisHeight = this.contentHeight / level.col;
             this.initLayer();
         },
 
@@ -179,18 +419,19 @@
             var index;
             var $ul;
             var $li;
-            var uls = [];
-            var debrisWidth = this.debrisWidth;
-            var debrisHeight = this.debrisHeight;
-            var row = this.level.row;
-            var col = this.level.col;
-            var images = config.images;
-            var randomOrder = this.randomOrder;
+            var uls           = [];
+            var debrisWidth   = this.debrisWidth;
+            var debrisHeight  = this.debrisHeight;
+            var level         = this.options.level
+            var row           = level.row;
+            var col           = level.col;
+            var images        = this.options.images;
+            var randomOrder   = this.randomOrder;
             var contentHeight = this.contentHeight;
 
             var createStr = function(i, j) {
                 var innerdiv = function() {
-                    return format(
+                    return utils.format(
                         '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;">' +
                             '<li data-type="front" class="is-visible"> ' +
                                 '<img src="{2}" width="{4}" height="{5}">' +
@@ -206,13 +447,13 @@
                         debrisHeight
                     )
                 }
-                var str = format(
+                var str = utils.format(
                     '<li style="' +
                         'width:{0}px;' +
                         'height:{1}px;' +
                         'left:{2}px;' +
                         'position:absolute;' +
-                        '">' + innerdiv() +
+                    '">' + innerdiv() +
                     '</li>',
                     debrisWidth,
                     debrisHeight,
@@ -229,6 +470,7 @@
                     'overflow' : 'hidden', //1111111
                     'position' : 'relative' //1111111
                 });
+                //增加样式
                 $ul.addClass('cd-gallery cd-container')
                 for (var j = 0; j < row; j++) {
                     $li = createStr(i, j);
@@ -303,7 +545,7 @@
 
         triggerClick: function(event) {
             var element, pos;
-            if (element = this.findContainer(event,'img')) {
+            if (element = this.findContainer(event, 'img')) {
                 pos = this.getPos(element);
                 if (this.checkRepeat(element, pos)) {
                     return;
@@ -331,7 +573,7 @@
 
 
         //检测回调的唯一性
-        checkUnique:function(event){
+        checkUnique: function(event) {
             var ul = this.findContainer(event);
             var index = this.triggerCache.indexOf(ul);
             if (~index) {
@@ -349,10 +591,13 @@
                 elem,
                 $elem,
                 elems,
+                level,
                 index,
                 filter,
                 parent,
                 $parent;
+
+            level = this.options.level;
 
             elem = event.target;
             parent = this.findContainer(event)
@@ -409,7 +654,7 @@
             //合并所有的触发
             //每一列col必须都要触发一次
             this.trackAnims.triggerTime.push(elem)
-            if (this.trackAnims.triggerTime.length !== this.level.col) {
+            if (this.trackAnims.triggerTime.length !== level.col) {
                 return;
             }
             this.trackAnims.triggerTime.length = 0;
@@ -442,8 +687,8 @@
             }
 
             //全部解锁
-            var unlock = function(){
-                if (self.level.col == isLock) {
+            var unlock = function() {
+                if (level.col == isLock) {
                     elems = self.trigger;
                     for (i = 0; i < elems.length; i++) {
                         elem = elems[i];
@@ -454,7 +699,7 @@
                 }
             }
 
-  
+
             //////////////////////////////////
             ///
             ///  运行：
@@ -479,11 +724,11 @@
                 self.trackAnims.elems.length = 0
             }
 
-            if (elems.length == this.level.col) {
+            if (elems.length == level.col) {
                 //取出第一个对比值
                 standardElement = elems[0];
                 index = getIndex(standardElement)
-                //开始比对
+                    //开始比对
                 for (i = 1; i < elems.length; i++) {
                     elem = elems[i];
                     if (index != getIndex(elem)) {
@@ -491,12 +736,12 @@
                         break;
                     }
                 }
-                if (succeed) { 
+                if (succeed) {
                     elems.forEach(function(elem) {
                         //完成
                         $(elem).css({
-                            'transition-delay'    : '100ms',
-                            'transition-duration' : '2000ms',
+                            'transition-delay': '100ms',
+                            'transition-duration': '2000ms',
                             opacity: 0
                         })
                     })
