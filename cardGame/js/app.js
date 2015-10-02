@@ -50,10 +50,11 @@
             return false;
         })();
 
-        function _prefixStyle (style) {
-            if ( _vendor === false ) return false;
-            if ( _vendor === '' ) return style;
-            return _vendor + style.charAt(0).toUpperCase() + style.substr(1);
+        function _prefixStyle(style, Joining) {
+            Joining = Joining || ''
+            if (_vendor === false) return false;
+            if (_vendor === '') return style;
+            return _vendor + Joining + style.charAt(0).toUpperCase() + style.substr(1);
         }
 
         me.getTime = Date.now || function getTime () { return new Date().getTime(); };
@@ -129,15 +130,49 @@
                 return args[i];
             });
         }
+
+
+        var TRANSITION_END = 'transitionend';
+        var ANIMATION_END  = 'animationend';
+        var KEYFRAMES      = '@keyframes ';
+
+        ;(function() {
+            var vendors = _prefixStyle('animation','-');
+            var TRANSITION_END_NAMES = {
+                "moz"    : "transitionend",
+                "webkit" : "webkitTransitionEnd",
+                "ms"     : "MSTransitionEnd",
+                "o"      : "oTransitionEnd"
+            };
+            var ANIMATION_END_NAMES = {
+                "moz"    : "animationend",
+                "webkit" : "webkitAnimationEnd",
+                "ms"     : "MSAnimationEnd",
+                "o"      : "oAnimationEnd"
+            };
+            if (!vendors) return;
+            vendors = vendors.split('-');
+            if (!vendors[1]) return;
+            TRANSITION_END = TRANSITION_END_NAMES[vendors[0]];
+            ANIMATION_END  = ANIMATION_END_NAMES[vendors[0]];
+            KEYFRAMES = '@-' + vendors[1] + '-keyframes ';
+        })();
+
+        me.extend(me.style, {
+            keyframes     : KEYFRAMES,
+            animationend  : ANIMATION_END,
+            transitionend : TRANSITION_END
+        })
+
         return me;
     })();
-
 
     var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
 
     var styleElement = null;
     function css3KeyAnimate() { 
+
         //插入
         function insertCSSRule(rule) {
             var number, sheet, cssRules;
@@ -173,36 +208,10 @@
                     }
                 }
                 if (cssRules.length == 0) {
-                    DOC.head.removeChild(styleElement);
+                    document.head.removeChild(styleElement);
                     styleElement = null;
                 }
             }
-        }
-
-        //设置动画样式
-        function setAnimition($element, rule) {
-            if (animation) {
-                $element.css(animation, rule);
-            }
-        }
-
-        //添加到样式规则中
-        function setKeyframes(rule) {
-            if (keyframes) {
-                insertCSSRule(keyframes + rule);
-            }
-        }
-
-        //格式化样式表达式
-        function setStep(aniName, time, count, loop) {
-            rule = '{0} {1}s steps({2}, end) {3}';
-            return String.format(rule, aniName, time, count, loop);
-        }
-
-        //设置精灵动画位置
-        function setPostion(aniName, x) {
-            rule = '{0} {from { background-position:0 0; } to { background-position: -{1}px 0px}}';
-            return String.format(rule, aniName, Math.round(x));
         }
 
         var compileRule = function(ruleObj) {
@@ -285,9 +294,7 @@
         var baseStyle = utils.format( compileRule(styleRule))
 
 
-        /**
-         *  css3关键帧算法
-         */
+
         function calculationKeyframes(col, row, count) {
             //矩阵生成step的处理
             //  0 1 2
@@ -310,6 +317,11 @@
             }
             return keyframes.join("")
         }
+
+
+
+
+
 
 
         insertCSSRule(baseStyle)
