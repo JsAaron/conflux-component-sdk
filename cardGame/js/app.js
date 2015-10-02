@@ -288,9 +288,13 @@
             }
         },
 
-        runAnim: function(element) {
-            $(element).find('.is-hidden').addClass('is-selected')
-            $(element).addClass('is-switched')
+        runAnim: function(element,restore) {
+            var $element = $(element)
+            $element.find('.is-hidden').addClass('is-selected')
+            $element.addClass('is-switched')
+            if (restore) {
+                $element.attr('data-restore', true)
+            }            
         },
 
         onClick: function(event) {
@@ -436,13 +440,7 @@
                 } else { //失败
                     setTimeout(function() {
                         tempCompare.forEach(function(elem, index) {
-
-                            // if (index > 0) return
-
-                            $(elem).find('.is-hidden').addClass('is-selected')
-                            $(elem).addClass('is-switched')
-                            $(elem).attr('data-restore', true)
-
+                            this.runAnim(elem,'restore')
                             this.tempCompare = [];
                         }.bind(this))
                     }.bind(this), 500)
