@@ -139,7 +139,7 @@
         //布局
         var level = this.level = {
             row: 3, //横行
-            col: 2 //竖列
+            col: 3 //竖列
         }
 
         //触发翻转动画
@@ -186,6 +186,7 @@
             var col = this.level.col;
             var images = config.images;
             var randomOrder = this.randomOrder;
+            var contentHeight = this.contentHeight;
 
             var createStr = function(i, j) {
                 var innerdiv = function() {
@@ -207,13 +208,12 @@
                 }
                 var str = format(
                     '<li style="' +
-                        'width:{2}px;' +
-                        'height:{3}px;' +
-                        'left:{4}px;' +
+                        'width:{0}px;' +
+                        'height:{1}px;' +
+                        'left:{2}px;' +
                         'position:absolute;' +
                         '">' + innerdiv() +
                     '</li>',
-                    i, j,
                     debrisWidth,
                     debrisHeight,
                     j * debrisWidth
@@ -224,10 +224,10 @@
             //生成 row * col 的矩阵
             for (var i = 0; i < col; i++) {
                 $ul = $(document.createElement('ul')).css({
-                    'width': this.contentWidth,
-                    'height': this.contentHeight / 2,
-                    'overflow': 'hidden', //1111111
-                    'position': 'relative' //1111111
+                    'width'    : this.contentWidth,
+                    'height'   : debrisHeight,
+                    'overflow' : 'hidden', //1111111
+                    'position' : 'relative' //1111111
                 });
                 $ul.addClass('cd-gallery cd-container')
                 for (var j = 0; j < row; j++) {
@@ -440,17 +440,21 @@
                     }
                 }
             }
+
             //全部解锁
-            if (this.level.col == isLock) {
-                for (i = 0; i < elems.length; i++) {
-                    elem = elems[i];
-                    elem.pop(elem.length)
+            var unlock = function(){
+                if (self.level.col == isLock) {
+                    elems = self.trigger;
+                    for (i = 0; i < elems.length; i++) {
+                        elem = elems[i];
+                        elem.pop(elem.length)
+                    }
+                } else {
+                    alert('lock错误')
                 }
-            }else{
-                alert('lock错误')
             }
 
-
+  
             //////////////////////////////////
             ///
             ///  运行：
@@ -471,6 +475,7 @@
             elems = this.trackAnims.elems;
 
             var clean = function() {
+                unlock();
                 self.trackAnims.elems.length = 0
             }
 
@@ -486,7 +491,6 @@
                         break;
                     }
                 }
-
                 if (succeed) { 
                     elems.forEach(function(elem) {
                         //完成
@@ -503,7 +507,7 @@
                             self.runAnim(elem, 'autoRestore')
                         })
                         clean()
-                    }, 300);
+                    }, 100);
                 }
             }
 
