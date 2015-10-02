@@ -180,28 +180,44 @@
             var randomOrder  = this.randomOrder;
 
             var createStr = function(i, j) {
-                var fill = function() {
-                    return 'width:100%;height:100%;position:absolute;top:0;left:0;background-size:100% 100%;backface-visibility: hidden;'
+                var styleVisible = function() {
+                    return 'position:relative;backface-visibility:hidden;z-index:5;'
+                }
+                var styleHidden = function() {
+                    return 'width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;transform:rotateY(180deg);'
+                } 
+                var styleImg = function(){
+                   return 'width:100%;height:100%;max-width:100%;display:block;';
                 }
                 var innerdiv = function() {
                     return format(
-                        '<div style="{0};left;z-index:2;background-image:{1}"></div>' +
-                        '<div style="{0};{4}:rotateY({2});background-image:{3};"></div>',
-                        fill(),
-                        "url('" + images.front + "')",
-                        config.rotateY,
-                        "url('" + images.back[randomOrder[i][j]] + "')",
-                        transform
+                        '<ul class="cd-item-wrapper" style="position:relative;">'+
+                            '<li class="is-visible"> '+
+                                '<img src="{1}" width="{5}" height="{6}">' +
+                            '</li>' +
+                            '<li class="is-hidden">'+
+                                '<img src="{4}" width="{5}" height="{6}">' +
+                            '</li>' +
+                        '</ul>',
+                        styleVisible(),
+                        images.front,
+                        styleHidden(),
+                        styleImg(),
+                        images.back[randomOrder[i][j]],
+                        debrisWidth,
+                        debrisHeight/2
                     )
                 }
                 var str = format(
                     '<li data-col={0} data-row={1} ' +
-                    'style="width:{2}px;height:{3}px;left:{4}px;top:{5}px;' +
-                    'background-size:100% 100%;' +
-                    'position:absolute;' +
-                    '{6}-style: preserve-3d;' +
-                    '{6}:scale(0.9);"' +
-                    '>' + innerdiv() + '</li>',
+                        'style="width:{2}px;'+
+                        // 'left:{4}px;top:{5}px;' +
+                        // 'background-size:100% 100%;' +
+                        'position:relative;' +
+                        'float:left;'+ 
+                        // '{6}-style: preserve-3d;' +
+                        // '{6}:scale(0.9);' +
+                    '">' + innerdiv() + '</li>',
                     i, j,
                     debrisWidth, debrisHeight, j * debrisWidth, i * debrisHeight,
                     transform
@@ -213,8 +229,11 @@
             for (var i = 0; i < col; i++) {
                 $ul = $(document.createElement('ul')).css({
                     'width': this.contentWidth,
-                    'height': this.contentHeight / 2
+                    'height': this.contentHeight / 2,
+                    'overflow':'hidden',
+                    'position':'relative'
                 });
+                $ul.addClass('cd-gallery cd-container')
                 for (var j = 0; j < row; j++) {
                     $li = createStr(i, j);
                     $ul.append($li)
@@ -243,12 +262,14 @@
             var element;
             var nodeName = function(element) {
                 var elementName = element.nodeName.toLowerCase();
-                if (elementName == 'li') {
+                if (elementName == 'ul') {
                     return element;
                 }
             }
             if (element = event.target) {
-                return nodeName(element) || nodeName(element.parentNode) 
+                return nodeName(element) 
+                    || nodeName(element.parentNode) 
+                    || nodeName(element.parentNode.parentNode) 
             }
         },
 
@@ -280,15 +301,10 @@
                 if (this.repeatClick(element,pos)) {
                     return;
                 }
-
-                $(element).transition({
-                    'transform': 'rotateY(180deg) scale(0.9)'
-                });
-
-/*                $(element).css({
-                    'transition-duration': '1000ms',
-                    '-webkit-transform': 'rotateY(180deg),scale(0.9)'
-                })*/
+                $(element).find('.is-hidden').css({
+                    'opacity': 1
+                })
+                $(element).addClass('is-switched')
                 this.isArray(this.trigger, pos.col, function(arr) {
                     arr.push(element);
                     arr.push('Lock')
