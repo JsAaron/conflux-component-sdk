@@ -56,7 +56,7 @@
     }
 
     var transform = prefixStyle('transform');
-    var transitionend = 'transitionend webkitTransitionEnd MSTransitionEnd oTransitionEnd';
+    var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
 
     function format(format) {
@@ -180,6 +180,11 @@
             var randomOrder  = this.randomOrder;
 
             var createStr = function(i, j) {
+
+                var styleCommon = function(){
+                    return 
+                }
+
                 var styleVisible = function() {
                     return 'position:relative;backface-visibility:hidden;z-index:5;'
                 }
@@ -205,22 +210,23 @@
                         styleImg(),
                         images.back[randomOrder[i][j]],
                         debrisWidth,
-                        debrisHeight/2
+                        debrisHeight
                     )
                 }
                 var str = format(
                     '<li data-col={0} data-row={1} ' +
-                        'style="width:{2}px;'+
-                        // 'left:{4}px;top:{5}px;' +
-                        // 'background-size:100% 100%;' +
-                        'position:relative;' +
-                        'float:left;'+ 
-                        // '{6}-style: preserve-3d;' +
-                        // '{6}:scale(0.9);' +
-                    '">' + innerdiv() + '</li>',
+                        'style=" '+
+                            'width:{2}px;' +
+                            'height:{3}px;' +
+                            'left:{4}px;' +
+                            'position:absolute;' +
+                        '">' 
+                        + innerdiv() + 
+                    '</li>',
                     i, j,
-                    debrisWidth, debrisHeight, j * debrisWidth, i * debrisHeight,
-                    transform
+                    debrisWidth, 
+                    debrisHeight, 
+                    j * debrisWidth
                 )
                 return $(str)
             }
@@ -230,8 +236,8 @@
                 $ul = $(document.createElement('ul')).css({
                     'width': this.contentWidth,
                     'height': this.contentHeight / 2,
-                    'overflow':'hidden',
-                    'position':'relative'
+                    'overflow':'hidden',//1111111
+                    'position':'relative' //1111111
                 });
                 $ul.addClass('cd-gallery cd-container')
                 for (var j = 0; j < row; j++) {
@@ -398,7 +404,8 @@
             this.$container.on('mousedown touchstart', function(event) {
                 stopBehavior(event)
                 self.onClick(event)
-            }).on(transitionend, function(event) {
+            }).on(animationend, function(event) {
+                console.log(event.target)
                 self.transitionend(event)
             });
         }
