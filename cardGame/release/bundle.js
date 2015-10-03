@@ -838,20 +838,27 @@
 	    }
 	}
 	
-	exports.checkRepeat = function(element, pos) {
-	    var elem, elems;
-	    if (elems = this.trigger[pos.col]) {
+	/**
+	 * 检查是否上锁，重复
+	 * @param  {[type]} element [description]
+	 * @param  {[type]} trigger [description]
+	 * @param  {[type]} pos     [description]
+	 * @return {[type]}         [description]
+	 */
+	var checkRepeat = function(element, trigger, pos) {
+	    var elems;
+	    if (elems = trigger[pos.col]) {
 	        if ('Lock' == elems[elems.length - 1]) {
 	            return true;
 	        }
-	    } 
+	    }
 	}
 	
 	exports.triggerClick = function(event) {
 	    var element, pos;
 	    if (element = depend.findContainer(event, 'img')) {
 	        pos = this.getPos(element);
-	        if (this.checkRepeat(element, pos)) {
+	        if (checkRepeat(element, this.trigger, pos)) {
 	            return;
 	        }
 	        depend.pushArray(this.trigger, pos.col, function(arr) {
@@ -874,22 +881,12 @@
 	var depend = __webpack_require__(8);
 	
 	
-	exports.resetProperties = function(context, filter, callback) {
-	    var related = {
-	        front: function() {
-	            context.removeClass('is-visible is-selected').addClass('is-hidden');
-	        },
-	        back: function() {
-	            context.addClass('is-visible').removeClass('is-hidden is-selected');
-	        }
-	    }
-	    related[filter]();
-	    callback && callback.call(this)
-	}
-	
-	
-	//检测回调的唯一性
-	exports.checkUnique = function(event) {
+	/**
+	 * 检测回调的唯一性
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
+	var checkUnique = function(event) {
 	    var ul = depend.findContainer(event);
 	    var index = this.triggerCache.indexOf(ul);
 	    if (~index) {
@@ -900,6 +897,53 @@
 	    return true;
 	}
 	
+	/**
+	 * 状态值
+	 * @type {Object}
+	 */
+	var stateValue = {
+	    'back'  :'front',
+	    'front' :'back'
+	};
+	
+	
+	/**
+	 * 重设新的状态
+	 * @return {[type]} [description]
+	 */
+	var restoreState = function(elem,filter){
+	    //重设值的状态
+	    elem[0].setAttribute('data-type' , stateValue[filter])
+	}
+	
+	/**
+	 * 恢复属性
+	 * @param  {[type]} context [description]
+	 * @param  {[type]} parent  [description]
+	 * @param  {[type]} filter  [description]
+	 * @return {[type]}         [description]
+	 */
+	var restoreProperties = function(elem, parent, filter) {
+	    var related = {
+	        front: function() {
+	            elem.removeClass('is-visible is-selected').addClass('is-hidden');
+	        },
+	        back: function() {
+	            elem.addClass('is-visible').removeClass('is-hidden is-selected');
+	        }
+	    }
+	    related[filter]();
+	    parent.removeClass('is-switched')
+	    //设置状态值
+	    restoreState(elem,filter);
+	}
+	
+	
+	/**
+	 * 动画回调
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
 	exports.animCallback = function(event) {
 	    var ul,
 	        $ul,
@@ -929,18 +973,9 @@
 	    ///===============================
 	    var status = elem.getAttribute('data-status');
 	    if (status === 'autoRestore') {
-	        elem.setAttribute('data-status', '');
+	        elem.removeAttribute('data-status');
 	        filter = elem.getAttribute('data-type')
-	        var related = {
-	            back: function() {
-	                $elem.removeClass('is-visible is-selected').addClass('is-hidden');
-	            },
-	            front: function() {
-	                $elem.addClass('is-visible').removeClass('is-hidden is-selected');
-	            }
-	        }
-	        related[filter]();
-	        $parent.removeClass('is-switched')
+	        restoreProperties($elem,$parent,filter);
 	        return;
 	    }
 	
@@ -957,12 +992,11 @@
 	    //处理动画元素
 	    //每个li元素都会执行
 	    filter = elem.getAttribute('data-type')
-	    this.resetProperties($elem, filter, function() {
-	        $parent.removeClass('is-switched')
-	    })
+	    restoreProperties($elem, $parent, filter)
+	
 	
 	    //保证只回调一次
-	    if (this.checkUnique(event)) {
+	    if (checkUnique.call(this,event)) {
 	        return false;
 	    }
 	
@@ -1003,7 +1037,7 @@
 	    }
 	
 	    //全部解锁
-	    var unlock = function() {
+	    function unlock() {
 	        if (level.col == isLock) {
 	            elems = self.trigger;
 	            for (i = 0; i < elems.length; i++) {
@@ -1014,7 +1048,6 @@
 	            alert('lock错误')
 	        }
 	    }
-	
 	
 	    //////////////////////////////////
 	    ///

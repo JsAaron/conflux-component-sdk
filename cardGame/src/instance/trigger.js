@@ -24,20 +24,27 @@ exports.runAnim = function(element, status) {
     }
 }
 
-exports.checkRepeat = function(element, pos) {
-    var elem, elems;
-    if (elems = this.trigger[pos.col]) {
+/**
+ * 检查是否上锁，重复
+ * @param  {[type]} element [description]
+ * @param  {[type]} trigger [description]
+ * @param  {[type]} pos     [description]
+ * @return {[type]}         [description]
+ */
+var checkRepeat = function(element, trigger, pos) {
+    var elems;
+    if (elems = trigger[pos.col]) {
         if ('Lock' == elems[elems.length - 1]) {
             return true;
         }
-    } 
+    }
 }
 
 exports.triggerClick = function(event) {
     var element, pos;
     if (element = depend.findContainer(event, 'img')) {
         pos = this.getPos(element);
-        if (this.checkRepeat(element, pos)) {
+        if (checkRepeat(element, this.trigger, pos)) {
             return;
         }
         depend.pushArray(this.trigger, pos.col, function(arr) {

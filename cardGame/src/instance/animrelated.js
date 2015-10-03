@@ -5,22 +5,12 @@
 var depend = require('./depend');
 
 
-exports.resetProperties = function(context, filter, callback) {
-    var related = {
-        front: function() {
-            context.removeClass('is-visible is-selected').addClass('is-hidden');
-        },
-        back: function() {
-            context.addClass('is-visible').removeClass('is-hidden is-selected');
-        }
-    }
-    related[filter]();
-    callback && callback.call(this)
-}
-
-
-//检测回调的唯一性
-exports.checkUnique = function(event) {
+/**
+ * 检测回调的唯一性
+ * @param  {[type]} event [description]
+ * @return {[type]}       [description]
+ */
+var checkUnique = function(event) {
     var ul = depend.findContainer(event);
     var index = this.triggerCache.indexOf(ul);
     if (~index) {
@@ -31,6 +21,53 @@ exports.checkUnique = function(event) {
     return true;
 }
 
+/**
+ * 状态值
+ * @type {Object}
+ */
+var stateValue = {
+    'back'  :'front',
+    'front' :'back'
+};
+
+
+/**
+ * 重设新的状态
+ * @return {[type]} [description]
+ */
+var restoreState = function(elem,filter){
+    //重设值的状态
+    elem[0].setAttribute('data-type' , stateValue[filter])
+}
+
+/**
+ * 恢复属性
+ * @param  {[type]} context [description]
+ * @param  {[type]} parent  [description]
+ * @param  {[type]} filter  [description]
+ * @return {[type]}         [description]
+ */
+var restoreProperties = function(elem, parent, filter) {
+    var related = {
+        front: function() {
+            elem.removeClass('is-visible is-selected').addClass('is-hidden');
+        },
+        back: function() {
+            elem.addClass('is-visible').removeClass('is-hidden is-selected');
+        }
+    }
+    related[filter]();
+    parent.removeClass('is-switched')
+    //设置状态值
+    restoreState(elem,filter);
+}
+
+
+/**
+ * 动画回调
+ * @param  {[type]} event [description]
+ * @return {[type]}       [description]
+ */
 exports.animCallback = function(event) {
     var ul,
         $ul,
@@ -60,18 +97,9 @@ exports.animCallback = function(event) {
     ///===============================
     var status = elem.getAttribute('data-status');
     if (status === 'autoRestore') {
-        elem.setAttribute('data-status', '');
+        elem.removeAttribute('data-status');
         filter = elem.getAttribute('data-type')
-        var related = {
-            back: function() {
-                $elem.removeClass('is-visible is-selected').addClass('is-hidden');
-            },
-            front: function() {
-                $elem.addClass('is-visible').removeClass('is-hidden is-selected');
-            }
-        }
-        related[filter]();
-        $parent.removeClass('is-switched')
+        restoreProperties($elem,$parent,filter);
         return;
     }
 
@@ -88,12 +116,11 @@ exports.animCallback = function(event) {
     //处理动画元素
     //每个li元素都会执行
     filter = elem.getAttribute('data-type')
-    this.resetProperties($elem, filter, function() {
-        $parent.removeClass('is-switched')
-    })
+    restoreProperties($elem, $parent, filter)
+
 
     //保证只回调一次
-    if (this.checkUnique(event)) {
+    if (checkUnique.call(this,event)) {
         return false;
     }
 
@@ -134,7 +161,7 @@ exports.animCallback = function(event) {
     }
 
     //全部解锁
-    var unlock = function() {
+    function unlock() {
         if (level.col == isLock) {
             elems = self.trigger;
             for (i = 0; i < elems.length; i++) {
@@ -145,7 +172,6 @@ exports.animCallback = function(event) {
             alert('lock错误')
         }
     }
-
 
     //////////////////////////////////
     ///
