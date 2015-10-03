@@ -7,11 +7,19 @@
     <title>翻牌</title>
     <link rel='stylesheet' href='style.css' />
     <script type="text/javascript" src="jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="Transit.js"></script>
     <script type="text/javascript" src="bundle.js"></script>
     <script type="text/javascript">
         $(function(){
             new CardGames('.content-card',{
-                
+                callback:{
+                    success:function(){
+
+                    },
+                    fail:function(){
+                        
+                    }
+                }
             })
         })
     </script>

@@ -32,6 +32,9 @@ var config = {
         open      : false,
         files     : [dest + "/*.js", "./index.html"] //监控变化
     },
+    css: {
+        src: src + '**/*.css'
+    },
     script: {
         entry: {
             'entry': src + '/app.js'
@@ -82,6 +85,7 @@ gulp.task('web-server', function() {
 
 gulp.task('watch', ["scripts", 'web-server'], function() {
     gulp.watch(config.script.watch, ['scripts']);
+    gulp.watch(config.css.src, ['scripts']);
     gulp.watch(config.html.watchHome).on('change', reload);
 })
 
