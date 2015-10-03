@@ -20,10 +20,10 @@ exports._init = function(element,options) {
 	this.originalOrder = depend.nature(options.level.row, options.level.col);
 	//新是随机排序
 	this.randomOrder   = depend.random(this.originalOrder);
-    //一个元素动画2次回调处理
-    this.triggerCache = [];
+
     //收集回调
     this.trackAnims = {
+        cache:[], //一个元素动画2次回调处理
         elems: [], //触发的元素
         triggerTime: [], //手动触发
         autoTime: [] //动画恢复

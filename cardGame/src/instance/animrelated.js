@@ -12,12 +12,12 @@ var depend = require('./depend');
  */
 var checkUnique = function(event) {
     var ul = depend.findContainer(event);
-    var index = this.triggerCache.indexOf(ul);
+    var index = this.trackAnims.cache.indexOf(ul);
     if (~index) {
-        this.triggerCache.splice(index, 1)
+        this.trackAnims.cache.splice(index, 1)
         return false;
     }
-    this.triggerCache.push(ul);
+    this.trackAnims.cache.push(ul);
     return true;
 }
 
@@ -164,15 +164,15 @@ exports.animCallback = function(event) {
     function unlock() {
         if (level.col == isLock) {
             elems = self.trigger;
-            for (i = 0; i < elems.length; i++) {
-                elem = elems[i];
-                elem.pop(elem.length)
+            for (i = 0; i < self.trigger.length; i++) {
+                self.trigger[i].length = 0;
             }
+            console.log(1213123)
         } else {
             alert('lock错误')
         }
     }
-
+  
     //////////////////////////////////
     ///
     ///  运行：
