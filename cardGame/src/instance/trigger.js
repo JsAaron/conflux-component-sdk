@@ -1,5 +1,5 @@
-
 var depend = require('./depend');
+var utils = require('../utils');
 
 /**
  * 手动触发
@@ -34,6 +34,7 @@ exports.runAnim = function(element, status) {
 var checkRepeat = function(element, trigger, pos) {
     var elems;
     if (elems = trigger[pos.col]) {
+        console.log(elems)
         if ('Lock' == elems[elems.length - 1]) {
             return true;
         }

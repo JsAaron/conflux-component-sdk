@@ -167,7 +167,6 @@ exports.animCallback = function(event) {
             for (i = 0; i < self.trigger.length; i++) {
                 self.trigger[i].length = 0;
             }
-            console.log(1213123)
         } else {
             alert('lock错误')
         }

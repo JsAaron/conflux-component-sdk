@@ -1,3 +1,6 @@
+
+var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
+
 /**
  * 原始布局
  * @return {[type]} [description]
@@ -82,3 +85,24 @@ exports.pushArray = function(obj, key, fn) {
     }
     fn(obj[key])
 }
+
+var once = false;
+exports._bind = function() {
+    this.$container.on('mousedown touchstart', function() {
+        this.$container.off('mousedown touchstart')
+        this.triggerClick(event)
+        console.log(1)
+        return false;
+    }.bind(this))
+
+    if (!once) {
+        once = true;
+        this.$container.on(animationend, function(event) {
+            this.animCallback(event);
+            return false;
+        }.bind(this));
+    }
+}
+
+
+
