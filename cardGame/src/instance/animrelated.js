@@ -191,9 +191,11 @@ exports.animCallback = function(event) {
 
     elems = this.trackAnims.elems;
 
-    var clean = function() {
+    var clean = function(eventName) {
         unlock();
         self.trackAnims.elems.length = 0
+        //事件通知
+        self.observer.notify('change:' + eventName)
     }
 
     if (elems.length == level.col) {
@@ -217,13 +219,13 @@ exports.animCallback = function(event) {
                     opacity: 0
                 })
             })
-            clean()
+            clean('success');
         } else { //失败
             setTimeout(function() {
                 elems.forEach(function(elem, index) {
                     self.runAnim(elem, 'autoRestore')
                 })
-                clean()
+                clean('fail')
             }, 100);
         }
     }

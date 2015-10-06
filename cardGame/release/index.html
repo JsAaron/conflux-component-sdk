@@ -11,16 +11,16 @@
     <script type="text/javascript" src="bundle.js"></script>
     <script type="text/javascript">
         $(function(){
-            new CardGames('.content-card',{
-                callback:{
-                    success:function(){
+            var cardGames = new CardGames('.content-card')
 
-                    },
-                    fail:function(){
-                        
-                    }
-                }
+            cardGames.$watch('success',function(){
+
             })
+
+            cardGames.$watch('fail',function(){
+                
+            })
+
         })
     </script>
 </head>
