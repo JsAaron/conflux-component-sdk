@@ -17,11 +17,10 @@ module.exports = {
         back: ["images/11.png", "images/12.png", "images/13.png"]
     },
 
-    //翻转的速度单位ms //默认0.6秒
-    speed: 600,
-
-    //反转的反向
-    //顺时针//逆时针 left or rigth
-    direction: 'left'
+    //图片之间的间距,单位PX
+    gap:{
+        left : 10,
+        top  : 15
+    }
 
 }

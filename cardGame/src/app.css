@@ -26,19 +26,13 @@
 .cd-gallery .cd-item-wrapper > li {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    border-radius: 0.25em;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
 .cd-gallery .cd-item-wrapper > li img {
     display: block;
     width: 100%;
-    border-radius: 0.25em;
+    border-radius: 0.45em;
 }
-img {
-    max-width: 100%;
-}
-
-
 
 .cd-item-wrapper.is-switched .is-visible {
     -webkit-transform: rotateY(180deg);
@@ -67,11 +61,6 @@ img {
     opacity: 1;
 }
 
-
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
 
 /* -------------------------------- 
 
