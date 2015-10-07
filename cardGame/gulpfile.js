@@ -29,7 +29,7 @@ var config = {
         port      : 3000,
         logLevel  : "debug",
         logPrefix : "Aaron",
-        open      : false,
+        open      : true,
         files     : [dest + "/*.js", "./index.html"] //监控变化
     },
     css: {
