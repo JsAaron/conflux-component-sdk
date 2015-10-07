@@ -49,10 +49,8 @@
 	__webpack_require__(1);
 	
 	var utils    = __webpack_require__(5);
-	var Observer = __webpack_require__(6);
 	
 	var Manager = function(element, options) {
-		this.observer = new Observer();
 		this._init(element, options);
 	};
 	
@@ -70,7 +68,7 @@
 	})
 	
 	
-	utils.extend(p, __webpack_require__(7));
+	utils.extend(p, __webpack_require__(6));
 	utils.extend(p, __webpack_require__(10));
 	utils.extend(p, __webpack_require__(11));
 	utils.extend(p, __webpack_require__(12));
@@ -116,7 +114,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".cd-gallery li.is-visible {\n  position: relative;\n  z-index: 5; }\n\n.cd-item-wrapper > li {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  border-radius: 0.25em;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }\n\n.cd-gallery li.is-hidden {\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 1;\n  -webkit-transform: rotateY(180deg);\n  -moz-transform: rotateY(180deg);\n  -ms-transform: rotateY(180deg);\n  -o-transform: rotateY(180deg);\n  transform: rotateY(180deg); }\n\n.cd-gallery .cd-item-wrapper > li {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  border-radius: 0.25em;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }\n\n.cd-gallery .cd-item-wrapper > li img {\n  display: block;\n  width: 100%;\n  border-radius: 0.25em; }\n\nimg {\n  max-width: 100%; }\n\n.cd-item-wrapper.is-switched .is-visible {\n  -webkit-transform: rotateY(180deg);\n  -moz-transform: rotateY(180deg);\n  -ms-transform: rotateY(180deg);\n  -o-transform: rotateY(180deg);\n  transform: rotateY(180deg);\n  -webkit-animation: cd-rotate 0.5s;\n  -moz-animation: cd-rotate 0.5s;\n  animation: cd-rotate 0.5s; }\n\n.cd-item-wrapper.is-switched .is-hidden {\n  -webkit-transform: rotateY(0);\n  -moz-transform: rotateY(0);\n  -ms-transform: rotateY(0);\n  -o-transform: rotateY(0);\n  transform: rotateY(0);\n  -webkit-animation: cd-rotate-inverse 0.5s;\n  -moz-animation: cd-rotate-inverse 0.5s;\n  animation: cd-rotate-inverse 0.5s;\n  opacity: 0; }\n\n.cd-gallery .cd-item-wrapper.is-switched .is-selected {\n  opacity: 1; }\n\nhtml * {\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n/* -------------------------------- \r\n\r\nxkeyframes \r\n\r\n-------------------------------- */\n@-webkit-keyframes cd-rotate {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(0); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(180deg); } }\n\n@-moz-keyframes cd-rotate {\n  0% {\n    -moz-transform: perspective(800px) rotateY(0); }\n  70% {\n    -moz-transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -moz-transform: perspective(800px) rotateY(180deg); } }\n\n@keyframes cd-rotate {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(0);\n    -moz-transform: perspective(800px) rotateY(0);\n    -ms-transform: perspective(800px) rotateY(0);\n    -o-transform: perspective(800px) rotateY(0);\n    transform: perspective(800px) rotateY(0); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(200deg);\n    -moz-transform: perspective(800px) rotateY(200deg);\n    -ms-transform: perspective(800px) rotateY(200deg);\n    -o-transform: perspective(800px) rotateY(200deg);\n    transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(180deg);\n    -moz-transform: perspective(800px) rotateY(180deg);\n    -ms-transform: perspective(800px) rotateY(180deg);\n    -o-transform: perspective(800px) rotateY(180deg);\n    transform: perspective(800px) rotateY(180deg); } }\n\n@-webkit-keyframes cd-rotate-inverse {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(0); } }\n\n@-moz-keyframes cd-rotate-inverse {\n  0% {\n    -moz-transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -moz-transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -moz-transform: perspective(800px) rotateY(0); } }\n\n@keyframes cd-rotate-inverse {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(-180deg);\n    -moz-transform: perspective(800px) rotateY(-180deg);\n    -ms-transform: perspective(800px) rotateY(-180deg);\n    -o-transform: perspective(800px) rotateY(-180deg);\n    transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(20deg);\n    -moz-transform: perspective(800px) rotateY(20deg);\n    -ms-transform: perspective(800px) rotateY(20deg);\n    -o-transform: perspective(800px) rotateY(20deg);\n    transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(0);\n    -moz-transform: perspective(800px) rotateY(0);\n    -ms-transform: perspective(800px) rotateY(0);\n    -o-transform: perspective(800px) rotateY(0);\n    transform: perspective(800px) rotateY(0); } }\n", ""]);
+	exports.push([module.id, ".cd-gallery li.is-visible {\n  position: relative;\n  z-index: 5; }\n\n.cd-item-wrapper > li {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  border-radius: 0.25em;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }\n\n.cd-gallery li.is-hidden {\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 1;\n  -webkit-transform: rotateY(180deg);\n  -moz-transform: rotateY(180deg);\n  -ms-transform: rotateY(180deg);\n  -o-transform: rotateY(180deg);\n  transform: rotateY(180deg); }\n\n.cd-gallery .cd-item-wrapper > li {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden; }\n\n.cd-gallery .cd-item-wrapper > li img {\n  display: block;\n  width: 100%;\n  border-radius: 0.45em; }\n\n.cd-item-wrapper.is-switched .is-visible {\n  -webkit-transform: rotateY(180deg);\n  -moz-transform: rotateY(180deg);\n  -ms-transform: rotateY(180deg);\n  -o-transform: rotateY(180deg);\n  transform: rotateY(180deg);\n  -webkit-animation: cd-rotate 0.5s;\n  -moz-animation: cd-rotate 0.5s;\n  animation: cd-rotate 0.5s; }\n\n.cd-item-wrapper.is-switched .is-hidden {\n  -webkit-transform: rotateY(0);\n  -moz-transform: rotateY(0);\n  -ms-transform: rotateY(0);\n  -o-transform: rotateY(0);\n  transform: rotateY(0);\n  -webkit-animation: cd-rotate-inverse 0.5s;\n  -moz-animation: cd-rotate-inverse 0.5s;\n  animation: cd-rotate-inverse 0.5s;\n  opacity: 0; }\n\n.cd-gallery .cd-item-wrapper.is-switched .is-selected {\n  opacity: 1; }\n\n/* -------------------------------- \r\n\r\nxkeyframes \r\n\r\n-------------------------------- */\n@-webkit-keyframes cd-rotate {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(0); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(180deg); } }\n\n@-moz-keyframes cd-rotate {\n  0% {\n    -moz-transform: perspective(800px) rotateY(0); }\n  70% {\n    -moz-transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -moz-transform: perspective(800px) rotateY(180deg); } }\n\n@keyframes cd-rotate {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(0);\n    -moz-transform: perspective(800px) rotateY(0);\n    -ms-transform: perspective(800px) rotateY(0);\n    -o-transform: perspective(800px) rotateY(0);\n    transform: perspective(800px) rotateY(0); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(200deg);\n    -moz-transform: perspective(800px) rotateY(200deg);\n    -ms-transform: perspective(800px) rotateY(200deg);\n    -o-transform: perspective(800px) rotateY(200deg);\n    transform: perspective(800px) rotateY(200deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(180deg);\n    -moz-transform: perspective(800px) rotateY(180deg);\n    -ms-transform: perspective(800px) rotateY(180deg);\n    -o-transform: perspective(800px) rotateY(180deg);\n    transform: perspective(800px) rotateY(180deg); } }\n\n@-webkit-keyframes cd-rotate-inverse {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(0); } }\n\n@-moz-keyframes cd-rotate-inverse {\n  0% {\n    -moz-transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -moz-transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -moz-transform: perspective(800px) rotateY(0); } }\n\n@keyframes cd-rotate-inverse {\n  0% {\n    -webkit-transform: perspective(800px) rotateY(-180deg);\n    -moz-transform: perspective(800px) rotateY(-180deg);\n    -ms-transform: perspective(800px) rotateY(-180deg);\n    -o-transform: perspective(800px) rotateY(-180deg);\n    transform: perspective(800px) rotateY(-180deg); }\n  70% {\n    -webkit-transform: perspective(800px) rotateY(20deg);\n    -moz-transform: perspective(800px) rotateY(20deg);\n    -ms-transform: perspective(800px) rotateY(20deg);\n    -o-transform: perspective(800px) rotateY(20deg);\n    transform: perspective(800px) rotateY(20deg);\n    /* this creates the bounce effect */ }\n  100% {\n    -webkit-transform: perspective(800px) rotateY(0);\n    -moz-transform: perspective(800px) rotateY(0);\n    -ms-transform: perspective(800px) rotateY(0);\n    -o-transform: perspective(800px) rotateY(0);\n    transform: perspective(800px) rotateY(0); } }\n", ""]);
 	
 	// exports
 
@@ -545,106 +543,14 @@
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
-
-	/**
-	 * 触发器
-	 * @return {[type]} [description]
-	 */
-	
-	function Observer(ctx) {
-	    this._ctx = ctx || this
-	}
-	
-	var o = Observer.prototype
-	
-	o.on = function(event, fn) {
-	    this._callback = this._callback || {};
-	    (this._callback[event] = this._callback[event] || [])
-	    .push(fn)
-	    return this
-	}
-	
-	o.once = function(event, fn) {
-	    var self = this
-	    this._callback = this._callback || {}
-	
-	    function on() {
-	        self.off(event, on)
-	        fn.apply(this, arguments)
-	    }
-	
-	    on.fn = fn
-	    this.on(event, on)
-	    return this
-	}
-	
-	/**
-	 * 检测对应事件是否存在
-	 * @return {[type]} [description]
-	 */
-	o.checkExists = function(event) {
-	    return this._callback[event]
-	}
-	
-	o.off = function(event, fn) {
-	    this._callback = this._callback || {}
-	
-	    // all
-	    if (!arguments.length) {
-	        this._callback = {}
-	        return this
-	    }
-	
-	    // specific event
-	    var callbacks = this._callback[event]
-	    if (!callbacks) return this
-	
-	    // remove all handlers
-	    if (arguments.length === 1) {
-	        delete this._callback[event]
-	        return this
-	    }
-	
-	    // remove specific handler
-	    var cb
-	    for (var i = 0; i < callbacks.length; i++) {
-	        cb = callbacks[i]
-	        if (cb === fn || cb.fn === fn) {
-	            callbacks.splice(i, 1)
-	            break
-	        }
-	    }
-	    return this
-	}
-	
-	o.notify = function(event, a, b, c, d) {
-	    this._callback = this._callback || {}
-	    var callbacks = this._callback[event]
-	    if (callbacks) {
-	        callbacks = callbacks.slice(0)
-	        for (var i = 0, len = callbacks.length; i < len; i++) {
-	            callbacks[i].call(this._ctx, a, b, c, d)
-	        }
-	    }
-	
-	    return this
-	}
-	
-	module.exports = Observer
-	
-	
-
-
-/***/ },
-/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var utils  = __webpack_require__(5); 
-	var config = __webpack_require__(8);
-	var depend = __webpack_require__(9);
-	   	  	
+	var utils    = __webpack_require__(5); 
+	var config   = __webpack_require__(7);
+	var depend   = __webpack_require__(8);
+	var Observer = __webpack_require__(9);
+	
 	/**
 	 * 初始化数据
 	 */
@@ -672,6 +578,8 @@
 	        autoTime    : []  //动画恢复
 	    };
 	
+	    this.observer = new Observer();
+	
 	    //开始构建
 	    this._initCreate();
 	
@@ -681,7 +589,7 @@
 	 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -703,18 +611,17 @@
 	        back: ["images/11.png", "images/12.png", "images/13.png"]
 	    },
 	
-	    //翻转的速度单位ms //默认0.6秒
-	    speed: 600,
-	
-	    //反转的反向
-	    //顺时针//逆时针 left or rigth
-	    direction: 'left'
+	    //图片之间的间距,单位PX
+	    gap:{
+	        left : 10,
+	        top  : 15
+	    }
 	
 	}
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	
@@ -828,12 +735,105 @@
 
 
 /***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	/**
+	 * 触发器
+	 * @return {[type]} [description]
+	 */
+	
+	function Observer(ctx) {
+	    this._ctx = ctx || this
+	}
+	
+	var o = Observer.prototype
+	
+	o.on = function(event, fn) {
+	    this._callback = this._callback || {};
+	    (this._callback[event] = this._callback[event] || [])
+	    .push(fn)
+	    return this
+	}
+	
+	o.once = function(event, fn) {
+	    var self = this
+	    this._callback = this._callback || {}
+	
+	    function on() {
+	        self.off(event, on)
+	        fn.apply(this, arguments)
+	    }
+	
+	    on.fn = fn
+	    this.on(event, on)
+	    return this
+	}
+	
+	/**
+	 * 检测对应事件是否存在
+	 * @return {[type]} [description]
+	 */
+	o.checkExists = function(event) {
+	    return this._callback[event]
+	}
+	
+	o.off = function(event, fn) {
+	    this._callback = this._callback || {}
+	
+	    // all
+	    if (!arguments.length) {
+	        this._callback = {}
+	        return this
+	    }
+	
+	    // specific event
+	    var callbacks = this._callback[event]
+	    if (!callbacks) return this
+	
+	    // remove all handlers
+	    if (arguments.length === 1) {
+	        delete this._callback[event]
+	        return this
+	    }
+	
+	    // remove specific handler
+	    var cb
+	    for (var i = 0; i < callbacks.length; i++) {
+	        cb = callbacks[i]
+	        if (cb === fn || cb.fn === fn) {
+	            callbacks.splice(i, 1)
+	            break
+	        }
+	    }
+	    return this
+	}
+	
+	o.notify = function(event, a, b, c, d) {
+	    this._callback = this._callback || {}
+	    var callbacks = this._callback[event]
+	    if (callbacks) {
+	        callbacks = callbacks.slice(0)
+	        for (var i = 0, len = callbacks.length; i < len; i++) {
+	            callbacks[i].call(this._ctx, a, b, c, d)
+	        }
+	    }
+	
+	    return this
+	}
+	
+	module.exports = Observer
+	
+	
+
+
+/***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var utils = __webpack_require__(5);
-	var depend = __webpack_require__(9);
+	var depend = __webpack_require__(8);
 	/**
 	 * 动态布局
 	 */
@@ -851,31 +851,41 @@
 	    var $ul;
 	    var $li;
 	    var uls = [];
-	    var debrisWidth = this.debrisWidth;
-	    var debrisHeight = this.debrisHeight;
-	    var level = this.options.level
-	    var row = level.row;
-	    var col = level.col;
-	    var images = this.options.images;
-	    var randomOrder = this.randomOrder;
+	    var debrisWidth   = this.debrisWidth;
+	    var debrisHeight  = this.debrisHeight;
+	    var options       = this.options;
+	    var level         = options.level
+	    var row           = level.row;
+	    var col           = level.col;
+	    var images        = options.images;
+	    var randomOrder   = this.randomOrder;
 	    var contentHeight = this.contentHeight;
 	
+	
 	    var createStr = function(i, j) {
+	        var width  = options.gap.left;
+	        var height = options.gap.top;
+	        var top    = height/2;
 	        var innerdiv = function() {
 	            return utils.format(
-	                '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;">' +
+	                '<ul data-col={0} data-row={1} class="cd-item-wrapper" style="position:relative;width:{2}px;height:{3}px;margin:0 auto;margin-top:{4}px;">' +
 		               	'<li data-type="front" class="is-visible"> ' +
-		                	'<img src="{2}" width="{4}" height="{5}">' +
+		                	'<img src="{5}" width="{7}" height="{8}">' +
 		                '</li>' +
 		                '<li data-type="back" class="is-hidden">' +
-		                	'<img src="{3}" width="{4}" height="{5}">' +
+		                	'<img src="{6}" width="{7}" height="{8}">' +
 		                '</li>' +
 	                '</ul>',
 	                i, j,
+	                debrisWidth-width,
+	                debrisHeight-height,
+	                top,
+	
 	                images.front,
 	                images.back[randomOrder[i][j]],
-	                debrisWidth,
-	                debrisHeight
+	
+	                debrisWidth-width,
+	                debrisHeight-height
 	            )
 	        }
 	        var str = utils.format(
@@ -927,7 +937,7 @@
 	/**
 	 * 冒泡事件
 	 */
-	var depend = __webpack_require__(9);
+	var depend = __webpack_require__(8);
 	var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 	
 	
@@ -949,7 +959,7 @@
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var depend = __webpack_require__(9);
+	var depend = __webpack_require__(8);
 	var utils = __webpack_require__(5);
 	
 	/**
@@ -998,7 +1008,7 @@
 	 * 动画回调处理
 	 */
 	
-	var depend = __webpack_require__(9);
+	var depend = __webpack_require__(8);
 	var utils  = __webpack_require__(5);
 	
 	/**

@@ -3,10 +3,8 @@
 require('./app.css');
 
 var utils    = require('./utils');
-var Observer = require('./observer');
 
 var Manager = function(element, options) {
-	this.observer = new Observer();
 	this._init(element, options);
 };
 

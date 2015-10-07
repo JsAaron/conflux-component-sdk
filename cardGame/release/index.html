@@ -8,6 +8,7 @@
     <link rel='stylesheet' href='style.css' />
     <script type="text/javascript" src="jquery-2.1.4.js"></script>
     <script type="text/javascript" src="bundle.js"></script>
+    <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript">
         $(function(){
             var cardGames = new CardGames('.content-card')
@@ -17,7 +18,7 @@
             })
 
             cardGames.$watch('fail',function(){
-                
+       
             })
 
         })
@@ -25,12 +26,21 @@
 </head>
 
 <body>
-    <div class="content">
-        
-        <div>标题</div>
-
+    <div class="content"> 
+        <section>
+            <nav>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </nav>
+        </section>
         <!-- 卡片容器 -->
-        <div class="content-card"></div>
+        <section>
+            <div class="content-card"></div>
+        </section>
     </div>
 </body>
 

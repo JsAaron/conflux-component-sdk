@@ -1,8 +1,9 @@
 
-var utils  = require('../utils'); 
-var config = require('../config');
-var depend = require('./depend');
-   	  	
+var utils    = require('../utils'); 
+var config   = require('../config');
+var depend   = require('./depend');
+var Observer = require('../observer');
+
 /**
  * 初始化数据
  */
@@ -29,6 +30,8 @@ exports._init = function(element,options) {
         triggerTime : [], //手动触发
         autoTime    : []  //动画恢复
     };
+
+    this.observer = new Observer();
 
     //开始构建
     this._initCreate();
