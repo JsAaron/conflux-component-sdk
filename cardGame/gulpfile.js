@@ -48,8 +48,9 @@ var config = {
         sourceMap: true, //源支持
         watch: src + '**/*.js' //监控脚本
     },
-    html: {
-        watchHome: dest + homepage //主页
+    release: {
+        index : dest + homepage, //主页
+        js    : dest + '**/*.css'
     }
 }
 
@@ -86,7 +87,8 @@ gulp.task('web-server', function() {
 gulp.task('watch', ["scripts", 'web-server'], function() {
     gulp.watch(config.script.watch, ['scripts']);
     gulp.watch(config.css.src, ['scripts']);
-    gulp.watch(config.html.watchHome).on('change', reload);
+    gulp.watch(config.release.index).on('change', reload);
+    gulp.watch(config.release.js).on('change', reload);
 })
 
 gulp.task('default', ['watch'])

@@ -6,42 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1">
     <title>翻牌</title>
     <link rel='stylesheet' href='style.css' />
-    <script type="text/javascript" src="jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="bundle.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            var cardGames = new CardGames('.content-card')
-
-            cardGames.$watch('success',function(){
-
-            })
-
-            cardGames.$watch('fail',function(){
-       
-            })
-
-        })
-    </script>
 </head>
 
 <body>
-    <div class="content"> 
-        <section>
-            <nav>
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </nav>
-        </section>
-        <!-- 卡片容器 -->
-        <section>
-            <div class="content-card"></div>
-        </section>
+    <!-- 首页 -->
+    <div class="home-page full-screen">
+        <div class="start-button"></div>
     </div>
+    <!-- 内容页 -->
+    <div class="content-page full-screen">
+        <!--积分显示 -->
+        <div class="content-slide-banner">
+            <div class="content-slide-banner-left"></div>
+            <div class="content-slide-banne-indicator">
+                <div data-ctrl-name="indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="content-slide-banner-right"></div>
+        </div>
+        <!-- 中间部分 -->
+        <div class="content-page-card"></div>
+        <!-- 底部-->
+        <div class="content-bottom"></div>
+    </div>
+    <script type="text/javascript" src="jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+    <script type="text/javascript" src="app.js"></script>
 </body>
 
 </html>

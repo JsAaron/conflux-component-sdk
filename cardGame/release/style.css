@@ -107,133 +107,62 @@ body {
     -webkit-perspective: 1000;
 }
 
-.content {
+.full-screen {
     width: 100%;
     height: 100%;
     position: relative;
+    background-size: 100% 100%;
+}
+
+.home-page {
+    background-image: url("../images/1.png");
+}
+
+.home-page .start-button {
+    width: 134px;
+    height: 54px;
+    background-image: url("../images/start-button.png");
+    position: absolute;
+    top: 70%;
+    left: 35%;
+}
+
+.content-page {
     background-color: white;
     background-image: url("../images/2.jpg");
-    /*background-size: 100% 100%;*/
+    visibility: hidden;
 }
 
-.content-card {
+
+.content-slide-banner {
+    height: 20%;
     width: 100%;
-    height: 100%;
-    position: absolute;
-    height: 65%;
-    top: 25%;
+}
+
+.content-page-card {
+    width: 100%;
+    height: 75%;
 }
 
 
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+.content-bottom {
+    width: 100%;
+    height: 5%;
 }
 
-/* -------------------------------- 
 
-xkeyframes 
 
--------------------------------- */
-
-@-webkit-keyframes cd-rotate {
-    0% {
-        -webkit-transform: perspective(800px) rotateY(0);
-    }
-    70% {
-        -webkit-transform: perspective(800px) rotateY(200deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -webkit-transform: perspective(800px) rotateY(180deg);
-    }
-}
-
-@-moz-keyframes cd-rotate {
-    0% {
-        -moz-transform: perspective(800px) rotateY(0);
-    }
-    70% {
-        -moz-transform: perspective(800px) rotateY(200deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -moz-transform: perspective(800px) rotateY(180deg);
-    }
-}
-
-@keyframes cd-rotate {
-    0% {
-        -webkit-transform: perspective(800px) rotateY(0);
-        -moz-transform: perspective(800px) rotateY(0);
-        -ms-transform: perspective(800px) rotateY(0);
-        -o-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
-    70% {
-        -webkit-transform: perspective(800px) rotateY(200deg);
-        -moz-transform: perspective(800px) rotateY(200deg);
-        -ms-transform: perspective(800px) rotateY(200deg);
-        -o-transform: perspective(800px) rotateY(200deg);
-        transform: perspective(800px) rotateY(200deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -webkit-transform: perspective(800px) rotateY(180deg);
-        -moz-transform: perspective(800px) rotateY(180deg);
-        -ms-transform: perspective(800px) rotateY(180deg);
-        -o-transform: perspective(800px) rotateY(180deg);
-        transform: perspective(800px) rotateY(180deg);
-    }
-}
-
-@-webkit-keyframes cd-rotate-inverse {
-    0% {
-        -webkit-transform: perspective(800px) rotateY(-180deg);
-    }
-    70% {
-        -webkit-transform: perspective(800px) rotateY(20deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -webkit-transform: perspective(800px) rotateY(0);
-    }
-}
-
-@-moz-keyframes cd-rotate-inverse {
-    0% {
-        -moz-transform: perspective(800px) rotateY(-180deg);
-    }
-    70% {
-        -moz-transform: perspective(800px) rotateY(20deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -moz-transform: perspective(800px) rotateY(0);
-    }
-}
-
-@keyframes cd-rotate-inverse {
-    0% {
-        -webkit-transform: perspective(800px) rotateY(-180deg);
-        -moz-transform: perspective(800px) rotateY(-180deg);
-        -ms-transform: perspective(800px) rotateY(-180deg);
-        -o-transform: perspective(800px) rotateY(-180deg);
-        transform: perspective(800px) rotateY(-180deg);
-    }
-    70% {
-        -webkit-transform: perspective(800px) rotateY(20deg);
-        -moz-transform: perspective(800px) rotateY(20deg);
-        -ms-transform: perspective(800px) rotateY(20deg);
-        -o-transform: perspective(800px) rotateY(20deg);
-        transform: perspective(800px) rotateY(20deg);
-        /* this creates the bounce effect */
-    }
-    100% {
-        -webkit-transform: perspective(800px) rotateY(0);
-        -moz-transform: perspective(800px) rotateY(0);
-        -ms-transform: perspective(800px) rotateY(0);
-        -o-transform: perspective(800px) rotateY(0);
-        transform: perspective(800px) rotateY(0);
-    }
+[data-ctrl-name=indicator] {
+    width: 100%;
+    padding-bottom: .25rem;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    display: -ms-flexbox;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    display: -moz-box;
+    -moz-box-align: center;
+    -moz-box-pack: center;
+    text-align: center;
 }
