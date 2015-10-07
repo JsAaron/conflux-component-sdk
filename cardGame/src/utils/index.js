@@ -62,11 +62,11 @@ utils.extend(utils, {
 utils.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion));
 
 utils.extend(utils.style = {}, {
-    transform: _transform,
-    transitionTimingFunction: _prefixStyle('transitionTimingFunction'),
-    transitionDuration: _prefixStyle('transitionDuration'),
-    transitionDelay: _prefixStyle('transitionDelay'),
-    transformOrigin: _prefixStyle('transformOrigin')
+    transform                : _transform,
+    transitionTimingFunction : _prefixStyle('transitionTimingFunction'),
+    transitionDuration       : _prefixStyle('transitionDuration'),
+    transitionDelay          : _prefixStyle('transitionDelay'),
+    transformOrigin          : _prefixStyle('transformOrigin')
 });
 
 utils.hasClass = function(e, c) {
@@ -106,16 +106,16 @@ var KEYFRAMES = '@keyframes ';
 (function() {
     var vendors = _prefixStyle('animation', '-');
     var TRANSITION_END_NAMES = {
-        "moz": "transitionend",
-        "webkit": "webkitTransitionEnd",
-        "ms": "MSTransitionEnd",
-        "o": "oTransitionEnd"
+        "moz"    : "transitionend",
+        "webkit" : "webkitTransitionEnd",
+        "ms"     : "MSTransitionEnd",
+        "o"      : "oTransitionEnd"
     };
     var ANIMATION_END_NAMES = {
-        "moz": "animationend",
-        "webkit": "webkitAnimationEnd",
-        "ms": "MSAnimationEnd",
-        "o": "oAnimationEnd"
+        "moz"    : "animationend",
+        "webkit" : "webkitAnimationEnd",
+        "ms"     : "MSAnimationEnd",
+        "o"      : "oAnimationEnd"
     };
     if (!vendors) return;
     vendors = vendors.split('-');
@@ -126,9 +126,9 @@ var KEYFRAMES = '@keyframes ';
 })();
 
 utils.extend(utils.style, {
-    keyframes: KEYFRAMES,
-    animationend: ANIMATION_END,
-    transitionend: TRANSITION_END
+    keyframes     : KEYFRAMES,
+    animationend  : ANIMATION_END,
+    transitionend : TRANSITION_END
 })
     
 

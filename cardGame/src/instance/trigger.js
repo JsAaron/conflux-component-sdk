@@ -24,34 +24,16 @@ exports.runAnim = function(element, status) {
     }
 }
 
-/**
- * 检查是否上锁，重复
- * @param  {[type]} element [description]
- * @param  {[type]} trigger [description]
- * @param  {[type]} pos     [description]
- * @return {[type]}         [description]
- */
-var checkRepeat = function(element, trigger, pos) {
-    var elems;
-    if (elems = trigger[pos.col]) {
-        console.log(elems)
-        if ('Lock' == elems[elems.length - 1]) {
-            return true;
+exports.triggerClick = function(event) {
+    var element;
+    if (element = depend.findContainer(event, 'img')) {
+        //最多2个同时点击
+        if (this.trackAnims.elems.length > 1 
+            || element.getAttribute('data-status') === 'close') { //已完成动画
+            return
         }
+        this.trackAnims.elems.push(element);
+        this.runAnim(element);
     }
 }
 
-exports.triggerClick = function(event) {
-    var element, pos;
-    if (element = depend.findContainer(event, 'img')) {
-        pos = this.getPos(element);
-        if (checkRepeat(element, this.trigger, pos)) {
-            return;
-        }
-        depend.pushArray(this.trigger, pos.col, function(arr) {
-            arr.push(element, 'Lock');
-        })
-        this.runAnim(element);
-        this.trackAnims.elems.push(element);
-    }
-}

@@ -3,7 +3,7 @@
  */
 
 var depend = require('./depend');
-
+var utils  = require('../utils');
 
 /**
  * 检测回调的唯一性
@@ -68,6 +68,7 @@ var restoreProperties = function(elem, parent, filter) {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
+var autoRestoreAmount = 4;
 exports.animCallback = function(event) {
     var ul,
         $ul,
@@ -81,11 +82,10 @@ exports.animCallback = function(event) {
         parent,
         $parent;
 
-    level = this.options.level;
-
-    elem = event.target;
-    parent = depend.findContainer(event)
-    $elem = $(elem);
+    level   = this.options.level;
+    elem    = event.target;
+    parent  = depend.findContainer(event)
+    $elem   = $(elem);
     $parent = $(parent);
 
 
@@ -100,33 +100,31 @@ exports.animCallback = function(event) {
         elem.removeAttribute('data-status');
         filter = elem.getAttribute('data-type')
         restoreProperties($elem,$parent,filter);
+        //最后一个动画
+        if (1 === autoRestoreAmount) {
+            this.trackAnims.elems.length = 0;
+            this.observer.notify('change:fail');
+            return
+        }
+        --autoRestoreAmount;
         return;
     }
 
-
-    //////////////////////////////////
-    ///
+    //处理动画元素
     ///  过滤：
     ///  1 每个元素动画的2个li回调
     ///  2 每col都运行了动画
-    ///     
-    ///===============================
-
-
-    //处理动画元素
     //每个li元素都会执行
     filter = elem.getAttribute('data-type')
     restoreProperties($elem, $parent, filter)
 
 
     //保证只回调一次
+    //每一组动画回调一次
     if (checkUnique.call(this,event)) {
         return false;
     }
-
-    //收集触发回调
-    //合并所有的触发
-    //每一列col必须都要触发一次
+    //合并2个组动画
     this.trackAnims.triggerTime.push(elem)
     if (this.trackAnims.triggerTime.length !== level.col) {
         return;
@@ -134,51 +132,11 @@ exports.animCallback = function(event) {
     this.trackAnims.triggerTime.length = 0;
 
 
-    //////////////////////////////////
-    ///
-    ///  过滤后：
-    ///   检查lock的数量与col是否一致
-    ///   触发点全部解锁
-    ///     
-    ///===============================
-
+    ////////////
+    //成功与失败处理 //
+    ////////////
     var i;
     var self = this;
-    var isLock = 0; //已经锁定数量
-
-    //找到每一个col中的lock
-    //确保数量
-    if (elems = this.trigger) {
-        for (i = 0; i < elems.length; i++) {
-            elem = elems[i];
-            if (typeof elem === 'undefined') {
-                continue;
-            }
-            if (elem[elem.length - 1] === 'Lock') {
-                isLock++
-            }
-        }
-    }
-
-    //全部解锁
-    function unlock() {
-        if (level.col == isLock) {
-            elems = self.trigger;
-            for (i = 0; i < self.trigger.length; i++) {
-                self.trigger[i].length = 0;
-            }
-        } else {
-            alert('lock错误')
-        }
-    }
-  
-    //////////////////////////////////
-    ///
-    ///  运行：
-    ///     
-    ///===============================
-
-
     //得到正确索引
     var standardElement;
     //动作
@@ -189,45 +147,36 @@ exports.animCallback = function(event) {
         return self.randomOrder[pos.col][pos.row];
     };
 
+    //运行动画的元素
     elems = this.trackAnims.elems;
 
-    var clean = function(eventName) {
-        unlock();
-        self.trackAnims.elems.length = 0
-        //事件通知
-        self.observer.notify('change:' + eventName)
+    //取出第一个对比值
+    standardElement = elems[0];
+    index = getIndex(standardElement)
+    for (i = 1; i < elems.length; i++) {
+        elem = elems[i];
+        if (index != getIndex(elem)) {
+            succeed = false;
+            break;
+        }
     }
 
-    if (elems.length == level.col) {
-        //取出第一个对比值
-        standardElement = elems[0];
-        index = getIndex(standardElement)
-            //开始比对
-        for (i = 1; i < elems.length; i++) {
-            elem = elems[i];
-            if (index != getIndex(elem)) {
-                succeed = false;
-                break;
-            }
-        }
-        if (succeed) {
-            elems.forEach(function(elem) {
-                //完成
-                $(elem).css({
-                    'transition-delay': '100ms',
-                    'transition-duration': '2000ms',
-                    opacity: 0
-                })
-            })
-            clean('success');
-        } else { //失败
-            setTimeout(function() {
-                elems.forEach(function(elem, index) {
-                    self.runAnim(elem, 'autoRestore')
-                })
-                clean('fail')
-            }, 100);
-        }
+    if (succeed) {
+        var transitions = elems.length;
+        elems.forEach(function(elem) {
+            //完成
+            $(elem).css({
+                'transition-delay'    : '100ms',
+                'transition-duration' : '1000ms',
+                opacity               : 0
+            }).attr('data-status','close')
+        })
+        this.trackAnims.elems.length = 0;
+        this.observer.notify('change:success');
+    } else { //失败
+        elems.forEach(function(elem, index) {
+            self.runAnim(elem, 'autoRestore')
+        })  
     }
 
 }
