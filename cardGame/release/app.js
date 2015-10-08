@@ -1,8 +1,8 @@
-(function() {
+;(function() {
     var $homePage = $('.home-page');
     var $contentPage = $('.content-page');
 
-    var $element = $('.banner-right')
+    var $element = $('.banner-right .score')
 
     //目前分数
     var score = 0;
@@ -21,7 +21,6 @@
         }
         update();
     }
-    update();
 
     $('.start-button').on('click', function(e) {
         startContent(e)
@@ -29,6 +28,7 @@
     startContent()
 
 
+    var passTime = 0;
     function createGames(className) {
         var cardGames = new CardGames(className)
         cardGames.$watch('success', add)

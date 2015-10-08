@@ -165,23 +165,26 @@ exports.animCallback = function(event) {
     if (succeed) {
         elems.forEach(function(elem) {
             //完成
-            $(elem).css({
+            $(elem)
+            .attr('data-status','close')
+            .css({
                 'transition-delay'    : '100ms',
                 'transition-duration' : '1000ms',
                 opacity               : 0
-            }).attr('data-status','close')
+            }).on(utils.style.transitionend,function(){
+                //全部完成
+                if (self.trackAnims.times === self.trackAnims.total) {
+                    self.observer.notify('change:complete');
+                }                
+            })
         })
         this.trackAnims.times += elems.length;
         this.trackAnims.elems.length = 0;
         this.observer.notify('change:success');
-        //全部完成
-        if (this.trackAnims.times === this.trackAnims.total) {
-            this.observer.notify('change:complete');
-        }
     } else { //失败
         elems.forEach(function(elem, index) {
             self.runAnim(elem, 'autoRestore')
         })  
     }
-
 }
+ 

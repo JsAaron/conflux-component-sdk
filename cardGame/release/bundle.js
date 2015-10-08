@@ -568,7 +568,7 @@
 	    //布局的原始排序
 		this.originalOrder = depend.nature(options.level.row, options.level.col);
 		//新是随机排序
-		this.randomOrder   = depend.random(this.originalOrder);
+		this.randomOrder   = depend.random(this.originalOrder,options.random);
 	
 	    //收集回调
 	    this.trackAnims = {
@@ -617,7 +617,12 @@
 	    gap:{
 	        left : 10,
 	        top  : 15
-	    }
+	    },
+	
+	    //随机
+	    //1 上下随机
+	    //2 一顿乱搞
+	    random: 2
 	
 	}
 
@@ -648,16 +653,34 @@
 	    return order;
 	}
 	
-	//随机布局
-	exports.random = function(originalOrder) {
-	    var randomOrder = [];
+	/**
+	 * 根据长度随机
+	 * @param  {[type]} len [description]
+	 * @return {[type]}     [description]
+	 */
+	function calculate(len) {
+	   return Math.floor(Math.random() * len);
+	}
+	
+	/**
+	 * 数组随机
+	 * @param  {[type]} num [description]
+	 * @return {[type]}     [description]
+	 */
+	function arrRandom(arr) {
+	    arr.sort(function() {
+	        return Math.random() > 0.5 ? -1 : 1;
+	    })
+	    return arr;
+	}
+	
+	/**
+	 * 上下算法
+	 * @return {[type]} [description]
+	 */
+	function upToDown(randomOrder, originalOrder) {
 	    var beforeOrder;
 	    var order;
-	    //计算随机
-	    var calculate = function(len) {
-	        return Math.floor(Math.random() * len);
-	    }
-	
 	    for (var i = 0, len = originalOrder.length; i < len; i++) {
 	        randomOrder[i] = [];
 	        for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
@@ -672,7 +695,6 @@
 	            randomOrder[i].push(order);
 	        }
 	    }
-	
 	    for (i = 0; i < randomOrder.length; i++) {
 	        order = randomOrder[i];
 	        if (beforeOrder) {
@@ -683,7 +705,46 @@
 	        }
 	        beforeOrder = order;
 	    }
+	}
 	
+	
+	
+	/**
+	 * 完全随机
+	 * @return {[type]} [description]
+	 */
+	function completelyRandom(originalOrder,randomOrder){
+	    var arr = []
+	    //取出原始数
+	    for (var i = 0, len = originalOrder.length; i < len; i++) {
+	        for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
+	            arr.push(originalOrder[i][j])
+	        }
+	    }
+	    //随机一次
+	    arrRandom(arr)
+	
+	    //合并到randomOrder
+	    for (i = 0, len = originalOrder.length; i < len; i++) {
+	        randomOrder[i] = [];
+	        for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
+	            randomOrder[i].push(arr[j + (i * orderLen)])
+	        }
+	    }
+	}
+	
+	
+	//随机算法
+	exports.random = function(originalOrder, algorithm) {
+	    var randomOrder = [];
+	    switch (algorithm) {
+	        case 1:
+	            upToDown(originalOrder,randomOrder)
+	            break
+	        case 2:
+	            completelyRandom(originalOrder,randomOrder)
+	            break;
+	    }
 	    return randomOrder;
 	}
 	
@@ -1173,27 +1234,29 @@
 	    if (succeed) {
 	        elems.forEach(function(elem) {
 	            //完成
-	            $(elem).css({
+	            $(elem)
+	            .attr('data-status','close')
+	            .css({
 	                'transition-delay'    : '100ms',
 	                'transition-duration' : '1000ms',
 	                opacity               : 0
-	            }).attr('data-status','close')
+	            }).on(utils.style.transitionend,function(){
+	                //全部完成
+	                if (self.trackAnims.times === self.trackAnims.total) {
+	                    self.observer.notify('change:complete');
+	                }                
+	            })
 	        })
 	        this.trackAnims.times += elems.length;
 	        this.trackAnims.elems.length = 0;
 	        this.observer.notify('change:success');
-	        //全部完成
-	        if (this.trackAnims.times === this.trackAnims.total) {
-	            this.observer.notify('change:complete');
-	        }
 	    } else { //失败
 	        elems.forEach(function(elem, index) {
 	            self.runAnim(elem, 'autoRestore')
 	        })  
 	    }
-	
 	}
-
+	 
 
 /***/ },
 /* 14 */

@@ -101,8 +101,6 @@ function completelyRandom(originalOrder,randomOrder){
 }
 
 
-
-
 //随机算法
 exports.random = function(originalOrder, algorithm) {
     var randomOrder = [];
