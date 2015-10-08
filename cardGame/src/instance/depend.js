@@ -20,16 +20,34 @@ exports.nature = function(row, col) {
     return order;
 }
 
-//随机布局
-exports.random = function(originalOrder) {
-    var randomOrder = [];
+/**
+ * 根据长度随机
+ * @param  {[type]} len [description]
+ * @return {[type]}     [description]
+ */
+function calculate(len) {
+   return Math.floor(Math.random() * len);
+}
+
+/**
+ * 数组随机
+ * @param  {[type]} num [description]
+ * @return {[type]}     [description]
+ */
+function arrRandom(arr) {
+    arr.sort(function() {
+        return Math.random() > 0.5 ? -1 : 1;
+    })
+    return arr;
+}
+
+/**
+ * 上下算法
+ * @return {[type]} [description]
+ */
+function upToDown(randomOrder, originalOrder) {
     var beforeOrder;
     var order;
-    //计算随机
-    var calculate = function(len) {
-        return Math.floor(Math.random() * len);
-    }
-
     for (var i = 0, len = originalOrder.length; i < len; i++) {
         randomOrder[i] = [];
         for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
@@ -44,7 +62,6 @@ exports.random = function(originalOrder) {
             randomOrder[i].push(order);
         }
     }
-
     for (i = 0; i < randomOrder.length; i++) {
         order = randomOrder[i];
         if (beforeOrder) {
@@ -55,7 +72,48 @@ exports.random = function(originalOrder) {
         }
         beforeOrder = order;
     }
+}
 
+
+
+/**
+ * 完全随机
+ * @return {[type]} [description]
+ */
+function completelyRandom(originalOrder,randomOrder){
+    var arr = []
+    //取出原始数
+    for (var i = 0, len = originalOrder.length; i < len; i++) {
+        for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
+            arr.push(originalOrder[i][j])
+        }
+    }
+    //随机一次
+    arrRandom(arr)
+
+    //合并到randomOrder
+    for (i = 0, len = originalOrder.length; i < len; i++) {
+        randomOrder[i] = [];
+        for (var j = 0, orderLen = originalOrder[i].length; j < orderLen; j++) {
+            randomOrder[i].push(arr[j + (i * orderLen)])
+        }
+    }
+}
+
+
+
+
+//随机算法
+exports.random = function(originalOrder, algorithm) {
+    var randomOrder = [];
+    switch (algorithm) {
+        case 1:
+            upToDown(originalOrder,randomOrder)
+            break
+        case 2:
+            completelyRandom(originalOrder,randomOrder)
+            break;
+    }
     return randomOrder;
 }
 

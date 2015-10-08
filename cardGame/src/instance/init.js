@@ -20,7 +20,7 @@ exports._init = function(element,options) {
     //布局的原始排序
 	this.originalOrder = depend.nature(options.level.row, options.level.col);
 	//新是随机排序
-	this.randomOrder   = depend.random(this.originalOrder);
+	this.randomOrder   = depend.random(this.originalOrder,options.random);
 
     //收集回调
     this.trackAnims = {

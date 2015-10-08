@@ -21,6 +21,11 @@ module.exports = {
     gap:{
         left : 10,
         top  : 15
-    }
+    },
+
+    //随机
+    //1 上下随机
+    //2 一顿乱搞
+    random: 2
 
 }
