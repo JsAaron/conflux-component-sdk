@@ -25,7 +25,7 @@
     $('.start-button').on('click', function(e) {
         startContent(e)
     })
-    startContent()
+    // startContent()
 
 
     var passTime = 0;

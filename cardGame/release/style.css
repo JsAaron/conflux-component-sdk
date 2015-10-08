@@ -130,7 +130,7 @@ body {
 .content-page {
     background-color: white;
     background-image: url("../images/1.png");
-    visibility: hidden;
+    /*visibility: hidden;*/
 }
 
 .content-slide-banner {
@@ -237,6 +237,7 @@ body {
 }
 
 .banner-right .score {
+    margin-top: 0.1rem;
     margin-left: 0.2rem;
     font-size: 0.6rem;
     color: #fff;
