@@ -133,10 +133,10 @@ body {
     visibility: hidden;
 }
 
-
 .content-slide-banner {
     height: 20%;
     width: 100%;
+    position: relative;;
 }
 
 .content-page-card {
@@ -144,25 +144,58 @@ body {
     height: 75%;
 }
 
-
 .content-bottom {
     width: 100%;
     height: 5%;
 }
 
+.ck-slidebox {
+    position: absolute;
+    left: 30%;
+    top:40%;
+    z-index: 30;
+}
 
+.ck-slidebox ul {
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+}
 
-[data-ctrl-name=indicator] {
-    width: 100%;
-    padding-bottom: .25rem;
-    display: -webkit-box;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-    display: -ms-flexbox;
-    -ms-flex-align: center;
-    -ms-flex-pack: center;
-    display: -moz-box;
-    -moz-box-align: center;
-    -moz-box-pack: center;
-    text-align: center;
+.ck-slide ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.ck-slidebox ul li {
+    float  : left;
+    height : 4px;
+    margin : 6px 2px;
+}
+
+.ck-slidebox ul li.current em {
+    background-color: #fe6500;
+}
+.ck-slidebox ul li em {
+    display          : block;
+    width            : 8px;
+    height           : 8px;
+    border-radius    : 100%;
+    background-color : #fff;
+    text-indent      : -9999px;
+    cursor           : pointer;
+}
+
+.banner-right{
+    width: 20%;
+    height: 30%;
+    border: 1px solid #ccc;
+    position: absolute;
+    right: 0;
+    top:32%;
+    z-index: 999;
+    border-top-left-radius    :40%; 
+    border-bottom-left-radius :40%;
 }
