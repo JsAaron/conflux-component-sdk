@@ -62,8 +62,7 @@
 			}
 			if(!em){
 				clear()
-				overTime();
-				timercallabck();
+				overTime(timercallabck);
 				return;
 			}
 		}
@@ -95,12 +94,20 @@
 	 * 超时处理
 	 * @return {[type]} [description]
 	 */
-	function overTime() {
-		alert('应用超时,请重新开始游戏!');
-		resetGames();
+	function overTime(callback) {
+		var l = layer.open({
+			// style: 'border:none; background-color:#78BA32; color:#fff;',
+			className: 'popuo-login',
+			btn: ['OK'],
+			content: '游戏超时，请重新开始游戏！',
+			yes: function(elem) {
+				callback();
+				resetGames();
+				layer.close(l)
+				l = null;
+			}
+		})
     }
-
-
 
 	//游戏次数
     var GameTotal = 1;
