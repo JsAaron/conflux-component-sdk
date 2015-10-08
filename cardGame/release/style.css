@@ -217,8 +217,8 @@ body {
     width: 0.3rem;
     height: 0.3rem;
     border-radius: 100%;
-    /*background-color: #d3aa4e;*/
-    background-color: #291669;
+    background-color: #d3aa4e;
+    /*background-color: #291669;*/
     text-indent: -9999px;
     cursor: pointer;
 }
