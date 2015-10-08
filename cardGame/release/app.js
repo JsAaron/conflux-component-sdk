@@ -7,6 +7,31 @@
 	var $contentPage = $('.content-page');
 	var $element     = $('.banner-right .score');
 
+
+	/**
+	 * 音乐
+	 * @return {[type]} [description]
+	 */
+	var A = function() {
+		var instance = null; //存放不同音轨的一个实例
+		return {
+			paly: function(url) {
+				var audio;
+				if (instance) {
+					audio = instance;
+					audio.src = url;
+				} else {
+					audio = new Audio(url);
+				}
+				audio.autoplay = true;
+				audio.play();
+				//更新音轨
+				instance = audio;
+			}
+		}
+	}();
+
+
 	/**
 	 * 分数更新
 	 * @type {Number}
@@ -22,6 +47,7 @@
 			add: function() {
 				score += 10;
 				update();
+				A.paly('music/score.mp3');
 			},
 			reduce: function() {
 				score -= 3;
