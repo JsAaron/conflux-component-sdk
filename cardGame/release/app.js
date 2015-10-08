@@ -3,65 +3,103 @@
 	//游戏时间
 	var GameTime = 30000; //ms单位 
 
-
 	var $homePage    = $('.home-page');
 	var $contentPage = $('.content-page');
 	var $element     = $('.banner-right .score');
 
-    //目前分数
-    var score = 0;
-    //更新分数
-    var update = function() {
-        $element.text(score);
-    }
-    var add = function() {
-        score += 10;
-        update();
-    }
-    var reduce = function() {
-        score -= 3;
-        if (score < 1) {
-            score = 0;
-        }
-        update();
-    }
+	/**
+	 * 分数更新
+	 * @type {Number}
+	 */
+	var integral = function() {
+		var $element     = $('.banner-right .score');
+		var score = 0;
+		//更新分数
+		var update = function() {
+			$element.text(score);
+		}
+		return {
+			add: function() {
+				score += 10;
+				update();
+			},
+			reduce: function() {
+				score -= 3;
+				if (score < 1) {
+					score = 0;
+				}
+				update();
+			},
+			reset:function(){
+				score = 0;
+				update();
+			}
+		} 
+	}();
 
-
-	var SlideBox = function() {
-		var startTime;
+   	/**
+   	 * 倒计时处理
+   	 * @return {[type]} [description]
+   	 */
+	var slidebox = new function() {
 		var timer;
-		var $dotWrap = $('.dot-wrap');
-		var $ems     = $dotWrap.find('em')
-		var vernier  = $ems.length;
-		var rate     = GameTime/vernier;
+		var $dotWrap      = $('.dot-wrap');
+		var $ems          = $dotWrap.find('em')
+		var vernier       = $ems.length;
+		var rate          = GameTime / vernier;
+		var self          = this;
+		var timercallabck = null;
+
+		function clear() {
+			clearTimeout(timer)
+			timer = null;
+		}
 
 		function updatedot() {
 			var em;
 			if (em = $ems[--vernier]) {
 				em.style.backgroundColor = '#291669';
 			}
+			if(!em){
+				clear()
+				overTime();
+				timercallabck();
+				return;
+			}
 		}
 
 		function run() {
 			timer = setTimeout(function() {
 				updatedot();
-				run();
+				timer && run();
 			}, rate)
 		}
 
-		this.start = function() {
-			startTime = new Date().getTime();
+		self.start = function() {
 			run();
 		}
 
-		this.destroy = function() {
-			clearTimeout(timer)
+		self.destroy = function() {
+			clear();
 			vernier = $ems.length;
 			$ems.css('backgroundColor', '#d3aa4e')
 		}
 
+		self.watch = function(timeout,callback){
+			timercallabck = callback;
+		}
+
 	}
-	var slidebox = new SlideBox();
+
+	/**
+	 * 超时处理
+	 * @return {[type]} [description]
+	 */
+	function overTime() {
+		alert('应用超时,请重新开始游戏!');
+		resetGames();
+    }
+
 
 
 	//游戏次数
@@ -69,7 +107,10 @@
     //内容节点class名
     var className = '.content-page-card';
 
-	//选择游戏
+	/**
+	 * 选择游戏
+	 * @return {[type]} [description]
+	 */
 	function selectGame() {
 		if (GameTotal >= 4) {
 			alert('游戏结束')
@@ -79,18 +120,37 @@
 	}
 
 
+	/**
+	 * 开始游戏
+	 * @return {[type]} [description]
+	 */
     function createGames() {
     	slidebox.start();
     	++GameTotal;
         var cardGames = new CardGames(className)
-        cardGames.$watch('success', add)
-        cardGames.$watch('fail', reduce)
+        cardGames.$watch('success', integral.add)
+        cardGames.$watch('fail', integral.reduce)
         cardGames.$watch('complete', function() {
 			slidebox.destroy();
 			cardGames.destroy();
 			selectGame()
         })
+        //超时回调
+		slidebox.watch('timeout', function() {
+			slidebox.destroy();
+			cardGames.destroy();
+		})
     }
+
+    /**
+     * 重设游戏
+     * @return {[type]} [description]
+     */
+	function resetGames() {
+		$contentPage.css('visibility', 'hidden');
+		$homePage.show()
+		integral.reset();
+	}
 
 
     function startContent(e) {

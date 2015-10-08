@@ -110,27 +110,29 @@ body {
 .full-screen {
     width: 100%;
     height: 100%;
-    position: relative;
+    position: absolute;
     background-size: 100% 100%;
 }
 
 .home-page {
-    background-image: url("../images/1.png");
+    background-image: url("images/1.png");
+    z-index: 2;
 }
 
 .home-page .start-button {
     width: 134px;
     height: 54px;
-    background-image: url("../images/start-button.png");
+    background-image: url("images/start-button.png");
     position: absolute;
     top: 70%;
     left: 35%;
 }
 
 .content-page {
+    z-index: 1;
+    visibility: hidden;
     background-color: white;
-    background-image: url("../images/1.png");
-    /*visibility: hidden;*/
+    background-image: url("images/1.png");
 }
 
 .content-slide-banner {
@@ -165,7 +167,7 @@ body {
 
 .ck-slidebox {
     position: absolute;
-    right: 19%;
+    right: 18.5%;
     top: 40%;
     z-index: 30;
     width: 55%;
