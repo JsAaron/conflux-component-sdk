@@ -73,6 +73,7 @@
 	utils.extend(p, __webpack_require__(11));
 	utils.extend(p, __webpack_require__(12));
 	utils.extend(p, __webpack_require__(13));
+	utils.extend(p, __webpack_require__(14));
 	
 	window['CardGames'] = Manager;
 	
@@ -575,7 +576,8 @@
 	        cache       : [], //一个元素动画2次回调处理
 	        elems       : [], //触发的元素
 	        triggerTime : [], //手动触发
-	        autoTime    : []  //动画恢复
+	        times       : 0, //完成次数
+	        total       : options.level.row * options.level.col //总数
 	    };
 	
 	    this.observer = new Observer();
@@ -1110,6 +1112,7 @@
 	        if (1 === autoRestoreAmount) {
 	            this.trackAnims.elems.length = 0;
 	            this.observer.notify('change:fail');
+	            autoRestoreAmount = 4;
 	            return
 	        }
 	        --autoRestoreAmount;
@@ -1168,7 +1171,6 @@
 	    }
 	
 	    if (succeed) {
-	        var transitions = elems.length;
 	        elems.forEach(function(elem) {
 	            //完成
 	            $(elem).css({
@@ -1177,8 +1179,13 @@
 	                opacity               : 0
 	            }).attr('data-status','close')
 	        })
+	        this.trackAnims.times += elems.length;
 	        this.trackAnims.elems.length = 0;
 	        this.observer.notify('change:success');
+	        //全部完成
+	        if (this.trackAnims.times === this.trackAnims.total) {
+	            this.observer.notify('change:complete');
+	        }
 	    } else { //失败
 	        elems.forEach(function(elem, index) {
 	            self.runAnim(elem, 'autoRestore')
@@ -1187,6 +1194,21 @@
 	
 	}
 
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	/**
+	 * 销毁
+	 * @return {[type]} [description]
+	 */
+	exports.destroy = function() {
+		this.$container.off();
+		this.observer.off();
+		this.$container.empty();
+		this.$container = null;
+	}
 
 /***/ }
 /******/ ]);

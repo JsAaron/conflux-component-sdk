@@ -28,7 +28,8 @@ exports._init = function(element,options) {
         cache       : [], //一个元素动画2次回调处理
         elems       : [], //触发的元素
         triggerTime : [], //手动触发
-        autoTime    : []  //动画恢复
+        times       : 0, //完成次数
+        total       : options.level.row * options.level.col //总数
     };
 
     this.observer = new Observer();

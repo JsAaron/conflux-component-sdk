@@ -104,6 +104,7 @@ exports.animCallback = function(event) {
         if (1 === autoRestoreAmount) {
             this.trackAnims.elems.length = 0;
             this.observer.notify('change:fail');
+            autoRestoreAmount = 4;
             return
         }
         --autoRestoreAmount;
@@ -162,7 +163,6 @@ exports.animCallback = function(event) {
     }
 
     if (succeed) {
-        var transitions = elems.length;
         elems.forEach(function(elem) {
             //完成
             $(elem).css({
@@ -171,8 +171,13 @@ exports.animCallback = function(event) {
                 opacity               : 0
             }).attr('data-status','close')
         })
+        this.trackAnims.times += elems.length;
         this.trackAnims.elems.length = 0;
         this.observer.notify('change:success');
+        //全部完成
+        if (this.trackAnims.times === this.trackAnims.total) {
+            this.observer.notify('change:complete');
+        }
     } else { //失败
         elems.forEach(function(elem, index) {
             self.runAnim(elem, 'autoRestore')

@@ -27,6 +27,7 @@ utils.extend(p, require('./instance/layout'));
 utils.extend(p, require('./instance/event'));
 utils.extend(p, require('./instance/trigger'));
 utils.extend(p, require('./instance/animrelated'));
+utils.extend(p, require('./instance/destroy'));
 
 window['CardGames'] = Manager;
 
