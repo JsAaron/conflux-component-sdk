@@ -17,23 +17,23 @@ var reload = browserSync.reload;
 
 
 //config file
-var src = './src/';
-var dest = './release/';
-var homepage = "index.html";
+var src   = './src/';
+var dest  = './release/';
+var index = "index.html";
 var config = {
     src: src,
     dest: dest,
     webServer: {
         server    : './release',
-        index     : homepage,
+        index     : index,
         port      : 3000,
         logLevel  : "debug",
         logPrefix : "Aaron",
         open      : true,
-        files     : [dest + "/*.js", "./index.html"] //监控变化
+        files     : [dest + "/**/*.js", dest + "/**/*.css","./index.html"] //监控变化
     },
     css: {
-        src: src + '**/*.css'
+        src: src + '/**/*.css'
     },
     script: {
         entry: {
@@ -41,16 +41,16 @@ var config = {
         },
         //输出
         output: {
-            path       : dest, //js位置
-            publicPath : dest, //web打包的资源地址
+            path       : dest+"/js", //js位置
+            publicPath :  dest+"/js", //web打包的资源地址
             filename   : 'bundle.js'
         },
         sourceMap: true, //源支持
-        watch: src + '**/*.js' //监控脚本
+        watch: src + '/**/*.js' //监控脚本
     },
     release: {
-        index : dest + homepage, //主页
-        js    : dest + '**/*.css'
+        index : dest + index, //主页
+        js    : dest + '/**/*.css'
     }
 }
 
