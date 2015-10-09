@@ -133,12 +133,11 @@ body {
     background-image: url("../images/start-button-hover.png");
 }
 
-
 .content-page {
     z-index: 2;
     visibility: hidden;
     background-color: white;
-    background-image: url("../images/1.png");
+    background-image: url("../images/game-content.png");
 }
 
 .content-slide-banner {
@@ -173,8 +172,8 @@ body {
 
 .ck-slidebox {
     position: absolute;
-    right: 18.5%;
-    top: 40%;
+    left: 5%;
+    top: 37%;
     z-index: 30;
     width: 55%;
 }
@@ -182,14 +181,13 @@ body {
 .ck-slidebox .timeText {
     position: absolute;
     top: -60%;
-    left:2%;
+    left: 2%;
     font-size: 0.4rem;
     color: #532b5f;
     font-weight: 900;
     letter-spacing: -1px;
     -webkit-text-stroke: 1px #d77216;
 }
- 
 
 .dot-wrap {
     overflow: hidden;
@@ -199,9 +197,10 @@ body {
 .ck-slidebox ul {
     /*height: 25px;*/
     /*padding-left:4px;*/
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    background:#472c93;
+    
+    border-radius: 1rem;
+    border-radius: 1rem;
+    /*background:#472c93;*/
 }
 
 .ck-slide ul {
@@ -213,6 +212,7 @@ body {
 .ck-slidebox ul li {
     float: left;
     /*height: 0.3rem;*/
+    
     margin: 0.2rem 0.1em;
 }
 
@@ -227,45 +227,150 @@ body {
     border-radius: 100%;
     background-color: #d3aa4e;
     /*background-color: #291669;*/
+    
     text-indent: -9999px;
     cursor: pointer;
 }
 
 .banner-right {
-    width: 20%;
-    height: 40%;
-    background: #5900b5;
+    width: 30%;
+    height: 30%;
     position: absolute;
     right: 0;
     top: 30%;
     z-index: 999;
-    border-top-left-radius: 40%;
-    border-bottom-left-radius: 40%;
-    text-align: center;
+    background-size: 100% 100%;
+    background-image: url("../images/score.png");
 }
 
 .banner-right .score {
-    margin-top: 0.1rem;
-    margin-left: 0.2rem;
-    font-size: 0.6rem;
+    margin-top: 0.3rem;
+    margin-left: 1rem;
+    font-size: 0.5rem;
     color: #fff;
+    text-align: center;
     font-weight: bolder;
 }
 
-.banner-right .scoreText {
-    position: absolute;
-    top: 50%;
-    left: 32%;
-    font-size: 0.4rem;
-    color: #532b5f;
-    font-weight: bolder;
-    letter-spacing: -1px;
-    -webkit-text-stroke: 1px #d77216;
-}
-
-
-.footer-page{
+.lottery-page {
     z-index: 1;
     visibility: hidden;
-    background-image: url("../images/footer.png");
+    background-image: url("../images/lottery.png");
+}
+
+.lottery-play {
+    width: 60%;
+    height: 10%;
+    background-size: 100% 100%;
+    background-image: url("../images/lottery-play.png");
+    position: absolute;
+    left: 20%;
+    top: 62%;
+}
+
+.lottery-lottery {
+    width: 60%;
+    height: 10%;
+    background-size: 100% 100%;
+    background-image: url("../images/lottery-lottery.png");
+    position: absolute;
+    left: 20%;
+    top: 75%;
+}
+
+.lottery-grade {
+    width: 80%;
+    height: 40%;
+    background-size: 100% 100%;
+    background-image: url("../images/lottery-grade.png");
+    position: relative;
+    left: 10%;
+    top: 15%;
+}
+
+.lottery-star {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 40%;
+    /*background-color: #ccc; */
+}
+
+.lottery-slideWrap {
+    width: 80%;
+    height: 40%;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+}
+
+.lottery-time {
+    width: 100%;
+    height: 50%;
+}
+
+.lottery-time-left {
+    float: left;
+    font-size: 0.4rem;
+    color: #532b5f;
+    font-weight: 900;
+    width: 30%;
+    -webkit-text-stroke: 1px #d77216;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: right;
+}
+
+.lottery-time-right {
+    height: .85rem;
+    float: left;
+    width: 50%;
+    margin-left: 0.2rem;
+    background-image: url('../images/time.png');
+    background-size: 100% 100%;
+    line-height: .85rem;
+    text-indent: .9rem;
+    font-size: .5rem;
+    font-weight: 900;
+    color: red;
+}
+
+.lottery-integral {
+    width: 100%;
+    height: 50%;
+}
+
+.lottery-integral-left {
+    float: left;
+    font-size: 0.4rem;
+    color: #532b5f;
+    font-weight: 900;
+    width: 30%;
+    -webkit-text-stroke: 1px #d77216;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: right;
+}
+
+.lottery-integral-right {
+    height: .85rem;
+    float: left;
+    width: 50%;
+    background-image: url('../images/integral.png');
+    background-size: 100% 100%;
+    line-height: .85rem;
+    text-align: center;
+    font-size: .5rem;
+    font-weight: 900;
+    color: red;
+}
+
+.lottery-share{
+    width: 32%;
+    height: 6%;
+    background-size: 100% 100%;
+    background-image: url("../images/lottery-share.png");
+    position: absolute;
+    right: 0;
 }

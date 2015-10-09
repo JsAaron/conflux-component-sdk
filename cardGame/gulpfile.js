@@ -30,7 +30,7 @@ var config = {
         logLevel  : "debug",
         logPrefix : "Aaron",
         open      : true,
-        files     : [dest + "/**/*.js", dest + "/**/*.css","./index.html"] //监控变化
+        files     : [dest + "/js/*.js",dest + "/css/*.css", "./index.html"] //监控变化
     },
     css: {
         src: src + '/**/*.css'

@@ -2,7 +2,7 @@
 
 require('./app.css');
 
-var utils    = require('./utils');
+var utils = require('./utils');
 
 var Manager = function(element, options) {
 	this._init(element, options);

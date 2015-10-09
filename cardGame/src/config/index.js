@@ -12,7 +12,7 @@ module.exports = {
     //图片
     images: {
         //正面图
-        front: "images/1.png",
+        front: "images/lottery.png",
         //背景图,随机分配
         back: ["images/11.png", "images/12.png", "images/13.png"]
     },
@@ -20,7 +20,7 @@ module.exports = {
     //图片之间的间距,单位PX
     gap:{
         left : 10,
-        top  : 15
+        top  : 30
     },
 
     //随机

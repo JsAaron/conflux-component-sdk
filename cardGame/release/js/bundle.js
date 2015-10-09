@@ -47,18 +47,22 @@
 	'use strict';
 	
 	var CardGames = __webpack_require__(1);
+	var utils = __webpack_require__(6);
 	
 	//游戏时间
 	var GameTime = 30000; //ms单位 
 	//游戏次数
 	var GameCount = 3;
+	//开始时间及时
+	var startTime = 0
 	
 	var $homePage = $('.home-page');
 	var $contentPage = $('.content-page');
-	var $footerPage = $('.footer-page');
+	var $lotteryPage = $('.lottery-page');
 	var $element = $('.banner-right .score');
-	var $footerPlay = $('.footer-play');
-	
+	var $lotteryPlay = $('.lottery-play');
+	var $lotteryIntegral = $('.lottery-integral-right');
+	var $lotteryTime = $('.lottery-time-right');
 	/**
 	 * 音乐
 	 * @return {[type]} [description]
@@ -205,11 +209,11 @@
 	    cardGames.$watch('success', integral.add)
 	    cardGames.$watch('fail', integral.reduce)
 	    cardGames.$watch('complete', function() {
-	            slidebox.destroy();
-	            cardGames.destroy();
-	            selectGame()
-	        })
-	        //超时回调
+	        slidebox.destroy();
+	        cardGames.destroy();
+	        selectGame()
+	    });
+	    //超时回调
 	    slidebox.watch('timeout', function() {
 	        slidebox.destroy();
 	        cardGames.destroy();
@@ -224,28 +228,44 @@
 	function selectGame() {
 	    //游戏结束
 	    if (GameTotal >= GameCount) {
-	        footerPage();
+	        lotteryPage();
 	        return;
 	    }
 	    //继续游戏
 	    createGames();
 	}
 	
+	Number.prototype.formatTime=function(){
+	    // 计算
+	    var h=0,i=0,s=parseInt(this);
+	    if(s>60){
+	        i=parseInt(s/60);
+	        s=parseInt(s%60);
+	        if(i > 60) {
+	            h=parseInt(i/60);
+	            i = parseInt(i%60);
+	        }
+	    }
+	    // 补零
+	    var zero=function(v){
+	        return (v>>0)<10?"0"+v:v;
+	    };
+	    return [zero(h),zero(i),zero(s)].join(":");
+	};
+	
 	
 	/**
 	 * 尾页
 	 * @return {[type]} [description]
 	 */
-	function footerPage() {
-	    $footerPage.css('visibility', 'visible')
+	function lotteryPage() {
+	    $lotteryPage.css('visibility', 'visible')
 	    $contentPage.css('visibility', 'hidden');
-	
 	    A.paly('music/through.mp3');
-	
 	    //得分处理
-	    $('.footer-slideWrap').text(integral.get())
-	    $('.footer-prompt div:first').addClass('animated bounceInLeft');
-	    $('.footer-prompt div:last').addClass('animated bounceInRight');
+	    $lotteryIntegral.text(integral.get())
+	    var time =Math.round((utils.getTime() - startTime)/60)
+	    $lotteryTime.text( Number(time).formatTime()  );
 	}
 	
 	
@@ -262,9 +282,9 @@
 	 * @return {[type]} [description]
 	 */
 	function resetGames() {
+	    integral.reset();
 	    hidden($contentPage);
 	    visible($homePage)
-	    integral.reset();
 	}
 	
 	/**
@@ -289,6 +309,7 @@
 	 */
 	var $startButton = $('.start-button')
 	$startButton.on('touchstart', function(e) {
+	    startTime = utils.getTime();
 	    $startButton.addClass('start-button-hover');
 	    startContent(e);
 	    setTimeout(function() {
@@ -301,14 +322,15 @@
 	 * @param  {[type]} ){                 } [description]
 	 * @return {[type]}     [description]
 	 */
-	$footerPlay.on('touchstart', function() {
+	$lotteryPlay.on('touchstart', function() {
+	    hidden($lotteryPage)
 	    resetGames();
-	    hidden($footerPage)
 	})
 	
 	
+	// startTime = utils.getTime();
 	// setTimeout(function() {
-	//     footerPage()
+	//     lotteryPage()
 	// }, 100)
 	// startContent()
 
@@ -321,7 +343,7 @@
 	
 	__webpack_require__(2);
 	
-	var utils    = __webpack_require__(6);
+	var utils = __webpack_require__(6);
 	
 	var Manager = function(element, options) {
 		this._init(element, options);
@@ -881,7 +903,7 @@
 	    //图片
 	    images: {
 	        //正面图
-	        front: "images/1.png",
+	        front: "images/lottery.png",
 	        //背景图,随机分配
 	        back: ["images/11.png", "images/12.png", "images/13.png"]
 	    },
@@ -889,7 +911,7 @@
 	    //图片之间的间距,单位PX
 	    gap:{
 	        left : 10,
-	        top  : 15
+	        top  : 30
 	    },
 	
 	    //随机
