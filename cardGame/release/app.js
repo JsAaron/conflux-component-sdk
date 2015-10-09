@@ -2,6 +2,9 @@
 
 	//游戏时间
 	var GameTime = 30000; //ms单位 
+	//游戏次数
+	var GameCount = 3;
+
 
     var $homePage    = $('.home-page');
     var $contentPage = $('.content-page');
@@ -140,7 +143,7 @@
     }
 
 	//游戏次数
-    var GameTotal = 1;
+    var GameTotal = 0;
     //内容节点class名
     var className = '.content-page-card';
 
@@ -173,7 +176,7 @@
      */
     function selectGame() {
         //游戏结束
-        if (GameTotal >= 1) {
+        if (GameTotal >= GameCount) {
             footerPage();
             return;
         }
@@ -191,12 +194,11 @@
         $contentPage.css('visibility', 'hidden');
 
         A.paly('music/through.mp3');
+
         //得分处理
         $('.footer-slideWrap').text(integral.get())
-
         $('.footer-prompt div:first').addClass('animated bounceInLeft');
         $('.footer-prompt div:last').addClass('animated bounceInRight');
-        // $('.footer-marks').addClass('animated infinite flash');
     }
 
 
@@ -213,8 +215,8 @@
      * @return {[type]} [description]
      */
 	function resetGames() {
-		$contentPage.css('visibility', 'hidden');
-		$homePage.show()
+		hidden($contentPage);
+		visible($homePage)
 		integral.reset();
 	}
 
@@ -223,15 +225,20 @@
      * @param  {[type]} e [description]
      * @return {[type]}   [description]
      */
-    function startContent(e) {
-        createGames('.content-page-card');
-        $contentPage.css('visibility', 'visible');
-        $homePage.css('visibility', 'hidden');
-    }
+	function startContent(e) {
+		createGames('.content-page-card');
+		visible($contentPage)
+		$homePage.addClass('animated zoomOutUp')
+			.on('webkitAnimationEnd animationend', function() {
+				$homePage.off();
+				hidden($homePage)
+				$homePage.removeClass('animated zoomOutUp')
+			})
+	}
 
 
     $('.start-button').on('click', function(e) {
-        startContent(e)
+         startContent(e)
     })
 
     /**
@@ -239,11 +246,10 @@
      * @param  {[type]} ){                 } [description]
      * @return {[type]}     [description]
      */
-    $footerPlay.on('click',function(){
-        $homePage.css('visibility', 'visible')
-        $footerPage.css('visibility', 'hidden')
-        $contentPage.css('visibility', 'hidden');
-    })
+	$footerPlay.on('click', function() {
+		resetGames();
+		hidden($footerPage)
+	})
 
 
    //  setTimeout(function(){
