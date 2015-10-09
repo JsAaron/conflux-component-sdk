@@ -3,10 +3,11 @@
 	//游戏时间
 	var GameTime = 30000; //ms单位 
 
-	var $homePage    = $('.home-page');
-	var $contentPage = $('.content-page');
-	var $element     = $('.banner-right .score');
-
+    var $homePage    = $('.home-page');
+    var $contentPage = $('.content-page');
+    var $footerPage  = $('.footer-page');
+    var $element     = $('.banner-right .score');
+    var $footerPlay  = $('.footer-play');
 
 	/**
 	 * 音乐
@@ -59,7 +60,10 @@
 			reset:function(){
 				score = 0;
 				update();
-			}
+			},
+            get:function(){
+                return score;
+            }
 		} 
 	}();
 
@@ -141,19 +145,6 @@
     var className = '.content-page-card';
 
 	/**
-	 * 选择游戏
-	 * @return {[type]} [description]
-	 */
-	function selectGame() {
-		if (GameTotal >= 4) {
-			alert('游戏结束')
-			return;
-		}
-		createGames();
-	}
-
-
-	/**
 	 * 开始游戏
 	 * @return {[type]} [description]
 	 */
@@ -175,6 +166,48 @@
 		})
     }
 
+
+    /**
+     * 选择游戏
+     * @return {[type]} [description]
+     */
+    function selectGame() {
+        //游戏结束
+        if (GameTotal >= 1) {
+            footerPage();
+            return;
+        }
+        //继续游戏
+        createGames();
+    }
+
+
+    /**
+     * 尾页
+     * @return {[type]} [description]
+     */
+    function footerPage(){
+        $footerPage.css('visibility', 'visible')
+        $contentPage.css('visibility', 'hidden');
+
+        A.paly('music/through.mp3');
+        //得分处理
+        $('.footer-slideWrap').text(integral.get())
+
+        $('.footer-prompt div:first').addClass('animated bounceInLeft');
+        $('.footer-prompt div:last').addClass('animated bounceInRight');
+        // $('.footer-marks').addClass('animated infinite flash');
+    }
+
+
+    function visible($element) {
+        $element.css('visibility', 'visible');
+    }
+
+    function hidden($element) {
+        $element.css('visibility', 'hidden');
+    }
+
     /**
      * 重设游戏
      * @return {[type]} [description]
@@ -185,16 +218,36 @@
 		integral.reset();
 	}
 
-
+    /**
+     * 开始页面
+     * @param  {[type]} e [description]
+     * @return {[type]}   [description]
+     */
     function startContent(e) {
         createGames('.content-page-card');
         $contentPage.css('visibility', 'visible');
-        $homePage.hide()
+        $homePage.css('visibility', 'hidden');
     }
 
 
     $('.start-button').on('click', function(e) {
         startContent(e)
     })
+
+    /**
+     * 在玩一次
+     * @param  {[type]} ){                 } [description]
+     * @return {[type]}     [description]
+     */
+    $footerPlay.on('click',function(){
+        $homePage.css('visibility', 'visible')
+        $footerPage.css('visibility', 'hidden')
+        $contentPage.css('visibility', 'hidden');
+    })
+
+
+   //  setTimeout(function(){
+   //      footerPage()
+   //  },100)
   	// startContent()
 })()

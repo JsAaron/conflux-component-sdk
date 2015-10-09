@@ -1,155 +1,126 @@
-!function(win, lib) {
-    var timer,
-        doc     = win.document,
-        docElem = doc.documentElement,
+;(function(win, lib) {
+    var doc = win.document;
+    var docEl = doc.documentElement;
+    var metaEl = doc.querySelector('meta[name="viewport"]');
+    var flexibleEl = doc.querySelector('meta[name="flexible"]');
+    var dpr = 0;
+    var scale = 0;
+    var timer;
+    var flexible = lib.flexible || (lib.flexible = {});
+    
+    if (metaEl) {
+        console.warn('将根据已有的meta标签来设置缩放比例');
+        var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+        if (match) {
+            scale = parseFloat(match[1]);
+            dpr = parseInt(1 / scale);
+        }
+    } else if (flexibleEl) {
+        var content = flexibleEl.getAttribute('content');
+        if (content) {
+            var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+            var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+            if (initialDpr) {
+                dpr = parseFloat(initialDpr[1]);
+                scale = parseFloat((1 / dpr).toFixed(2));    
+            }
+            if (maximumDpr) {
+                dpr = parseFloat(maximumDpr[1]);
+                scale = parseFloat((1 / dpr).toFixed(2));    
+            }
+        }
+    }
 
-        vpMeta   = doc.querySelector('meta[name="viewport"]'),
-        flexMeta = doc.querySelector('meta[name="flexible"]'),
- 
-        dpr   = 0,
-        scale = 0,
- 
-        flexible = lib.flexible || (lib.flexible = {});
- 
-    // 设置了 viewport meta
-    if (vpMeta) {
- 
-        console.warn("将根据已有的meta标签来设置缩放比例");
-        var initial = vpMeta.getAttribute("content").match(/initial\-scale=([\d\.]+)/);
- 
-        if (initial) {
-            scale = parseFloat(initial[1]); // 已设置的 initialScale
-            dpr = parseInt(1 / scale);      // 设备像素比 devicePixelRatio
-        }
- 
-    }
-    // 设置了 flexible Meta
-    else if (flexMeta) {
-        var flexMetaContent = flexMeta.getAttribute("content");
-        if (flexMetaContent) {
- 
-            var initial = flexMetaContent.match(/initial\-dpr=([\d\.]+)/),
-                maximum = flexMetaContent.match(/maximum\-dpr=([\d\.]+)/);
- 
-            if (initial) {
-                dpr = parseFloat(initial[1]);
-                scale = parseFloat((1 / dpr).toFixed(2));
-            }
- 
-            if (maximum) {
-                dpr = parseFloat(maximum[1]);
-                scale = parseFloat((1 / dpr).toFixed(2));
-            }
-        }
-    }
- 
-    // viewport 或 flexible
-    // meta 均未设置
     if (!dpr && !scale) {
-        // QST
-        // 这里的 第一句有什么用 ?
-        // 和 Android 有毛关系 ?
-        var u = (win.navigator.appVersion.match(/android/gi), win.navigator.appVersion.match(/iphone/gi)),
-            _dpr = win.devicePixelRatio;
- 
-        // 所以这里似乎是将所有 Android 设备都设置为 1 了
-        dpr = u ? ( (_dpr >= 3 && (!dpr || dpr >= 3))
-                        ? 3
-                        : (_dpr >= 2 && (!dpr || dpr >= 2))
-                            ? 2
-                            : 1
-                  )
-                : 1;
- 
+        var isAndroid = win.navigator.appVersion.match(/android/gi);
+        var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+        //设备比
+        var devicePixelRatio = win.devicePixelRatio;
+        if (isIPhone) {
+            // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+            if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
+                dpr = 3;
+            } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                dpr = 2;
+            } else {
+                dpr = 1;
+            }
+        } else {
+            // 其他设备下，仍旧使用1倍的方案
+            dpr = 1;
+        }
         scale = 1 / dpr;
     }
- 
-    docElem.setAttribute("data-dpr", dpr);
- 
-    // 插入 viewport meta
-    if (!vpMeta) {
-        vpMeta = doc.createElement("meta");
-         
-        vpMeta.setAttribute("name", "viewport");
-        vpMeta.setAttribute("content",
-            "initial-scale=" + scale + ", maximum-scale=" + scale + ", minimum-scale=" + scale + ", user-scalable=no");
- 
-        if (docElem.firstElementChild) {
-            docElem.firstElementChild.appendChild(vpMeta)
-        } else {
-            var div = doc.createElement("div");
-            div.appendChild(vpMeta);
-            doc.write(div.innerHTML);
-        }
-    }
- 
-    function setFontSize() {
-        var winWidth = docElem.getBoundingClientRect().width;
 
-        if (winWidth / dpr > 540) {
-            (winWidth = 540 * dpr);
+    docEl.setAttribute('data-dpr', dpr);
+    if (!metaEl) {
+        metaEl = doc.createElement('meta');
+        metaEl.setAttribute('name', 'viewport');
+        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+        if (docEl.firstElementChild) {
+            docEl.firstElementChild.appendChild(metaEl);
+        } else {
+            var wrap = doc.createElement('div');
+            wrap.appendChild(metaEl);
+            doc.write(wrap.innerHTML);
         }
- 
-        // 根节点 fontSize 根据宽度决定
-        var baseSize = winWidth / 10;
- 
-        docElem.style.fontSize = baseSize + "px";
-        flexible.rem = win.rem = baseSize;
     }
- 
+
+    function refreshRem(){
+        var width = docEl.getBoundingClientRect().width;
+        if (width / dpr > 540) {
+            width = 540 * dpr;
+        }
+        var rem = width / 10;
+        docEl.style.fontSize = rem + 'px';
+        flexible.rem = win.rem = rem;
+    }
     // 调整窗口时重置
-    win.addEventListener("resize", function() {
+    win.addEventListener('resize', function() {
         clearTimeout(timer);
-        timer = setTimeout(setFontSize, 300);
+        timer = setTimeout(refreshRem, 300);
     }, false);
- 
-     
-    // 这一段是我自己加的
     // orientationchange 时也需要重算下吧
     win.addEventListener("orientationchange", function() {
         clearTimeout(timer);
-        timer = setTimeout(setFontSize, 300);
+        timer = setTimeout(refreshRem, 300);
     }, false);
- 
- 
     // pageshow
     // keyword: 倒退 缓存相关
-    win.addEventListener("pageshow", function(e) {
+    win.addEventListener('pageshow', function(e) {
         if (e.persisted) {
             clearTimeout(timer);
-            timer = setTimeout(setFontSize, 300);
+            timer = setTimeout(refreshRem, 300);
         }
     }, false);
- 
-    // 设置基准字体
-    if ("complete" === doc.readyState) {
-        doc.body.style.fontSize = 12 * dpr + "px";
+
+    if (doc.readyState === 'complete') {
+        doc.body.style.fontSize = 12 * dpr + 'px';
     } else {
-        doc.addEventListener("DOMContentLoaded", function() {
-            doc.body.style.fontSize = 12 * dpr + "px";
+        doc.addEventListener('DOMContentLoaded', function(e) {
+            doc.body.style.fontSize = 12 * dpr + 'px';
         }, false);
     }
-  
-    setFontSize();
- 
+     
+
+    refreshRem();
+
+
     flexible.dpr = win.dpr = dpr;
- 
-    flexible.refreshRem = setFontSize;
- 
+    flexible.refreshRem = refreshRem;
     flexible.rem2px = function(d) {
-        var c = parseFloat(d) * this.rem;
-        if ("string" == typeof d && d.match(/rem$/)) {
-            c += "px";
+        var val = parseFloat(d) * this.rem;
+        if (typeof d === 'string' && d.match(/rem$/)) {
+            val += 'px';
         }
-        return c;
-    };
- 
-    flexible.px2rem = function(d) {
-        var c = parseFloat(d) / this.rem;
-         
-        if ("string" == typeof d && d.match(/px$/)) {
-            c += "rem";
-        }
-        return c;
+        return val;
     }
-}(window, window.lib || (window.lib = {}));
+    flexible.px2rem = function(d) {
+        var val = parseFloat(d) / this.rem;
+        if (typeof d === 'string' && d.match(/px$/)) {
+            val += 'rem';
+        }
+        return val;
+    }
+
+})(window, window['lib'] || (window['lib'] = {}));
