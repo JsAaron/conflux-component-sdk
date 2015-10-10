@@ -116,7 +116,7 @@ body {
 
 .home-page {
     background-image: url("../images/logo.jpg");
-    z-index: 3;
+    z-index: 4;
 }
 
 
@@ -135,7 +135,7 @@ body {
 }
 
 .content-page {
-    z-index: 2;
+    z-index: 3;
     visibility: hidden;
     background-color: white;
     background-image: url("../images/game-content.jpg");
@@ -252,7 +252,7 @@ body {
 }
 
 .lottery-page {
-    z-index: 1;
+    z-index: 2;
     visibility: hidden;
     background-image: url("../images/lottery.jpg");
 }
@@ -281,7 +281,7 @@ body {
     width: 68%;
     height: 40%;
     background-size: 100% 100%;
-    background-image: url("../images/lottery-grade.png");
+    background-image: url("../images/lottery-grade.jpg");
     position: relative;
     left: 16%;
     top: 10%
@@ -424,6 +424,7 @@ body {
 .winning-page {
     background-image: url("../images/winning.jpg");
     z-index: 1;
+    visibility: hidden;
 }
 
 .winning-show{

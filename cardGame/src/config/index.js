@@ -14,7 +14,7 @@ module.exports = {
         //正面图
         front: "images/front.jpg",
         //背景图,随机分配
-        back: ["images/back1.png", "images/back2.png", "images/back3.png"]
+        back: ["images/back1.jpg", "images/back2.jpg", "images/back3.jpg"]
     },
 
     //图片之间的间距,单位PX

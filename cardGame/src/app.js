@@ -24,6 +24,17 @@ var $lotteryIntegral = $('.lottery-integral-right');
 var $lotteryTime     = $('.lottery-time-right');
 var $winningShow     = $('.winning-show em');
 
+function preloadimages(arr) {
+    var newimages = []
+    var arr = (typeof arr != "object") ? [arr] : arr //确保参数总是数组
+    for (var i = 0; i < arr.length; i++) {
+        newimages[i] = new Image()
+        newimages[i].src = arr[i]
+    }
+}
+preloadimages(['images/back1.jpg','images/back2.jpg','images/back3.jpg','images/front.jpg'])
+
+
 /**
  * 音乐
  * @return {[type]} [description]
@@ -285,11 +296,10 @@ function startContent(e) {
 var $startButton = $('.start-button')
 $startButton.on('touchstart', function(e) {
     startTime = utils.getTime();
-    $startButton.addClass('start-button-hover');
     startContent(e);
-    setTimeout(function() {
-        $startButton.removeClass('start-button-hover');
-    }, 1000)
+    // setTimeout(function() {
+    //     $startButton.removeClass('start-button-hover');
+    // }, 1000)
 })
 
 
@@ -302,6 +312,7 @@ $lotteryPlay.on('touchstart mousedown', function() {
     hidden($lotteryPage)
     resetGames();
 });
+
 
 $(".winning-button").on('touchstart mousedown', function() {
     hidden($winningPage);
