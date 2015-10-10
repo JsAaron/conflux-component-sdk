@@ -52,7 +52,7 @@
 	//游戏时间
 	var GameTime = 30000; //ms单位 
 	//每次游戏关数
-	var GameCount = 3;
+	var GameCount = 1;
 	//允许玩的游戏次数
 	var AllowPlayCount  = 3;
 	
@@ -71,6 +71,7 @@
 	var $winningShow     = $('.winning-show em');
 	var $lotteryLottery  = $('.lottery-lottery');//抽奖
 	var $winningButton   = $(".winning-button");
+	var $startButton     = $('.start-button');
 	
 	function preloadimages(arr) {
 	    var newimages = []
@@ -356,11 +357,12 @@
 	        })
 	}
 	
+	
 	/**
 	 * 开始按钮
 	 * @return {[type]}    [description]
 	 */
-	$('.start-button').on(utils.event.start, function(e) {
+	$startButton.on(utils.event.start, function(e) {
 	    startTime = utils.getTime();
 	    startContent(e);
 	})
@@ -378,17 +380,21 @@
 	});
 	
 	
+	
 	/**
 	 * 获奖页面
 	 * 返回主页
 	 */
-	$winningButton.on(utils.event.start, function() {
-	    hidden($winningPage);
-	    hidden($lotteryPage)
-	    resetGames();
-	    return false;
-	});
-	
+	function bindWinningButton(argument) {
+	    if (playCount !== AllowPlayCount) {
+	        $winningButton.on(utils.event.start, function() {
+	            $winningButton.off();
+	            hidden($winningPage);
+	            resetGames();
+	            return false;
+	        });
+	    }
+	}
 	
 	/**
 	 * 点击抽奖
@@ -398,6 +404,7 @@
 	    visible($winningPage);;
 	    hidden($lotteryPage);
 	    $winningShow.text("100元礼品卷").addClass('animated flash');
+	    bindWinningButton()
 	    return false;
 	});
 	
@@ -1019,7 +1026,7 @@
 	    //0 不随机
 	    //1 上下随机
 	    //2 一顿乱搞
-	    random: 0
+	    random: 2
 	
 	}
 
@@ -1445,11 +1452,26 @@
 	    }
 	}
 	
+	/**
+	 * 去重复
+	 * @param  {[type]} element     [description]
+	 * @param  {[type]} collections [description]
+	 * @return {[type]}             [description]
+	 */
+	function toRepeat(element,collections) {
+	    return -1 !== collections.indexOf(element) ? true :false;
+	}
+	
 	exports.triggerClick = function(event) {
 	    var element;
 	    if (element = depend.findContainer(event, 'img')) {
-	        //最多2个同时点击
-	        if (this.trackAnims.elems.length > 1 
+	        //如果有重复元素
+	        if (toRepeat(element,this.trackAnims.elems)) {
+	            return
+	        }
+	        //最多2个同时点击，并且不是重复
+	        //或者是禁止点击的元素了(动画结束了)
+	        if (this.trackAnims.elems.length > 1
 	            || element.getAttribute('data-status') === 'close') { //已完成动画
 	            return
 	        }
@@ -1585,12 +1607,14 @@
 	    filter = elem.getAttribute('data-type')
 	    restoreProperties($elem, $parent, filter)
 	
-	
 	    //保证只回调一次
 	    //每一组动画回调一次
-	    if (checkUnique.call(this,event)) {
+	    if (checkUnique.call(this, event)) {
 	        return false;
 	    }
+	    $parent.attr('data-status', 'close');
+	
+	
 	    //合并2个组动画
 	    this.trackAnims.triggerTime.push(elem)
 	    if (this.trackAnims.triggerTime.length !== level.col) {
@@ -1632,23 +1656,24 @@
 	        elems.forEach(function(elem) {
 	            //完成
 	            $(elem)
-	            .attr('data-status','close')
-	            .css({
-	                'transition-delay'    : '100ms',
-	                'transition-duration' : '1000ms',
-	                opacity               : 0
-	            }).on(utils.style.transitionend,function(){
-	                //全部完成
-	                if (self.trackAnims.times === self.trackAnims.total) {
-	                    self.observer.notify('change:complete');
-	                }                
-	            })
+	                .attr('data-status', 'close')
+	                .css({
+	                    'transition-delay': '100ms',
+	                    'transition-duration': '1000ms',
+	                    'opacity': 0
+	                }).on(utils.style.transitionend, function() {
+	                    //全部完成
+	                    if (self.trackAnims.times === self.trackAnims.total) {
+	                        self.observer.notify('change:complete');
+	                    }
+	                })
 	        })
 	        this.trackAnims.times += elems.length;
 	        this.trackAnims.elems.length = 0;
 	        this.observer.notify('change:success');
 	    } else { //失败
 	        elems.forEach(function(elem, index) {
+	            elem.removeAttribute('data-status')
 	            self.runAnim(elem, 'autoRestore')
 	        })  
 	    }

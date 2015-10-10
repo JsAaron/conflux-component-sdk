@@ -119,12 +119,14 @@ exports.animCallback = function(event) {
     filter = elem.getAttribute('data-type')
     restoreProperties($elem, $parent, filter)
 
-
     //保证只回调一次
     //每一组动画回调一次
-    if (checkUnique.call(this,event)) {
+    if (checkUnique.call(this, event)) {
         return false;
     }
+    $parent.attr('data-status', 'close');
+
+
     //合并2个组动画
     this.trackAnims.triggerTime.push(elem)
     if (this.trackAnims.triggerTime.length !== level.col) {
@@ -166,23 +168,24 @@ exports.animCallback = function(event) {
         elems.forEach(function(elem) {
             //完成
             $(elem)
-            .attr('data-status','close')
-            .css({
-                'transition-delay'    : '100ms',
-                'transition-duration' : '1000ms',
-                opacity               : 0
-            }).on(utils.style.transitionend,function(){
-                //全部完成
-                if (self.trackAnims.times === self.trackAnims.total) {
-                    self.observer.notify('change:complete');
-                }                
-            })
+                .attr('data-status', 'close')
+                .css({
+                    'transition-delay': '100ms',
+                    'transition-duration': '1000ms',
+                    'opacity': 0
+                }).on(utils.style.transitionend, function() {
+                    //全部完成
+                    if (self.trackAnims.times === self.trackAnims.total) {
+                        self.observer.notify('change:complete');
+                    }
+                })
         })
         this.trackAnims.times += elems.length;
         this.trackAnims.elems.length = 0;
         this.observer.notify('change:success');
     } else { //失败
         elems.forEach(function(elem, index) {
+            elem.removeAttribute('data-status')
             self.runAnim(elem, 'autoRestore')
         })  
     }

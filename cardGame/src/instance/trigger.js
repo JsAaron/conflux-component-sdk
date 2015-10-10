@@ -24,11 +24,26 @@ exports.runAnim = function(element, status) {
     }
 }
 
+/**
+ * 去重复
+ * @param  {[type]} element     [description]
+ * @param  {[type]} collections [description]
+ * @return {[type]}             [description]
+ */
+function toRepeat(element,collections) {
+    return -1 !== collections.indexOf(element) ? true :false;
+}
+
 exports.triggerClick = function(event) {
     var element;
     if (element = depend.findContainer(event, 'img')) {
-        //最多2个同时点击
-        if (this.trackAnims.elems.length > 1 
+        //如果有重复元素
+        if (toRepeat(element,this.trackAnims.elems)) {
+            return
+        }
+        //最多2个同时点击，并且不是重复
+        //或者是禁止点击的元素了(动画结束了)
+        if (this.trackAnims.elems.length > 1
             || element.getAttribute('data-status') === 'close') { //已完成动画
             return
         }

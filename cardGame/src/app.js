@@ -6,7 +6,7 @@ var utils = require('./utils');
 //游戏时间
 var GameTime = 30000; //ms单位 
 //每次游戏关数
-var GameCount = 3;
+var GameCount = 1;
 //允许玩的游戏次数
 var AllowPlayCount  = 3;
 
@@ -25,6 +25,7 @@ var $lotteryTime     = $('.lottery-time-right');
 var $winningShow     = $('.winning-show em');
 var $lotteryLottery  = $('.lottery-lottery');//抽奖
 var $winningButton   = $(".winning-button");
+var $startButton     = $('.start-button');
 
 function preloadimages(arr) {
     var newimages = []
@@ -310,11 +311,12 @@ function startContent(e) {
         })
 }
 
+
 /**
  * 开始按钮
  * @return {[type]}    [description]
  */
-$('.start-button').on(utils.event.start, function(e) {
+$startButton.on(utils.event.start, function(e) {
     startTime = utils.getTime();
     startContent(e);
 })
@@ -332,17 +334,21 @@ $lotteryPlay.on(utils.event.start, function() {
 });
 
 
+
 /**
  * 获奖页面
  * 返回主页
  */
-$winningButton.on(utils.event.start, function() {
-    hidden($winningPage);
-    hidden($lotteryPage)
-    resetGames();
-    return false;
-});
-
+function bindWinningButton(argument) {
+    if (playCount !== AllowPlayCount) {
+        $winningButton.on(utils.event.start, function() {
+            $winningButton.off();
+            hidden($winningPage);
+            resetGames();
+            return false;
+        });
+    }
+}
 
 /**
  * 点击抽奖
@@ -352,6 +358,7 @@ $lotteryLottery.on(utils.event.start, function() {
     visible($winningPage);;
     hidden($lotteryPage);
     $winningShow.text("100元礼品卷").addClass('animated flash');
+    bindWinningButton()
     return false;
 });
 
