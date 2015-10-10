@@ -24,8 +24,9 @@ module.exports = {
     },
 
     //随机
+    //0 不随机
     //1 上下随机
     //2 一顿乱搞
-    random: 2
+    random: 0
 
 }

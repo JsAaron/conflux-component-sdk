@@ -54,7 +54,7 @@
 	//每次游戏关数
 	var GameCount = 3;
 	//允许玩的游戏次数
-	var AllowPlayCount  = 0;
+	var AllowPlayCount  = 3;
 	
 	//开始时间
 	var startTime = 0
@@ -69,6 +69,8 @@
 	var $lotteryIntegral = $('.lottery-integral-right');
 	var $lotteryTime     = $('.lottery-time-right');
 	var $winningShow     = $('.winning-show em');
+	var $lotteryLottery  = $('.lottery-lottery');//抽奖
+	var $winningButton   = $(".winning-button");
 	
 	function preloadimages(arr) {
 	    var newimages = []
@@ -78,7 +80,15 @@
 	        newimages[i].src = arr[i]
 	    }
 	}
-	preloadimages(['images/back1.jpg','images/back2.jpg','images/back3.jpg','images/front.jpg'])
+	preloadimages([
+	    'images/back1.jpg',
+	    'images/back2.jpg',
+	    'images/back3.jpg',
+	    'images/front.jpg',
+	    'images/lottery-grade.jpg',
+	    'images/lottery.jpg',
+	    'images/winning.jpg'
+	])
 	
 	
 	/**
@@ -246,13 +256,17 @@
 	function selectGame() {
 	    //游戏结束
 	    if (GameTotal >= GameCount) {
-	        lotteryPage();
+	        GameOver();
 	        return;
 	    }
 	    //继续游戏
 	    createGames();
 	}
 	
+	/**
+	 * 时间格式
+	 * @return {[type]} [description]
+	 */
 	Number.prototype.formatTime = function() {
 	    // 计算
 	    var h = 0,
@@ -273,20 +287,33 @@
 	    return [zero(h), zero(i), zero(s)].join(":");
 	};
 	
+	
+	function visible($element) {
+	    $element.css('visibility', 'visible');
+	}
+	
+	function hidden($element) {
+	    $element.css('visibility', 'hidden');
+	}
+	
 	/**
+	 * 游戏结束
 	 * 尾页
 	 * @return {[type]} [description]
 	 */
-	function lotteryPage() {
-	
-	    ++playCount;
-	    $lotteryPage.find("li:lt(" + playCount + ")").removeClass('unachieved').addClass('achieved')
-	
-	    $lotteryPage.css('visibility', 'visible')
-	    $contentPage.css('visibility', 'hidden');
-	    $winningPage.css('visibility', 'hidden');
+	function GameOver() {
 	
 	    A.paly('music/through.mp3');
+	
+	    ++playCount;
+	
+	    //星星处理
+	    $lotteryPage.find("li:lt(" + playCount + ")").removeClass('unachieved').addClass('achieved')
+	
+	    //处理页面逻辑
+	    visible($lotteryPage);
+	    hidden($contentPage);
+	    hidden($winningPage);
 	
 	    //得分处理
 	    $lotteryIntegral.text(integral.get())
@@ -297,17 +324,11 @@
 	    //限制玩的次数
 	    if (playCount === AllowPlayCount) {
 	        $lotteryPlay.off();
+	        $winningButton.off();
 	    }
 	}
 	
 	
-	function visible($element) {
-	    $element.css('visibility', 'visible');
-	}
-	
-	function hidden($element) {
-	    $element.css('visibility', 'hidden');
-	}
 	
 	/**
 	 * 重设游戏
@@ -328,8 +349,8 @@
 	    createGames('.content-page-card');
 	    visible($contentPage)
 	    $homePage.addClass('animated zoomOutUp')
-	        .on('webkitAnimationEnd animationend', function() {
-	            $homePage.off();
+	        .on(utils.style.animationend, function() {
+	            $homePage.off(utils.style.animationend);
 	            hidden($homePage)
 	            $homePage.removeClass('animated zoomOutUp')
 	        })
@@ -339,31 +360,33 @@
 	 * 开始按钮
 	 * @return {[type]}    [description]
 	 */
-	var $startButton = $('.start-button')
-	$startButton.on('touchstart', function(e) {
+	$('.start-button').on(utils.event.start, function(e) {
 	    startTime = utils.getTime();
 	    startContent(e);
-	    // setTimeout(function() {
-	    //     $startButton.removeClass('start-button-hover');
-	    // }, 1000)
 	})
 	
 	
 	/**
+	 * 得分页面
 	 * 再玩一次
-	 * @param  {[type]} ){                 } [description]
 	 * @return {[type]}     [description]
 	 */
-	$lotteryPlay.on('touchstart mousedown', function() {
+	$lotteryPlay.on(utils.event.start, function() {
 	    hidden($lotteryPage)
 	    resetGames();
+	    return false;
 	});
 	
 	
-	$(".winning-button").on('touchstart mousedown', function() {
+	/**
+	 * 获奖页面
+	 * 返回主页
+	 */
+	$winningButton.on(utils.event.start, function() {
 	    hidden($winningPage);
 	    hidden($lotteryPage)
 	    resetGames();
+	    return false;
 	});
 	
 	
@@ -371,11 +394,11 @@
 	 * 点击抽奖
 	 * @type {[type]}
 	 */
-	var $lotteryLottery = $('.lottery-lottery');//抽奖
-	$lotteryLottery.on('touchstart mousedown',function() {
+	$lotteryLottery.on(utils.event.start, function() {
+	    visible($winningPage);;
 	    hidden($lotteryPage);
-	    visible($winningPage);
-	    $winningShow.text("100元礼品卷").addClass('animated flash')
+	    $winningShow.text("100元礼品卷").addClass('animated flash');
+	    return false;
 	});
 	
 	
@@ -899,6 +922,12 @@
 	    transitionend : TRANSITION_END
 	})
 	    
+	utils.extend(utils.event = utils.event || {}, {
+	    start  : utils.hasTouch ? 'touchstart' : 'mousedown',
+	    move   : utils.hasTouch ? 'touchmove' : 'mousemove',
+	    end    : utils.hasTouch ? 'touchend' : 'mouseup',
+	    cancel : utils.hasTouch ? 'touchcancel' : 'mouseup'
+	})
 	
 	module.exports = utils;
 
@@ -928,9 +957,15 @@
 	
 	    //布局的原始排序
 		this.originalOrder = depend.nature(options.level.row, options.level.col);
-		//新是随机排序
-		this.randomOrder   = depend.random(this.originalOrder,options.random);
 	
+	    if (options.random) {
+	        //新是随机排序
+	        this.randomOrder = depend.random(this.originalOrder, options.random);
+	    } else {
+	        this.randomOrder = this.originalOrder;
+	    }
+	
+	 
 	    //收集回调
 	    this.trackAnims = {
 	        filter      : [], //过滤的元素合集
@@ -981,9 +1016,10 @@
 	    },
 	
 	    //随机
+	    //0 不随机
 	    //1 上下随机
 	    //2 一顿乱搞
-	    random: 2
+	    random: 0
 	
 	}
 

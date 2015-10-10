@@ -19,9 +19,15 @@ exports._init = function(element,options) {
 
     //布局的原始排序
 	this.originalOrder = depend.nature(options.level.row, options.level.col);
-	//新是随机排序
-	this.randomOrder   = depend.random(this.originalOrder,options.random);
 
+    if (options.random) {
+        //新是随机排序
+        this.randomOrder = depend.random(this.originalOrder, options.random);
+    } else {
+        this.randomOrder = this.originalOrder;
+    }
+
+ 
     //收集回调
     this.trackAnims = {
         filter      : [], //过滤的元素合集

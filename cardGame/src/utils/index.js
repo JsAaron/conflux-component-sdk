@@ -131,5 +131,11 @@ utils.extend(utils.style, {
     transitionend : TRANSITION_END
 })
     
+utils.extend(utils.event = utils.event || {}, {
+    start  : utils.hasTouch ? 'touchstart' : 'mousedown',
+    move   : utils.hasTouch ? 'touchmove' : 'mousemove',
+    end    : utils.hasTouch ? 'touchend' : 'mouseup',
+    cancel : utils.hasTouch ? 'touchcancel' : 'mouseup'
+})
 
 module.exports = utils;
