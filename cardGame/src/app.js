@@ -1,14 +1,19 @@
 'use strict';
 
+//预加载图片
+require('./preloadimage').load();
+
 var CardGames = require('./cardGames');
 var utils = require('./utils');
+
 
 //游戏时间
 var GameTime = 30000; //ms单位 
 //每次游戏关数
-var GameCount = 1;
+var GameCount = 3;
 //允许玩的游戏次数
 var AllowPlayCount  = 3;
+
 
 //开始时间
 var startTime = 0
@@ -27,30 +32,12 @@ var $lotteryLottery  = $('.lottery-lottery');//抽奖
 var $winningButton   = $(".winning-button");
 var $startButton     = $('.start-button');
 
-function preloadimages(arr) {
-    var newimages = []
-    var arr = (typeof arr != "object") ? [arr] : arr //确保参数总是数组
-    for (var i = 0; i < arr.length; i++) {
-        newimages[i] = new Image()
-        newimages[i].src = arr[i]
-    }
-}
-preloadimages([
-    'images/back1.jpg',
-    'images/back2.jpg',
-    'images/back3.jpg',
-    'images/front.jpg',
-    'images/lottery-grade.jpg',
-    'images/lottery.jpg',
-    'images/winning.jpg'
-])
-
 
 /**
  * 音乐
  * @return {[type]} [description]
  */
-var A = function() {
+var Music = function() {
     var instance = null; //存放不同音轨的一个实例
     return {
         paly: function(url) {
@@ -85,7 +72,7 @@ var integral = function() {
         add: function() {
             score += 10;
             update();
-            A.paly('music/score.mp3');
+            Music.paly('music/score.mp3');
         },
         reduce: function() {
             score -= 3;
@@ -258,7 +245,7 @@ function hidden($element) {
  */
 function GameOver() {
 
-    A.paly('music/through.mp3');
+    Music.paly('music/through.mp3');
 
     ++playCount;
 
@@ -290,6 +277,7 @@ function GameOver() {
  * @return {[type]} [description]
  */
 function resetGames() {
+    GameTotal = 0;
     integral.reset();
     hidden($contentPage);
     visible($homePage)
@@ -308,6 +296,7 @@ function startContent(e) {
             $homePage.off(utils.style.animationend);
             hidden($homePage)
             $homePage.removeClass('animated zoomOutUp')
+            return false;
         })
 }
 
@@ -319,6 +308,7 @@ function startContent(e) {
 $startButton.on(utils.event.start, function(e) {
     startTime = utils.getTime();
     startContent(e);
+    return false;
 })
 
 
@@ -343,8 +333,8 @@ function bindWinningButton(argument) {
     if (playCount !== AllowPlayCount) {
         $winningButton.on(utils.event.start, function() {
             $winningButton.off();
-            hidden($winningPage);
             resetGames();
+            hidden($lotteryPage)
             return false;
         });
     }
@@ -355,7 +345,7 @@ function bindWinningButton(argument) {
  * @type {[type]}
  */
 $lotteryLottery.on(utils.event.start, function() {
-    visible($winningPage);;
+    visible($winningPage);
     hidden($lotteryPage);
     $winningShow.text("100元礼品卷").addClass('animated flash');
     bindWinningButton()

@@ -46,15 +46,20 @@
 
 	'use strict';
 	
-	var CardGames = __webpack_require__(1);
-	var utils = __webpack_require__(6);
+	//预加载图片
+	__webpack_require__(1).load();
+	
+	var CardGames = __webpack_require__(2);
+	var utils = __webpack_require__(7);
+	
 	
 	//游戏时间
 	var GameTime = 30000; //ms单位 
 	//每次游戏关数
-	var GameCount = 1;
+	var GameCount = 3;
 	//允许玩的游戏次数
 	var AllowPlayCount  = 3;
+	
 	
 	//开始时间
 	var startTime = 0
@@ -73,30 +78,12 @@
 	var $winningButton   = $(".winning-button");
 	var $startButton     = $('.start-button');
 	
-	function preloadimages(arr) {
-	    var newimages = []
-	    var arr = (typeof arr != "object") ? [arr] : arr //确保参数总是数组
-	    for (var i = 0; i < arr.length; i++) {
-	        newimages[i] = new Image()
-	        newimages[i].src = arr[i]
-	    }
-	}
-	preloadimages([
-	    'images/back1.jpg',
-	    'images/back2.jpg',
-	    'images/back3.jpg',
-	    'images/front.jpg',
-	    'images/lottery-grade.jpg',
-	    'images/lottery.jpg',
-	    'images/winning.jpg'
-	])
-	
 	
 	/**
 	 * 音乐
 	 * @return {[type]} [description]
 	 */
-	var A = function() {
+	var Music = function() {
 	    var instance = null; //存放不同音轨的一个实例
 	    return {
 	        paly: function(url) {
@@ -131,7 +118,7 @@
 	        add: function() {
 	            score += 10;
 	            update();
-	            A.paly('music/score.mp3');
+	            Music.paly('music/score.mp3');
 	        },
 	        reduce: function() {
 	            score -= 3;
@@ -304,7 +291,7 @@
 	 */
 	function GameOver() {
 	
-	    A.paly('music/through.mp3');
+	    Music.paly('music/through.mp3');
 	
 	    ++playCount;
 	
@@ -336,6 +323,7 @@
 	 * @return {[type]} [description]
 	 */
 	function resetGames() {
+	    GameTotal = 0;
 	    integral.reset();
 	    hidden($contentPage);
 	    visible($homePage)
@@ -354,6 +342,7 @@
 	            $homePage.off(utils.style.animationend);
 	            hidden($homePage)
 	            $homePage.removeClass('animated zoomOutUp')
+	            return false;
 	        })
 	}
 	
@@ -365,6 +354,7 @@
 	$startButton.on(utils.event.start, function(e) {
 	    startTime = utils.getTime();
 	    startContent(e);
+	    return false;
 	})
 	
 	
@@ -389,8 +379,8 @@
 	    if (playCount !== AllowPlayCount) {
 	        $winningButton.on(utils.event.start, function() {
 	            $winningButton.off();
-	            hidden($winningPage);
 	            resetGames();
+	            hidden($lotteryPage)
 	            return false;
 	        });
 	    }
@@ -401,7 +391,7 @@
 	 * @type {[type]}
 	 */
 	$lotteryLottery.on(utils.event.start, function() {
-	    visible($winningPage);;
+	    visible($winningPage);
 	    hidden($lotteryPage);
 	    $winningShow.text("100元礼品卷").addClass('animated flash');
 	    bindWinningButton()
@@ -433,13 +423,43 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	function preloadimages(arr) {
+	    var newimages = []
+	    var arr = (typeof arr != "object") ? [arr] : arr //确保参数总是数组
+	    for (var i = 0; i < arr.length; i++) {
+	        newimages[i] = new Image()
+	        newimages[i].src = arr[i]
+	        newimages[i].onload = function(src){
+	        	console.log('图片加载完毕: '+ src )
+	        }(arr[i])
+	    }
+	}
+	
+	 
+	exports.load = function() {
+	    preloadimages([
+	        'images/back1.jpg',
+	        'images/back2.jpg',
+	        'images/back3.jpg',
+	        'images/front.jpg',
+	        'images/lottery-grade.jpg',
+	        'images/lottery.jpg',
+	        'images/winning.jpg'
+	    ]);
+	}
+
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(2);
+	__webpack_require__(3);
 	
-	var utils = __webpack_require__(6);
+	var utils = __webpack_require__(7);
 	
 	var Manager = function(element, options) {
 		this._init(element, options);
@@ -459,12 +479,12 @@
 	})
 	
 	
-	utils.extend(p, __webpack_require__(7));
-	utils.extend(p, __webpack_require__(11));
+	utils.extend(p, __webpack_require__(8));
 	utils.extend(p, __webpack_require__(12));
 	utils.extend(p, __webpack_require__(13));
 	utils.extend(p, __webpack_require__(14));
 	utils.extend(p, __webpack_require__(15));
+	utils.extend(p, __webpack_require__(16));
 	
 	window['CardGames'] = Manager;
 	
@@ -472,16 +492,16 @@
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(3);
+	var content = __webpack_require__(4);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
+	var update = __webpack_require__(6)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -498,10 +518,10 @@
 	}
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(4)();
+	exports = module.exports = __webpack_require__(5)();
 	// imports
 	
 	
@@ -512,7 +532,7 @@
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/*
@@ -568,7 +588,7 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -793,7 +813,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	var utils = {};
@@ -940,14 +960,14 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var utils    = __webpack_require__(6); 
-	var config   = __webpack_require__(8);
-	var depend   = __webpack_require__(9);
-	var Observer = __webpack_require__(10);
+	var utils    = __webpack_require__(7); 
+	var config   = __webpack_require__(9);
+	var depend   = __webpack_require__(10);
+	var Observer = __webpack_require__(11);
 	
 	/**
 	 * 初始化数据
@@ -994,7 +1014,7 @@
 	 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -1032,7 +1052,7 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	
@@ -1202,7 +1222,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -1295,12 +1315,12 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var utils = __webpack_require__(6);
-	var depend = __webpack_require__(9);
+	var utils = __webpack_require__(7);
+	var depend = __webpack_require__(10);
 	/**
 	 * 动态布局
 	 */
@@ -1398,13 +1418,13 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 冒泡事件
 	 */
-	var depend = __webpack_require__(9);
+	var depend = __webpack_require__(10);
 	var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 	
 	
@@ -1423,11 +1443,11 @@
 	 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var depend = __webpack_require__(9);
-	var utils = __webpack_require__(6);
+	var depend = __webpack_require__(10);
+	var utils = __webpack_require__(7);
 	
 	/**
 	 * 手动触发
@@ -1483,15 +1503,15 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 动画回调处理
 	 */
 	
-	var depend = __webpack_require__(9);
-	var utils  = __webpack_require__(6);
+	var depend = __webpack_require__(10);
+	var utils  = __webpack_require__(7);
 	
 	/**
 	 * 检测回调的唯一性
@@ -1681,7 +1701,7 @@
 	 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
