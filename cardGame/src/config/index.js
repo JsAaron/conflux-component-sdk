@@ -12,9 +12,9 @@ module.exports = {
     //图片
     images: {
         //正面图
-        front: "images/lottery.png",
+        front: "images/front.png",
         //背景图,随机分配
-        back: ["images/11.png", "images/12.png", "images/13.png"]
+        back: ["images/back1.png", "images/back2.png", "images/back3.png"]
     },
 
     //图片之间的间距,单位PX

@@ -51,18 +51,25 @@
 	
 	//游戏时间
 	var GameTime = 30000; //ms单位 
-	//游戏次数
+	//每次游戏关数
 	var GameCount = 3;
-	//开始时间及时
-	var startTime = 0
+	//允许玩的游戏次数
+	var AllowPlayCount  = 0;
 	
-	var $homePage = $('.home-page');
-	var $contentPage = $('.content-page');
-	var $lotteryPage = $('.lottery-page');
-	var $element = $('.banner-right .score');
-	var $lotteryPlay = $('.lottery-play');
+	//开始时间
+	var startTime = 0
+	//玩的次数
+	var playCount = 0;
+	var $homePage        = $('.home-page');
+	var $contentPage     = $('.content-page');
+	var $lotteryPage     = $('.lottery-page');
+	var $winningPage     = $('.winning-page');
+	var $element         = $('.banner-right .score');
+	var $lotteryPlay     = $('.lottery-play');
 	var $lotteryIntegral = $('.lottery-integral-right');
-	var $lotteryTime = $('.lottery-time-right');
+	var $lotteryTime     = $('.lottery-time-right');
+	var $winningShow     = $('.winning-show em');
+	
 	/**
 	 * 音乐
 	 * @return {[type]} [description]
@@ -142,7 +149,7 @@
 	    function updatedot() {
 	        var em;
 	        if (em = $ems[--vernier]) {
-	            em.style.backgroundColor = '#291669';
+	            em.style.backgroundColor = '#BCDFF4';
 	        }
 	        if (!em) {
 	            clear()
@@ -165,7 +172,7 @@
 	    self.destroy = function() {
 	        clear();
 	        vernier = $ems.length;
-	        $ems.css('backgroundColor', '#d3aa4e')
+	        $ems.css('backgroundColor', '#FFED42')
 	    }
 	
 	    self.watch = function(timeout, callback) {
@@ -235,37 +242,51 @@
 	    createGames();
 	}
 	
-	Number.prototype.formatTime=function(){
+	Number.prototype.formatTime = function() {
 	    // 计算
-	    var h=0,i=0,s=parseInt(this);
-	    if(s>60){
-	        i=parseInt(s/60);
-	        s=parseInt(s%60);
-	        if(i > 60) {
-	            h=parseInt(i/60);
-	            i = parseInt(i%60);
+	    var h = 0,
+	        i = 0,
+	        s = parseInt(this);
+	    if (s > 60) {
+	        i = parseInt(s / 60);
+	        s = parseInt(s % 60);
+	        if (i > 60) {
+	            h = parseInt(i / 60);
+	            i = parseInt(i % 60);
 	        }
 	    }
 	    // 补零
-	    var zero=function(v){
-	        return (v>>0)<10?"0"+v:v;
+	    var zero = function(v) {
+	        return (v >> 0) < 10 ? "0" + v : v;
 	    };
-	    return [zero(h),zero(i),zero(s)].join(":");
+	    return [zero(h), zero(i), zero(s)].join(":");
 	};
-	
 	
 	/**
 	 * 尾页
 	 * @return {[type]} [description]
 	 */
 	function lotteryPage() {
+	
+	    ++playCount;
+	    $lotteryPage.find("li:lt(" + playCount + ")").removeClass('unachieved').addClass('achieved')
+	
 	    $lotteryPage.css('visibility', 'visible')
 	    $contentPage.css('visibility', 'hidden');
+	    $winningPage.css('visibility', 'hidden');
+	
 	    A.paly('music/through.mp3');
+	
 	    //得分处理
 	    $lotteryIntegral.text(integral.get())
-	    var time =Math.round((utils.getTime() - startTime)/60)
-	    $lotteryTime.text( Number(time).formatTime()  );
+	    var time = Math.round((utils.getTime() - startTime) / 60)
+	    $lotteryTime.text(Number(time).formatTime());
+	
+	
+	    //限制玩的次数
+	    if (playCount === AllowPlayCount) {
+	        $lotteryPlay.off();
+	    }
 	}
 	
 	
@@ -317,22 +338,56 @@
 	    }, 1000)
 	})
 	
+	
 	/**
 	 * 再玩一次
 	 * @param  {[type]} ){                 } [description]
 	 * @return {[type]}     [description]
 	 */
-	$lotteryPlay.on('touchstart', function() {
+	$lotteryPlay.on('touchstart mousedown', function() {
 	    hidden($lotteryPage)
 	    resetGames();
-	})
+	});
+	
+	$(".winning-button").on('touchstart mousedown', function() {
+	    hidden($winningPage);
+	    hidden($lotteryPage)
+	    resetGames();
+	});
 	
 	
-	// startTime = utils.getTime();
-	// setTimeout(function() {
-	//     lotteryPage()
-	// }, 100)
-	// startContent()
+	/**
+	 * 点击抽奖
+	 * @type {[type]}
+	 */
+	var $lotteryLottery = $('.lottery-lottery');//抽奖
+	$lotteryLottery.on('touchstart mousedown',function() {
+	    hidden($lotteryPage);
+	    visible($winningPage);
+	    $winningShow.text("100元礼品卷").addClass('animated flash')
+	});
+	
+	
+	/**
+	 * 测试代码
+	 * @type {[type]}
+	 */
+	var test = false;
+	
+	if(test){
+	    GameTime = 300000;
+	    startTime = utils.getTime();
+	    setTimeout(function() {
+	        lotteryPage()
+	    }, 100)
+	    visible($contentPage)
+	    $homePage.addClass('animated zoomOutUp')
+	        .on('webkitAnimationEnd animationend', function() {
+	            $homePage.off();
+	            hidden($homePage)
+	            $homePage.removeClass('animated zoomOutUp')
+	        })
+	}
 
 
 /***/ },
@@ -903,9 +958,9 @@
 	    //图片
 	    images: {
 	        //正面图
-	        front: "images/lottery.png",
+	        front: "images/front.png",
 	        //背景图,随机分配
-	        back: ["images/11.png", "images/12.png", "images/13.png"]
+	        back: ["images/back1.png", "images/back2.png", "images/back3.png"]
 	    },
 	
 	    //图片之间的间距,单位PX
