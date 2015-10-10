@@ -12,7 +12,7 @@ module.exports = {
     //图片
     images: {
         //正面图
-        front: "images/front.png",
+        front: "images/front.jpg",
         //背景图,随机分配
         back: ["images/back1.png", "images/back2.png", "images/back3.png"]
     },

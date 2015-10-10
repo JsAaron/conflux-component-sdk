@@ -434,7 +434,7 @@ body {
     position: absolute;
     left: 14%;
     text-align: center;
-    line-height: 2rem;
+    /*line-height: 2rem;*/
 }
 
 .winning-show em{
