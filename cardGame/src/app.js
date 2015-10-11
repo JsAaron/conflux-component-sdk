@@ -1,24 +1,32 @@
 'use strict';
 
-//预加载图片
-require('./preloadimage').load();
+//算法
+var algorithm = CardGameConfig.algorithm;
+var confCount = Object.keys(algorithm.conf);
+var prizeRandom = CardGameConfig.prizeRandom;
 
+//预加载图片
+require('./preloadimage').load(algorithm.conf,CardGameConfig.preloadimages);
 var CardGames = require('./cardGames');
 var utils = require('./utils');
 
-
 //游戏时间
-var GameTime = 30000; //ms单位 
+var limitTime      = CardGameConfig.limitTime || 30000; //ms单位 
 //每次游戏关数
-var GameCount = 3;
+var limitCount     = CardGameConfig.limitCount || 3;
 //允许玩的游戏次数
-var AllowPlayCount  = 3;
+var AllowPlayCount = CardGameConfig.AllowPlayCount || 3;
 
 
 //开始时间
-var startTime = 0
+var _startTime = 0
 //玩的次数
-var playCount = 0;
+var _playCount = 0;
+//游戏次数
+var _gameTotal = 0;
+//内容节点class名
+var _className = '.content-page-card';
+
 var $homePage        = $('.home-page');
 var $contentPage     = $('.content-page');
 var $lotteryPage     = $('.lottery-page');
@@ -31,7 +39,6 @@ var $winningShow     = $('.winning-show em');
 var $lotteryLottery  = $('.lottery-lottery');//抽奖
 var $winningButton   = $(".winning-button");
 var $startButton     = $('.start-button');
-
 
 /**
  * 音乐
@@ -61,6 +68,8 @@ var Music = function() {
  * 分数更新
  * @type {Number}
  */
+var addScore = CardGameConfig.score.add || 10;
+var subtractScore =  CardGameConfig.score.subtract || 3;
 var integral = function() {
     var $element = $('.banner-right .score');
     var score = 0;
@@ -70,12 +79,12 @@ var integral = function() {
     }
     return {
         add: function() {
-            score += 10;
+            score += addScore;
             update();
             Music.paly('music/score.mp3');
         },
         reduce: function() {
-            score -= 3;
+            score -= subtractScore;
             if (score < 1) {
                 score = 0;
             }
@@ -100,7 +109,7 @@ var slidebox = new function() {
     var $dotWrap = $('.dot-wrap');
     var $ems = $dotWrap.find('em')
     var vernier = $ems.length;
-    var rate = GameTime / vernier;
+    var rate = limitTime / vernier;
     var self = this;
     var timercallabck = null;
 
@@ -151,7 +160,7 @@ var slidebox = new function() {
 function overTime(callback) {
     var l = layer.open({
         // style: 'border:none; background-color:#78BA32; color:#fff;',
-        className: 'popuo-login',
+        _className: 'popuo-login',
         btn: ['OK'],
         content: '游戏超时，请重新开始游戏！',
         yes: function(elem) {
@@ -163,19 +172,23 @@ function overTime(callback) {
     })
 }
 
-//游戏次数
-var GameTotal = 0;
-//内容节点class名
-var className = '.content-page-card';
-
 /**
  * 开始游戏
  * @return {[type]} [description]
  */
 function createGames() {
     slidebox.start();
-    ++GameTotal;
-    var cardGames = new CardGames(className)
+    ++_gameTotal;
+
+    var config
+    if (confCount != 1) {
+        config = algorithm.conf[_gameTotal]
+    }
+    if(!config){
+        config = algorithm.conf[1];
+    }
+
+    var cardGames = new CardGames(_className, config)
     cardGames.$watch('success', integral.add)
     cardGames.$watch('fail', integral.reduce)
     cardGames.$watch('complete', function() {
@@ -197,7 +210,7 @@ function createGames() {
  */
 function selectGame() {
     //游戏结束
-    if (GameTotal >= GameCount) {
+    if (_gameTotal >= limitCount) {
         GameOver();
         return;
     }
@@ -247,10 +260,10 @@ function GameOver() {
 
     Music.paly('music/through.mp3');
 
-    ++playCount;
+    ++_playCount;
 
     //星星处理
-    $lotteryPage.find("li:lt(" + playCount + ")").removeClass('unachieved').addClass('achieved')
+    $lotteryPage.find("li:lt(" + _playCount + ")").removeClass('unachieved').addClass('achieved')
 
     //处理页面逻辑
     visible($lotteryPage);
@@ -259,17 +272,16 @@ function GameOver() {
 
     //得分处理
     $lotteryIntegral.text(integral.get())
-    var time = Math.round((utils.getTime() - startTime) / 60)
+    var time = Math.round((utils.getTime() - _startTime) / 60)
     $lotteryTime.text(Number(time).formatTime());
 
 
     //限制玩的次数
-    if (playCount === AllowPlayCount) {
+    if (_playCount === AllowPlayCount) {
         $lotteryPlay.off();
         $winningButton.off();
     }
 }
-
 
 
 /**
@@ -277,7 +289,7 @@ function GameOver() {
  * @return {[type]} [description]
  */
 function resetGames() {
-    GameTotal = 0;
+    _gameTotal = 0;
     integral.reset();
     hidden($contentPage);
     visible($homePage)
@@ -306,11 +318,11 @@ function startContent(e) {
  * @return {[type]}    [description]
  */
 $startButton.on(utils.event.start, function(e) {
-    startTime = utils.getTime();
+    _startTime = utils.getTime();
     startContent(e);
     return false;
 })
-
+ 
 
 /**
  * 得分页面
@@ -330,7 +342,7 @@ $lotteryPlay.on(utils.event.start, function() {
  * 返回主页
  */
 function bindWinningButton(argument) {
-    if (playCount !== AllowPlayCount) {
+    if (_playCount !== AllowPlayCount) {
         $winningButton.on(utils.event.start, function() {
             $winningButton.off();
             resetGames();
@@ -340,6 +352,10 @@ function bindWinningButton(argument) {
     }
 }
 
+function calculate(len) {
+   return Math.floor(Math.random() * len);
+}
+
 /**
  * 点击抽奖
  * @type {[type]}
@@ -347,7 +363,7 @@ function bindWinningButton(argument) {
 $lotteryLottery.on(utils.event.start, function() {
     visible($winningPage);
     hidden($lotteryPage);
-    $winningShow.text("100元礼品卷").addClass('animated flash');
+    $winningShow.text(prizeRandom[calculate(prizeRandom.length)]).addClass('animated flash');
     bindWinningButton()
     return false;
 });
@@ -360,8 +376,8 @@ $lotteryLottery.on(utils.event.start, function() {
 var test = false;
 
 if(test){
-    GameTime = 300000;
-    startTime = utils.getTime();
+    limitTime = 300000;
+    _startTime = utils.getTime();
     setTimeout(function() {
         lotteryPage()
     }, 100)

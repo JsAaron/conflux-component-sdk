@@ -67,7 +67,7 @@ function upToDown(randomOrder, originalOrder) {
         if (beforeOrder) {
             //保证不一致
             if (order.toString() == beforeOrder.toString()) {
-                return this.random(originalOrder);
+                return upToDown(originalOrder, randomOrder)
             }
         }
         beforeOrder = order;
@@ -106,10 +106,10 @@ exports.random = function(originalOrder, algorithm) {
     var randomOrder = [];
     switch (algorithm) {
         case 1:
-            upToDown(originalOrder,randomOrder)
+            upToDown(originalOrder, randomOrder)
             break
         case 2:
-            completelyRandom(originalOrder,randomOrder)
+            completelyRandom(originalOrder, randomOrder)
             break;
     }
     return randomOrder;

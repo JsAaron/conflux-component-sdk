@@ -11,14 +11,19 @@ function preloadimages(arr) {
 }
 
  
-exports.load = function() {
-    preloadimages([
-        'images/back1.jpg',
-        'images/back2.jpg',
-        'images/back3.jpg',
-        'images/front.jpg',
-        'images/lottery-grade.jpg',
-        'images/lottery.jpg',
-        'images/winning.jpg'
-    ]);
+exports.load = function(config,loadimages) {
+    var images = [];
+    var image;
+    for(var k in config){
+        for(var name in config[k]){
+            if(name==='images'){
+                image = config[k][name]
+                images = images.concat(image.back)
+            }
+        }
+    }
+
+    images = images.concat(loadimages)
+
+    preloadimages(images);
 }

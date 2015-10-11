@@ -281,7 +281,7 @@ body {
     width: 68%;
     height: 40%;
     background-size: 100% 100%;
-    background-image: url("../images/lottery-grade.jpg");
+    background-image: url("../images/lottery-grade.png");
     position: relative;
     left: 16%;
     top: 10%
@@ -372,7 +372,7 @@ body {
 .lottery-time-right {
     height: .85rem;
     float: left;
-    width: 55%;
+    width: 60%;
     margin-left: 0.2rem;
     background-image: url('../images/time.png');
     background-size: 100% 100%;
@@ -403,7 +403,7 @@ body {
 .lottery-integral-right {
     height: .85rem;
     float: left;
-    width: 55%;
+    width: 60%;
     background-image: url('../images/integral.png');
     background-size: 100% 100%;
     line-height: .85rem;
@@ -428,18 +428,18 @@ body {
 }
 
 .winning-show{
-    top: 40.5%;
+    top: 37.5%;
     width: 68%;
     height: 2rem;
     background-size: 100% 100%;
     position: absolute;
     left: 14%;
     text-align: center;
-    /*line-height: 2rem;*/
+    line-height: 2rem;
 }
 
 .winning-show em{
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #FFED42;
     text-shadow:0 0 5px #FFED42, 0 0 10px #FFED42, 0 0 15px #FFED42, 0 0 20px red, 0 0 25px red, 0 0 30px red, 0 0 50px red, 0 0 80px red, 0 0 100px red, 0 0 150px red
 }
