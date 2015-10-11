@@ -46,15 +46,91 @@
 
 	'use strict';
 	
+	var layerOpen =layer.open({
+	    type: 2,
+	    content: '数据加载中...'
+	});
+	
 	//算法
 	var algorithm = CardGameConfig.algorithm;
 	var confCount = Object.keys(algorithm.conf);
 	var prizeRandom = CardGameConfig.prizeRandom;
 	
 	//预加载图片
-	__webpack_require__(1).load(algorithm.conf,CardGameConfig.preloadimages);
-	var CardGames = __webpack_require__(2);
-	var utils = __webpack_require__(7);
+	var pre = __webpack_require__(1);
+	pre.load(algorithm.conf, CardGameConfig.preloadimages, function() {
+	       __webpack_require__(2);
+	       layer.close(layerOpen)
+	       layerOpen= null;
+	})
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	exports.load = function(config, loadimages,callback) {
+	    var images = [];
+	    var image;
+	    var newimages = [];
+	    for (var k in config) {
+	        for (var name in config[k]) {
+	            if (name === 'images') {
+	                image = config[k][name]
+	                images = images.concat(image.back)
+	            }
+	        }
+	    }
+	
+	    images = images.concat(loadimages)
+	
+	
+	    var count = images.length;
+	
+	    var complete = function(name,src) {
+	        --count;
+	        if(!count){
+	            callback();
+	        }
+	    };
+	
+	    for (var i = 0; i < images.length; i++) {
+	        newimages[i]     = new Image()
+	        newimages[i].src = images[i];
+	
+	        newimages[i].onload = (function(src) {
+	            return function() {
+	                complete('onload', src)
+	            }
+	        })(images[i]);
+	
+	        newimages[i].onerror = (function(src) {
+	            return function() {
+	                complete('onerror', src)
+	            }
+	        })(images[i]);
+	
+	        newimages[i].onabort = (function(src) {
+	            return function() {
+	                complete('onabort', src)
+	            }
+	        })(images[i]);
+	    }
+	}
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	//算法
+	var algorithm = CardGameConfig.algorithm;
+	var confCount = Object.keys(algorithm.conf);
+	var prizeRandom = CardGameConfig.prizeRandom;
+	
+	var CardGames = __webpack_require__(3);
+	var utils = __webpack_require__(8);
 	
 	//游戏时间
 	var limitTime      = CardGameConfig.limitTime || 30000; //ms单位 
@@ -438,49 +514,14 @@
 
 
 /***/ },
-/* 1 */
-/***/ function(module, exports) {
-
-	function preloadimages(arr) {
-	    var newimages = []
-	    var arr = (typeof arr != "object") ? [arr] : arr //确保参数总是数组
-	    for (var i = 0; i < arr.length; i++) {
-	        newimages[i] = new Image()
-	        newimages[i].src = arr[i]
-	        newimages[i].onload = function(src){
-	        	console.log('图片加载完毕: '+ src )
-	        }(arr[i])
-	    }
-	}
-	
-	 
-	exports.load = function(config,loadimages) {
-	    var images = [];
-	    var image;
-	    for(var k in config){
-	        for(var name in config[k]){
-	            if(name==='images'){
-	                image = config[k][name]
-	                images = images.concat(image.back)
-	            }
-	        }
-	    }
-	
-	    images = images.concat(loadimages)
-	
-	    preloadimages(images);
-	}
-
-
-/***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(3);
+	__webpack_require__(4);
 	
-	var utils = __webpack_require__(7);
+	var utils = __webpack_require__(8);
 	
 	var Manager = function(element, options) {
 		this._init(element, options);
@@ -500,12 +541,12 @@
 	})
 	
 	
-	utils.extend(p, __webpack_require__(8));
-	utils.extend(p, __webpack_require__(12));
+	utils.extend(p, __webpack_require__(9));
 	utils.extend(p, __webpack_require__(13));
 	utils.extend(p, __webpack_require__(14));
 	utils.extend(p, __webpack_require__(15));
 	utils.extend(p, __webpack_require__(16));
+	utils.extend(p, __webpack_require__(17));
 	
 	window['CardGames'] = Manager;
 	
@@ -513,16 +554,16 @@
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(4);
+	var content = __webpack_require__(5);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -539,10 +580,10 @@
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(5)();
+	exports = module.exports = __webpack_require__(6)();
 	// imports
 	
 	
@@ -553,7 +594,7 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/*
@@ -609,7 +650,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -834,7 +875,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var utils = {};
@@ -981,14 +1022,14 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var utils    = __webpack_require__(7); 
-	var config   = __webpack_require__(9);
-	var depend   = __webpack_require__(10);
-	var Observer = __webpack_require__(11);
+	var utils    = __webpack_require__(8); 
+	var config   = __webpack_require__(10);
+	var depend   = __webpack_require__(11);
+	var Observer = __webpack_require__(12);
 	
 	/**
 	 * 初始化数据
@@ -1035,7 +1076,7 @@
 	 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -1073,7 +1114,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	
@@ -1243,7 +1284,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -1336,12 +1377,12 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var utils = __webpack_require__(7);
-	var depend = __webpack_require__(10);
+	var utils = __webpack_require__(8);
+	var depend = __webpack_require__(11);
 	/**
 	 * 动态布局
 	 */
@@ -1439,13 +1480,13 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 冒泡事件
 	 */
-	var depend = __webpack_require__(10);
+	var depend = __webpack_require__(11);
 	var animationend = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 	
 	
@@ -1464,11 +1505,11 @@
 	 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var depend = __webpack_require__(10);
-	var utils = __webpack_require__(7);
+	var depend = __webpack_require__(11);
+	var utils = __webpack_require__(8);
 	
 	/**
 	 * 手动触发
@@ -1524,15 +1565,15 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 动画回调处理
 	 */
 	
-	var depend = __webpack_require__(10);
-	var utils  = __webpack_require__(7);
+	var depend = __webpack_require__(11);
+	var utils  = __webpack_require__(8);
 	
 	/**
 	 * 检测回调的唯一性
@@ -1722,7 +1763,7 @@
 	 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
