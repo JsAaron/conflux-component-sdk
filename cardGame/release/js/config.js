@@ -43,6 +43,21 @@ window.CardGameConfig = {
          */
         checkPhoneNumber: true,
 
+
+        /**
+         * 点击开始游戏调用
+         * count 已经玩的游戏次数
+         * nextGame 调用可以继续游戏
+         * @return {[type]} [description]
+         */
+        startGame: function(count, nextGame) {
+            //异步通过服务器查询游戏数据
+            //如果可以继续游戏掉用nextGame
+
+            //默认就是可以继续运行
+            nextGame();
+        },
+
         /**
          * 触发分享好友调用代码
          * @return {[phoneNumber]} [手机号码]

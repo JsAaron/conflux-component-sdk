@@ -421,8 +421,9 @@
 	 * @return {[type]}    [description]
 	 */
 	$startButton.on(utils.event.start, function(e) {
-	    _startTime = utils.getTime();
-	    startContent(e);
+	    innerCall.startGame(_playCount, function() {
+	        startContent(e);
+	    })
 	    return false;
 	})
 	 
@@ -465,7 +466,7 @@
 	            return false;
 	        });
 	    }
-	    
+	
 	    return false;
 	});
 	       
@@ -586,19 +587,7 @@
 	    $showElement.show();
 	
 	    visible($winningPage)
-	    // _startTime = utils.getTime();
-	    // setTimeout(function() {
-	    //     // lotteryPage()
-	    // }, 100)
-	    // visible($contentPage)
-	    // $homePage.addClass('animated zoomOutUp')
-	    //     .on('webkitAnimationEnd animationend', function() {
-	    //         $homePage.off();
-	    //         hidden($homePage)
-	    //         $homePage.removeClass('animated zoomOutUp')
 	
-	    //         selectTooltipBox()
-	    //     })
 	   
 	}
 
