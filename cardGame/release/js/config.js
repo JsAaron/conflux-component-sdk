@@ -30,18 +30,6 @@ window.CardGameConfig = {
 		subtract: 3
 	},
 
-	/**
-	 * 奖品随机
-	 * @type {Array}
-	 */
-	prizeRandom:[
-		'恭喜获取杰士邦',
-		'恭喜获100$',
-		'恭喜获1000$',
-		'骗你的,毛线都没有!'
-	],
-
-
     /**
      * 游戏算法配置
      * @type {Object}
@@ -81,26 +69,6 @@ window.CardGameConfig = {
                     front: "images/front.jpg",
                     //背景图,随机分配
                     back: ["images/back1.jpg", "images/back2.jpg", "images/back3.jpg"]
-                },
-                //宫格图片之间的间距,单位PX
-                gap: {
-                    left: 10,
-                    top: 30
-                },
-                //随机算法
-                //0 不随机
-                //1 上下随机
-                //2 一顿乱搞
-                //默认2
-                random: 2
-            },
-            2: {
-                //图片
-                images: {
-                    //正面图
-                    front: "images/logo.jpg",
-                    //背景图,随机分配
-                    back: ["images/11.png", "images/22.png", "images/33.png"]
                 },
                 //宫格图片之间的间距,单位PX
                 gap: {

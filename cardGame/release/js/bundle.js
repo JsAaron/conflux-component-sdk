@@ -127,10 +127,9 @@
 	//算法
 	var algorithm = CardGameConfig.algorithm;
 	var confCount = Object.keys(algorithm.conf);
-	var prizeRandom = CardGameConfig.prizeRandom;
 	
 	var CardGames = __webpack_require__(3);
-	var utils = __webpack_require__(8);
+	var utils     = __webpack_require__(8);
 	
 	//游戏时间
 	var limitTime      = CardGameConfig.limitTime || 30000; //ms单位 
@@ -149,20 +148,19 @@
 	//内容节点class名
 	var _className = '.content-page-card';
 	
-	var $homePage        = $('.home-page');
-	var $contentPage     = $('.content-page');
-	var $lotteryPage     = $('.lottery-page');
-	var $winningPage     = $('.winning-page');
-	var $element         = $('.banner-right .score');
-	var $lotteryPlay     = $('.lottery-play');
-	var $lotteryIntegral = $('.lottery-integral-right');
-	var $lotteryTime     = $('.lottery-time-right');
-	var $winningShow     = $('.winning-show em');
-	var $lotteryLottery  = $('.lottery-lottery');//抽奖
-	var $winningButton   = $(".winning-button");
-	var $startButton     = $('.start-button');
+	var $homePage           = $('.home-page');
+	var $contentPage        = $('.content-page');
+	var $lotteryPage        = $('.lottery-page');
+	var $winningPage        = $('.winning-page');
+	var $element            = $('.banner-right .score');
+	var $lotteryPlay        = $('.winning-box-left');
+	var $lotteryLottery     = $('.lottery-lottery');//抽奖
+	var $startButton        = $('.start-button');
+	var $tooltipBox         = $(".tooltip-box");
+	var $shareFriends       = $(".winning-box-right");
 	
 	/**
+	 * 
 	 * 音乐
 	 * @return {[type]} [description]
 	 */
@@ -228,11 +226,11 @@
 	 */
 	var slidebox = new function() {
 	    var timer;
-	    var $dotWrap = $('.dot-wrap');
-	    var $ems = $dotWrap.find('em')
-	    var vernier = $ems.length;
-	    var rate = limitTime / vernier;
-	    var self = this;
+	    var $dotWrap      = $('.dot-wrap');
+	    var $ems          = $dotWrap.find('em')
+	    var vernier       = $ems.length;
+	    var rate          = limitTime / vernier;
+	    var self          = this;
 	    var timercallabck = null;
 	
 	    function clear() {
@@ -336,8 +334,8 @@
 	        GameOver();
 	        return;
 	    }
-	    //继续游戏
-	    createGames();
+	    //过关提示
+	    selectTooltipBox() 
 	}
 	
 	/**
@@ -379,30 +377,12 @@
 	 * @return {[type]} [description]
 	 */
 	function GameOver() {
-	
 	    Music.paly('music/through.mp3');
-	
 	    ++_playCount;
-	
-	    //星星处理
-	    $lotteryPage.find("li:lt(" + _playCount + ")").removeClass('unachieved').addClass('achieved')
-	
 	    //处理页面逻辑
 	    visible($lotteryPage);
 	    hidden($contentPage);
 	    hidden($winningPage);
-	
-	    //得分处理
-	    $lotteryIntegral.text(integral.get())
-	    var time = Math.round((utils.getTime() - _startTime) / 60)
-	    $lotteryTime.text(Number(time).formatTime());
-	
-	
-	    //限制玩的次数
-	    if (_playCount === AllowPlayCount) {
-	        $lotteryPlay.off();
-	        $winningButton.off();
-	    }
 	}
 	
 	
@@ -446,49 +426,102 @@
 	})
 	 
 	
-	/**
-	 * 得分页面
-	 * 再玩一次
-	 * @return {[type]}     [description]
-	 */
-	$lotteryPlay.on(utils.event.start, function() {
-	    hidden($lotteryPage)
-	    resetGames();
-	    return false;
-	});
-	
-	
-	
-	/**
-	 * 获奖页面
-	 * 返回主页
-	 */
-	function bindWinningButton(argument) {
-	    if (_playCount !== AllowPlayCount) {
-	        $winningButton.on(utils.event.start, function() {
-	            $winningButton.off();
-	            resetGames();
-	            hidden($lotteryPage)
-	            return false;
-	        });
-	    }
-	}
 	
 	function calculate(len) {
-	   return Math.floor(Math.random() * len);
+	   return Math.floor(Math.random() * 2);
 	}
+	
+	var arr = ['.winning-content-win','.winning-content-fail']
 	
 	/**
 	 * 点击抽奖
 	 * @type {[type]}
 	 */
 	$lotteryLottery.on(utils.event.start, function() {
+	    var className = arr[calculate(2)]
+	    //动态随机中奖概率
+	    var $showElement =  $winningPage.find(className);
+	    $showElement.show();
+	
 	    visible($winningPage);
 	    hidden($lotteryPage);
-	    $winningShow.text(prizeRandom[calculate(prizeRandom.length)]).addClass('animated flash');
-	    bindWinningButton()
+	
+	    /**
+	     * 得分页面
+	     * 再玩一次
+	     * @return {[type]}     [description]
+	     */
+	     //限制玩的次数
+	    if (_playCount !== AllowPlayCount) {
+	        $lotteryPlay.on(utils.event.start, function() {
+	            $lotteryPlay.off()
+	            $showElement.hide();
+	            hidden($lotteryPage)
+	            resetGames();
+	            return false;
+	        });
+	    }
+	
 	    return false;
 	});
+	
+	$shareFriends.on(utils.event.start, function() {
+	    alert('分享好友')
+	    return false;
+	});
+	
+	
+	/**
+	 * 隐藏弹出框
+	 */
+	function HiddenTooltipBox() {
+	    $tooltipBox.css('opacity', 0);
+	    deleteTooltipBox();
+	}
+	
+	/**
+	 * 过关提示事件
+	 * @return {[type]} [description]
+	 */
+	function BindTooltipBox() {
+	    $tooltipBox.on(utils.event.start, function(event) {
+	        switch (event.target.className) {
+	            case "tooltip-box-left":
+	                resetGames();
+	                HiddenTooltipBox();
+	                break;
+	            case "tooltip-box-right":
+	                //继续游戏
+	                createGames();
+	                HiddenTooltipBox();
+	                break;
+	        }
+	        return false;
+	    });
+	
+	}
+	
+	/**
+	 * 消除事件
+	 * @return {[type]} [description]
+	 */
+	function deleteTooltipBox() {
+	    $tooltipBox.hide().off()
+	}
+	
+	
+	/**
+	 * 过关提示
+	 * @return {[type]} [description]
+	 */
+	function selectTooltipBox(callback) {
+	    $tooltipBox
+	        .show()
+	        .addClass('animated zoomIn')
+	        .on(utils.style.animationend, function() {
+	            BindTooltipBox();
+	        })
+	}
 	
 	
 	/**
@@ -498,18 +531,26 @@
 	var test = false;
 	
 	if(test){
-	    limitTime = 300000;
-	    _startTime = utils.getTime();
-	    setTimeout(function() {
-	        lotteryPage()
-	    }, 100)
-	    visible($contentPage)
-	    $homePage.addClass('animated zoomOutUp')
-	        .on('webkitAnimationEnd animationend', function() {
-	            $homePage.off();
-	            hidden($homePage)
-	            $homePage.removeClass('animated zoomOutUp')
-	        })
+	    limitTime = 3000000;
+	
+	    hidden($contentPage);
+	    hidden($homePage)
+	    visible($lotteryPage)
+	    // visible($winningPage)
+	    // _startTime = utils.getTime();
+	    // setTimeout(function() {
+	    //     // lotteryPage()
+	    // }, 100)
+	    // visible($contentPage)
+	    // $homePage.addClass('animated zoomOutUp')
+	    //     .on('webkitAnimationEnd animationend', function() {
+	    //         $homePage.off();
+	    //         hidden($homePage)
+	    //         $homePage.removeClass('animated zoomOutUp')
+	
+	    //         selectTooltipBox()
+	    //     })
+	   
 	}
 
 

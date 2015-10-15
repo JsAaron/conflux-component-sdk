@@ -119,15 +119,14 @@ body {
     z-index: 4;
 }
 
-
 .home-page .start-button {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.8rem;
+    height: 2.8rem;
     background-image: url("../images/start-button.png");
     position: absolute;
     background-size: 100% 100%;
-    top: 82%;
-    left: 68%;
+    top: 70%;
+    left: 38%;
 }
 
 .home-page .start-button-hover {
@@ -173,7 +172,7 @@ body {
 
 .ck-slidebox {
     position: absolute;
-    left: 5%;
+    left: 22%;
     top: 37%;
     z-index: 30;
     width: 55%;
@@ -198,6 +197,7 @@ body {
 .ck-slidebox ul {
     /*height: 25px;*/
     /*padding-left:4px;*/
+    
     border-radius: 1rem;
     border-radius: 1rem;
     /*background:#472c93;*/
@@ -212,7 +212,8 @@ body {
 .ck-slidebox ul li {
     float: left;
     /*height: 0.3rem;*/
-    margin: 0.2rem 0.1em;
+    
+    margin: 0.2rem 0.15em;
 }
 
 .ck-slidebox ul li.current em {
@@ -221,18 +222,18 @@ body {
 
 .ck-slidebox ul li em {
     display: block;
-    width: 0.3rem;
-    height: 0.3rem;
+    width: 0.25rem;
+    height: 0.5rem;
     border-radius: 100%;
-    /*FFED42*/
-    background-color: #FFED42;
-    /*background-color: #291669;*/
+    background-color: #E66279;
     text-indent: -9999px;
     cursor: pointer;
+    -webkit-transform: skewY(50deg);
+    transform: skewY(50deg);
 }
 
 .banner-right {
-    width: 30%;
+    width: 25%;
     height: 30%;
     position: absolute;
     right: 0;
@@ -243,8 +244,8 @@ body {
 }
 
 .banner-right .score {
-    margin-top: 0.3rem;
-    margin-left: 1rem;
+    margin-top: 0.4rem;
+    margin-left: 0.5rem;
     font-size: 0.5rem;
     color: #fff;
     text-align: center;
@@ -268,44 +269,28 @@ body {
 }
 
 .lottery-lottery {
-    width: 60%;
-    height: 10%;
-    background-size: 100% 100%;
-    background-image: url("../images/lottery-lottery.png");
+    border-radius: .1rem;
+    border-radius: .1rem;
+    display: block;
+    width: 40%;
+    font-weight: 800;
+    font-size: .65rem;
+    text-align: center;
+    /*height: 10%;*/
+    
+    background-color: #FFED42;
+    /*    background-size: 100% 100%;*/
+    /*background-image: url("../images/lottery-lottery.png");*/
+    
+    color: red;
     position: absolute;
-    left: 20%;
-    top: 75%;
+    left: 30%;
+    top: 80%;
+    -webkit-box-shadow: 3px 3px 3px;
+    box-shadow: 3px 3px 3px
 }
 
-.lottery-grade {
-    width: 68%;
-    height: 40%;
-    background-size: 100% 100%;
-    background-image: url("../images/lottery-grade.png");
-    position: relative;
-    left: 16%;
-    top: 10%
-}
 
-.lottery-star {
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 40%;
-}
-
-.lottery-star .star-wrap {
-    overflow: hidden;
-    padding-top: 0.8rem;
-    padding-left: 0.7rem;
-}
-.achieved {
-    color:#fdad1c;
-}
-.unachieved {
-    color: #fff;
-}
 .star-wrap li {
     float: left;
     width: 30%;
@@ -313,36 +298,6 @@ body {
     text-align: center;
 }
 
-
-@font-face {
-    font-family: 'icomoon';
-    src: url('../fonts/icomoon.eot?rirn5f');
-    src: url('../fonts/icomoon.eot?rirn5f#iefix') format('embedded-opentype'), url('../fonts/icomoon.ttf?rirn5f') format('truetype'), url('../fonts/icomoon.woff?rirn5f') format('woff'), url('../fonts/icomoon.svg?rirn5f#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^="icon-"],
-[class*=" icon-"] {
-    font-family: 'icomoon';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-star-empty:before {
-    content: "\e800";
-}
-
-.icon-star-full:before {
-    content: "\e801";
-}
 
 .lottery-slideWrap {
     width: 80%;
@@ -369,19 +324,6 @@ body {
     text-align: right;
 }
 
-.lottery-time-right {
-    height: .85rem;
-    float: left;
-    width: 60%;
-    margin-left: 0.2rem;
-    background-image: url('../images/time.png');
-    background-size: 100% 100%;
-    line-height: .85rem;
-    text-indent: .9rem;
-    font-size: .5rem;
-    font-weight: 900;
-    color: red;
-}
 
 .lottery-integral {
     width: 100%;
@@ -400,18 +342,6 @@ body {
     text-align: right;
 }
 
-.lottery-integral-right {
-    height: .85rem;
-    float: left;
-    width: 60%;
-    background-image: url('../images/integral.png');
-    background-size: 100% 100%;
-    line-height: .85rem;
-    text-align: center;
-    font-size: .5rem;
-    font-weight: 900;
-    color: red;
-}
 
 .lottery-share {
     width: 40%;
@@ -427,7 +357,7 @@ body {
     visibility: hidden;
 }
 
-.winning-show{
+.winning-show {
     top: 37.5%;
     width: 68%;
     height: 2rem;
@@ -438,19 +368,186 @@ body {
     line-height: 2rem;
 }
 
-.winning-show em{
+.winning-show em {
     font-size: 0.8rem;
     color: #FFED42;
-    text-shadow:0 0 5px #FFED42, 0 0 10px #FFED42, 0 0 15px #FFED42, 0 0 20px red, 0 0 25px red, 0 0 30px red, 0 0 50px red, 0 0 80px red, 0 0 100px red, 0 0 150px red
+    text-shadow: 0 0 5px #FFED42, 0 0 10px #FFED42, 0 0 15px #FFED42, 0 0 20px red, 0 0 25px red, 0 0 30px red, 0 0 50px red, 0 0 80px red, 0 0 100px red, 0 0 150px red
 }
 
 
-.winning-button{
-    width: 2.5rem;
-    height: 2.5rem;
-    background-image: url("../images/start-button.png");
+.tooltip-box {
+    opacity: 0;
     position: absolute;
+    left: 10%;
+    top: 40%;
+    z-index: 999999;
+    display: none;
+}
+
+.tooltip-box-left,
+.tooltip-box-right {
+    border: none;
+    background-color: #FFED42;
+    color: red;
+    width: 4rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    font-size: 14px;
+    pointer-events: auto;
+    display: inline-block;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    pointer-events: auto;
+    font-weight: 900;
+}
+
+.winning-box {
+    position: absolute;
+    left: 10%;
+    top: 70%;
+    z-index: 999999;
+}
+
+.winning-box-left,
+.winning-box-right {
+    border: none;
+    background-color: #FFED42;
+    color: red;
+    width: 4rem;
+    /*height: .8rem;*/
+    
+    line-height: 1rem;
+    text-align: center;
+    font-size: 18px;
+    pointer-events: auto;
+    display: inline-block;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    pointer-events: auto;
+    font-weight: 900;
+}
+
+.winning-content {
+    position: absolute;
+    left: 10%;
+    top: 30%;
+    width: 80%;
+    height: 35%;
+    /*background: red;*/
+    
+    z-index: 999999;
+}
+
+.winning-content-win {
+    height: 100%;
+    display: none;
+}
+
+.winning-content-win-top {
+    width: 100%;
+    height: 50%;
+}
+
+.winning-content-win-top span {
+    float: left;
+    width: 2rem;
+    height: 1.5rem;
     background-size: 100% 100%;
-    top: 65%;
-    left: 38%;
+    margin-right: 0.2rem;
+    background-image: url("../images/win.png");
+}
+
+.winning-content-win-top p {
+    color: #FFFF00;
+    margin: 0px;
+    padding-top: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5px;
+    line-height: .6rem;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.winning-content-win-bottom {
+    height: 50%;
+    /*background: red;*/
+}
+
+.winning-content-win-bottom li:first-child {
+    width: 30%;
+    border: none;
+    color: red;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    text-align: center;
+    font-size: 18px;
+    color: #FFED42;
+    font-weight: 900;
+    position: absolute;
+    top: 70%;
+}
+
+.winning-content-win-bottom li:last-child {
+    border: none;
+    /*background-color: #FFED42;*/
+    
+    color: red;
+    width: 5.5rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 1rem;
+    font-weight: 900;
+    position: absolute;
+    top: 71%;
+    left: 35%;
+    border: 1px solid #ccc;
+}
+
+.winning-content-win-bottom input {
+    width: 90%;
+    margin: 0 auto;
+    border: 0;
+    /*height: 100%;*/
+    
+    font-size: 18px;
+    font-weight: 900;
+    border-style: none;
+    background-color: transparent
+}
+
+
+.winning-content-fail{
+    height: 100%;
+    display: none;
+}
+
+.winning-content-fail-top {
+    width: 100%;
+    height:100%;
+    position: absolute;
+    top: 30%;
+}
+
+.winning-content-fail-top span {
+    float: left;
+    width: 2rem;
+    height: 1.5rem;
+    background-size: 100% 100%;
+    margin-right: 0.2rem;
+    background-image: url("../images/fail.png");
+}
+
+.winning-content-fail-top p {
+    color: #FFFF00;
+    margin: 0px;
+    padding-top: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5px;
+    line-height: 0.8rem;
+    font-weight: 600;
+    font-size: 18px;
 }

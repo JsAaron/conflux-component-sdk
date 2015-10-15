@@ -18,14 +18,14 @@
     <div class="content-page full-screen">
         <!--积分显示 -->
         <div class="content-slide-banner">
-            <!--             <div class="banner-left">
-                <img src="images/logo.png">
-            </div> -->
+            <div class="banner-left">
+                <img src="images/login.png">
+            </div>
             <!-- 圈形区域 -->
             <div class="ck-slidebox">
-                <div class="timeText">Time</div>
                 <div class="slideWrap">
                     <ul class="dot-wrap">
+                        <li><em></em></li>
                         <li><em></em></li>
                         <li><em></em></li>
                         <li><em></em></li>
@@ -44,8 +44,12 @@
             <!-- 右边部分 -->
             <div class="banner-right">
                 <div class="score">0</div>
-                <!--          <div class="scoreText">Score</div> -->
             </div>
+        </div>
+        <!-- 信息提示框 -->
+        <div class="tooltip-box">
+            <div class="tooltip-box-left">重新开始游戏</div>
+            <div class="tooltip-box-right">开始下一关</div>
         </div>
         <!-- 中间部分 -->
         <div class="content-page-card"></div>
@@ -55,37 +59,40 @@
     <!-- 最后页 -->
     <div class="lottery-page full-screen">
         <div class="lottery-share"></div>
-        <div class="lottery-grade">
-            <div class="lottery-star">
-                <ul class="star-wrap">
-                    <li class="icomoon icon-star-full achieved"></li>
-                    <li class="icomoon icon-star-full unachieved"></li>
-                    <li class="icomoon icon-star-full unachieved"></li>
-                </ul>
-            </div>
-            <div class="lottery-slideWrap">
-                <div class="lottery-time">
-                    <div class="lottery-time-left">时间</div>
-                    <div class="lottery-time-right">1</div>
-                </div>
-                <div class="lottery-integral">
-                    <div class="lottery-integral-left">分数</div>
-                    <div class="lottery-integral-right">2</div>
-                </div>
-            </div>
-            </p>
-        </div>
-        <div class="lottery-play"></div>
-        <div class="lottery-lottery"></div>
+        <div class="lottery-lottery">我要中大奖</div>
     </div>
     <!-- 中奖页-->
     <div class="winning-page full-screen">
-        <div class="winning-show">
-            <em></em>
-        </div>
-        <div class="winning-button"></div>
-    </div>
+        <!-- 内容 -->
+        <div class="winning-content">
+            <!-- 抽中 -->
+            <div class="winning-content-win">
+                <ul class="winning-content-win-top">
+                    <span></span>
+                    <p>恭喜您！获得芭比指定限量款羽绒服一件，小艾会在3个工作日内联系您！</p>
+                </ul>
+                <ul class="winning-content-win-bottom">
+                    <li>输入手机号</li>
+                    <li>
+                        <input type="text"></input>
+                    </li>
+                </ul>
+            </div>
     
+            <!-- 没有抽中 -->
+            <div class="winning-content-fail">
+                <ul class="winning-content-fail-top">
+                    <span></span>
+                    <p>哎呀'很遗憾，离中只差一步，继续加油！</p>
+                </ul>
+            </div>
+        </div>
+        <!-- 信息提示框 -->
+        <div class="winning-box">
+            <div class="winning-box-left">再玩一次</div>
+            <div class="winning-box-right">分享给好友</div>
+        </div>
+    </div>
     <script type="text/javascript" src="js/plugins/flexible.js"></script>
     <script type="text/javascript" src="js/plugins/jquery-2.1.4.js"></script>
     <script type="text/javascript" src="js/plugins/layer.m.js"></script>
