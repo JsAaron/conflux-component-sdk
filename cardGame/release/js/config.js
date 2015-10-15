@@ -88,7 +88,6 @@ window.CardGameConfig = {
     //conf中的images默认已经预加载的
     //这里是额外的配置
     preloadimages: [
-        'images/lottery-grade.png',
         'images/lottery.jpg',
         'images/winning.jpg'
     ]
