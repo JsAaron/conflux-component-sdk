@@ -3,6 +3,7 @@
 //算法
 var algorithm = CardGameConfig.algorithm;
 var confCount = Object.keys(algorithm.conf);
+var innerCall = CardGameConfig.innerCall;
 
 var CardGames = require('./cardGames');
 var utils     = require('./utils');
@@ -307,7 +308,7 @@ function calculate(len) {
    return Math.floor(Math.random() * 2);
 }
 
-var arr = ['.winning-content-win','.winning-content-fail']
+var arr = ['.winning-content-win','.winning-content-win']
 
 /**
  * 点击抽奖
@@ -330,6 +331,9 @@ $lotteryLottery.on(utils.event.start, function() {
      //限制玩的次数
     if (_playCount !== AllowPlayCount) {
         $lotteryPlay.on(utils.event.start, function() {
+            if (!checkMobile()) {
+                return;
+            }
             $lotteryPlay.off()
             $showElement.hide();
             hidden($lotteryPage)
@@ -337,12 +341,51 @@ $lotteryLottery.on(utils.event.start, function() {
             return false;
         });
     }
-
+    
     return false;
 });
+       
 
+/**
+ * 验证号码
+ * @param  {[type]} str [description]
+ * @return {[type]}     [description]
+ */
+function checkNumber(str) {
+    if(!str){
+        return true;
+    }
+    var re = /^1\d{10}$/;
+    if (re.test(str)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function checkMobile() {
+    var number = $("#myMobile").val();
+    if (!number) {
+        return true;
+    }
+    if(!innerCall.checkPhoneNumber){
+        return number
+    }
+    //验证手机号
+    if (!checkNumber(number)) {
+        alert('密码格式有误，请核对!')
+        return false;
+    }
+    return number;
+}
+ 
 $shareFriends.on(utils.event.start, function() {
-    alert('分享好友')
+    //验证手机号
+    var number = checkMobile();
+    if (!number) {
+        return;
+    }
+    innerCall.shareFriends(number);
     return false;
 });
 
@@ -411,8 +454,14 @@ if(test){
 
     hidden($contentPage);
     hidden($homePage)
-    visible($lotteryPage)
-    // visible($winningPage)
+    hidden($lotteryPage)
+
+        var className = arr[calculate(2)]
+    //动态随机中奖概率
+    var $showElement =  $winningPage.find(className);
+    $showElement.show();
+
+    visible($winningPage)
     // _startTime = utils.getTime();
     // setTimeout(function() {
     //     // lotteryPage()

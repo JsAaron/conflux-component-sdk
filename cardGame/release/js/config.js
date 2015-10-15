@@ -31,6 +31,37 @@ window.CardGameConfig = {
 	},
 
     /**
+     * 内部调用接口
+     * @type {Object}
+     */
+    innerCall: {
+
+        /**
+         * 是否校验手机号码的正确性
+         * 11为数字，默认校验
+         * @type {Boolean}
+         */
+        checkPhoneNumber: true,
+
+        /**
+         * 触发分享好友调用代码
+         * @return {[phoneNumber]} [手机号码]
+         */
+        shareFriends: function(phoneNumber) {
+            alert('触发分享好友config中调用代码，手机号码: ' + phoneNumber)
+        },
+
+        /**
+         * 点击再玩一次
+         * @return {[phoneNumber]} [手机号码]
+         */
+        playAgain:function(phoneNumber){
+
+        }
+    },
+
+ 
+    /**
      * 游戏算法配置
      * @type {Object}
      */
