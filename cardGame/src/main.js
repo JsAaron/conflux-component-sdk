@@ -459,7 +459,7 @@ if(test){
 
         var className = arr[calculate(2)]
     //动态随机中奖概率
-    var $showElement =  $winningPage.find(className);
+    var $showElement =  $winningPage.find('.winning-content-win');
     $showElement.show();
 
     visible($winningPage)

@@ -175,7 +175,7 @@ body {
     left: 22%;
     top: 37%;
     z-index: 30;
-    width: 55%;
+    width:60%;
 }
 
 .ck-slidebox .timeText {
@@ -233,7 +233,7 @@ body {
 }
 
 .banner-right {
-    width: 25%;
+    width: 20%;
     height: 30%;
     position: absolute;
     right: 0;
@@ -431,9 +431,9 @@ body {
 
 .winning-content {
     position: absolute;
-    left: 10%;
+    left: 8%;
     top: 30%;
-    width: 80%;
+    width: 84%;
     height: 35%;
     /*background: red;*/
     
@@ -476,7 +476,7 @@ body {
 }
 
 .winning-content-win-bottom li:first-child {
-    width: 30%;
+    /*width: 30%;*/
     border: none;
     color: red;
     height: 0.8rem;
@@ -493,16 +493,14 @@ body {
     border: none;
     /*background-color: #FFED42;*/
     
-    color: red;
+    color: red; 
     width: 5.5rem;
-    height: 0.6rem;
-    line-height: 0.6rem;
     text-align: center;
     font-size: 14px;
     border-radius: 1rem;
     font-weight: 900;
     position: absolute;
-    top: 71%;
+    top: 69%;
     left: 35%;
     border: 1px solid #ccc;
 }
@@ -510,12 +508,11 @@ body {
 .winning-content-win-bottom input {
     width: 90%;
     margin: 0 auto;
-    border: 0;
-    /*height: 100%;*/
-    
+    border: none 0;
     font-size: 18px;
     font-weight: 900;
     border-style: none;
+    outline:0;
     background-color: transparent
 }
 
