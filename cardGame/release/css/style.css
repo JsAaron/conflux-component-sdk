@@ -142,21 +142,28 @@ body {
     background-image: url("../images/game-content.jpg");
 }
 
+.content-background{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -9999;
+    background-size: 100% 100%;
+    display: none;
+}
+
 .content-slide-banner {
     height: 20%;
     width: 100%;
-    position: relative;
+    position: absolute;
 }
 
 .content-page-card {
+    top:20%;
+    position: absolute;
     width: 100%;
     height: 75%;
 }
 
-.content-bottom {
-    width: 100%;
-    height: 5%;
-}
 
 .banner-left {
     width: 22%;
@@ -224,14 +231,15 @@ body {
 
 .ck-slidebox ul li em {
     display: block;
-    width: 0.25rem;
-    height: 0.5rem;
+    width: 0.26rem;
+    height: 0.45rem;
     border-radius: 100%;
-    background-color: #E66279;
+    /*background-color: #E66279;*/
     text-indent: -9999px;
     cursor: pointer;
     -webkit-transform: skewY(50deg);
     transform: skewY(50deg);
+    background-image: url("../images/time-button1.png");
 }
 
 .banner-right {
@@ -287,7 +295,7 @@ body {
     color: red;
     position: absolute;
     left: 30%;
-    top: 80%;
+    bottom: 10%;
     -webkit-box-shadow: 3px 3px 3px;
     box-shadow: 3px 3px 3px
 }
@@ -377,14 +385,24 @@ body {
 }
 
 
+
+.tooltip-content {
+    width    : 100%;
+    height   : 100%;
+    position : absolute;
+    z-index  : 999999;
+    display  : none;
+    background-size: 100% 100%;
+}
+
 .tooltip-box {
-    opacity: 0;
     position: absolute;
     left: 10%;
-    top: 40%;
+    bottom: 5%;
     z-index: 999999;
     display: none;
 }
+
 
 .tooltip-box-left,
 .tooltip-box-right {
