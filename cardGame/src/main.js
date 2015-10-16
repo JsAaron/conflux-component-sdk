@@ -309,7 +309,7 @@ function calculate(len) {
    return Math.floor(Math.random() * 2);
 }
 
-var arr = ['.winning-content-win','.winning-content-win']
+var arr = ['.winning-content-fail','.winning-content-win']
 
 /**
  * 点击抽奖
