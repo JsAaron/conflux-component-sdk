@@ -6,7 +6,7 @@ module.exports = function(config) {
         //出口文件输出配置
         output: config.script.output,
         //source map 支持
-        devtool: config.script.sourceMap ? '#source-map' : '',
+        // devtool: config.script.sourceMap ? '#source-map' : '',
         //加载器
         module: {
             loaders: [{
@@ -28,3 +28,4 @@ module.exports = function(config) {
         }
     }
 }
+ 

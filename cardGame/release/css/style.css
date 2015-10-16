@@ -126,7 +126,9 @@ body {
     position: absolute;
     background-size: 100% 100%;
     top: 70%;
-    left: 38%;
+    margin: 0 auto;
+    left: 50%;
+    margin-left:-1.4rem;
 }
 
 .home-page .start-button-hover {
@@ -404,10 +406,21 @@ body {
 }
 
 .winning-box {
+    width: 70%;
     position: absolute;
-    left: 10%;
+    left: 50%;
     top: 70%;
+    margin-left:-35%;
     z-index: 999999;
+}
+
+
+.winning-box-left{
+    float: left;
+}
+
+.winning-box-right{
+    float: right;
 }
 
 .winning-box-left,
@@ -415,12 +428,12 @@ body {
     border: none;
     background-color: #FFED42;
     color: red;
-    width: 4rem;
+    width:48%;
     /*height: .8rem;*/
     
-    line-height: 1rem;
+    line-height: .8rem;
     text-align: center;
-    font-size: 18px;
+    font-size: 0.5rem;
     pointer-events: auto;
     display: inline-block;
     border-radius: 6px;
@@ -482,7 +495,7 @@ body {
     height: 0.8rem;
     line-height: 0.8rem;
     text-align: center;
-    font-size: 18px;
+    font-size: .5rem;
     color: #FFED42;
     font-weight: 900;
     position: absolute;
@@ -492,29 +505,28 @@ body {
 .winning-content-win-bottom li:last-child {
     border: none;
     /*background-color: #FFED42;*/
-    
     color: red; 
     width: 5.5rem;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.5rem;
     border-radius: 1rem;
     font-weight: 900;
     position: absolute;
     top: 69%;
     left: 35%;
-    border: 1px solid #ccc;
-}
+    border: 1px solid #FFED42;
+} 
 
 .winning-content-win-bottom input {
     width: 90%;
     margin: 0 auto;
     border: none 0;
-    font-size: 18px;
+    font-size: 0.6rem;
     font-weight: 900;
     border-style: none;
     outline:0;
     background-color: transparent
-}
+} 
 
 
 .winning-content-fail{
