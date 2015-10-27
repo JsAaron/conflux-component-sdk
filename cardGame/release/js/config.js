@@ -19,16 +19,16 @@ window.CardGameConfig = {
     //最多允许玩游戏的次数
     AllowPlayCount: 3,
 
-	/**
-	 * 计分处理
-	 * 每次加多少
-	 * 每次减多少
-	 * @type {Object}
-	 */
-	score: {
-		add: 10,
-		subtract: 3
-	},
+    /**
+     * 计分处理
+     * 每次加多少
+     * 每次减多少
+     * @type {Object}
+     */
+    score: {
+        add: 10,
+        subtract: 3
+    },
 
     /**
      * 内部调用接口
@@ -70,12 +70,12 @@ window.CardGameConfig = {
          * 点击再玩一次
          * @return {[phoneNumber]} [手机号码]
          */
-        playAgain:function(phoneNumber){
+        playAgain: function(phoneNumber) {
 
         }
     },
 
- 
+
     /**
      * 游戏算法配置
      * @type {Object}
@@ -93,18 +93,53 @@ window.CardGameConfig = {
         },
 
         /**
+         * 声音配置
+         * 默认启动
+         * @type {Boolean}
+         */
+        music :true,
+
+
+        /**
+         * 设置游戏的总规则
+         * 单个conf中可以覆盖
+         * 1 {
+         *   images:
+         *   gap
+         *   random
+         * }
+         * @type {Object}
+         */
+        rule: {
+            //宫格图片之间的间距,单位PX
+            gap: {
+                left: 10,
+                top: 30
+            },
+            //随机算法
+            //0 不随机
+            //1 上下随机
+            //2 一顿乱搞
+            //默认2
+            random: 0
+        },
+
+        /**
          * 随机图片与算法位置的一些配置
          * 这里可以根据游戏设定的关数，单独给每一关游戏设置配置
          * 比如：
-         * 		gameCount = 3 默认有3个闯关
-         * 		通过如下配置给每一关配置单独的一些信息
-         * 		即有3关：对应3组配置(用自然数开始)
-         * 		conf = {
-         * 			1:{...},
-         * 			2:{...},
-         * 			3:{...}
-         * 		}
-         * 	如果conf只有1个配置,将运用到全局
+         *      gameCount = 3 默认有3个闯关
+         *      通过如下配置给每一关配置单独的一些信息
+         *      即有3关：对应3组配置(用自然数开始)
+         *      conf = {
+         *          1:{...},
+         *          2:{...},
+         *          3:{...}
+         *      }
+         *
+         *************************************** 
+         *  如果conf只有1个配置,将运用到全局
+         **************************************
          * @type {Object}
          */
         conf: {
@@ -114,19 +149,32 @@ window.CardGameConfig = {
                     //正面图
                     front: "images/front.jpg",
                     //背景图,随机分配
-                    back: ["images/back1.jpg", "images/back2.jpg", "images/back3.jpg"]
-                },
-                //宫格图片之间的间距,单位PX
-                gap: {
-                    left: 10,
-                    top: 30
-                },
-                //随机算法
-                //0 不随机
-                //1 上下随机
-                //2 一顿乱搞
-                //默认2
-                random: 2
+                    back: ["images/back1-1.jpg", "images/back1-2.jpg", "images/back1-3.jpg"],
+                    //页面背景
+                    content:"images/game-content1.jpg"
+                }
+            },
+            2: {
+                //图片
+                images: {
+                    //正面图
+                    front: "images/front.jpg",
+                    //背景图,随机分配
+                    back: ["images/back2-1.jpg", "images/back1-2.jpg", "images/back2-3.jpg"],
+                    //页面背景
+                    content:"images/game-content2.jpg"
+                }
+            },
+            3: {
+                //图片
+                images: {
+                    //正面图
+                    front: "images/front.jpg",
+                    //背景图,随机分配
+                    back: ["images/back3-1.jpg", "images/back3-2.jpg", "images/back3-3.jpg"],
+                    //页面背景
+                    content:"images/game-content3.jpg"
+                }
             }
         }
     },
@@ -134,8 +182,11 @@ window.CardGameConfig = {
     //conf中的images默认已经预加载的
     //这里是额外的配置
     preloadimages: [
-        'images/lottery.jpg',
-        'images/winning.jpg'
+        "images/lottery.jpg",
+        "images/winning.jpg",
+        "images/game-content1.jpg",
+        "images/game-content2.jpg",
+        "images/game-content3.jpg"
     ]
 
 }

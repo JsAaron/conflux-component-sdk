@@ -4,6 +4,7 @@
 var algorithm = CardGameConfig.algorithm;
 var confCount = Object.keys(algorithm.conf);
 var innerCall = CardGameConfig.innerCall;
+var gameRule  = algorithm.rule;//游戏规则
 
 var CardGames = require('./cardGames');
 var utils     = require('./utils');
@@ -25,17 +26,19 @@ var _gameTotal = 0;
 //内容节点class名
 var _className = '.content-page-card';
 
-var $homePage           = $('.home-page');
-var $contentPage        = $('.content-page');
-var $lotteryPage        = $('.lottery-page');
-var $winningPage        = $('.winning-page');
-var $element            = $('.banner-right .score');
-var $lotteryPlay        = $('.winning-box-left');
-var $lotteryLottery     = $('.lottery-lottery');//抽奖
-var $startButton        = $('.start-button');
-var $tooltipBox         = $(".tooltip-box");
-var $shareFriends       = $(".winning-box-right");
-
+var $homePage          = $('.home-page');
+var $contentPage       = $('.content-page');
+var $lotteryPage       = $('.lottery-page');
+var $winningPage       = $('.winning-page');
+var $element           = $('.banner-right .score');
+var $lotteryPlay       = $('.winning-box-left');
+var $startButton       = $('.start-button');
+var $tooltipBox        = $(".tooltip-box");
+var $shareFriends      = $(".winning-box-right");
+var $contentBackground = $(".content-background");
+var $tooltipContent    = $(".tooltip-content");
+var $backgroundImageStr ;//背景元素合集
+var $lotteryLottery; //抽象的动态节点
 /**
  * 
  * 音乐
@@ -45,6 +48,9 @@ var Music = function() {
     var instance = null; //存放不同音轨的一个实例
     return {
         paly: function(url) {
+            if(!algorithm.music){
+                return;
+            }
             var audio;
             if (instance) {
                 audio = instance;
@@ -57,7 +63,7 @@ var Music = function() {
             //更新音轨
             instance = audio;
         }
-    }
+    } 
 }();
 
 
@@ -118,7 +124,7 @@ var slidebox = new function() {
     function updatedot() {
         var em;
         if (em = $ems[--vernier]) {
-            em.style.backgroundColor = '#BCDFF4';
+            em.style.backgroundImage = 'url(images/time-button2.png)'
         }
         if (!em) {
             clear()
@@ -141,7 +147,7 @@ var slidebox = new function() {
     self.destroy = function() {
         clear();
         vernier = $ems.length;
-        $ems.css('backgroundColor', '#FFED42')
+        $ems.css('backgroundImage','url(images/time-button1.png)')
     }
 
     self.watch = function(timeout, callback) {
@@ -169,23 +175,68 @@ function overTime(callback) {
     })
 }
 
+
+/**
+ * 默认规则
+ * @type {Object}
+ */
+var defalutConf = {
+    gap: {
+        left: 10,
+        top: 30
+    },
+    //随机算法
+    //0 不随机
+    //1 上下随机
+    //2 一顿乱搞
+    //默认2
+    random: 0
+}
+
+//混合规则配置
+function mixRule(target,src){
+    for(var i in src){
+        if (!target[i] && target[i] != 0) {
+            target[i] = src[i]
+        }
+    }
+}
+
+/**
+ * 设置游戏规则
+ * 规则优先级
+ *     用户单独设置>总规则>默认规则
+ */
+function setRule(){
+    var config;
+    //多个配置文件
+    if (confCount != 1) {
+        config = algorithm.conf[_gameTotal];
+        //主规则
+        mixRule(config,gameRule)
+        //默认规则
+        mixRule(config,defalutConf)
+    }
+    //如果没有配置文件,默认取第一个
+    if (!config) {
+        config = algorithm.conf[1];
+    }
+    return config;
+}
+
+
 /**
  * 开始游戏
  * @return {[type]} [description]
  */
 function createGames() {
+
     slidebox.start();
     ++_gameTotal;
 
-    var config
-    if (confCount != 1) {
-        config = algorithm.conf[_gameTotal]
-    }
-    if(!config){
-        config = algorithm.conf[1];
-    }
+    var config = setRule();
 
-    var cardGames = new CardGames(_className, config)
+    var cardGames = new CardGames(_className, config);
     cardGames.$watch('success', integral.add)
     cardGames.$watch('fail', integral.reduce)
     cardGames.$watch('complete', function() {
@@ -208,36 +259,13 @@ function createGames() {
 function selectGame() {
     //游戏结束
     if (_gameTotal >= limitCount) {
-        GameOver();
+        // GameOver();
+        selectTooltipBox('over')
         return;
     }
     //过关提示
     selectTooltipBox() 
 }
-
-/**
- * 时间格式
- * @return {[type]} [description]
- */
-Number.prototype.formatTime = function() {
-    // 计算
-    var h = 0,
-        i = 0,
-        s = parseInt(this);
-    if (s > 60) {
-        i = parseInt(s / 60);
-        s = parseInt(s % 60);
-        if (i > 60) {
-            h = parseInt(i / 60);
-            i = parseInt(i % 60);
-        }
-    }
-    // 补零
-    var zero = function(v) {
-        return (v >> 0) < 10 ? "0" + v : v;
-    };
-    return [zero(h), zero(i), zero(s)].join(":");
-};
 
 
 function visible($element) {
@@ -274,12 +302,14 @@ function resetGames() {
     visible($homePage)
 }
 
+
 /**
  * 开始页面
  * @param  {[type]} e [description]
  * @return {[type]}   [description]
  */
 function startContent(e) {
+    //生成游戏
     createGames('.content-page-card');
     visible($contentPage)
     $homePage.addClass('animated zoomOutUp')
@@ -304,49 +334,6 @@ $startButton.on(utils.event.start, function(e) {
 })
  
 
-
-function calculate(len) {
-   return Math.floor(Math.random() * 2);
-}
-
-var arr = ['.winning-content-fail','.winning-content-win']
-
-/**
- * 点击抽奖
- * @type {[type]}
- */
-$lotteryLottery.on(utils.event.start, function() {
-    var className = arr[calculate(2)]
-    //动态随机中奖概率
-    var $showElement =  $winningPage.find(className);
-    $showElement.show();
-
-    visible($winningPage);
-    hidden($lotteryPage);
-
-    /**
-     * 得分页面
-     * 再玩一次
-     * @return {[type]}     [description]
-     */
-     //限制玩的次数
-    if (_playCount !== AllowPlayCount) {
-        $lotteryPlay.on(utils.event.start, function() {
-            if (!checkMobile()) {
-                return;
-            }
-            $lotteryPlay.off()
-            $showElement.hide();
-            hidden($lotteryPage)
-            resetGames();
-            return false;
-        });
-    }
-
-    return false;
-});
-       
-
 /**
  * 验证号码
  * @param  {[type]} str [description]
@@ -365,6 +352,8 @@ function checkNumber(str) {
 }
 
 function checkMobile() {
+    $tooltipContent.hide();
+    $lotteryLottery.remove()//清除创建的节点
     var number = $("#myMobile").val();
     if (!number) {
         return true;
@@ -409,11 +398,13 @@ function BindTooltipBox() {
             case "tooltip-box-left":
                 resetGames();
                 HiddenTooltipBox();
+                $tooltipContent.hide();
                 break;
             case "tooltip-box-right":
                 //继续游戏
                 createGames();
                 HiddenTooltipBox();
+                $tooltipContent.hide();
                 break;
         }
         return false;
@@ -431,16 +422,95 @@ function deleteTooltipBox() {
 
 
 /**
+ * 设置背景
+ * @param {[type]} path [description]
+ */
+function setBackground() {
+    var config = algorithm.conf[_gameTotal];
+    var contentImage = config.images.content;
+    if (contentImage) {
+        $tooltipContent.css('background-image', 'url(' + contentImage + ')')
+    }
+}
+
+
+function calculate(len) {
+   return Math.floor(Math.random() * 2);
+}
+
+var arr = ['.winning-content-fail','.winning-content-win']
+
+
+/**
+ * 抽奖按钮绑定
+ * @return {[type]} [description]
+ */
+function lotteryBind() {
+    /**
+     * 点击抽奖
+     * @type {[type]}
+     */
+    $lotteryLottery.one(utils.event.start, function() {
+        var className = arr[calculate(2)]
+        //动态随机中奖概率
+        var $showElement = $winningPage.find(className);
+        $showElement.show();
+
+        visible($winningPage);
+        hidden($lotteryPage);
+        hidden($contentPage);
+
+        /**
+         * 得分页面
+         * 再玩一次
+         * @return {[type]}     [description]
+         */
+        //限制玩的次数
+        if (_playCount !== AllowPlayCount) {
+            $lotteryPlay.one(utils.event.start, function() {
+                if (!checkMobile()) {
+                    return;
+                }
+                $showElement.hide();
+                hidden($lotteryPage)
+                resetGames();
+                return false;
+            });
+        }
+
+        return false;
+    });
+}
+
+
+function addBottom() {
+    Music.paly('music/through.mp3');
+    ++_playCount;
+    $lotteryLottery = $('<div class="lottery-lottery" style="z-index:999999;">我要中大奖</div>');
+    //绑定事件
+    lotteryBind()
+    $contentPage.append($lotteryLottery)
+}
+
+
+/**
  * 过关提示
  * @return {[type]} [description]
  */
-function selectTooltipBox(callback) {
-    $tooltipBox
-        .show()
-        .addClass('animated zoomIn')
-        .on(utils.style.animationend, function() {
-            BindTooltipBox();
-        })
+function selectTooltipBox(over) {
+    Music.paly('music/through.mp3');    
+    setBackground();
+    $tooltipContent.show();
+    if (over) { //如果是3关结束页面
+        addBottom();//增加点击按钮
+    } else {
+        $tooltipBox
+            .show()
+            .addClass('animated zoomIn')
+            .on(utils.style.animationend, function() {
+                BindTooltipBox();
+            })
+    }
 }
 
 
@@ -453,16 +523,20 @@ var test = false;
 if(test){
     limitTime = 3000000;
 
-    hidden($contentPage);
+    visible($contentPage);
     hidden($homePage)
-    hidden($lotteryPage)
 
-        var className = arr[calculate(2)]
-    //动态随机中奖概率
-    var $showElement =  $winningPage.find('.winning-content-win');
-    $showElement.show();
 
-    visible($winningPage)
+    // selectTooltipBox()
+
+    // hidden($lotteryPage)
+
+    //     var className = arr[calculate(2)]
+    // //动态随机中奖概率
+    // var $showElement =  $winningPage.find('.winning-content-win');
+    // $showElement.show();
+
+    // visible($winningPage)
 
    
 }
