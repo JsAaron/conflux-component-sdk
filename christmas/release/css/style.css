@@ -1,0 +1,121 @@
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+footer,
+header,
+nav,
+section {
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    border: 0;
+    outline: 0;
+    background: transparent;
+}
+
+body {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: none;
+}
+
+h1 {
+    font-size: 33px;
+    margin: 50px 0 15px;
+    text-align: center;
+    color: #212121;
+}
+
+h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 10px 10px;
+    color: #3c3c3c;
+}
+
+small {
+    font-size: 12px;
+    display: block;
+    margin: 0 10px 30px;
+}
+
+a {
+    font-size: 12px;
+    margin: 0 0 0 10px;
+    color: #3c3c3c;
+}
+
+img {
+    border: 0;
+}
+
+ol,
+ul,
+li {
+    list-style-type: none;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000;
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+}
+
+.btn { 
+    width: 10rem;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.2rem;
+    display: inline-block;
+    background: #06c;
+    color: #fff;
+    border-radius: .5rem;
+    text-decoration: none;
+    text-align: center;
+}

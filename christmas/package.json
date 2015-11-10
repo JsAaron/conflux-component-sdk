@@ -1,0 +1,16 @@
+{
+  "name": "christmast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "release/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.9.1",
+    "gulp": "^3.9.0"
+  }
+}
