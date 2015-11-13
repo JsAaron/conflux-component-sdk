@@ -11,8 +11,8 @@ var config = {
     //否则默认全屏
     //如果设置，需要输入具体的px值
     layer: {
-		'width'  : '100%',
-		'height' : '100%',
+		'width'  : 800,
+		'height' : 600,
 		'top'    : 0,
 		'left'   : 0
     }
@@ -22,7 +22,7 @@ var config = {
 if (config.keepZoomRatio) {
     //原始比例
     var proportionY = 900 / 1440
-    var screenHeight = $(window).height();
+    var screenHeight = document.documentElement.clientHeight;
     //维持正比缩放的高度
     var zooomHeight = screenHeight * proportionY;
     var zooomTop = (screenHeight - zooomHeight) / 2
@@ -30,3 +30,5 @@ if (config.keepZoomRatio) {
 	config.layer.height = zooomHeight;
 	config.layer.top    = zooomTop;
 }
+
+ 

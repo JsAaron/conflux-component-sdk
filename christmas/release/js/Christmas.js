@@ -21,6 +21,9 @@ var Christmas = function() {
 	//第一副页面
 	var pageA = new PageA()
 
+	//出现
+	pageA.run();
+
 
 };
 
