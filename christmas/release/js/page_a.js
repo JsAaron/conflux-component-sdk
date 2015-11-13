@@ -1,6 +1,8 @@
 /**
  * 第一副场景页面
  * http://louisremi.github.com/jquery.transform.js/index.html
+ * http://www.html5tricks.com/demo/html5-css3-car-animation/index.html
+ * http://www.gbtags.com/gb/demoviewer/4387/c9ebbe12-abab-487d-958a-aa79797ddcda/snow.html.htm
  */
 
 function PageA() {
@@ -53,7 +55,7 @@ PageA.prototype.run = function(){
     then(function() {
         return next({
             "left"  : "2rem",
-            "top"   : "5em",
+            "top"   : "3em",
             "scale" : 0.8,
             "time"  : 2000
         })

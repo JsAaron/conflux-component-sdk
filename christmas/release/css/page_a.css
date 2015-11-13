@@ -19,14 +19,15 @@
  */
 
 .chs-boy {
-	width       : 1.8rem;
-	height      : 2.57rem;
-	position    : absolute;
-	left        : -2rem;
-	top         : 0;
-	transform   : scale(0); 
-	background  : url("../images/chs-boy-run.png");
-	background-size: 1900% 100%;
+    width           : 1.8rem;
+    height          : 2.57rem;
+    position        : absolute;
+    z-index         : 10;
+    left            : -2rem;
+    top             : 0;
+    transform       : scale(0); 
+    background      : url("../images/chs-boy-run.png");
+    background-size : 1900% 100%;
 }
 
 
@@ -49,4 +50,25 @@
  */
 .boy-stop-animate{
     -webkit-animation-play-state: paused;
+}
+
+
+/*月亮*/
+.moon {
+    background    : #FCF0BC;
+    width         : 2rem;
+    height        : 2rem;
+    border-radius : 50%;
+    box-shadow    : 0 0 1.5rem #FCF0BC;
+    position      : absolute;
+    left          : 2.5rem;
+    top           : 1rem;
+}
+
+.page-a svg{
+    width    :1rem;
+    height   :1rem; 
+    position :absolute;
+    left     :5rem;
+    top      :5rem;
 }
