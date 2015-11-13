@@ -32,6 +32,7 @@ PageA.prototype.stopWalk = function(){
     this.$boy.addClass("boy-stop-animate")
 }
 
+//http://www.html5tricks.com/demo/pure-css3-weather-icon/index.html
 
 /**
  * 跑步
