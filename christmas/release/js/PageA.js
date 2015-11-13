@@ -4,27 +4,8 @@
  */
 
 function PageA() {
-
-	this.$boy = $('.chs-boy');
-
-    // this.$boy.animate({
-    //     'top': '10px',
-    //     transform: 'scale(0.6)'
-    // }, 3200, function() {
-    //     $(this).animate({
-    //         'z-index': 5
-    //     }, 0, function() {
-    //         $(this).animate({
-    //             'top': '90px',
-    //             transform: 'scale(1)'
-    //         }, 2000);
-    //     });
-    // });
-
-	// console.log( calculationKeyframes(1,1,19))
-
+    this.$boy = $('.chs-boy');
 }
-
 
 /**
  * 运行下一个动画
@@ -34,6 +15,7 @@ PageA.prototype.next = function(options) {
     var dfd = $.Deferred();
     this.$boy.animate({
         "left": options.left,
+        "top" : options.top,
         "transform": "scale(" + options.scale + ")"
     }, options.time, function() {
         dfd.resolve()
@@ -41,34 +23,50 @@ PageA.prototype.next = function(options) {
     return dfd;
 }
 
+
+/**
+ * 停止走路
+ * @return {[type]} [description]
+ */
+PageA.prototype.stopWalk = function(){
+    this.$boy.addClass("boy-stop-animate")
+}
+
+
 /**
  * 跑步
  * @return {[type]} [description]
  */
 PageA.prototype.run = function(){
-
+    var that = this;
     var next = function() {
         return this.next.apply(this, arguments)
     }.bind(this)
 
     next({
-        "left"  : "1rem",
-        "scale" : 0.5,
-        "time"  : 3000
+        "left"  : "10rem",
+        "top"   :  "1rem",
+        "scale" : 0.6,
+        "time"  : 2000
     }).
-    done(function() {
+    then(function() {
+        return next({
+            "left"  : "2rem",
+            "top"   : "5em",
+            "scale" : 0.8,
+            "time"  : 2000
+        })
+    }).
+    then(function() {
         return next({
             "left"  : "5rem",
-            "scale" : 0.5,
-            "time"  : 5000
+            "top"   : "8em",
+            "scale" : 1,
+            "time"  : 2000
         })
     }).
-    done(function() {
-        return next({
-            "left"  : "10rem",
-            "scale" : 0.5,
-            "time"  : 5000
-        })
+    then(function(){
+        that.stopWalk();
     })
 
 }

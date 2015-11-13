@@ -20,7 +20,7 @@ var config = {
 
 //根据页面尺寸维持缩放比
 if (config.keepZoomRatio) {
-    //原始比例
+    // 原始比例
     var proportionY = 900 / 1440
     var screenHeight = document.documentElement.clientHeight;
     //维持正比缩放的高度
