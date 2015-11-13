@@ -1,3 +1,45 @@
-.flex-container{
-    
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.bg-adaptive {
+    background-size: 100% 100%;
+}
+
+.container .page-a {
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/page-a-bg.jpg");
+}
+
+
+/**
+ * 圣诞男孩
+ */
+
+.chs-boy {
+	height      : 257px;
+	position    : absolute;
+	width       : 180px;
+	left        : 50%;
+	margin-left : -90px;
+	top         : 110px;
+	z-index     : 3;
+	transform   : scale(0);
+	background  : url("../images/chs-boy-run.png");
+}
+
+
+/**
+ * 男孩走路动作
+ */
+.boy-animate {
+	animation: animate 0.75s steps(19) infinite;
+}
+
+@keyframes animate {
+  to {
+    background-position: -3420px;
+  }
 }

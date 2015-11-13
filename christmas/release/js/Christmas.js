@@ -1,3 +1,8 @@
+
+
+
+
+
 /**
  * http://www.jq22.com/yanshi242
  * 慕课网特制
@@ -5,17 +10,16 @@
  * @type {Object}
  */
 var Christmas = function() {
-
-    //走过的位置
-    var instanceX;
-    
     //页面容器
-    var container    = $("#content");
+    var container = $(".container");
+    //设置新的页面容器大小
+    container.css(config.layer);
     //页面可视区域
-    var visualWidth  = container.width()
-    var visualHeight = container.height()
+	var visualWidth  = container.width()
+	var visualHeight = container.height()
 
-
+	//第一副页面
+	var pageA = new PageA()
 
 
 };
