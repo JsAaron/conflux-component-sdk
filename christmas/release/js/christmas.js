@@ -1,8 +1,4 @@
 
-
-
-
-
 /**
  * http://www.jq22.com/yanshi242
  * 慕课网特制

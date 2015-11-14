@@ -45,7 +45,7 @@ PageA.prototype.run = function(){
     var next = function() {
         return this.next.apply(this, arguments)
     }.bind(this)
-
+return
     next({
         "left"  : "10rem",
         "top"   :  "1rem",
@@ -53,6 +53,7 @@ PageA.prototype.run = function(){
         "time"  : 2000
     }).
     then(function() {
+        return
         return next({
             "left"  : "2rem",
             "top"   : "3em",
