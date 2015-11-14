@@ -144,16 +144,17 @@
     position: absolute;
     left: 1.4rem;
     top: 2.4rem;
-}
+} 
 
 /*云*/
-.cloudy {
+/*.cloudy {
     -webkit-animation: cloudy 5s ease-in-out infinite;
     background: #60768D;
     border-radius: 50%;
-    box-shadow: #60768D 65px -15px 0 -5px, #60768D 25px -25px, #60768D 30px 10px, #60768D 60px 15px 0 -10px, #60768D 85px 5px 0 -5px;
-    height: 50px;
-    width: 50px;
+    box-shadow: #60768D .5rem 0 0 -5px;
+        box-shadow: #60768D 65px -15px 0 -5px, #60768D 25px -25px, #60768D 30px 10px, #60768D 60px 15px 0 -10px, #60768D 85px 5px 0 -5px;
+    height: 1rem;
+    width: 1rem;
     position: absolute;
     left: .5rem;
     top: 2rem;
@@ -161,5 +162,5 @@
 }
 @-webkit-keyframes cloudy {
     50% { -webkit-transform: translateY(-0.1rem); }
-}
+}*/
 

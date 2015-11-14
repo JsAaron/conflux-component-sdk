@@ -6,7 +6,12 @@
  */
 
 function PageA() {
-    this.$boy = $('.chs-boy');
+    //根元素
+    this.$root= $(".page-a");
+    //小男孩
+    this.$boy = $(".chs-boy");
+
+    this.createCloudyCircle();
 }
 
 /**
@@ -35,12 +40,13 @@ PageA.prototype.stopWalk = function(){
 }
 
 //http://www.html5tricks.com/demo/pure-css3-weather-icon/index.html
-
+  
 /**
  * 跑步
  * @return {[type]} [description]
  */
 PageA.prototype.run = function(){
+    return 
     var that = this;
     var next = function() {
         return this.next.apply(this, arguments)
@@ -83,8 +89,26 @@ PageA.prototype.run = function(){
 }
 
 
+/**
+ * 创建半圆的云svg图
+ * @return {[type]} [description]
+ */
+PageA.prototype.createCloudyCircle = function() {
+    return
+    //创建SVG元素
+    var svg = document.createElement("svg");
+    svg.setAttribute("width", "100");
+    svg.setAttribute("height", "100");
+    //创建circle元素
+    var rect = document.createElement("rect");
+    rect.setAttribute("cx", "50");
+    rect.setAttribute("cy", "50");
+    rect.setAttribute("r", "40");
+    svg.appendChild(rect);
+    $root.append(svg); 
+}
 
-
+ 
 
 
 /**
