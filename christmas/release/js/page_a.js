@@ -45,26 +45,33 @@ PageA.prototype.run = function(){
     var next = function() {
         return this.next.apply(this, arguments)
     }.bind(this)
-return
+
     next({
-        "left"  : "10rem",
-        "top"   :  "1rem",
+        "top"   : "-0.2rem",
         "scale" : 0.6,
-        "time"  : 2000
+        "time"  : 4000
     }).
     then(function() {
-        return
+        that.$boy.css("z-index",10);
         return next({
-            "left"  : "2rem",
-            "top"   : "3em",
+            "left"    : "5rem",
+            "top"     : "2em",
+            "scale"   : 0.7,
+            "time"    : 2000
+        })
+    }).
+    then(function() {
+        return next({
+            "left"  : "3rem",
+            "top"   : "5em",
             "scale" : 0.8,
             "time"  : 2000
         })
     }).
     then(function() {
         return next({
-            "left"  : "5rem",
-            "top"   : "8em",
+            "left"  : "6rem",
+            "top"   : "7em",
             "scale" : 1,
             "time"  : 2000
         })

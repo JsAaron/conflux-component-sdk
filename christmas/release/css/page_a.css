@@ -20,9 +20,9 @@
     width: 1.8rem;
     height: 2.57rem;
     position: absolute;
-    z-index: 10;
-    left: -2rem;
-    top: 0;
+    z-index: 3;
+    left : 1rem;
+    top  : .5rem;
     transform: scale(0);
     background: url("../images/chs-boy-run.png");
     background-size: 1900% 100%;
@@ -157,6 +157,7 @@
     position: absolute;
     left: .5rem;
     top: 2rem;
+    z-index: 5;
 }
 @-webkit-keyframes cloudy {
     50% { -webkit-transform: translateY(-0.1rem); }
