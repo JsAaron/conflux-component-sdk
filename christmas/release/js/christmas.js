@@ -20,7 +20,6 @@ var Christmas = function() {
 	//出现
 	pageA.run();
 
-
 };
 
 
