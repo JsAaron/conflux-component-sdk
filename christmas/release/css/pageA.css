@@ -179,7 +179,7 @@
     /*box-shadow: 6px 6px 4px #000;*/
     /*border: 1px inset #C60;*/
     cursor: pointer;
-    -webkit-perspective: 500;
+    -webkit-perspective: 900;
     -webkit-transform-style: preserve-3d;
     -webkit-transition-property: perspective;
 }
