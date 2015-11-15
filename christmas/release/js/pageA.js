@@ -10,8 +10,13 @@ function PageA() {
     this.$root= $(".page-a");
     //小男孩
     this.$boy = $(".chs-boy");
+    //窗户
+    this.$window = $(".window");    this.$leftWin  = this.$window.find(".window-left")
+    this.$rightWin = this.$window.find(".window-right")
 
     this.createCloudyCircle();
+
+    this.openWindow();
 }
 
 /**
@@ -32,6 +37,31 @@ PageA.prototype.next = function(options) {
 
 
 /**
+ * 开窗
+ * @return {[type]} [description]
+ */
+PageA.prototype.openWindow = function(){
+    var that = this;
+    this.$window.hover(function() {
+        that.$leftWin.addClass("hover");
+        that.$rightWin.addClass("hover");
+    }, function() {
+        that.$leftWin.removeClass("hover");
+        that.$rightWin.removeClass("hover");
+    })
+
+    // this.$leftWin.css({
+    //     "-webkit-transform" :"scale(0.9) rotateY(60deg)"
+    //     // "margin-left"       :"-0.2rem"
+    // })
+    // this.$rightWin.css({
+    //      "-webkit-transform" :"scale(0.9) rotateY(-60deg)",
+    //      "margin-right"       :"-0.2rem"
+    // })
+}
+
+
+/**
  * 停止走路
  * @return {[type]} [description]
  */
@@ -46,7 +76,7 @@ PageA.prototype.stopWalk = function(){
  * @return {[type]} [description]
  */
 PageA.prototype.run = function(){
-    return 
+    return
     var that = this;
     var next = function() {
         return this.next.apply(this, arguments)
@@ -54,7 +84,7 @@ PageA.prototype.run = function(){
 
     next({
         "top"   : "-0.2rem",
-        "scale" : 0.6,
+        "scale" : 0.5,
         "time"  : 4000
     }).
     then(function() {
@@ -62,7 +92,7 @@ PageA.prototype.run = function(){
         return next({
             "left"    : "5rem",
             "top"     : "2em",
-            "scale"   : 0.7,
+            "scale"   : 0.6,
             "time"    : 2000
         })
     }).

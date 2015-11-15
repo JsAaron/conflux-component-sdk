@@ -147,7 +147,7 @@
 } 
 
 /*云*/
-/*.cloudy {
+.cloudy {
     -webkit-animation: cloudy 5s ease-in-out infinite;
     background: #60768D;
     border-radius: 50%;
@@ -162,5 +162,56 @@
 }
 @-webkit-keyframes cloudy {
     50% { -webkit-transform: translateY(-0.1rem); }
-}*/
+}
 
+
+
+/**
+ * 窗户
+ */
+.window {
+    background: url("../images/night.JPG") 30% center;
+    width: 3rem;
+    height: 2rem;
+    position: absolute;
+    left: 8.2rem;
+    top:5.5rem;
+    /*box-shadow: 6px 6px 4px #000;*/
+    /*border: 1px inset #C60;*/
+    cursor: pointer;
+    -webkit-perspective: 500;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition-property: perspective;
+}
+.wood {
+    display: block;
+    overflow: hidden;
+    box-shadow: 3px 3px 4px #000;
+}
+.window-left {
+    float: left;
+    background: red;
+    -webkit-transform: rotateY(0deg);
+}
+.window-right {
+    float: right;
+    background: yellow;
+    -webkit-transform: rotateY(0deg);
+}
+.window-left, .window-right {
+    width: 50%;
+    height:100%;
+    box-shadow: none;
+    -webkit-transition: 1s ease-in-out;
+}
+
+.window-left.hover{
+    -webkit-transform:scale(0.9) rotateY(60deg);
+     margin-left:-0.37rem;
+}
+
+
+.window-right.hover{
+    -webkit-transform:scale(0.9) rotateY(-60deg);
+    margin-right:-0.37rem;
+}
