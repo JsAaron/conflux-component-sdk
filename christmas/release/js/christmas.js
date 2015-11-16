@@ -18,8 +18,7 @@ var Christmas = function() {
 	var pageA = new PageA()
 	//运行动画
 	// pageA.run();
-
-    pageA.change(0);
+    // pageA.change();
 
 
 };

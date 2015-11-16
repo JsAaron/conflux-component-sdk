@@ -54,8 +54,8 @@ PageA.prototype.next = function(options) {
 PageA.prototype.change = function(callback){
     this.$root
         .addClass("changePage")
-        .on("webkitAnimationEnd", function() {
-                callback();
+        .one("webkitAnimationEnd", function() {
+            callback && callback();
         })
 }
 
@@ -64,17 +64,22 @@ PageA.prototype.change = function(callback){
  * 开窗
  * @return {[type]} [description]
  */
-PageA.prototype.openWindow = function(){
-    var that = this;
-    this.$window.hover(function() {
-        that.$leftWin.addClass("hover");
-        that.$rightWin.addClass("hover");
-    }, function() {
-        that.$leftWin.removeClass("hover");
-        that.$rightWin.removeClass("hover");
-    })
+PageA.prototype.openWindow = function(callback) {
+    var count = 1;
+    var complete = function() {
+        ++count
+        if (count === 2) {
+            callback && callback();
+        }
+    }
+    var bind = function(data) {
+        data.one("webkitTransitionEnd", function(event) {
+            complete()
+        })
+    }
+    bind(this.$leftWin.addClass("hover"))
+    bind(this.$rightWin.addClass("hover"))
 }
-
 
 /**
  * 停止走路
@@ -136,8 +141,9 @@ PageA.prototype.run = function(callback){
     }).
     then(function(){
         that.stopWalk();
+        that.openWindow();
         that.change();
-        callback();
+        // callback && callback();
     })
 }
 
