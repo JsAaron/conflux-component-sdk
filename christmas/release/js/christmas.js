@@ -16,9 +16,11 @@ var Christmas = function() {
 
 	//第一副页面
 	var pageA = new PageA()
+	//运行动画
+	// pageA.run();
 
-	//出现
-	pageA.run();
+    pageA.change(0);
+
 
 };
 

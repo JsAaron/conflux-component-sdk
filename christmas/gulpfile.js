@@ -10,7 +10,7 @@ var config = {
     webServer: {
         server    : dest,
         index     : index,
-        port      : 3000,
+        port      : 3333,
         logLevel  : "debug",
         logPrefix : "Aaron",
         open      : true
