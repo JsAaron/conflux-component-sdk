@@ -21,6 +21,7 @@ var Christmas = function() {
     // pageA.change();
 
 
+    carousel();
 };
 
 
