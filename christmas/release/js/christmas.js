@@ -20,8 +20,8 @@ var Christmas = function() {
 	// pageA.run();
     // pageA.change();
 
-
-    carousel();
+    //3d旋转
+    new Carousel();
 };
 
 
