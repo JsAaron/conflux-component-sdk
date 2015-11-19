@@ -10,3 +10,14 @@
 } 
 
 
+/**
+ * 页面切换
+ * 镜头方法
+ */
+.effect-out{
+    -webkit-animation: effectOut 5s ease-in-out forwards;
+}
+@-webkit-keyframes effectOut{
+    0% { opacity:1; }
+    100% { -webkit-transform: rotateZ(10deg) scale(5); opacity:0; }
+}

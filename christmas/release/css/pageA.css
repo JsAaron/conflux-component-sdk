@@ -1,7 +1,7 @@
 .container .page-a {
     width  : 100%;
     height : 100%;
-    background-image: url("../images/page-a-bg.jpg");
+    background-image: url("../images/page-a-bg.png");
     position: absolute;
     z-index: 3;
 }
@@ -215,13 +215,3 @@
 
 
 
-/**
- * 页面切换
- */
-.page-a.changePage{
-    -webkit-animation: changeA 5s ease-in-out forwards;
-}
-@-webkit-keyframes changeA{
-    0% { opacity:1; }
-    100% { -webkit-transform: rotateZ(10deg) scale(3); opacity:0; }
-}

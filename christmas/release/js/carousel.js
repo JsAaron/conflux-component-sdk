@@ -18,13 +18,16 @@ function Carousel(carousel,options) {
 	var start   = 0;
 	var current = 1;
 
+	//子元素
+	var $contentElements;
+
 	/**
 	 * 创建结构
 	 * @param  {[type]} imgUrl [description]
 	 * @return {[type]}        [description]
 	 */
 	function createStr(imgUrl){
-		var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});overflow:hidden;position:absolute;">'
+		var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});position:absolute;">'
 						 +'<img src="{3}" style="width:100%;height:100%;">' 
 			   	 +'</figure>';
 
@@ -55,8 +58,9 @@ function Carousel(carousel,options) {
 	 * @return {[type]} [description]
 	 */
 	function initStyle(){
-		//场景
+		//场景元素
 		$carousel.css({
+			"transform":"scale(0.5)",
 			"-webkit-perspective" : "500px",
 			"position"            : "absolute",
 			"left"                : "5rem",
@@ -66,7 +70,7 @@ function Carousel(carousel,options) {
 		$spinner.css({
 			"width"           : "2rem",
 			"transform-style" : "preserve-3d",
-			"transition"      : "2s"
+			"transition"      : "1s"
 		})
 	}
 
@@ -81,8 +85,8 @@ function Carousel(carousel,options) {
 			contentStr += createStr(url);
 			start = start + rotate;
 		})
-		this.$contentElements = $(contentStr);
-		$spinner.append(this.$contentElements)
+		$contentElements = $(contentStr);
+		$spinner.append($contentElements)
 	}
 
 	//样式
@@ -90,11 +94,37 @@ function Carousel(carousel,options) {
 	//绘制节点
 	render();
 
+
+
+
+var curr = 0
+		setTimeout(function() {
+			this.palyVideo(curr, $contentElements.eq(curr))
+		}.bind(this), 1000)
+		
+
+
+	//旋转次数
+	//随机
+	//3-10次
+	var carouselCount  = Math.floor(Math.random() * 5 + 3);
+	var _carouselCount = carouselCount;
 	this.run = function() {
+		return
 		//开始旋转
-		this.initTimer = setInterval(function() {
+		this.initTimer = setInterval(function() {	
+			if(carouselCount === 1){
+				this.destroy();
+				//当前图片
+				//索引0开始
+				var curr = _carouselCount % 3;
+				setTimeout(function() {
+					palyVideo(curr, $contentElements.eq(curr))
+				}, 1000)
+			}
 			//开始
 			finishInit()
+			--carouselCount;
 		}.bind(this), 1000);
 	}
 
@@ -106,6 +136,44 @@ function Carousel(carousel,options) {
 		clearInterval(this.initTimer);
 		this.initTimer = null;
 	}	
+
+
+	/**
+	 * 视频播放
+	 * @param  {[type]} index   [description]
+	 * @param  {[type]} element [description]
+	 * @return {[type]}         [description]
+	 */
+	this.palyVideo = function(index, element) {
+
+		var layer = config.layer;
+
+		var str = '<video width= 100% height=100%">'
+						 + '<source src="{2}" type="video/mp4" />'
+				  + '</video>';
+
+		var $video = $(
+			String.format(
+				str,
+				layer.width,
+				layer.height,
+				options.videoUrls[index])
+		);
+
+		//播放
+		$video.on("loadeddata", function() {
+			$video[0].play()
+		})
+
+		//停止
+		$video.on("ended", function() {
+			$video[0].pause()
+			$video.remove();
+		})
+
+		//插入视频
+		$(".page-b").append($video)
+	}
 
 }
 

@@ -1,10 +1,25 @@
-
 /**
  * http://www.jq22.com/yanshi242
  * 慕课网特制
  * 圣诞主题效果
  * @type {Object}
  */
+
+/**
+ * 切换页面
+ * 模拟镜头效果
+ * @return {[type]} [description]
+ */
+function changePage(element,effect,callback){
+    element
+        .addClass(effect)
+        .one(support.animationEnd, function() {
+            callback && callback();
+        })
+}
+
+
+
 var Christmas = function() {
     //页面容器
     var container = $(".container");
@@ -14,25 +29,40 @@ var Christmas = function() {
 	var visualWidth  = container.width()
 	var visualHeight = container.height()
 
+    //页面A
+    var $pageA = $(".page-a");
+
 	//第一副页面
-	var pageA = new PageA()
+	var pageA = new PageA($pageA)
 	//运行动画
 	// pageA.run();
     // pageA.change();
 
+
+    changePage($pageA,"effect-out")
+
+
+
     //3d旋转
     var carousel = new Carousel($("#carousel"), {
         imgUrls: [
-            "images/carousel/1.png",
-            "images/carousel/2.png",
-            "images/carousel/3.png",
-            "images/carousel/1.png",
-            "images/carousel/2.png",
-            "images/carousel/3.png"
+            "assets/carousel/1.png",
+            "assets/carousel/2.png",
+            "assets/carousel/3.png",
+            "assets/carousel/1.png",
+            "assets/carousel/2.png",
+            "assets/carousel/3.png"
+        ],
+        videoUrls: [
+            "assets/carousel/1.mp4",
+            "assets/carousel/2.mp4",
+            "assets/carousel/3.mp4"
         ]
     });
     carousel.run();
 };
+
+
 
 
 $(function() {

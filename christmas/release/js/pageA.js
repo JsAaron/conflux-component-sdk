@@ -6,13 +6,14 @@
  * http://www.html5tricks.com/demo/pure-css3-weather-icon/index.html
  */
 
-function PageA() {
+function PageA(element) {
     //根元素
-    this.$root= $(".page-a");
+    this.$root= element;
     //小男孩
-    this.$boy = $(".chs-boy");
+    this.$boy = element.find(".chs-boy");
     //窗户
-    this.$window = $(".window");    this.$leftWin  = this.$window.find(".window-left")
+    this.$window = element.find(".window");    
+    this.$leftWin  = this.$window.find(".window-left")
     this.$rightWin = this.$window.find(".window-right")
 
     //初始化一些场景
@@ -37,26 +38,13 @@ PageA.prototype.init = function() {
 PageA.prototype.next = function(options) {
     var dfd = $.Deferred();
     this.$boy.animate({
-        "left": options.left,
-        "top" : options.top,
-        "transform": "scale(" + options.scale + ")"
+         "left"            : options.left,
+         "top"             : options.top,
+         "transform" : "scale(" + options.scale + ")"
     }, options.time, function() {
         dfd.resolve()
     });
     return dfd;
-}
-
-
-/**
- * 切换场景
- * @return {[type]} [description]
- */
-PageA.prototype.change = function(callback){
-    this.$root
-        .addClass("changePage")
-        .one("webkitAnimationEnd", function() {
-            callback && callback();
-        })
 }
 
 
@@ -73,7 +61,7 @@ PageA.prototype.openWindow = function(callback) {
         }
     }
     var bind = function(data) {
-        data.one("webkitTransitionEnd", function(event) {
+        data.one(support.transitionEnd, function(event) {
             complete()
         })
     }
