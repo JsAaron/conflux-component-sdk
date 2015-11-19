@@ -18,22 +18,20 @@
     left: 1rem;
     background-image: url("../images/trees.png");
     background-size: 200% 100%;
-    -webkit-animation-name: tree-cartoon;
-    -webkit-animation-duration: 50ms;
+    -webkit-animation-name: tree-run;
+    -webkit-animation-duration: 400ms;
+    -webkit-animation-timing-function: steps(2);
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: step-start;
 }
-@-webkit-keyframes tree-cartoon {
+@-webkit-keyframes tree-run {
     0% {
-       background-position: 200% 100%
-    }
-    50% {
-        background-position: 400% 100%
+        background-position: 200% 100%;
     }
     100% {
-        background-position: 400% 100%
+        background-position: 400% 100%; 
     }
 }
+
 
 /**
  * 圣诞男孩
@@ -165,9 +163,9 @@
     width: 1.2rem;
     height: 1.2rem;
     position: absolute;
-    left: 1.4rem;
-    top: 2.4rem;
-    z-index: 10;
+    left: 2.03rem;
+    top: 3.7rem;
+    z-index: 15;
 } 
 
 /*云*/
@@ -181,7 +179,6 @@
       #60768D 30px 10px, 
       #60768D 60px 15px 0 -10px, 
       #60768D 85px 5px 0 -5px;
-
     height: 1rem;
     width: 1rem;
     position: absolute;
