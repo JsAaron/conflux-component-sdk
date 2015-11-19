@@ -21,9 +21,18 @@ var Christmas = function() {
     // pageA.change();
 
     //3d旋转
-    new Carousel();
+    var carousel = new Carousel($("#carousel"), {
+        imgUrls: [
+            "images/carousel/1.png",
+            "images/carousel/2.png",
+            "images/carousel/3.png",
+            "images/carousel/1.png",
+            "images/carousel/2.png",
+            "images/carousel/3.png"
+        ]
+    });
+    carousel.run();
 };
-
 
 
 $(function() {

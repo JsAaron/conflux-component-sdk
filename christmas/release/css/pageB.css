@@ -7,34 +7,5 @@
 }
 
 
-/*旋转木马*/
-div#carousel {
-    width       : 3rem;
-    perspective : 1200px;
-    font-size   : 0;
-    position    : absolute;
-    left        :5rem;
-    top         :5rem;
-}
-
-#spinner {
-    transform-style: preserve-3d;
-    height: 1rem;
-    transform-origin: 50% 50% -1rem;
-    transition: 2s;
-}
-
-#spinner figure {
-    width: 0.8rem;
-    position: absolute;
-    /*left: 20;*/
-    transform-origin: 50% 50% -1rem;
-    outline: 1px solid transparent;
-    overflow: hidden;
-}
-
-#spinner figure img {
-    width: 100%;
-}
 
 
