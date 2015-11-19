@@ -35,7 +35,7 @@ var Christmas = function() {
 	//第一副页面
 	var pageA = new PageA($pageA)
 	//运行动画
-	// pageA.run();
+	pageA.run();
     // pageA.change();
 
 

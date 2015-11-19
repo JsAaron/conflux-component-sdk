@@ -37,11 +37,7 @@ PageA.prototype.init = function() {
  */
 PageA.prototype.next = function(options) {
     var dfd = $.Deferred();
-    this.$boy.animate({
-         "left"            : options.left,
-         "top"             : options.top,
-         "transform" : "scale(" + options.scale + ")"
-    }, options.time, function() {
+    this.$boy.animate(options.styles, options.time, function() {
         dfd.resolve()
     });
     return dfd;
@@ -83,56 +79,61 @@ PageA.prototype.stopWalk = function(){
  * @return {[type]} [description]
  */
 PageA.prototype.run = function(callback){
+    // return
     var that = this;
     var next = function() {
         return this.next.apply(this, arguments)
     }.bind(this)
 
     next({
-        "top"   : "-0.2rem",
-        "scale" : 0.7,
-        "time"  : 4000
-    }).
-    done(function(){
-        that.$boy.css("z-index",10);
-    }).
-    then(function() {
-        return next({
-            "left"    : "5rem",
-            "top"     : "2em",
-            "scale"   : 0.6,
-            "time"    : 2000
-        })
-    }).
-    then(function() {
-        return next({
-            "left"  : "3rem",
-            "top"   : "5em",
-            "scale" : 0.8,
-            "time"  : 2000
-        })
-    }).
-    then(function() {
-        return next({
-            "left"  : "5rem",
-            "top"   : "7em",
-            "scale" : 1,
-            "time"  : 2000
-        })
-    }).
-    then(function() {
-        return next({
-            "left"  : "9rem",
-            "scale" : 1,
-            "time"  : 2000
-        })
-    }).
-    then(function(){
-        that.stopWalk();
-        that.openWindow();
-        that.change();
-        // callback && callback();
+        "time": 6000,
+        "styles": {
+            "top"       : "0.2rem",
+            "left"      : "0.5rem",
+            "transform" : "rotateY(90deg)"
+        }
     })
+    .done(function(){
+        that.$boy.css("z-index",10);
+    })
+    // .then(function() {
+    //     return
+    //     return next({
+    //         "left"    : "4rem",
+    //         "top"     : "1rem",
+    //         "scale"   : 0.6,
+    //         "time"    : 6000
+    //     })
+    // })
+    // then(function() {
+    //     return next({
+    //         "left"  : "3rem",
+    //         "top"   : "5em",
+    //         "scale" : 0.8,
+    //         "time"  : 2000
+    //     })
+    // }).
+    // then(function() {
+    //     return next({
+    //         "left"  : "5rem",
+    //         "top"   : "7em",
+    //         "scale" : 1,
+    //         "time"  : 2000
+    //     })
+    // }).
+    // then(function() {
+    //     return next({
+    //         "left"  : "9rem",
+    //         "scale" : 1,
+    //         "time"  : 2000
+    //     })
+    // }).
+    // then(function(){
+    //     that.stopWalk();
+    //     that.openWindow();
+    //     that.change();
+    //     // callback && callback();
+    // })
 }
 
 

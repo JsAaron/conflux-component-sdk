@@ -4,6 +4,7 @@
     background-image: url("../images/page-a-bg.png");
     position: absolute;
     z-index: 3;
+    -webkit-perspective:900px;
 }
 
 /**
@@ -38,15 +39,17 @@
  */
 
 .chs-boy {
-    width: 1.8rem;
-    height: 2.57rem;
+    width: 5.6rem;
+    height: 2rem;
     position: absolute;
     z-index: 3;
-    left : 1rem;
+    left : -2rem;
     top  : .5rem;
     transform: scale(0);
-    background: url("../images/chs-boy-run.png");
-    background-size: 1900% 100%;
+    background: url("../images/boy-sleigh-car.png");
+    background-size: 300% 100%;
+    /*transform:rotateY(60deg);*/
+    transform-style:preserve-3d;
 }
 /**
  * 男孩走路动作
@@ -56,69 +59,18 @@
     -webkit-animation-name: person-slow;
     -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(1, start);
+    -webkit-animation-timing-function: steps(3);
 }
 
 @-webkit-keyframes person-slow {
     0% {
-        background-position: 0% 0%
+        background-position: 300% 100%
     }
-    5.2631578947368425% {
-        background-position: 0% 0%
-    }
-    10.526315789473685% {
-        background-position: -100% 0%
-    }
-    15.789473684210527% {
-        background-position: -200% 0%
-    }
-    21.05263157894737% {
-        background-position: -300% 0%
-    }
-    26.315789473684212% {
-        background-position: -400% 0%
-    }
-    31.578947368421055% {
-        background-position: -500% 0%
-    }
-    36.8421052631579% {
-        background-position: -600% 0%
-    }
-    42.10526315789474% {
-        background-position: -700% 0%
-    }
-    47.36842105263158% {
-        background-position: -800% 0%
-    }
-    52.631578947368425% {
-        background-position: -900% 0%
-    }
-    57.89473684210527% {
-        background-position: -1000% 0%
-    }
-    63.15789473684211% {
-        background-position: -1100% 0%
-    }
-    68.42105263157896% {
-        background-position: -1200% 0%
-    }
-    73.6842105263158% {
-        background-position: -1300% 0%
-    }
-    78.94736842105263% {
-        background-position: -1400% 0%
-    }
-    84.21052631578948% {
-        background-position: -1500% 0%
-    }
-    89.47368421052633% {
-        background-position: -1600% 0%
-    }
-    94.73684210526316% {
-        background-position: -1700% 0%
+    50% {
+        background-position: 600% 100%
     }
     100% {
-        background-position: -1800% 0%
+        background-position: 900% 100%
     }
 }
 /**
