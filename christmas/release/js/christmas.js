@@ -39,27 +39,27 @@ var Christmas = function() {
     // pageA.change();
 
 
-    changePage($pageA,"effect-out")
+    // changePage($pageA,"effect-out")
 
 
 
     //3d旋转
-    var carousel = new Carousel($("#carousel"), {
-        imgUrls: [
-            "assets/carousel/1.png",
-            "assets/carousel/2.png",
-            "assets/carousel/3.png",
-            "assets/carousel/1.png",
-            "assets/carousel/2.png",
-            "assets/carousel/3.png"
-        ],
-        videoUrls: [
-            "assets/carousel/1.mp4",
-            "assets/carousel/2.mp4",
-            "assets/carousel/3.mp4"
-        ]
-    });
-    carousel.run();
+    // var carousel = new Carousel($("#carousel"), {
+    //     imgUrls: [
+    //         "assets/carousel/1.png",
+    //         "assets/carousel/2.png",
+    //         "assets/carousel/3.png",
+    //         "assets/carousel/1.png",
+    //         "assets/carousel/2.png",
+    //         "assets/carousel/3.png"
+    //     ],
+    //     videoUrls: [
+    //         "assets/carousel/1.mp4",
+    //         "assets/carousel/2.mp4",
+    //         "assets/carousel/3.mp4"
+    //     ]
+    // });
+    // carousel.run();
 };
 
 

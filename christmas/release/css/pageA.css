@@ -5,6 +5,36 @@
     position: absolute;
     z-index: 3;
 }
+
+/**
+ * 圣诞树
+ */
+.tree{
+    width: 3rem;
+    height: 6rem;
+    z-index: 15;
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    background-image: url("../images/trees.png");
+    background-size: 200% 100%;
+    -webkit-animation-name: tree-cartoon;
+    -webkit-animation-duration: 50ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: step-start;
+}
+@-webkit-keyframes tree-cartoon {
+    0% {
+       background-position: 200% 100%
+    }
+    50% {
+        background-position: 400% 100%
+    }
+    100% {
+        background-position: 400% 100%
+    }
+}
+
 /**
  * 圣诞男孩
  */
