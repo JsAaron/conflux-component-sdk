@@ -1,68 +1,68 @@
 /**
- * µÚ¶ş¸±³¡¾°Ò³Ãæ
+ * ç¬¬äºŒå‰¯åœºæ™¯é¡µé¢
  *
  */
 function PageB(element) {
 
     var $element  = element;
-    //Ê¥µ®ÄĞº¢
+    //åœ£è¯ç”·å­©
     var $boy      = $element.find(".boy-walk");
-    //3dĞı×ª
+    //3dæ—‹è½¬
     var $carousel = $element.find("#carousel");
-    //Å®º¢
+    //å¥³å­©
     var $girl     = $element.find(".girl-book");
-    //Ã¨
+    //çŒ«
     var $cat      = $element.find(".cat");
+
 
 
     $boy.transition({
         "right": "5rem"
-    }, 500, "linear", function() {
-        $boy.removeClass("boy-walk-animate")
+    }, 1000, "linear", function() {
+
+        //å°ç”·å­©åœæ­¢èµ°è·¯
+        $boy.addClass("walk-stop")
+
         setTimeout(function() {
-            $girl.addClass("girl-book-getUp");
+            //å°å¥³èµ·ç«‹
+            $girl.addClass("girl-standUp");
             setTimeout(function() {
+                //èµ°è·¯
                 $girl.addClass("girl-book-run")
-                //Ã¨Êé
+                //çŒ«ä¹¦
                 $cat.addClass("cat-book");
-                //Ğ¡Å®º¢×ßÂ·
+                //å°å¥³å­©èµ°è·¯
                 $girl.addClass("girl-walk")
                     .transition({
                         "left": "5.5rem"
-                    }, 500, "linear", function() {
+                    }, 1000, "linear", function() {
                         $girl.addClass("walk-stop")
-                        // $girl.addClass("girl-choose").addClass("walk-run")
                     })
-
-
-
             }, 1000)
         }, 500)
 
 
-        //´ò¿ª°ü¹ü
+        //æ‰“å¼€åŒ…è£¹
         $boy
         .addClass("walk-stop")
         .addClass("boy-unwrapp")
         .addClass("walk-run")
         .one(support.animationEnd, function() {
             showCarousel()
-
             setTimeout(function(){
                  $girl.addClass("girl-choose").addClass("walk-run")
-            },1000)
-
+            },1500)
         })
     });
 
 
 
     /**
-     * ÏÔÊ¾3dĞı×ªÄ¾Âí
+     * æ˜¾ç¤º3dæ—‹è½¬æœ¨é©¬
      * @return {[type]} [description]
      */
-    function showCarousel(){
-         //3dĞı×ª
+    function showCarousel(callback){
+         //3dæ—‹è½¬
         var carousel = new Carousel($carousel, {
             imgUrls: [
                 "assets/carousel/1.png",
@@ -75,32 +75,32 @@ function PageB(element) {
                 "assets/carousel/3.mp4"
             ]
         });
-        carousel.run();       
+        carousel.run(callback);       
     }
 
 }
 
 
     /**
-     *  css3¹Ø¼üÖ¡Ëã·¨
+     *  css3å…³é”®å¸§ç®—æ³•
      * @param {[type]} row   [description]
      * @param {[type]} col   [description]
      * @param {[type]} count [description]
      */
     function calculationKeyframes(col, row, count) {
-        //¾ØÕóÉú³ÉstepµÄ´¦Àí
+        //çŸ©é˜µç”Ÿæˆstepçš„å¤„ç†
         //  0 1 2
         //  3 4 5
         //  6 7 8
         var keyframes = [];
         var base = 100 / count;
-        //Ê×´Î
+        //é¦–æ¬¡
         keyframes.push(0 + '% { background-position:0% 0%}')
         for (var i = 0; i < count; i++) {
-            //µ±Ç°ĞĞÊı
-            var currRow = Math.ceil((i + 1) / col); //µ±Ç°ĞĞÊı
-            var currCol = Math.floor(i / col); //µ±Ç°ÁĞÊı  
-            var period = currCol * col; //Ã¿¶ÎÊıÁ¿  
+            //å½“å‰è¡Œæ•°
+            var currRow = Math.ceil((i + 1) / col); //å½“å‰è¡Œæ•°
+            var currCol = Math.floor(i / col); //å½“å‰åˆ—æ•°  
+            var period = currCol * col; //æ¯æ®µæ•°é‡  
             var x = 100 * (i - period)
             var y = 100 * currCol;
             x = x == 0 ? x : "-" + x;

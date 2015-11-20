@@ -124,7 +124,7 @@ function Carousel(carousel,options) {
 						.transition({
 							"scale": 1.5
 						}, 500, 'linear', function() {
-
+								
 						});
 				//	palyVideo(curr, $contentElements.eq(curr))
 				}, 1000)

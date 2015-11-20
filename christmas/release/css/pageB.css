@@ -31,36 +31,32 @@
     z-index: 10;
     left: 2rem;
     top: 4rem;
-    background: url("../images/b/girl-book1.png");
-    background-size: 100% 100%;
+    background: url("../images/b/girl.png");
+    background-size: 1400% 100%;
 }
 
 /**
  * 起身
  */
-.girl-book-getUp {
+.girl-standUp {
     width: 3.08rem;
     height: 3.71rem;
     top: 5rem;
     left: 1rem;
-    background: url("../images/b/girl-book2.png");
-    background-size: 100% 100%;
+    background-position-x:-100%;
 }
 
 .girl-book-run {
-    background: url("../images/b/girl-book3.png");
-    background-size: 100% 100%;
+     background-position-x:-200%;
 }
 
 /**
  * 小女孩走路
  */
 .girl-walk {
-    background: url("../images/b/girl-walk.png");
     width: 1.8rem;
     height: 3.6rem;
     left: 1rem;
-    background-size: 700% 100%;
     -webkit-animation-name: girlWalk;
     -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
@@ -68,10 +64,10 @@
 }
 @-webkit-keyframes girlWalk {
     0% {
-        background-position-x: 0;
+        background-position-x: -300%;
     }
     100% {
-        background-position-x: -400%;
+        background-position-x: -700%;
     }
 }
 
@@ -81,16 +77,16 @@
 .girl-choose{
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: girlChoose;
-    -webkit-animation-duration: 1000ms;
+    -webkit-animation-duration: 2000ms;
     -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: steps(3,start);
+    -webkit-animation-timing-function: steps(3,end);
 }
 @-webkit-keyframes girlChoose {
     0% {
-        background-position-x: -300%;
+        background-position-x: -700%;
     }
     100% {
-        background-position-x: -600%;
+        background-position-x: -900%;
     }
 }
 
@@ -151,11 +147,6 @@
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: steps(4,end);
 }
-
-.boy-walk-stop {
-    -webkit-animation-play-state: paused;
-}
-
 @-webkit-keyframes boyWalk {
     0% {
         background-position-x: 0;
@@ -173,7 +164,7 @@
 .boy-unwrapp {
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: unwrapp;
-    -webkit-animation-duration: 1500ms;
+    -webkit-animation-duration: 3000ms;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: steps(3,end);
 }
