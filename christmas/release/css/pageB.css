@@ -1,7 +1,7 @@
 .container .page-b {
     width: 100%;
     height: 100%;
-    background-image: url("../images/page-b-bg.png");
+    background-image: url("../images/b/page-b-bg.png");
     position: absolute;
     z-index: 10;
 }
@@ -15,11 +15,47 @@
     width: 1.45rem;
     height: 3.1rem;
     position: absolute;
-    z-index: 3;
+    z-index: 10;
     left: 2rem;
     top: 4rem;
-    background: url("../images/girl-book.png");
+    background: url("../images/b/girl-book1.png");
     background-size: 100% 100%;
+}
+
+.girl-book-getUp {
+    width: 3.08rem;
+    height: 3.71rem;
+    top: 5rem;
+    left: 1rem;
+    background: url("../images/b/girl-book2.png");
+    background-size: 100% 100%;
+}
+
+.girl-book-run {
+    background: url("../images/b/girl-book3.png");
+    background-size: 100% 100%;
+}
+
+.girl-run {
+    background: url("../images/b/girl-run.png");
+    width: 1.9rem;
+    left: 2rem;
+    height: 3.64rem;
+    background-size: 700% 100%;
+    /*background-position: 700% 100%;*/
+    -webkit-animation-name: boyWalk;
+    -webkit-animation-duration: 3000ms;
+    -webkit-animation-direction: reverse;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: steps(4);
+}
+@-webkit-keyframes girlRun {
+    0% {
+        background-position: 700% 100%
+    }
+    100% {
+        background-position: 2800% 100%
+    }
 }
 
 
@@ -34,7 +70,12 @@
     z-index: 3;
     left: 3.5rem;
     top: 5.5rem;
-    background: url("../images/cat.png");
+    background: url("../images/b/cat.png");
+    background-size: 100% 100%;
+}
+
+.cat-book {
+    background: url("../images/b/cat-book.png");
     background-size: 100% 100%;
 }
 
@@ -50,7 +91,7 @@
     z-index: 3;
     right: -2.17rem;
     top: 5rem;
-    background: url("../images/boy-walk.png");
+    background: url("../images/b/boy-walk.png");
     background-size: 400% 100%;
 }
 
@@ -61,22 +102,28 @@
 
 .boy-walk-animate {
     -webkit-animation-name: boyWalk;
-    -webkit-animation-duration: 1000ms;
+    -webkit-animation-duration: 2000ms;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: steps(4);
 }
 
 .boy-walk-stop {
     -webkit-animation-play-state: paused;
-    background-position: 100% 100%
+    /*background-position: 100% 100%*/
 }
 
 @-webkit-keyframes boyWalk {
     0% {
         background-position: 400% 100%
     }
-    100% {
+    33% {
         background-position: 800% 100%
+    }
+    66% {
+        background-position: 1200% 100%
+    }
+    100% {
+        background-position: 1600% 100%
     }
 }
 
@@ -86,6 +133,24 @@
  */
 
 .boy-take-gift {
-    background: url("../images/boy-walk.png");
+    width: 3.2rem;
+    height: 3.79rem;
+    background: url("../images/b/boy-take-gift.png");
+    background-size: 300% 100%;
+    background-position: 100% 100%;
+    -webkit-animation-name: takeGift;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-direction: reverse;
+    -webkit-animation-delay: 1000ms;
+    -webkit-animation-timing-function: steps(3);
 }
 
+@-webkit-keyframes takeGift {
+    0% {
+        background-position: 300% 100%
+    }
+    100% {
+        background-position: 900% 100%
+    }
+}
