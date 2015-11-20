@@ -4,7 +4,7 @@
     background-image: url("../images/page-a-bg.png");
     position: absolute;
     z-index: 3;
-    -webkit-perspective:900px;
+    perspective:2000px;
 }
 
 /**
@@ -23,7 +23,7 @@
     -webkit-animation-duration: 400ms;
     -webkit-animation-timing-function: steps(2);
     -webkit-animation-iteration-count: infinite;
-}
+} 
 @-webkit-keyframes tree-run {
     0% {
         background-position: 200% 100%;
@@ -39,17 +39,18 @@
  */
 
 .chs-boy {
-    width: 5.6rem;
+    width: 6rem;
     height: 2rem;
     position: absolute;
     z-index: 3;
     left : -2rem;
     top  : .5rem;
-    transform: scale(0);
+    transform: scale(0.1);
     background: url("../images/boy-sleigh-car.png");
     background-size: 300% 100%;
-    /*transform:rotateY(60deg);*/
+    /*transform:rotateY(120deg);*/
     transform-style:preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 /**
  * 男孩走路动作
@@ -73,6 +74,9 @@
         background-position: 900% 100%
     }
 }
+
+
+
 /**
  * 人物停止
  */

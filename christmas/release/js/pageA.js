@@ -27,20 +27,6 @@ function PageA(element) {
  */
 PageA.prototype.init = function() {
     this.createCloudyCircle();
-    this.openWindow();
-}
-
-
-/**
- * 运行下一个动画
- * @return {Function} [description]
- */
-PageA.prototype.next = function(options) {
-    var dfd = $.Deferred();
-    this.$boy.animate(options.styles, options.time, function() {
-        dfd.resolve()
-    });
-    return dfd;
 }
 
 
@@ -75,6 +61,19 @@ PageA.prototype.stopWalk = function(){
 
 
 /**
+ * 运行下一个动画
+ * @return {Function} [description]
+ */
+PageA.prototype.next = function(options) {
+    var dfd = $.Deferred();
+    this.$boy.transition(options.style, options.time, "linear",function() {
+        dfd.resolve()
+    });
+    return dfd;
+}
+
+
+/**
  * 跑步
  * @return {[type]} [description]
  */
@@ -86,54 +85,101 @@ PageA.prototype.run = function(callback){
     }.bind(this)
 
     next({
-        "time": 6000,
-        "styles": {
-            "top"       : "0.2rem",
-            "left"      : "0.5rem",
-            "transform" : "rotateY(90deg)"
+        "time": 1000,
+        "style": {
+            "top"    : "1rem",
+            "left"   : "1rem",
+            "rotateY" : "20deg",
+            "scale"  : "0.2"
         }
     })
     .done(function(){
         that.$boy.css("z-index",10);
     })
-    // .then(function() {
-    //     return
-    //     return next({
-    //         "left"    : "4rem",
-    //         "top"     : "1rem",
-    //         "scale"   : 0.6,
-    //         "time"    : 6000
-    //     })
-    // })
-    // then(function() {
-    //     return next({
-    //         "left"  : "3rem",
-    //         "top"   : "5em",
-    //         "scale" : 0.8,
-    //         "time"  : 2000
-    //     })
-    // }).
-    // then(function() {
-    //     return next({
-    //         "left"  : "5rem",
-    //         "top"   : "7em",
-    //         "scale" : 1,
-    //         "time"  : 2000
-    //     })
-    // }).
-    // then(function() {
-    //     return next({
-    //         "left"  : "9rem",
-    //         "scale" : 1,
-    //         "time"  : 2000
-    //     })
-    // }).
-    // then(function(){
-    //     that.stopWalk();
-    //     that.openWindow();
-    //     that.change();
-    //     // callback && callback();
-    // })
+    .then(function() {
+        return next({
+                "time": 1000,
+                "style": {
+                "top": "2rem",
+                "left": "5rem",
+                "rotateY": "40deg",
+                "scale": "0.4"
+            }
+        })
+    })
+    .then(function() {
+        //转角
+       return next({
+            "time": 500,
+            "style": {
+                "top"     :"2.2rem",
+                "left"    :"5.5rem",
+                "rotateY" : "60deg"
+            }
+        })
+    })
+    .then(function() {
+        return next({
+            "time": 500,
+            "style": {
+                "top"     :"2.5rem",
+                "left"    :"6rem",
+                "rotateY" : "80deg"
+            }
+        })
+    })
+    .then(function() {
+        return next({
+            "time": 500,
+            "style": {
+                "top"     :"2.8rem",
+                "left"    :"6rem",
+                "rotateY" : "100deg"
+            }
+        })
+    })
+    .then(function() {
+         //转角结束
+        return next({
+            "time": 500,
+            "style": {
+                "top"     :"3rem",
+                "left"    :"5.5rem",
+                "rotateY" : "120deg"
+            }
+        })
+    })
+    .then(function() {
+        return next({
+            "time": 4000,
+            "style": {
+                 "left"  :"-4rem",
+                 "top"   : "7.2rem",
+                 "scale" : "1"
+            }
+        })
+    })  
+    .then(function() {
+       return next({
+            "time": 1000,
+            "style": {
+                "rotateY" : "0"
+            }
+        })
+    })    
+    .then(function() {
+        return next({
+            "time": 2000,
+            "style": {
+                "left" : "8.5rem",
+            }
+        })
+    }) 
+    .then(function(){
+        that.stopWalk();
+        that.openWindow(callback);
+    })  
+
 }
 
 
@@ -157,32 +203,3 @@ PageA.prototype.createCloudyCircle = function() {
 
  
 
-
-/**
- *  css3关键帧算法
- * @param {[type]} row   [description]
- * @param {[type]} col   [description]
- * @param {[type]} count [description]
- */
-function calculationKeyframes(col, row, count) {
-    //矩阵生成step的处理
-    //  0 1 2
-    //  3 4 5
-    //  6 7 8
-    var keyframes = [];
-    var base = 100 / count;
-    //首次
-    keyframes.push(0 + '% { background-position:0% 0%}')
-    for (var i = 0; i < count; i++) {
-        //当前行数
-        var currRow = Math.ceil((i + 1) / col); //当前行数
-        var currCol = Math.floor(i / col); //当前列数  
-        var period = currCol * col; //每段数量  
-        var x = 100 * (i - period)
-        var y = 100 * currCol;
-        x = x == 0 ? x : "-" + x;
-        y = y == 0 ? y : "-" + y;
-        keyframes.push(((i + 1) * base) + '% { background-position: ' + y + '% ' + x + '%}')
-    }
-    return keyframes.join("")
-}
