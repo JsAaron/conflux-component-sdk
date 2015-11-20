@@ -6,6 +6,19 @@
     z-index: 10;
 }
 
+.walk-stop{
+     -webkit-animation-play-state: paused;
+}
+.walk-run{
+     -webkit-animation-play-state: running;
+}
+
+
+/********************************************************
+        
+        小女孩动作
+
+**********************************************************/
 
 /**
  * 小女孩看书
@@ -22,6 +35,9 @@
     background-size: 100% 100%;
 }
 
+/**
+ * 起身
+ */
 .girl-book-getUp {
     width: 3.08rem;
     height: 3.71rem;
@@ -36,27 +52,49 @@
     background-size: 100% 100%;
 }
 
-.girl-run {
-    background: url("../images/b/girl-run.png");
-    width: 1.9rem;
-    left: 2rem;
-    height: 3.64rem;
+/**
+ * 小女孩走路
+ */
+.girl-walk {
+    background: url("../images/b/girl-walk.png");
+    width: 1.8rem;
+    height: 3.6rem;
+    left: 1rem;
     background-size: 700% 100%;
-    /*background-position: 700% 100%;*/
-    -webkit-animation-name: boyWalk;
-    -webkit-animation-duration: 3000ms;
-    -webkit-animation-direction: reverse;
+    -webkit-animation-name: girlWalk;
+    -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(4);
+    -webkit-animation-timing-function: steps(4,end);
 }
-@-webkit-keyframes girlRun {
+@-webkit-keyframes girlWalk {
     0% {
-        background-position: 700% 100%
+        background-position-x: 0;
     }
     100% {
-        background-position: 2800% 100%
+        background-position-x: -400%;
     }
 }
+
+/**
+ * 小女孩选择3d选择
+ */
+.girl-choose{
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: girlChoose;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(3,start);
+}
+@-webkit-keyframes girlChoose {
+    0% {
+        background-position-x: -300%;
+    }
+    100% {
+        background-position-x: -600%;
+    }
+}
+
+
 
 
 /**
@@ -80,6 +118,12 @@
 }
 
 
+/********************************************************
+        
+        小男孩动作
+
+**********************************************************/
+
 /**
  * 圣诞小男孩
  */
@@ -89,10 +133,11 @@
     height: 3.71rem;
     position: absolute;
     z-index: 3;
-    right: -2.17rem;
+    right: 2.17rem;
     top: 5rem;
     background: url("../images/b/boy-walk.png");
-    background-size: 400% 100%;
+    background-size: 700% 100%;
+    background-position-x: 0%;
 }
 
 
@@ -102,55 +147,42 @@
 
 .boy-walk-animate {
     -webkit-animation-name: boyWalk;
-    -webkit-animation-duration: 2000ms;
+    -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(4);
+    -webkit-animation-timing-function: steps(4,end);
 }
 
 .boy-walk-stop {
     -webkit-animation-play-state: paused;
-    /*background-position: 100% 100%*/
 }
 
 @-webkit-keyframes boyWalk {
     0% {
-        background-position: 400% 100%
-    }
-    33% {
-        background-position: 800% 100%
-    }
-    66% {
-        background-position: 1200% 100%
+        background-position-x: 0;
     }
     100% {
-        background-position: 1600% 100%
+        background-position-x: -400%;
     }
 }
 
 
 /**
- * 取礼物
+ * 打开包裹
  */
 
-.boy-take-gift {
-    width: 3.2rem;
-    height: 3.79rem;
-    background: url("../images/b/boy-take-gift.png");
-    background-size: 300% 100%;
-    background-position: 100% 100%;
-    -webkit-animation-name: takeGift;
-    -webkit-animation-duration: 1000ms;
+.boy-unwrapp {
     -webkit-animation-fill-mode: forwards;
-    -webkit-animation-direction: reverse;
-    -webkit-animation-delay: 1000ms;
-    -webkit-animation-timing-function: steps(3);
+    -webkit-animation-name: unwrapp;
+    -webkit-animation-duration: 1500ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(3,end);
 }
 
-@-webkit-keyframes takeGift {
+@-webkit-keyframes unwrapp {
     0% {
-        background-position: 300% 100%
+        background-position-x: -300%
     }
     100% {
-        background-position: 900% 100%
+        background-position-x: -600%
     }
 }
