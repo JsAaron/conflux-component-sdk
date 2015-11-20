@@ -34,7 +34,7 @@ function Carousel(carousel,options) {
 		return String.format(str,
 			"2rem",
 			start,
-			"1.9rem",
+			"1.2rem",
 			imgUrl
 		)
 	}
@@ -60,10 +60,10 @@ function Carousel(carousel,options) {
 	function initStyle(){
 		//场景元素
 		$carousel.css({
-			"transform":"scale(0.5)",
+			"transform":"scale(0.3)",
 			"-webkit-perspective" : "500px",
 			"position"            : "absolute",
-			"left"                : "5rem",
+			"left"                : "7rem",
 			"top"                 : "5rem"
 		})
 		//容器
@@ -97,20 +97,20 @@ function Carousel(carousel,options) {
 
 
 
-var curr = 0
-		setTimeout(function() {
-			this.palyVideo(curr, $contentElements.eq(curr))
-		}.bind(this), 1000)
+// var curr = 0
+// 		setTimeout(function() {
+// 			this.palyVideo(curr, $contentElements.eq(curr))
+// 		}.bind(this), 1000)
 		
 
 
 	//旋转次数
 	//随机
 	//3-10次
-	var carouselCount  = Math.floor(Math.random() * 5 + 3);
+	var carouselCount  = 5 ||Math.floor(Math.random() * 1 + 3);
 	var _carouselCount = carouselCount;
 	this.run = function() {
-		return
+		// return
 		//开始旋转
 		this.initTimer = setInterval(function() {	
 			if(carouselCount === 1){
@@ -119,13 +119,20 @@ var curr = 0
 				//索引0开始
 				var curr = _carouselCount % 3;
 				setTimeout(function() {
-					palyVideo(curr, $contentElements.eq(curr))
+					$contentElements
+						.find("img")
+						.transition({
+							"scale": 1.5
+						}, 500, 'linear', function() {
+
+						});
+				//	palyVideo(curr, $contentElements.eq(curr))
 				}, 1000)
 			}
 			//开始
 			finishInit()
 			--carouselCount;
-		}.bind(this), 1000);
+		}.bind(this), 500);
 	}
 
 	/**

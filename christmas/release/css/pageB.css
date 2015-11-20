@@ -3,9 +3,89 @@
     height: 100%;
     background-image: url("../images/page-b-bg.png");
     position: absolute;
-    z-index: 2;
+    z-index: 10;
 }
 
 
+/**
+ * 小女孩看书
+ */
 
+.girl-book {
+    width: 1.45rem;
+    height: 3.1rem;
+    position: absolute;
+    z-index: 3;
+    left: 2rem;
+    top: 4rem;
+    background: url("../images/girl-book.png");
+    background-size: 100% 100%;
+}
+
+
+/**
+ * 猫
+ */
+
+.cat {
+    width: 1.36rem;
+    height: 0.88rem;
+    position: absolute;
+    z-index: 3;
+    left: 3.5rem;
+    top: 5.5rem;
+    background: url("../images/cat.png");
+    background-size: 100% 100%;
+}
+
+
+/**
+ * 圣诞小男孩
+ */
+
+.boy-walk {
+    width: 2.17rem;
+    height: 3.71rem;
+    position: absolute;
+    z-index: 3;
+    right: -2.17rem;
+    top: 5rem;
+    background: url("../images/boy-walk.png");
+    background-size: 400% 100%;
+}
+
+
+/**
+ * 男孩走路动作
+ */
+
+.boy-walk-animate {
+    -webkit-animation-name: boyWalk;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: steps(4);
+}
+
+.boy-walk-stop {
+    -webkit-animation-play-state: paused;
+    background-position: 100% 100%
+}
+
+@-webkit-keyframes boyWalk {
+    0% {
+        background-position: 400% 100%
+    }
+    100% {
+        background-position: 800% 100%
+    }
+}
+
+
+/**
+ * 取礼物
+ */
+
+.boy-take-gift {
+    background: url("../images/boy-walk.png");
+}
 

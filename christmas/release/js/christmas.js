@@ -21,6 +21,10 @@ function changePage(element,effect,callback){
 
 
 var Christmas = function() {
+
+    //观察者
+    var observer = new Observer();
+
     //页面容器
     var container = $(".container");
     //设置新的页面容器大小
@@ -29,38 +33,40 @@ var Christmas = function() {
 	var visualWidth  = container.width()
 	var visualHeight = container.height()
 
-    //页面A
+    //页面容器元素
     var $pageA = $(".page-a");
+    var $pageB = $(".page-b");
 
+    //页面对象
+    var objA,objB,objC;
+
+
+     objB = new PageB($pageB)
+
+    return
 	//第一副页面
-	var pageA = new PageA($pageA)
-	pageA.run(function(){
-        changePage($pageA,"effect-out")
+    objA = new PageA($pageA)
+    objA.run(function() {
+         observer.publish("completeA");
     });
-    // pageA.change();
+
+    //页面A执行完毕
+    observer.subscribe("completeA", function() {
+        changePage($pageA, "effect-out", function() {
+            observer.publish("changePage");
+        })
+    })
+
+    //切换页面完毕
+    observer.subscribe("changePage", function() {
+        //处理页面B
+        objB = new PageB($pageB)
+    })
 
 
-    // 
 
 
 
-    //3d旋转
-    // var carousel = new Carousel($("#carousel"), {
-    //     imgUrls: [
-    //         "assets/carousel/1.png",
-    //         "assets/carousel/2.png",
-    //         "assets/carousel/3.png",
-    //         "assets/carousel/1.png",
-    //         "assets/carousel/2.png",
-    //         "assets/carousel/3.png"
-    //     ],
-    //     videoUrls: [
-    //         "assets/carousel/1.mp4",
-    //         "assets/carousel/2.mp4",
-    //         "assets/carousel/3.mp4"
-    //     ]
-    // });
-    // carousel.run();
 };
 
 
