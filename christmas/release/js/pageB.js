@@ -45,16 +45,18 @@ function PageB(element) {
         },
         stopWalk: function() {
             $girl.addClass("walk-stop")
-            return this;
         },
         //继续走路
         runWalk: function() {
             $girl.addClass("walk-run")
         },
         //选择3d
-        choose:function(){
-            $girl.addClass("girl-choose");
-            return this;
+        choose:function(callback){
+            $girl.addClass("girl-choose")
+            girlAction.runWalk();
+            $girl.one(support.animationEnd, function() {
+                callback();
+            })
         }
     }
 
@@ -81,6 +83,8 @@ function PageB(element) {
         unwrapp:function(){
             var dfd  = $.Deferred();
             $boy.addClass("boy-unwrapp");
+            //开始执行
+            boyAction.runWalk();
             $boy.one(support.animationEnd, function() {
                 dfd.resolve();
             })
@@ -111,16 +115,19 @@ function PageB(element) {
             return girlAction.stopWalk();
         })
         .then(function() {
-            //开始执行
-            boyAction.runWalk();
             //解开包裹
             return boyAction.unwrapp();
         })
         .then(function(){
-            showCarousel()
-            setTimeout(function() {
-                girlAction.choose().runWalk();
-            }, 1500)
+            //礼物
+            var carousel = createCarousel();
+            carousel.run(function() {
+                setTimeout(function() {
+                    girlAction.choose(function() {
+                        carousel.pitch();
+                    })
+                }, 1500)
+            });
         })
 
 
@@ -129,7 +136,7 @@ function PageB(element) {
      * 显示3d旋转木马
      * @return {[type]} [description]
      */
-    function showCarousel(callback){
+    function createCarousel(callback){
          //3d旋转
         var carousel = new Carousel($carousel, {
             imgUrls: [
@@ -143,7 +150,7 @@ function PageB(element) {
                 "assets/carousel/3.mp4"
             ]
         });
-        carousel.run(callback);       
+        return carousel;     
     }
 
 }

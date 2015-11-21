@@ -109,30 +109,44 @@ function Carousel(carousel,options) {
 	//3-10次
 	var carouselCount  = 5 ||Math.floor(Math.random() * 1 + 3);
 	var _carouselCount = carouselCount;
-	this.run = function() {
+	this.run = function(callback) {
 		// return
 		//开始旋转
 		this.initTimer = setInterval(function() {	
 			if(carouselCount === 1){
 				this.destroy();
+				callback();
 				//当前图片
 				//索引0开始
-				var curr = _carouselCount % 3;
-				setTimeout(function() {
-					$contentElements
-						.find("img")
-						.transition({
-							"scale": 1.5
-						}, 500, 'linear', function() {
+				// var curr = _carouselCount % 3;
+				// setTimeout(function() {
+				// 	$contentElements
+				// 		.find("img")
+				// 		.transition({
+				// 			"scale": 1.5
+				// 		}, 500, 'linear', function() {
 								
-						});
-				//	palyVideo(curr, $contentElements.eq(curr))
-				}, 1000)
+				// 		});
+				// //	palyVideo(curr, $contentElements.eq(curr))
+				// }, 1000)
 			}
 			//开始
 			finishInit()
 			--carouselCount;
 		}.bind(this), 500);
+	}
+
+	/**
+	 * 选中图片
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
+	this.pitch = function(callback) {
+		$contentElements
+			.find("img")
+			.transition({
+				"scale": 1.5
+			}, 2000, 'linear', callback);
 	}
 
 	/**
