@@ -97,39 +97,45 @@ function PageB(element) {
     }
 
     //开始走路
-    boyAction.walk()
-        .then(function() {
-            //停止走路
-            boyAction.stopWalk();
-        })
-        .then(function() {
-            //女孩起身
-            return girlAction.standUp()
-        })
-        .then(function() {
-            //女孩走路
-            return girlAction.walk();
-        })
-        .then(function() {
-            //女孩停止走路
-            return girlAction.stopWalk();
-        })
-        .then(function() {
-            //解开包裹
-            return boyAction.unwrapp();
-        })
-        .then(function(){
-            //礼物
-            var carousel = createCarousel();
-            carousel.run(function() {
-                setTimeout(function() {
-                    girlAction.choose(function() {
-                        carousel.pitch();
-                    })
-                }, 1500)
-            });
-        })
+    // boyAction.walk()
+    //     .then(function() {
+    //         //停止走路
+    //         boyAction.stopWalk();
+    //     })
+    //     .then(function() {
+    //         //女孩起身
+    //         return girlAction.standUp()
+    //     })
+    //     .then(function() {
+    //         //女孩走路
+    //         return girlAction.walk();
+    //     })
+    //     .then(function() {
+    //         //女孩停止走路
+    //         return girlAction.stopWalk();
+    //     })
+    //     .then(function() {
+    //         //解开包裹
+    //         return boyAction.unwrapp();
+    //     })
+    //     .then(function(){
+    //         //礼物
+    //         var carousel = createCarousel();
+    //         carousel.run(function() {
+    //             girlAction.choose(function() {
+    //                 carousel.pitch(function(){
+    //                     carousel.palyVideo();
+    //                 });
+    //             })
+    //         });
+    //     })
 
+    var carousel = createCarousel();
+    carousel.run(function() {
+        carousel.selected(function() {
+            carousel.palyVideo();
+        });
+    });
 
 
     /**
@@ -140,14 +146,14 @@ function PageB(element) {
          //3d旋转
         var carousel = new Carousel($carousel, {
             imgUrls: [
-                "assets/carousel/1.png",
-                "assets/carousel/2.png",
-                "assets/carousel/3.png"
+                "images/carousel/1.png",
+                "images/carousel/2.png",
+                "images/carousel/3.png"
             ],
             videoUrls: [
-                "assets/carousel/1.mp4",
-                "assets/carousel/2.mp4",
-                "assets/carousel/3.mp4"
+                "images/carousel/1.mp4",
+                "images/carousel/1.mp4",
+                "images/carousel/1.mp4"
             ]
         });
         return carousel;     

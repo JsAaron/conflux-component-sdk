@@ -5,18 +5,18 @@
  */
 function Carousel(carousel,options) {
 	//图片
-	var imgUrls = options.imgUrls;
+	var imgUrls   = options.imgUrls;
 	//场景元素
 	var $carousel = carousel;
 	//容器元素
-	var $spinner =  carousel.find("#spinner");
-	var angle   = 0;
+	var $spinner  =  carousel.find("#spinner");
+	var angle     = 0;
 	//图片数
-	var numpics = imgUrls.length;
+	var numpics   = imgUrls.length;
 	//角度
-	var rotate  = 360 / numpics;
-	var start   = 0;
-	var current = 1;
+	var rotate    = 360 / numpics;
+	var start     = 0;
+	var current   = 1;
 
 	//子元素
 	var $contentElements;
@@ -95,44 +95,25 @@ function Carousel(carousel,options) {
 	render();
 
 
-
-
-// var curr = 0
-// 		setTimeout(function() {
-// 			this.palyVideo(curr, $contentElements.eq(curr))
-// 		}.bind(this), 1000)
-		
-
-
 	//旋转次数
 	//随机
 	//3-10次
-	var carouselCount  = 5 ||Math.floor(Math.random() * 1 + 3);
-	var _carouselCount = carouselCount;
+	var carouselCount = cursor = Math.floor(Math.random() * 5);
+	//当前页码
+	var currIndex;
 	this.run = function(callback) {
-		// return
 		//开始旋转
-		this.initTimer = setInterval(function() {	
-			if(carouselCount === 1){
+		this.initTimer = setInterval(function() {
+			if (cursor < 1) {
+				//从0开始算计算
+				currIndex = carouselCount%numpics;
 				this.destroy();
 				callback();
-				//当前图片
-				//索引0开始
-				// var curr = _carouselCount % 3;
-				// setTimeout(function() {
-				// 	$contentElements
-				// 		.find("img")
-				// 		.transition({
-				// 			"scale": 1.5
-				// 		}, 500, 'linear', function() {
-								
-				// 		});
-				// //	palyVideo(curr, $contentElements.eq(curr))
-				// }, 1000)
+				return ;
 			}
 			//开始
-			finishInit()
-			--carouselCount;
+			finishInit();
+			--cursor;
 		}.bind(this), 500);
 	}
 
@@ -141,12 +122,20 @@ function Carousel(carousel,options) {
 	 * @param  {Function} callback [description]
 	 * @return {[type]}            [description]
 	 */
-	this.pitch = function(callback) {
-		$contentElements
-			.find("img")
-			.transition({
-				"scale": 1.5
-			}, 2000, 'linear', callback);
+	this.selected = function(callback) {
+		var $img = $contentElements.find("img");
+		var count = $img.length;
+		$img.transition({
+			"scale": 1.5
+		}, 2000, 'linear', function() {
+			if(count===1){
+				//回调只执行一次
+				callback();
+				return
+			}
+			count--;
+		});
+
 	}
 
 	/**
@@ -167,19 +156,23 @@ function Carousel(carousel,options) {
 	 */
 	this.palyVideo = function(index, element) {
 
-		var layer = config.layer;
+		var index   = index || currIndex % 3;
+		var element = element || $contentElements.eq(index)
+		var layer   = config.layer;
 
-		var str = '<video width= 100% height=100%">'
-						 + '<source src="{2}" type="video/mp4" />'
-				  + '</video>';
+		/**
+		 * vide标签
+		 * @type {[type]}
+		 */
+		var $video = $('<video preload="auto" autoplay width="100%" height="100%"></video>');
 
-		var $video = $(
-			String.format(
-				str,
-				layer.width,
-				layer.height,
-				options.videoUrls[index])
-		);
+		$video.css({
+			"position" :"absolute",
+			"z-index"  :"999"
+		})
+
+		//地址
+		$video.attr('src', options.videoUrls[index]);
 
 		//播放
 		$video.on("loadeddata", function() {
@@ -192,8 +185,7 @@ function Carousel(carousel,options) {
 			$video.remove();
 		})
 
-		//插入视频
-		$(".page-b").append($video)
+        $carousel.after($video)
 	}
 
 }
