@@ -57,6 +57,9 @@ function PageB(element) {
             $girl.one(support.animationEnd, function() {
                 callback();
             })
+        },
+        reset:function(){
+            $girl.removeClass("girl-choose")
         }
     }
 
@@ -130,12 +133,23 @@ function PageB(element) {
     //         });
     //     })
 
+
+
+  
     var carousel = createCarousel();
-    carousel.run(function() {
+    carousel.run(function() {});
+
+
+    girlAction.choose(function() {
         carousel.selected(function() {
-            carousel.palyVideo();
+            carousel.palyVideo(function(){
+            });
+            girlAction.reset();
         });
-    });
+    })
+
+
+
 
 
     /**

@@ -154,7 +154,7 @@ function Carousel(carousel,options) {
 	 * @param  {[type]} element [description]
 	 * @return {[type]}         [description]
 	 */
-	this.palyVideo = function(index, element) {
+	this.palyVideo = function(callback) {
 
 		var index   = index || currIndex % 3;
 		var element = element || $contentElements.eq(index)
@@ -181,6 +181,7 @@ function Carousel(carousel,options) {
 
 		//停止
 		$video.on("ended", function() {
+			callback();
 			$video[0].pause()
 			$video.remove();
 		})
