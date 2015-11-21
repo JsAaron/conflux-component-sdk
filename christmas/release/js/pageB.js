@@ -14,46 +14,114 @@ function PageB(element) {
     //猫
     var $cat      = $element.find(".cat");
 
-
-
-    $boy.transition({
-        "right": "5rem"
-    }, 1000, "linear", function() {
-
-        //小男孩停止走路
-        $boy.addClass("walk-stop")
-
-        setTimeout(function() {
-            //小女起立
+    /**
+     * 小女孩动作
+     * @return {[type]} [description]
+     */
+    var girlAction = {
+        //小女起立
+        standUp: function() {
+            var dfd = $.Deferred();
             $girl.addClass("girl-standUp");
             setTimeout(function() {
-                //走路
-                $girl.addClass("girl-book-run")
-                //猫书
                 $cat.addClass("cat-book");
-                //小女孩走路
-                $girl.addClass("girl-walk")
-                    .transition({
-                        "left": "5.5rem"
-                    }, 1000, "linear", function() {
-                        $girl.addClass("walk-stop")
-                    })
-            }, 1000)
-        }, 500)
+                $girl.addClass("girl-book-run");
+                setTimeout(function() {
+                    dfd.resolve()
+                }, 1000)
+            }, 500)
+            return dfd;
+        },
+        walk: function(callback) {
+            var dfd  = $.Deferred();
+            //小女孩走路
+            $girl.addClass("girl-walk");
+            $girl.transition({
+                "left": "5.5rem"
+            }, 1000, "linear", function() {
+                dfd.resolve()
+            })
+            return dfd;
+        },
+        stopWalk: function() {
+            $girl.addClass("walk-stop")
+            return this;
+        },
+        //继续走路
+        runWalk: function() {
+            $girl.addClass("walk-run")
+        },
+        //选择3d
+        choose:function(){
+            $girl.addClass("girl-choose");
+            return this;
+        }
+    }
 
+    /**
+     * 小男孩动作
+     * @return {[type]} [description]
+     */
+    var boyAction = {
+        //走路
+        walk: function() {
+            var dfd  = $.Deferred();
+            $boy.transition({
+                "right": "5rem"
+            }, 1000, "linear", function() {
+                dfd.resolve()
+            });
+            return dfd;
+        },
+        //停止走路
+        stopWalk: function() {
+            $boy.addClass("walk-stop");
+        },
+        //解开包裹
+        unwrapp:function(){
+            var dfd  = $.Deferred();
+            $boy.addClass("boy-unwrapp");
+            $boy.one(support.animationEnd, function() {
+                dfd.resolve();
+            })
+            return dfd;
+        },
+        //继续走路
+        runWalk: function() {
+            $boy.addClass("walk-run")
+        }
+    }
 
-        //打开包裹
-        $boy
-        .addClass("walk-stop")
-        .addClass("boy-unwrapp")
-        .addClass("walk-run")
-        .one(support.animationEnd, function() {
-            showCarousel()
-            setTimeout(function(){
-                 $girl.addClass("girl-choose").addClass("walk-run")
-            },1500)
+    //开始走路
+    boyAction.walk()
+        .then(function() {
+            //停止走路
+            boyAction.stopWalk();
         })
-    });
+        .then(function() {
+            //女孩起身
+            return girlAction.standUp()
+        })
+        .then(function() {
+            //女孩走路
+            return girlAction.walk();
+        })
+        .then(function() {
+            //女孩停止走路
+            return girlAction.stopWalk();
+        })
+        .then(function() {
+            //开始执行
+            boyAction.runWalk();
+            //解开包裹
+            return boyAction.unwrapp();
+        })
+        .then(function(){
+            showCarousel()
+            setTimeout(function() {
+                girlAction.choose().runWalk();
+            }, 1500)
+        })
 
 
 
