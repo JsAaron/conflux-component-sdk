@@ -3,7 +3,7 @@
     height: 100%;
     background-image: url("../images/b/page-b-bg.png");
     position: absolute;
-    z-index: 10;
+    z-index: 4;
 }
 
 .walk-stop{
@@ -24,7 +24,7 @@
  * 小女孩看书
  */
 
-.girl-book {
+.girl {
     width: 3.5rem;
     height: 4.06rem;
     position: absolute;
@@ -39,13 +39,20 @@
  * 起身
  */
 .girl-standUp {
-    top: 5rem;
+    top: 5.5rem;
     left: 1rem;
     background-position-x:-100%;
 }
 
 .girl-book-run {
      background-position-x:-200%;
+}
+
+/**
+ * 站立动作
+ */
+.girl-stand{
+     background-position-x:-700%;
 }
 
 /**
@@ -75,17 +82,35 @@
     -webkit-animation-name: girlChoose;
     -webkit-animation-duration: 2000ms;
     -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: steps(3,end);
+    -webkit-animation-timing-function: steps(2,end);
 }
 @-webkit-keyframes girlChoose {
     0% {
-        background-position-x: -600%;
+        background-position-x: -700%;
     }
     100% {
         background-position-x: -900%;
     }
 }
 
+/**
+ * 女孩拥抱
+ */
+.girl-hug{
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: girlHug;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(3,end);
+}
+@-webkit-keyframes girlHug {
+    0% {
+        background-position-x: -1000%;
+    }
+    100% {
+        background-position-x: -1300%;
+    }
+}
 
 
 
@@ -120,15 +145,15 @@
  * 圣诞小男孩
  */
 
-.boy-walk {
-    width: 2.17rem;
-    height: 3.71rem;
+.christmas-boy {
+    width: 3.5rem;
+    height: 4.06rem;
     position: absolute;
-    z-index: 3;
-    right: 2.17rem;
-    top: 5rem;
+    z-index: 5;
+    right: -3.5rem;
+    top: 5.5rem;
     background: url("../images/b/boy.png");
-    background-size: 700% 100%;
+    background-size: 1500% 100%;
     background-position-x: 0%;
 }
 
@@ -137,7 +162,7 @@
  * 男孩走路动作
  */
 
-.boy-walk-animate {
+.boy-walk {
     -webkit-animation-name: boyWalk;
     -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
@@ -154,22 +179,78 @@
 
 
 /**
+ * 脱衣动作
+ */
+.boy-strip-1{
+    background-position-x:-700%;
+}
+.boy-strip-2{
+     background-position-x:-800%;
+}
+.boy-strip-3{
+    background-position-x:-900%;
+}
+
+/**
+ * 站立动作
+ */
+.boy-stand{
+     background-position-x:-400%;
+}
+
+/**
  * 打开包裹
  */
 
 .boy-unwrapp {
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: unwrapp;
-    -webkit-animation-duration: 3000ms;
+    -webkit-animation-duration: 2000ms;
     -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: steps(3,end);
+    -webkit-animation-timing-function: steps(2,end);
 }
 
 @-webkit-keyframes unwrapp {
     0% {
-        background-position-x: -300%
+        background-position-x: -400%
     }
     100% {
         background-position-x: -600%
     }
+}
+
+
+/**
+ * 男孩拥抱
+ */
+.boy-hug{
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: boyHug;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(3,end);
+}
+@-webkit-keyframes boyHug {
+    0% {
+        background-position-x: -1000%;
+    }
+    100% {
+        background-position-x: -1300%;
+    }
+}
+
+/**
+ * 男孩头部
+ */
+.christmas-boy-head{
+    left: 7.2rem;
+    top: 5.5rem;
+    width: 3.5rem;
+    height: 4.06rem;
+    position: absolute;
+    z-index: 12;
+    background: url("../images/b/boy.png");
+    background-size: 1400% 100%;
+    background-position-x: -1300%;
+    display: none;
 }

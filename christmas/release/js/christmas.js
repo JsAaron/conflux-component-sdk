@@ -36,14 +36,16 @@ var Christmas = function() {
     //页面容器元素
     var $pageA = $(".page-a");
     var $pageB = $(".page-b");
+    var $pageC = $(".page-c");
 
     //页面对象
     var objA,objB,objC;
 
+    // objB = new PageB($pageB,function(){
+    //      observer.publish("completeB");
+    // })
 
-     objB = new PageB($pageB)
 
-    return
 	//第一副页面
     objA = new PageA($pageA)
     objA.run(function() {
@@ -53,14 +55,23 @@ var Christmas = function() {
     //页面A执行完毕
     observer.subscribe("completeA", function() {
         changePage($pageA, "effect-out", function() {
-            observer.publish("changePage");
+            observer.publish("changePageA");
         })
     })
 
     //切换页面完毕
-    observer.subscribe("changePage", function() {
+    observer.subscribe("changePageA", function() {
         //处理页面B
-        objB = new PageB($pageB)
+        objB = new PageB($pageB, function() {
+            observer.publish("completeB");
+        })
+    })
+
+    //执行B页面完毕
+    observer.subscribe("completeB", function() {
+        changePage($pageC, "effect-in", function() {
+           
+        })
     })
 
 

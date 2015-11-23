@@ -21,3 +21,13 @@
     0% { opacity:1; }
     100% { -webkit-transform: rotateZ(10deg) scale(10); opacity:0; }
 }
+
+section.effect-in{
+	z-index: 15;
+	display: block;
+	-webkit-transform: rotateZ(10deg) scale(10); 
+    -webkit-animation: effectIn 5s ease-in-out forwards;
+}
+@-webkit-keyframes effectIn{
+    100% { -webkit-transform: rotateZ(0) scale(1); opacity:1; }
+}

@@ -3,7 +3,7 @@
     height : 100%;
     background-image: url("../images/page-a-bg.png");
     position: absolute;
-    z-index: 3;
+    z-index: 5;
     perspective:2000px;
 }
 
@@ -152,7 +152,7 @@
  * 窗户
  */
 .window {
-    background: url("../images/night.JPG") 30% center;
+    /*background: url("../images/night.JPG") 30% center;*/
     width: 3rem;
     height: 2rem;
     position: absolute;
