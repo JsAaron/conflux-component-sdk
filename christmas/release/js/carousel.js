@@ -95,20 +95,24 @@ function Carousel(carousel,options) {
 	render();
 
 
-	//旋转次数
-	//随机
-	//3-10次
-	var carouselCount = cursor = Math.floor(Math.random() * 5);
-	//当前页码
-	var currIndex;
-	this.run = function(callback) {
+	//图片数量
+	this.numpics = numpics;
+
+	//旋转次数,游标,当前页码
+	var carouselCount,
+		cursor,
+		currIndex;
+
+	this.run = function(count,callback) {
+		carouselCount = cursor = count;
+		this.destroy();
 		//开始旋转
 		this.initTimer = setInterval(function() {
 			if (cursor < 1) {
 				//从0开始算计算
-				currIndex = carouselCount%numpics;
+				currIndex = carouselCount % numpics;
 				this.destroy();
-				callback();
+				callback&&callback();
 				return ;
 			}
 			//开始
@@ -147,6 +151,14 @@ function Carousel(carousel,options) {
 		this.initTimer = null;
 	}	
 
+	/**
+	 * 还原3d转化
+	 * @return {[type]} [description]
+	 */
+	this.reset = function(){
+		var $img = $contentElements.find("img");
+		$img.css("scale",1)
+	}
 
 	/**
 	 * 视频播放
@@ -154,9 +166,9 @@ function Carousel(carousel,options) {
 	 * @param  {[type]} element [description]
 	 * @return {[type]}         [description]
 	 */
-	this.palyVideo = function(callback) {
+	this.palyVideo = function(cb) {
 
-		var index   = index || currIndex % 3;
+		var index   = currIndex % 3;
 		var element = element || $contentElements.eq(index)
 		var layer   = config.layer;
 
@@ -177,11 +189,12 @@ function Carousel(carousel,options) {
 		//播放
 		$video.on("loadeddata", function() {
 			$video[0].play()
+			cb.load();
 		})
 
 		//停止
 		$video.on("ended", function() {
-			callback();
+			cb.complete();
 			$video[0].pause()
 			$video.remove();
 		})

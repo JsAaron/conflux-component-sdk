@@ -45,6 +45,58 @@ applyIf(String, {
 });
 
 
+function bindFn(fn, context) {
+    return function boundFn() {
+        return fn.apply(context, arguments);
+    };
+}
+
+function setTimeoutContext(fn, timeout, context) {
+    return setTimeout(bindFn(fn, context), timeout);
+}
+
+
+
+function isNumber(v) {
+    return typeof v === 'number' && isFinite(v);
+}
+
+Function.prototype.createDelegate = function(obj, args, appendArgs) {
+    var method = this;
+    return function() {
+        var callArgs = args || arguments;
+        if (appendArgs === true) {
+            callArgs = Array.prototype.slice.call(arguments, 0);
+            callArgs = callArgs.concat(args);
+        } else if (isNumber(appendArgs)) {
+            callArgs = Array.prototype.slice.call(arguments, 0); 
+            var applyArgs = [appendArgs, 0].concat(args); 
+            Array.prototype.splice.apply(callArgs, applyArgs); 
+        }
+        return method.apply(obj || window, callArgs);
+    };
+}
+
+
+/**
+ * 延时函数
+ * @param  {[type]} millis     [description]
+ * @param  {[type]} obj        [description]
+ * @param  {[type]} args       [description]
+ * @param  {[type]} appendArgs [description]
+ * @return {[type]}            [description]
+ */
+Function.prototype.defer = function(millis, obj, args, appendArgs) {
+    var fn = this.createDelegate(obj, args, appendArgs);
+    if (millis > 0) {
+        return setTimeout(fn, millis);
+    }
+    fn();
+    return 0;
+}
+
+
+
 /**
  * 属性支持检测
  * @type {[type]}

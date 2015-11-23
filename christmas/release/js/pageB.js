@@ -37,8 +37,8 @@ function PageB(element) {
             //小女孩走路
             $girl.addClass("girl-walk");
             $girl.transition({
-                "left": "5.5rem"
-            }, 1000, "linear", function() {
+                "left": "4.5rem"
+            }, 500, "linear", function() {
                 dfd.resolve()
             })
             return dfd;
@@ -73,7 +73,7 @@ function PageB(element) {
             var dfd  = $.Deferred();
             $boy.transition({
                 "right": "5rem"
-            }, 1000, "linear", function() {
+            }, 100, "linear", function() {
                 dfd.resolve()
             });
             return dfd;
@@ -96,111 +96,103 @@ function PageB(element) {
         //继续走路
         runWalk: function() {
             $boy.addClass("walk-run")
+        },
+        //创建3d旋转
+        createCarousel: function() {
+            //3d旋转
+            var carousel = new Carousel($carousel, {
+                imgUrls: [
+                    "images/carousel/1.png",
+                    "images/carousel/2.png",
+                    "images/carousel/3.png"
+                ],
+                videoUrls: [
+                    "images/carousel/1.mp4",
+                    "images/carousel/2.mp4",
+                    "images/carousel/3.mp4"
+                ]
+            });
+            return carousel;
         }
     }
 
-    //开始走路
-    // boyAction.walk()
-    //     .then(function() {
-    //         //停止走路
-    //         boyAction.stopWalk();
-    //     })
-    //     .then(function() {
-    //         //女孩起身
-    //         return girlAction.standUp()
-    //     })
-    //     .then(function() {
-    //         //女孩走路
-    //         return girlAction.walk();
-    //     })
-    //     .then(function() {
-    //         //女孩停止走路
-    //         return girlAction.stopWalk();
-    //     })
-    //     .then(function() {
-    //         //解开包裹
-    //         return boyAction.unwrapp();
-    //     })
-    //     .then(function(){
-    //         //礼物
-    //         var carousel = createCarousel();
-    //         carousel.run(function() {
-    //             girlAction.choose(function() {
-    //                 carousel.pitch(function(){
-    //                     carousel.palyVideo();
-    //                 });
-    //             })
-    //         });
-    //     })
-
-
-
-  
-    var carousel = createCarousel();
-    carousel.run(function() {});
-
-
-    girlAction.choose(function() {
-        carousel.selected(function() {
-            carousel.palyVideo(function(){
-            });
-            girlAction.reset();
-        });
-    })
-
-
-
-
 
     /**
-     * 显示3d旋转木马
+     * 获取礼物
      * @return {[type]} [description]
      */
-    function createCarousel(callback){
-         //3d旋转
-        var carousel = new Carousel($carousel, {
-            imgUrls: [
-                "images/carousel/1.png",
-                "images/carousel/2.png",
-                "images/carousel/3.png"
-            ],
-            videoUrls: [
-                "images/carousel/1.mp4",
-                "images/carousel/1.mp4",
-                "images/carousel/1.mp4"
-            ]
-        });
-        return carousel;     
+    function getGift(count, carousel, complete) {
+        //运行3次
+        carousel.run(count);
+        //小女孩选择动作
+        girlAction.choose(function() {
+            //选中视频
+            carousel.selected(function() {
+                //播放视频
+                carousel.palyVideo({
+                    //加载开始
+                    load: function() {
+                        //小女孩动作还原
+                        girlAction.reset();
+                        //旋转动作还原
+                        carousel.reset();
+                    },
+                    //完成
+                    complete: complete
+                });
+            });
+        })
     }
 
+
+    //开始走路
+    boyAction.walk()
+        .then(function() {
+            //停止走路
+            boyAction.stopWalk();
+        })
+        .then(function() {
+            //女孩起身
+            return girlAction.standUp()
+        })
+        .then(function() {
+            //女孩走路
+            return girlAction.walk();
+        })
+        .then(function() {
+            //女孩停止走路
+            return girlAction.stopWalk();
+        })
+        .then(function() {
+            //解开包裹
+            return boyAction.unwrapp();
+        })
+        .then(function(){
+            //3d木马
+            var carousel = boyAction.createCarousel();
+            //旋转起点
+            var start = carousel.numpics;
+            //终点，旋转3次
+            var end = start + 3;
+            //播放
+            var play = function() {
+                //获取礼物
+                getGift(start, carousel, function() {
+                    ++start;
+                    check();
+                });
+            }
+            //检测播放次数
+            var check = function() {
+                //只旋转3次
+                if (start >= end) {
+                    return
+                }
+                play();
+            }
+            play();
+        })
+
+ 
 }
 
-
-    /**
-     *  css3关键帧算法
-     * @param {[type]} row   [description]
-     * @param {[type]} col   [description]
-     * @param {[type]} count [description]
-     */
-    function calculationKeyframes(col, row, count) {
-        //矩阵生成step的处理
-        //  0 1 2
-        //  3 4 5
-        //  6 7 8
-        var keyframes = [];
-        var base = 100 / count;
-        //首次
-        keyframes.push(0 + '% { background-position:0% 0%}')
-        for (var i = 0; i < count; i++) {
-            //当前行数
-            var currRow = Math.ceil((i + 1) / col); //当前行数
-            var currCol = Math.floor(i / col); //当前列数  
-            var period = currCol * col; //每段数量  
-            var x = 100 * (i - period)
-            var y = 100 * currCol;
-            x = x == 0 ? x : "-" + x;
-            y = y == 0 ? y : "-" + y;
-            keyframes.push(((i + 1) * base) + '% { background-position: ' + x + '% ' + y + '%}')
-        }
-        return keyframes.join("")
-    }

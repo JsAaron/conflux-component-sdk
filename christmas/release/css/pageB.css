@@ -25,12 +25,12 @@
  */
 
 .girl-book {
-    width: 1.45rem;
-    height: 3.1rem;
+    width: 3.5rem;
+    height: 4.06rem;
     position: absolute;
     z-index: 10;
-    left: 2rem;
-    top: 4rem;
+    left: 1rem;
+    top: 3.5rem;
     background: url("../images/b/girl.png");
     background-size: 1400% 100%;
 }
@@ -39,8 +39,6 @@
  * 起身
  */
 .girl-standUp {
-    width: 3.08rem;
-    height: 3.71rem;
     top: 5rem;
     left: 1rem;
     background-position-x:-100%;
@@ -54,11 +52,9 @@
  * 小女孩走路
  */
 .girl-walk {
-    width: 1.8rem;
-    height: 3.6rem;
     left: 1rem;
     -webkit-animation-name: girlWalk;
-    -webkit-animation-duration: 750ms;
+    -webkit-animation-duration: 900ms;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: steps(4,end);
 }
@@ -83,7 +79,7 @@
 }
 @-webkit-keyframes girlChoose {
     0% {
-        background-position-x: -700%;
+        background-position-x: -600%;
     }
     100% {
         background-position-x: -900%;
