@@ -83,28 +83,8 @@ function Carousel(carousel, options) {
 	render();
 
 
-	/**
-	 * 
-	 * 初始化开始
-	 * @return {[type]} [description]
-	 */
-	function finishInit(count,callback) {
-		//360
-		//480
-		//600
-		angle = (count - 1) * rotate + 360
-		console.log(angle)
-		$spinner
-			.css("transform", "rotateY(-" + angle + "deg)")
-			.one(support.transitionEnd, function() {
-				callback();
-			})
-	}
-
-
 	//旋转次数,游标,当前页码
 	var currIndex;
-
 
 	/**
 	 * 运行旋转
@@ -113,7 +93,16 @@ function Carousel(carousel, options) {
 	 * @return {[type]}            [description]
 	 */
 	this.run = function(count,callback) {
-		finishInit(count, callback);
+		currIndex = count;
+		//360
+		//480
+		//600
+		angle = (count - 1) * rotate + 360
+		$spinner
+			.css("transform", "rotateY(-" + angle + "deg)")
+			.one(support.transitionEnd, function() {
+				callback&& callback();
+			})
 	}
 
 	/**
@@ -162,7 +151,7 @@ function Carousel(carousel, options) {
 	 */
 	this.palyVideo = function(cb) {
 		//索引从0开始
-		var index = currIndex-1
+		var index = currIndex - 1
 
 		var element = element || $contentElements.eq(index)
 		var layer   = config.layer;

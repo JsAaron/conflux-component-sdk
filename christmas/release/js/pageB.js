@@ -205,6 +205,7 @@ function PageB(element,pageComplete) {
         var next = function() {
             //只旋转3次
             if (start > end) {
+                carousel.destroy();
                 dfd.resolve();
                 return
             }
@@ -238,7 +239,6 @@ function PageB(element,pageComplete) {
                     },
                     //完成
                     complete: function(){
-                        carousel.destroy();
                         complete();
                     }
                 });
