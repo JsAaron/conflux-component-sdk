@@ -167,7 +167,7 @@ function PageB(element,pageComplete) {
         }) 
         .then(function(){
             //3d旋转
-            // return rotation3d()
+            return rotation3d()
         })
         .then(function(){
             girlAction.hugWalk(function() {

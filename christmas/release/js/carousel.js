@@ -105,6 +105,7 @@ function Carousel(carousel, options) {
 	//旋转次数,游标,当前页码
 	var currIndex;
 
+
 	/**
 	 * 运行旋转
 	 * @param  {[type]}   count    [description]
@@ -112,10 +113,7 @@ function Carousel(carousel, options) {
 	 * @return {[type]}            [description]
 	 */
 	this.run = function(count,callback) {
-		currIndex = count;
-		finishInit(count, function() {
-			stop
-		});
+		finishInit(count, callback);
 	}
 
 	/**
