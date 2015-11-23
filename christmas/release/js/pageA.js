@@ -15,7 +15,6 @@ function PageA(element) {
     this.$window = element.find(".window");    
     this.$leftWin  = this.$window.find(".window-left")
     this.$rightWin = this.$window.find(".window-right")
-
     //初始化一些场景
     this.init();
 }
@@ -87,10 +86,10 @@ PageA.prototype.run = function(callback){
     next({
         "time": 1000,
         "style": {
-            "top"    : "1rem",
-            "left"   : "1rem",
-            "rotateY" : "20deg",
-            "scale"  : "0.2"
+            "top"     : "1rem",
+            "left"    : "1rem",
+            // "rotate3d" :"1,1,1,45deg",
+            "scale"   : "0.2"
         }
     })
     .done(function(){
@@ -102,6 +101,7 @@ PageA.prototype.run = function(callback){
                 "style": {
                 "top": "2rem",
                 "left": "5rem",
+                // "rotate3d" :"0.6,1,0.6,35deg",
                 "rotateY": "40deg",
                 "scale": "0.4"
             }
@@ -153,17 +153,18 @@ PageA.prototype.run = function(callback){
         return next({
             "time": 4000,
             "style": {
-                 "left"  :"-4rem",
+                 "left"  :"-5rem",
                  "top"   : "7.2rem",
-                 "scale" : "1"
+                 "scale" : "1.2"
             }
         })
     })  
     .then(function() {
        return next({
-            "time": 1000,
+            // "time": 0,
             "style": {
-                "rotateY" : "0"
+               "rotateY" : "0",
+               "scale" : "1"
             }
         })
     })    

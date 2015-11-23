@@ -4,7 +4,8 @@
     background-image: url("../images/a/page-a-bg.png");
     position: absolute;
     z-index: 5;
-    perspective: 2000px;
+    /*perspective: 2000px;*/
+    /*transform-style: preserve-3d;*/
 }
 
 
@@ -13,8 +14,8 @@
  */
 
 .tree {
-    width: 3rem;
-    height: 6rem;
+    width: 2.71rem;
+    height: 4.24rem;
     z-index: 15;
     position: absolute;
     bottom: 0;
@@ -22,7 +23,7 @@
     background-image: url("../images/a/trees.png");
     background-size: 200% 100%;
     -webkit-animation-name: tree-run;
-    -webkit-animation-duration: 400ms;
+    -webkit-animation-duration: 1000ms;
     -webkit-animation-timing-function: steps(2);
     -webkit-animation-iteration-count: infinite;
 }
@@ -51,9 +52,8 @@
     transform: scale(0.1);
     background: url("../images/a/boy-sleigh-car.png");
     background-size: 300% 100%;
-    /*transform:rotateY(120deg);*/
-    transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
+/*    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;*/
 }
 
 
