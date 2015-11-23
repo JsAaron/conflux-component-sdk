@@ -6,13 +6,35 @@ function PageB(element) {
 
     var $element  = element;
     //圣诞男孩
-    var $boy      = $element.find(".boy-walk");
+    var $boy      = $element.find(".christmas-boy");
     //3d旋转
     var $carousel = $element.find("#carousel");
     //女孩
-    var $girl     = $element.find(".girl-book");
+    var $girl     = $element.find(".girl");
     //猫
     var $cat      = $element.find(".cat");
+
+
+    // 时间设置
+    var setTime = {
+        //男孩
+        boy: {
+            //走路时间
+            walk:2000,
+        },
+        //女孩
+        girl: {
+            //起身时间
+            standUp: 1000,
+            //抛书
+            throwBook: 1000,
+            //走路
+            walk: 2000,
+            //飞奔拥抱走路
+            hugWalk: 500,
+        }
+    }
+
 
     /**
      * 小女孩动作
@@ -23,13 +45,13 @@ function PageB(element) {
         standUp: function() {
             var dfd = $.Deferred();
             $girl.addClass("girl-standUp");
-            setTimeout(function() {
+            (function() {
                 $cat.addClass("cat-book");
                 $girl.addClass("girl-book-run");
-                setTimeout(function() {
-                    dfd.resolve()
-                }, 1000)
-            }, 500)
+            }).defer(setTime.girl.standUp);
+            (function() {
+                 dfd.resolve()
+            }).defer(setTime.girl.throwBook);
             return dfd;
         },
         walk: function(callback) {
@@ -38,13 +60,14 @@ function PageB(element) {
             $girl.addClass("girl-walk");
             $girl.transition({
                 "left": "4.5rem"
-            }, 500, "linear", function() {
+            }, setTime.girl.walk, "linear", function() {
                 dfd.resolve()
             })
             return dfd;
         },
         stopWalk: function() {
-            $girl.addClass("walk-stop")
+            $girl.removeClass("girl-walk");
+            $girl.addClass("girl-stand")
         },
         //继续走路
         runWalk: function() {
@@ -59,7 +82,17 @@ function PageB(element) {
             })
         },
         reset:function(){
-            $girl.removeClass("girl-choose")
+            $girl.removeClass("girl-choose");
+        },
+        hugWalk:function(callback){
+            $girl.addClass("girl-walk");
+            $girl.transition({
+                "left": "7.2rem"
+            }, setTime.girl.hugWalk, "linear", callback)
+        },
+        //拥抱
+        hug:function(){
+            $girl.addClass("girl-hug");
         }
     }
 
@@ -73,21 +106,21 @@ function PageB(element) {
             var dfd  = $.Deferred();
             $boy.transition({
                 "right": "5rem"
-            }, 100, "linear", function() {
+            }, setTime.boy.walk, "linear", function() {
                 dfd.resolve()
             });
             return dfd;
         },
         //停止走路
         stopWalk: function() {
-            $boy.addClass("walk-stop");
+            $boy.removeClass("boy-walk");
+            $boy.addClass("boy-stand");
         },
         //解开包裹
         unwrapp:function(){
-            var dfd  = $.Deferred();
+            var dfd = $.Deferred();
             $boy.addClass("boy-unwrapp");
-            //开始执行
-            boyAction.runWalk();
+            $boy.removeClass("boy-stand");
             $boy.one(support.animationEnd, function() {
                 dfd.resolve();
             })
@@ -95,55 +128,20 @@ function PageB(element) {
         },
         //继续走路
         runWalk: function() {
-            $boy.addClass("walk-run")
+            $boy.addClass("walk-run");
         },
-        //创建3d旋转
-        createCarousel: function() {
-            //3d旋转
-            var carousel = new Carousel($carousel, {
-                imgUrls: [
-                    "images/carousel/1.png",
-                    "images/carousel/2.png",
-                    "images/carousel/3.png"
-                ],
-                videoUrls: [
-                    "images/carousel/1.mp4",
-                    "images/carousel/2.mp4",
-                    "images/carousel/3.mp4"
-                ]
-            });
-            return carousel;
+        hug:function(){
+            //重叠问题处理
+            $boy.addClass("boy-hug").one(support.animationEnd,function(){
+                $(".christmas-boy-head").show()
+            })
+        },
+        //脱衣动作
+        //1-3
+        strip: function(count) {
+            $boy.addClass("boy-strip-" + count).removeClass("boy-unwrapp");
         }
     }
-
-
-    /**
-     * 获取礼物
-     * @return {[type]} [description]
-     */
-    function getGift(count, carousel, complete) {
-        //运行3次
-        carousel.run(count);
-        //小女孩选择动作
-        girlAction.choose(function() {
-            //选中视频
-            carousel.selected(function() {
-                //播放视频
-                carousel.palyVideo({
-                    //加载开始
-                    load: function() {
-                        //小女孩动作还原
-                        girlAction.reset();
-                        //旋转动作还原
-                        carousel.reset();
-                    },
-                    //完成
-                    complete: complete
-                });
-            });
-        })
-    }
-
 
     //开始走路
     boyAction.walk()
@@ -166,33 +164,100 @@ function PageB(element) {
         .then(function() {
             //解开包裹
             return boyAction.unwrapp();
+        }) 
+        .then(function(){
+            //3d旋转
+            return rotation3d()
         })
         .then(function(){
-            //3d木马
-            var carousel = boyAction.createCarousel();
-            //旋转起点
-            var start = carousel.numpics;
-            //终点，旋转3次
-            var end = start + 3;
-            //播放
-            var play = function() {
-                //获取礼物
-                getGift(start, carousel, function() {
-                    ++start;
-                    check();
-                });
-            }
-            //检测播放次数
-            var check = function() {
-                //只旋转3次
-                if (start >= end) {
-                    return
-                }
-                play();
-            }
-            play();
+            girlAction.hugWalk(function() {
+                girlAction.hug();
+                boyAction.hug();
+            })
         })
 
- 
+
+    /**
+     * 3d旋转
+     * @return {[type]} [description]
+     */
+    function rotation3d() {
+        var dfd = $.Deferred();
+        //3d木马
+        var carousel = createCarousel();
+        //旋转起点
+        var start = 1;
+        //终点，旋转3次
+        var end = carousel.numpics;
+        //播放
+        var play = function() {
+            //获取礼物
+            carouselGift(start, carousel, function() {
+                ++start;
+                next();
+            });
+        };
+        //检测播放次数
+        var next = function() {
+            //只旋转3次
+            if (start > end) {
+                dfd.resolve();
+                return
+            }
+            play();
+        };
+        play();
+        return dfd;
+    }
+
+    /**
+     * 获取礼物
+     * @return {[type]} [description]
+     */
+    function carouselGift(count, carousel, complete) {
+        //运行3次
+        carousel.run(count);
+        //小女孩选择动作
+        girlAction.choose(function() {
+            //选中视频
+            carousel.selected(function() {
+                //播放视频
+                carousel.palyVideo({
+                    //加载开始
+                    load: function() {
+                        //小女孩动作还原
+                        girlAction.reset();
+                        //旋转动作还原
+                        carousel.reset();
+                        //脱衣动作
+                        boyAction.strip(count);
+                    },
+                    //完成
+                    complete: complete
+                });
+            });
+        })
+    }
+
+
+    //创建3d旋转
+    function createCarousel() {
+        //3d旋转
+        var carousel = new Carousel($carousel, {
+            imgUrls: [
+                "images/carousel/1.png",
+                "images/carousel/2.png",
+                "images/carousel/3.png"
+            ],
+            videoUrls: [
+                "images/carousel/1.mp4",
+                "images/carousel/2.mp4",
+                "images/carousel/3.mp4"
+            ]
+        });
+        return carousel;
+    }
+
+
 }
 

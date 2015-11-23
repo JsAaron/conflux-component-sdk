@@ -3,7 +3,7 @@
  * @param  {[type]} argument [description]
  * @return {[type]}          [description]
  */
-function Carousel(carousel,options) {
+function Carousel(carousel, options) {
 	//图片
 	var imgUrls   = options.imgUrls;
 	//场景元素
@@ -17,9 +17,11 @@ function Carousel(carousel,options) {
 	var rotate    = 360 / numpics;
 	var start     = 0;
 	var current   = 1;
-
 	//子元素
 	var $contentElements;
+
+	//图片数量
+	this.numpics = numpics;
 
 	/**
 	 * 创建结构
@@ -40,20 +42,6 @@ function Carousel(carousel,options) {
 	}
 
 	/**
-	 * 
-	 * 初始化开始
-	 * @return {[type]} [description]
-	 */
-	 function finishInit() {
-		angle = angle - rotate;
-		current = current - 1;
-		if (current == 0) {
-			current = numpics;
-		}
-		$spinner.css("transform", "rotateY(" + angle + "deg)")
-	}
-
-	/**
 	 * 初始化样式
 	 * @return {[type]} [description]
 	 */
@@ -63,8 +51,8 @@ function Carousel(carousel,options) {
 			"transform":"scale(0.3)",
 			"-webkit-perspective" : "500px",
 			"position"            : "absolute",
-			"left"                : "7rem",
-			"top"                 : "5rem"
+			"left"                : "6.6rem",
+			"top"                 : "5.5rem"
 		})
 		//容器
 		$spinner.css({
@@ -95,30 +83,41 @@ function Carousel(carousel,options) {
 	render();
 
 
-	//图片数量
-	this.numpics = numpics;
+	/**
+	 * 
+	 * 初始化开始
+	 * @return {[type]} [description]
+	 */
+	function finishInit(count,callback) {
+		//360
+		//480
+		//600
+		angle = (count - 1) * rotate + 360
+		console.log(angle)
+		$spinner
+			.css("transform", "rotateY(-" + angle + "deg)")
+			.one(support.transitionEnd, function() {
+				callback();
+			})
+	}
+
 
 	//旋转次数,游标,当前页码
-	var carouselCount,
-		cursor,
-		currIndex;
+	var currIndex;
 
+	/**
+	 * 运行旋转
+	 * @param  {[type]}   count    [description]
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
 	this.run = function(count,callback) {
-		carouselCount = cursor = count;
+		var that = this;
+		currIndex = count;
 		this.destroy();
-		//开始旋转
-		this.initTimer = setInterval(function() {
-			if (cursor < 1) {
-				//从0开始算计算
-				currIndex = carouselCount % numpics;
-				this.destroy();
-				callback&&callback();
-				return ;
-			}
-			//开始
-			finishInit();
-			--cursor;
-		}.bind(this), 500);
+		finishInit(count, function() {
+			that.destroy();
+		});
 	}
 
 	/**
@@ -139,7 +138,6 @@ function Carousel(carousel,options) {
 			}
 			count--;
 		});
-
 	}
 
 	/**
@@ -158,6 +156,7 @@ function Carousel(carousel,options) {
 	this.reset = function(){
 		var $img = $contentElements.find("img");
 		$img.css("scale",1)
+		$spinner.css("transform", "rotateY(0deg)")
 	}
 
 	/**
@@ -167,8 +166,9 @@ function Carousel(carousel,options) {
 	 * @return {[type]}         [description]
 	 */
 	this.palyVideo = function(cb) {
+		//索引从0开始
+		var index = currIndex-1
 
-		var index   = currIndex % 3;
 		var element = element || $contentElements.eq(index)
 		var layer   = config.layer;
 
