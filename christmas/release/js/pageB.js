@@ -20,16 +20,16 @@ function PageB(element,pageComplete) {
         //男孩
         boy: {
             //走路时间
-            walk:2000,
+            walk:3000,
         },
         //女孩
         girl: {
             //起身时间
-            standUp: 1000,
+            standUp: 2000,
             //抛书
-            throwBook: 1000,
+            throwBook: 1500,
             //走路
-            walk: 2000,
+            walk: 3000,
             //飞奔拥抱走路
             hugWalk: 500,
         }

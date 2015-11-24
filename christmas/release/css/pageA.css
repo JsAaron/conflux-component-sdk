@@ -4,7 +4,8 @@
     background-image: url("../images/a/page-a-bg.png");
     position: absolute;
     z-index: 5;
-    perspective: 2000px;
+    /*perspective: 2000px;*/
+    /*transform-style: preserve-3d;*/
 }
 
 
@@ -13,8 +14,8 @@
  */
 
 .tree {
-    width: 3rem;
-    height: 6rem;
+    width: 2.71rem;
+    height: 4.24rem;
     z-index: 15;
     position: absolute;
     bottom: 0;
@@ -22,7 +23,7 @@
     background-image: url("../images/a/trees.png");
     background-size: 200% 100%;
     -webkit-animation-name: tree-run;
-    -webkit-animation-duration: 400ms;
+    -webkit-animation-duration: 1000ms;
     -webkit-animation-timing-function: steps(2);
     -webkit-animation-iteration-count: infinite;
 }
@@ -42,18 +43,15 @@
  */
 
 .chs-boy {
-    width: 7rem;
-    height: 2rem;
+    width: 5rem;
+    height: 1.5rem;
     position: absolute;
     z-index: 3;
     left: -2rem;
     top: .5rem;
     transform: scale(0.1);
-    background: url("../images/a/boy-sleigh-car.png");
-    background-size: 300% 100%;
-    /*transform:rotateY(120deg);*/
-    transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
+    background: url("../images/a/boy-sleigh-car.png") -300% 100%;
+    background-size: 400% 100%;
 }
 
 
@@ -62,21 +60,18 @@
  */
 
 .boy-animate {
-    -webkit-animation-name: person-slow;
+    -webkit-animation-name: boyAnimate;
     -webkit-animation-duration: 750ms;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(3);
+    -webkit-animation-timing-function: steps(3,end);
 }
 
-@-webkit-keyframes person-slow {
+@-webkit-keyframes boyAnimate {
     0% {
-        background-position: 300% 100%
-    }
-    50% {
-        background-position: 600% 100%
+        background-position-x: -0%;
     }
     100% {
-        background-position: 900% 100%
+        background-position-x: -300%;
     }
 }
 
@@ -130,8 +125,8 @@
     width: 1.2rem;
     height: 1.2rem;
     position: absolute;
-    left: 2.03rem;
-    top: 3.7rem;
+    left: 1.75rem;
+    top: 4.9rem;
     z-index: 15;
 }
 
@@ -166,7 +161,7 @@
     background: url("../images/a/page-a-window-bg.png") 30% center;
     background-size: 100% 100%;
     width: 2.65rem;
-    height: 1.6rem;
+    height: 2rem;
     position: absolute;
     left:9.7rem;
     top: 5.95rem;
@@ -202,15 +197,17 @@
 .window-right {
     width: 49%;
     height: 82%;
-    -webkit-transition: 1s ease-in-out;
+    -webkit-transition: 2s ease-in-out;
 }
 
 .window-left.hover {
-    -webkit-transform: scale(0.9) rotateY(60deg);
-    margin-left: -0.37rem;
+    -webkit-transform: scale(0.8) rotateY(60deg);
+     margin-top: 0.1rem;
+    margin-left: -0.17rem;
 }
 
 .window-right.hover {
-    -webkit-transform: scale(0.9) rotateY(-60deg);
-    margin-right: -0.37rem;
+    -webkit-transform: scale(0.8) rotateY(-60deg);
+     margin-top: 0.1rem;
+    margin-right: -0.17rem;
 }

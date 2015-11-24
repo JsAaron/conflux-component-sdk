@@ -15,7 +15,6 @@ function PageA(element) {
     this.$window = element.find(".window");    
     this.$leftWin  = this.$window.find(".window-left")
     this.$rightWin = this.$window.find(".window-right")
-
     //初始化一些场景
     this.init();
 }
@@ -56,7 +55,7 @@ PageA.prototype.openWindow = function(callback) {
  * @return {[type]} [description]
  */
 PageA.prototype.stopWalk = function(){
-    this.$boy.addClass("boy-stop-animate")
+    this.$boy.removeClass("boy-animate")
 }
 
 
@@ -78,19 +77,17 @@ PageA.prototype.next = function(options) {
  * @return {[type]} [description]
  */
 PageA.prototype.run = function(callback){
-    // return
     var that = this;
     var next = function() {
         return this.next.apply(this, arguments)
     }.bind(this)
 
     next({
-        "time": 1000,
+        "time": 2000,
         "style": {
-            "top"    : "1rem",
-            "left"   : "1rem",
-            "rotateY" : "20deg",
-            "scale"  : "0.2"
+            "top"     : "1rem",
+            "left"    : "1rem",
+            "scale"   : "0.2"
         }
     })
     .done(function(){
@@ -98,7 +95,7 @@ PageA.prototype.run = function(callback){
     })
     .then(function() {
         return next({
-                "time": 1000,
+                "time": 3000,
                 "style": {
                 "top": "2rem",
                 "left": "5rem",
@@ -151,25 +148,26 @@ PageA.prototype.run = function(callback){
     })
     .then(function() {
         return next({
-            "time": 4000,
+            "time": 6000,
             "style": {
-                 "left"  :"-4rem",
-                 "top"   : "7.2rem",
-                 "scale" : "1"
+                 "left"  :"-5rem",
+                 "top"   : "7.6rem",
+                 "scale" : "1.5"
             }
         })
     })  
     .then(function() {
        return next({
-            "time": 1000,
+            // "time": 0,
             "style": {
-                "rotateY" : "0"
+               "rotateY" : "0",
+               "scale" : "1.2"
             }
         })
     })    
     .then(function() {
         return next({
-            "time": 2000,
+            "time": 3000,
             "style": {
                 "left" : "8.5rem",
             }

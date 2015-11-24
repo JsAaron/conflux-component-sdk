@@ -41,11 +41,10 @@ var Christmas = function() {
     //页面对象
     var objA,objB,objC;
 
-
 	// 第一副页面
     objA = new PageA($pageA)
     objA.run(function() {
-         // observer.publish("completeA");
+         observer.publish("completeA");
     });
 
     //页面A-B页面切换
