@@ -3,6 +3,90 @@
     height: 100%;
     background-image: url("../images/c/page-c-bg.png");
     position: absolute;
-	opacity:0;
-	z-index: 3;
+    opacity: 1;
+    z-index: 30;
+}
+
+
+/**
+ * 鹿
+ */
+
+.deer {
+    width: 5rem;
+    height: 1.5rem;
+    position: absolute;
+    z-index: 3;
+    top: 7.8rem;
+    right: 4rem;
+    transform: scale(1.5);
+    background-size: 400% 100%;
+    background: url("../images/c/deer.png") -300% -100%;
+    background-size: 400% 100%;
+}
+
+
+/**
+ * 鹿动画
+ */
+
+.deer-animate {
+    -webkit-animation-name: deerAnimate;
+    -webkit-animation-duration: 750ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: steps(3, end);
+}
+
+@-webkit-keyframes deerAnimate {
+    0% {
+        background-position-x: -0%;
+    }
+    100% {
+        background-position-x: -300%;
+    }
+}
+
+
+/**
+ * 窗户
+ */
+.page-c .window{
+	left:8rem;
+}
+
+.window-left.close {
+    -webkit-transition: 2s ease-in-out;
+    -webkit-transform: scale(1) rotateY(0deg);
+     margin-left: 0.01rem;
+}
+
+.window-right.close {
+    -webkit-transition: 2s ease-in-out;
+    -webkit-transform: scale(1) rotateY(0deg);
+    margin-right: 0.01rem;
+}
+
+/**
+ * 关门背景
+ */
+.page-c .window-bg{
+	background: url("../images/c/window-close-bg.png");
+	background-size: 100% 100%;
+}
+.page-c .close-bg{
+	width: 0.8rem;
+	height:0.8rem;
+    position: absolute;
+    left: 50%;
+    margin-left: -0.4rem;
+    bottom: 25%;
+    opacity: 0;
+    z-index: 500;
+    background: url("../images/c/close-bg.png");
+    background-size: 100% 100%;
+    -webkit-animation: closeBg 2s ease-in-out forwards;
+}
+
+@-webkit-keyframes closeBg{
+    100% { opacity:1; }
 }

@@ -42,10 +42,10 @@ var Christmas = function() {
     var objA,objB,objC;
 
 	// 第一副页面
-    objA = new PageA($pageA)
-    objA.run(function() {
-         observer.publish("completeA");
-    });
+    // objA = new PageA($pageA)
+    // objA.run(function() {
+    //      observer.publish("completeA");
+    // });
 
     //页面A-B页面切换
     observer.subscribe("completeA", function() {
@@ -69,8 +69,7 @@ var Christmas = function() {
         })
     })
 
- // observer.publish("changePageA");
-
+ 
 
 
 };
