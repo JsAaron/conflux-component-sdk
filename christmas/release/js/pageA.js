@@ -83,11 +83,11 @@ PageA.prototype.run = function(callback){
     }.bind(this)
 
     next({
-        "time": 2000,
+        "time": 1500,
         "style": {
-            "top"     : "1rem",
-            "left"    : "1rem",
-            "scale"   : "0.2"
+            "top"   : "1rem",
+            "right" : "1rem",
+            "scale" : "0.2"
         }
     })
     .done(function(){
@@ -95,82 +95,28 @@ PageA.prototype.run = function(callback){
     })
     .then(function() {
         return next({
-                "time": 3000,
+                "time": 6000,
                 "style": {
-                "top": "2rem",
-                "left": "5rem",
-                // "rotate3d" :"0.6,1,0.6,35deg",
-                "rotateY": "40deg",
-                "scale": "0.4"
+                "top": "4rem",
+                "right": "15rem",
+                "scale": "0.8"
             }
         })
     })
-    .then(function() {
-        //转角
-       return next({
-            "time": 500,
-            "style": {
-                "top"     :"2.2rem",
-                "left"    :"5.5rem",
-                "rotateY" : "60deg"
-            }
-        })
-    })
-    .then(function() {
-        return next({
-            "time": 500,
-            "style": {
-                "top"     :"2.5rem",
-                "left"    :"6rem",
-                "rotateY" : "80deg"
-            }
-        })
-    })
-    .then(function() {
-        return next({
-            "time": 500,
-            "style": {
-                "top"     :"2.8rem",
-                "left"    :"6rem",
-                "rotateY" : "100deg"
-            }
-        })
-    })
-    .then(function() {
-         //转角结束
-        return next({
-            "time": 500,
-            "style": {
-                "top"     :"3rem",
-                "left"    :"5.5rem",
-                "rotateY" : "120deg"
-            }
-        })
-    })
-    .then(function() {
-        return next({
-            "time": 6000,
-            "style": {
-                 "left"  :"-5rem",
-                 "top"   : "7.6rem",
-                 "scale" : "1.5"
-            }
-        })
-    })  
     .then(function() {
        return next({
-            // "time": 0,
             "style": {
-               "rotateY" : "0",
-               "scale" : "1.2"
+               "rotateY" : "-180"
             }
         })
     })    
     .then(function() {
         return next({
-            "time": 3000,
+            "time": 5000,
             "style": {
-                "left" : "8.5rem",
+                "top"   :"8rem",
+                "right" : "3.5rem",
+                "scale" : "1"
             }
         })
     }) 

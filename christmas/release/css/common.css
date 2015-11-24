@@ -16,10 +16,11 @@
  */
 .effect-out{
     -webkit-animation: effectOut 5s ease-in-out forwards;
+    -webkit-transform-origin:71% 72%;
 }
 @-webkit-keyframes effectOut{
     0% { opacity:1; }
-    100% { -webkit-transform: rotateZ(10deg) scale(10); opacity:0; }
+    100% { -webkit-transform: scale(20); opacity:0; }
 }
 
 section.effect-in{
