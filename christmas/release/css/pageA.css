@@ -175,11 +175,11 @@
 
 }
 .window-bg{
-    width: 60%;
-    height: 80%;
+    width: 86%;
+    height: 95%;
     position: absolute;
     left:50%;
-    margin-left: -40%;
+    margin-left: -43%;
     bottom: 0;
     background: url("../images/a/page-a-window-bg.png");
     background-size: 100% 100%;  

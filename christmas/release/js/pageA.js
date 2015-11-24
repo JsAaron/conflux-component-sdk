@@ -92,7 +92,7 @@ PageA.prototype.run = function(callback){
         "style": {
             "top": "4rem",
             "right": "16rem",
-            "scale": "0.8"
+            "scale": "1.2"
         }
     })
     .then(function() {
@@ -100,7 +100,7 @@ PageA.prototype.run = function(callback){
             "time":500,
             "style": {
                "rotateY" : "-180",
-               "scale": "1"
+               "scale": "1.5"
             }
         })
     })    
@@ -109,8 +109,7 @@ PageA.prototype.run = function(callback){
             "time": 7000,
             "style": {
                 "top"   :"7.8rem",
-                "right" : "1.2rem",
-                "scale" : "1.2"
+                "right" : "1.2rem"
             }
         })
     }) 
