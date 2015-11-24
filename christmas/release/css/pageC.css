@@ -61,32 +61,41 @@
 }
 
 .window-right.close {
-    -webkit-transition: 2s ease-in-out;
+    -webkit-transition: 3s ease-in-out;
     -webkit-transform: scale(1) rotateY(0deg);
     margin-right: 0.01rem;
 }
 
 /**
- * 关门背景
+ * 场景背景
+ * @type {[type]}
  */
-.page-c .window-bg{
-	background: url("../images/c/window-close-bg.png");
-	background-size: 100% 100%;
-}
-.page-c .close-bg{
-	width: 0.8rem;
-	height:0.8rem;
+.window-scene-bg{
+    background: url("../images/c/window-scene-bg.png");
+    background-size: 100% 100%;
+    width: 2.26rem;
+    height:1.2rem;
     position: absolute;
     left: 50%;
-    margin-left: -0.4rem;
-    bottom: 25%;
-    opacity: 0;
-    z-index: 500;
-    background: url("../images/c/close-bg.png");
-    background-size: 100% 100%;
-    -webkit-animation: closeBg 2s ease-in-out forwards;
+    bottom: .1rem;
+    z-index: 10;
+    margin-left: -1.13rem;
+    transform:translateZ(-50px);
 }
 
-@-webkit-keyframes closeBg{
-    100% { opacity:1; }
+/**
+ * 关门背景
+ */
+.window-close-bg{
+    background: url("../images/c/window-close-bg.png");
+    background-size: 100% 100%;
+    width: 0.8rem;
+    height:0.8rem;
+    position: absolute;
+    left: 50%;
+    bottom:.1rem;
+    margin-left: -0.4rem;
+    transform:translateZ(-50px);
+    opacity: 0;
+    z-index: 5
 }

@@ -2,25 +2,32 @@
  * 场景3
  */
 function PageC() {
+
 	//雪橇鹿
 	this.$deer = $(".deer");
 
 	this.$window   = $(".page-c .window");    
-	this.$leftWin  = this.$window.find(".window-left")
-	this.$rightWin = this.$window.find(".window-right")
+    this.$leftWin  = this.$window.find(".window-left");
+    this.$rightWin = this.$window.find(".window-right");
+    this.$sceneBg  = this.$window.find(".window-scene-bg");
+    this.$closeBg  = this.$window.find(".window-close-bg");
 
+    //背景切换
+    this.$sceneBg.transition({
+        opacity:0,
+    },3000);
+    this.$closeBg.css("transform","translateZ(0)")
+    this.$closeBg.transition({
+        opacity:1
+    },5000);
 	var that = this;
+    //关门动作
 	this.closeWindow(function(){
-		var $bg = that.$window.find(".window-bg")
-		//.addClass("close-bg").removeClass("window-bg")
-		
-		$bg.removeClass("window-bg")
-
-
-		// that.$window.one(support.animationEnd, function() {
-		// 	that.run();
-		// })
-	});
+        //小鹿运动
+        (function(){
+            that.run();
+        }).defer(3000)
+    });
 }
 
 
@@ -29,7 +36,7 @@ function PageC() {
  * @return {[type]} [description]
  */
 PageC.prototype.closeWindow = function(callback) {
-    // return
+
     var count = 1;
     var complete = function() {
         ++count
