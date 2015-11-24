@@ -158,21 +158,58 @@
  */
 
 .window {
-    background: url("../images/a/page-a-window-bg.png") 30% center;
-    background-size: 100% 100%;
-    width: 2.65rem;
-    height: 2rem;
+    width: 2.6rem;
+    height: 1.5rem;
     position: absolute;
     left:9.7rem;
-    top: 5.95rem;
-    /*box-shadow: 6px 6px 4px #000;*/
-    /*border: 1px inset #C60;*/
+    top: 6.2rem;
     cursor: pointer;
-    -webkit-perspective: 900;
-    -webkit-transform-style: preserve-3d;
-    -webkit-transition-property: perspective;
-    -webkit-border-radius: 0.1rem;
+    -webkit-perspective: 500px;
 }
+
+.window-content{
+    -webkit-transform-style: preserve-3d;
+    width: 92%;
+    margin: 0 auto;
+    height: 100%;
+
+}
+.window-bg{
+    width: 60%;
+    height: 80%;
+    position: absolute;
+    left:50%;
+    margin-left: -40%;
+    bottom: 0;
+    background: url("../images/a/page-a-window-bg.png");
+    background-size: 100% 100%;  
+    z-index: -1; 
+}
+
+.window:before{
+    content:"";
+    background: url("../images/a/window-bottom.png");
+    width: 100%;
+    height: 0.17rem;
+    display: block;
+    position: absolute;
+    bottom: 0.05rem;
+    background-size: 100% 100%;
+    z-index: 100;
+}
+
+.window:after{
+    content:"";
+    background: url("../images/a/window-bottom-shadow.png");
+    width: 100%;
+    height: 0.09rem;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    background-size: 100% 100%;
+    z-index: 100;
+}
+
 
 .wood {
     display: block;
@@ -181,33 +218,35 @@
 
 .window-left {
     float: left;
-    background: #FFF8C5;
-    -webkit-transform: rotateY(0deg);
-    -webkit-border-radius: 0.1rem;
+     background: url("../images/a/window-left.png");
+    -webkit-border-top-left-radius: 0.1rem;
 }
 
 .window-right {
     float: right;
-    background: #FFF8C5;
-    -webkit-transform: rotateY(0deg);
-    -webkit-border-radius: 0.1rem;
+     background: url("../images/a/window-right.png");
+     -webkit-border-top-right-radius: 0.1rem;
 }
 
 .window-left,
 .window-right {
-    width: 49%;
-    height: 82%;
-    -webkit-transition: 2s ease-in-out;
+    width: 1.18rem;
+    height: 1.3rem;
+     z-index: 110;
+     box-shadow: 0 0 0.15rem #FCF0BC;
 }
 
+
 .window-left.hover {
-    -webkit-transform: scale(0.8) rotateY(60deg);
+    -webkit-transition: 2s ease-in-out;
+    -webkit-transform: scale(0.95) rotateY(60deg);
      margin-top: 0.1rem;
-    margin-left: -0.17rem;
+     margin-left: -0.25rem;
 }
 
 .window-right.hover {
-    -webkit-transform: scale(0.8) rotateY(-60deg);
+    -webkit-transition: 2s ease-in-out;
+    -webkit-transform: scale(0.95) rotateY(-60deg);
      margin-top: 0.1rem;
-    margin-right: -0.17rem;
+    margin-right: -0.25rem;
 }

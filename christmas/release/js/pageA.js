@@ -17,6 +17,10 @@ function PageA(element) {
     this.$rightWin = this.$window.find(".window-right")
     //初始化一些场景
     this.init();
+
+    // setTimeout(function(){
+    //      this.openWindow();
+    //  }.bind(this),1000)
 }
 
 
@@ -34,6 +38,7 @@ PageA.prototype.init = function() {
  * @return {[type]} [description]
  */
 PageA.prototype.openWindow = function(callback) {
+    // return
     var count = 1;
     var complete = function() {
         ++count
@@ -83,46 +88,39 @@ PageA.prototype.run = function(callback){
     }.bind(this)
 
     next({
-        "time": 1500,
+        "time": 10000,
         "style": {
-            "top"   : "1rem",
-            "right" : "1rem",
-            "scale" : "0.2"
+            "top": "4rem",
+            "right": "16rem",
+            "scale": "0.8"
         }
-    })
-    .done(function(){
-        that.$boy.css("z-index",10);
-    })
-    .then(function() {
-        return next({
-                "time": 6000,
-                "style": {
-                "top": "4rem",
-                "right": "15rem",
-                "scale": "0.8"
-            }
-        })
     })
     .then(function() {
        return next({
+            "time":500,
             "style": {
-               "rotateY" : "-180"
+               "rotateY" : "-180",
+               "scale": "1"
             }
         })
     })    
     .then(function() {
         return next({
-            "time": 5000,
+            "time": 7000,
             "style": {
-                "top"   :"8rem",
-                "right" : "3.5rem",
-                "scale" : "1"
+                "top"   :"7.8rem",
+                "right" : "1.2rem",
+                "scale" : "1.2"
             }
         })
     }) 
     .then(function(){
         that.stopWalk();
-        that.openWindow(callback);
+        that.openWindow(function(){
+            (function(){
+                callback();
+            }).defer(1000)
+        });
     })  
 
 }

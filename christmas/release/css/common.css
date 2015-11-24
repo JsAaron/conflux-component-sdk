@@ -15,7 +15,7 @@
  * 镜头方法
  */
 .effect-out{
-    -webkit-animation: effectOut 5s ease-in-out forwards;
+    -webkit-animation: effectOut 8s ease-in-out forwards;
     -webkit-transform-origin:71% 72%;
 }
 @-webkit-keyframes effectOut{
