@@ -99,6 +99,7 @@ PageA.prototype.run = function(callback){
                 "style": {
                 "top": "2rem",
                 "left": "5rem",
+                // "rotate3d" :"0.6,1,0.6,35deg",
                 "rotateY": "40deg",
                 "scale": "0.4"
             }
