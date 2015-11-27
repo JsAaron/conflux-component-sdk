@@ -12,6 +12,11 @@ function PageC() {
     this.$sceneBg  = this.$window.find(".window-scene-bg");
     this.$closeBg  = this.$window.find(".window-close-bg");
 
+
+    Snowflake("snowflake");
+
+
+return;
     //背景切换
     this.$sceneBg.transition({
         opacity:0,
