@@ -3,7 +3,7 @@
     height: 100%;
     background-image: url("../images/b/page-b-bg.png");
     position: absolute;
-    z-index: 4;
+    z-index: 40;
 }
 
 .walk-stop{
@@ -32,19 +32,36 @@
     left: 1rem;
     top: 3.5rem;
     background: url("../images/b/girl.png");
-    background-size: 1400% 100%;
+    background-size: 2200% 100%;
 }
 
 /**
  * 起身
  */
-.girl-standUp {
+.girl-standUp-a {
+    left:1.3rem;
+    background-position-x: -100%;
+}
+.girl-standUp-b {
     top: 5.5rem;
     left: 1rem;
-    background-position-x:-100%;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: standUpB;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-timing-function: steps(2,start);
 }
-
-.girl-book-run {
+@-webkit-keyframes standUpB {
+    0% {
+        background-position-x: -100%;
+    }
+    100% {
+        background-position-x: -300%;
+    }
+}
+/**
+ * 抛书动作
+ */
+.girl-throwBook {
      background-position-x:-200%;
 }
 

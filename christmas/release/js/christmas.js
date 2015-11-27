@@ -41,7 +41,10 @@ var Christmas = function() {
     //页面对象
     var objA,objB,objC;
 
-
+        objB = new PageB($pageB, function() {
+            observer.publish("completeB");
+        })
+return
 	// 第一副页面
     objA = new PageA($pageA)
     objA.run(function() {
@@ -51,12 +54,12 @@ var Christmas = function() {
     //页面A-B页面切换
     observer.subscribe("completeA", function() {
         changePage($pageA, "effect-out", function() {
-            observer.publish("changePageA");
+            observer.publish("pageB");
         })
     })
 
     //切换页面完毕
-    observer.subscribe("changePageA", function() {
+    observer.subscribe("pageB", function() {
         //处理页面B
         objB = new PageB($pageB, function() {
             observer.publish("completeB");
@@ -66,13 +69,17 @@ var Christmas = function() {
     //执行B-C页面完毕
     observer.subscribe("completeB", function() {
         changePage($pageC, "effect-in", function() {
-            new PageC()
+            observer.publish("pageC");
         })
     })
 
 
-};
+    //处理C页面
+    observer.subscribe("pageC", function() {
+        new PageC()
+    })
 
+};
 
 
 

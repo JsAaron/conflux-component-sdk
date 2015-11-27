@@ -14,20 +14,22 @@ function PageB(element,pageComplete) {
     //猫
     var $cat      = $element.find(".cat");
 
-
     // 时间设置
     var setTime = {
         //男孩
         boy: {
             //走路时间
-            walk:4000,
+            walk:100,
         },
         //女孩
         girl: {
             //起身时间
-            standUp: 3000,
+            standUp: {
+                a:2000,
+                b:3000
+            },
             //抛书
-            throwBook: 3000,
+            throwBook: 4000,
             //走路
             walk: 3000,
             //飞奔拥抱走路
@@ -45,12 +47,15 @@ function PageB(element,pageComplete) {
         standUp: function() {
             var dfd = $.Deferred();
             (function() {
-                $girl.addClass("girl-standUp");
-            }).defer(setTime.girl.standUp);
+                $girl.addClass("girl-standUp-a");
+            }).defer(setTime.girl.standUp.a);
+            (function() {
+                $girl.addClass("girl-standUp-b");
+            }).defer(setTime.girl.standUp.b);
             (function() {
                 $cat.addClass("cat-book");
-                $girl.addClass("girl-book-run");
-                dfd.resolve()
+                $girl.addClass("girl-throwBook");
+                // dfd.resolve()
             }).defer(setTime.girl.throwBook);
             return dfd;
         },
@@ -157,7 +162,7 @@ function PageB(element,pageComplete) {
             //女孩走路
             return girlAction.walk();
         })
-        .then(function() {
+        a.then(function() {
             //女孩停止走路
             return girlAction.stopWalk();
         })
@@ -228,22 +233,35 @@ function PageB(element,pageComplete) {
         girlAction.choose(function() {
             //选中视频
             carousel.selected(function() {
-                //播放视频
-                carousel.palyVideo({
-                    //加载开始
-                    load: function() {
+
                         //小女孩动作还原
                         girlAction.reset();
                         //旋转动作还原
                         carousel.reset();
                         //脱衣动作
                         boyAction.strip(count);
-                    },
-                    //完成
-                    complete: function(){
-                        complete();
-                    }
-                });
+
+
+                        setTimeout(function(){
+                             complete();
+                         },1000)
+
+                //播放视频
+                // carousel.palyVideo({
+                //     //加载开始
+                //     load: function() {
+                //         //小女孩动作还原
+                //         girlAction.reset();
+                //         //旋转动作还原
+                //         carousel.reset();
+                //         //脱衣动作
+                //         boyAction.strip(count);
+                //     },
+                //     //完成
+                //     complete: function(){
+                //         complete();
+                //     }
+                // });
             });
         })
     }
