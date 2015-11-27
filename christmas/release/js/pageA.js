@@ -15,21 +15,6 @@ function PageA(element) {
     this.$window = element.find(".window");    
     this.$leftWin  = this.$window.find(".window-left")
     this.$rightWin = this.$window.find(".window-right")
-    //初始化一些场景
-    this.init();
-
-    // setTimeout(function(){
-    //      this.openWindow();
-    //  }.bind(this),1000)
-}
-
-
-/**
- * 初始化一些场景
- * @return {[type]} [description]
- */
-PageA.prototype.init = function() {
-    this.createCloudyCircle();
 }
 
 
@@ -38,7 +23,6 @@ PageA.prototype.init = function() {
  * @return {[type]} [description]
  */
 PageA.prototype.openWindow = function(callback) {
-    // return
     var count = 1;
     var complete = function() {
         ++count
@@ -51,8 +35,8 @@ PageA.prototype.openWindow = function(callback) {
             complete()
         })
     }
-    bind(this.$leftWin.addClass("hover"))
-    bind(this.$rightWin.addClass("hover"))
+    bind(this.$leftWin.addClass("window-transition").addClass("hover"))
+    bind(this.$rightWin.addClass("window-transition").addClass("hover"))
 }
 
 /**
@@ -115,33 +99,15 @@ PageA.prototype.run = function(callback){
     }) 
     .then(function(){
         that.stopWalk();
-        that.openWindow(function(){
-            (function(){
-                callback();
-            }).defer(1000)
-        });
+        (function() {
+            that.openWindow(function() {
+                (function() {
+                    callback();
+                }).defer(1000)
+            });
+        }).defer(1000)
     })  
 
 }
 
-
-/**
- * 创建半圆的云svg图
- * @return {[type]} [description]
- */
-PageA.prototype.createCloudyCircle = function() {
-    //创建SVG元素
-    var svg = document.createElement("svg");
-    svg.setAttribute("width", "100");
-    svg.setAttribute("height", "100");
-    //创建circle元素
-    var rect = document.createElement("rect");
-    rect.setAttribute("cx", "50");
-    rect.setAttribute("cy", "50");
-    rect.setAttribute("r", "40");
-    svg.appendChild(rect);
-    // $root.append(svg); 
-}
-
- 
 

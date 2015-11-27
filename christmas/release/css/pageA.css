@@ -45,8 +45,8 @@
     height          : 1.5rem;
     position        : absolute;
     z-index         : 3;
-    top             :7.8rem;
-    right           : 1.2rem;
+    top             : .1rem;
+    right           : -3rem;
     transform       : scale(0.1);
     background      : url("../images/a/boy-sleigh-car.png") -300% -100%;
     background-size : 400% 100%;
@@ -240,8 +240,16 @@
    -webkit-transition: 2s ease-in-out;
 }
 
+
+/**
+ * 动画过程
+ */
+.window-transition{
+    -webkit-transition: 2s ease-in-out;
+}
+
+
 .window-left.hover {
-/*    -webkit-transition: 2s ease-in-out;*/
     -webkit-transform: scale(0.95) rotateY(60deg);
      margin-top: 0.1rem;
      margin-left: -0.25rem;

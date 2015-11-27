@@ -23,10 +23,10 @@ function PageC() {
 	var that = this;
     //关门动作
 	this.closeWindow(function(){
+         Snowflake("snowflake");
         //小鹿运动
         (function(){
             that.run(function() {
-                Snowflake("snowflake")
             });
         }).defer(2000)
     });
@@ -108,9 +108,4 @@ PageC.prototype.run = function(callback){
             }
         })
     }).then(callback)
-}
-
-window.onload = function(){
-
-new PageC()
 }

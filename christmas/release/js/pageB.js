@@ -20,14 +20,14 @@ function PageB(element,pageComplete) {
         //男孩
         boy: {
             //走路时间
-            walk:3000,
+            walk:4000,
         },
         //女孩
         girl: {
             //起身时间
-            standUp: 2000,
+            standUp: 3000,
             //抛书
-            throwBook: 1500,
+            throwBook: 3000,
             //走路
             walk: 3000,
             //飞奔拥抱走路
@@ -44,13 +44,13 @@ function PageB(element,pageComplete) {
         //小女起立
         standUp: function() {
             var dfd = $.Deferred();
-            $girl.addClass("girl-standUp");
+            (function() {
+                $girl.addClass("girl-standUp");
+            }).defer(setTime.girl.standUp);
             (function() {
                 $cat.addClass("cat-book");
                 $girl.addClass("girl-book-run");
-            }).defer(setTime.girl.standUp);
-            (function() {
-                 dfd.resolve()
+                dfd.resolve()
             }).defer(setTime.girl.throwBook);
             return dfd;
         },
@@ -209,7 +209,9 @@ function PageB(element,pageComplete) {
                 dfd.resolve();
                 return
             }
-            play();
+            (function(){
+                play();
+            }).defer(1000)
         };
         play();
         return dfd;
