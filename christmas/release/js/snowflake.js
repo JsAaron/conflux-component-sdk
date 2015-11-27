@@ -72,8 +72,8 @@
 			maxX:width,
 			maxY:height,
 			//速率
-			minSpeedY : 1,
-			maxSpeedY : 3,
+			minSpeedY : 0.5,
+			maxSpeedY : 2,
 			speedX    : 0.05,
 			//滤镜
 			minAlpha  : 0.5,
@@ -96,7 +96,7 @@
         this.radius = randomInRange(snowSettings.minRadius, snowSettings.maxRadius);
         //初始的x位置
         this.initialX = Math.random() * snowSettings.maxX;
-        this.y = Math.random() * snowSettings.maxY;
+        this.y = (-50);
         //运行的速率
         this.speedY = randomInRange(snowSettings.minSpeedY, snowSettings.maxSpeedY);
         this.speedX = snowSettings.speedX;

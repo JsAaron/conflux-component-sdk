@@ -12,11 +12,6 @@ function PageC() {
     this.$sceneBg  = this.$window.find(".window-scene-bg");
     this.$closeBg  = this.$window.find(".window-close-bg");
 
-
-    Snowflake("snowflake");
-
-
-return;
     //背景切换
     this.$sceneBg.transition({
         opacity:0,
@@ -30,8 +25,10 @@ return;
 	this.closeWindow(function(){
         //小鹿运动
         (function(){
-            that.run();
-        }).defer(3000)
+            that.run(function() {
+                Snowflake("snowflake")
+            });
+        }).defer(2000)
     });
 }
 
@@ -110,7 +107,7 @@ PageC.prototype.run = function(callback){
                 "scale": "0.2"
             }
         })
-    }) 
+    }).then(callback)
 }
 
 window.onload = function(){
