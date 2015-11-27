@@ -24,11 +24,12 @@
 }
 
 section.effect-in{
-	z-index: 15;
-	display: block;
-	-webkit-transform: rotateZ(10deg) scale(10); 
+    z-index: 15;
+    display: block;
+    -webkit-transform: scale(8); 
     -webkit-animation: effectIn 5s ease-in-out forwards;
+    -webkit-transform-origin:58.5% 73.5%;
 }
 @-webkit-keyframes effectIn{
-    100% { -webkit-transform: rotateZ(0) scale(1); opacity:1; }
+    100% { -webkit-transform: scale(1); opacity:1; }
 }
