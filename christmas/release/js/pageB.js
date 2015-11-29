@@ -55,7 +55,7 @@ function PageB(element,pageComplete) {
             (function() {
                 $cat.addClass("cat-book");
                 $girl.addClass("girl-throwBook");
-                // dfd.resolve()
+                dfd.resolve()
             }).defer(setTime.girl.throwBook);
             return dfd;
         },
@@ -71,7 +71,11 @@ function PageB(element,pageComplete) {
             return dfd;
         },
         stopWalk: function() {
-            $girl.removeClass("girl-walk");
+            $girl.removeClass("girl-walk")
+                 .addClass("walk-stop")
+                 // .removeClass("girl-throwBook")
+                 // .removeClass("girl-standUp-a")
+                 // .removeClass("girl-standUp-b")
             $girl.addClass("girl-stand")
         },
         //继续走路
@@ -79,7 +83,7 @@ function PageB(element,pageComplete) {
             $girl.addClass("walk-run")
         },
         //选择3d
-        choose:function(callback){
+        choose:function(){
             $girl.addClass("girl-choose")
             girlAction.runWalk();
             $girl.one(support.animationEnd, function() {
@@ -162,11 +166,11 @@ function PageB(element,pageComplete) {
             //女孩走路
             return girlAction.walk();
         })
-        a.then(function() {
+        .then(function() {
             //女孩停止走路
             return girlAction.stopWalk();
         })
-        .then(function() {
+        a.then(function() {
             //解开包裹
             return boyAction.unwrapp();
         }) 
