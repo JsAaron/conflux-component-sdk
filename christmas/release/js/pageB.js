@@ -72,11 +72,7 @@ function PageB(element,pageComplete) {
         },
         stopWalk: function() {
             $girl.removeClass("girl-walk")
-                 .addClass("walk-stop")
-                 // .removeClass("girl-throwBook")
-                 // .removeClass("girl-standUp-a")
-                 // .removeClass("girl-standUp-b")
-            $girl.addClass("girl-stand")
+                 .addClass("girl-stand")
         },
         //继续走路
         runWalk: function() {
@@ -170,13 +166,13 @@ function PageB(element,pageComplete) {
             //女孩停止走路
             return girlAction.stopWalk();
         })
-        a.then(function() {
+        .then(function() {
             //解开包裹
             return boyAction.unwrapp();
         }) 
         .then(function(){
             //3d旋转
-            return rotation3d()
+            // return rotation3d()
         })
         .then(function(){
             girlAction.hugWalk(function() {
