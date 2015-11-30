@@ -51,8 +51,8 @@ function Carousel(carousel, options) {
 			"transform":"scale(0.3)",
 			"-webkit-perspective" : "500px",
 			"position"            : "absolute",
-			"left"                : "6.6rem",
-			"top"                 : "5.5rem"
+			"left"                : "6.8rem",
+			"top"                 : "4.5rem"
 		})
 		//容器
 		$spinner.css({
@@ -160,7 +160,7 @@ function Carousel(carousel, options) {
 		 * vide标签
 		 * @type {[type]}
 		 */
-		var $video = $('<video preload="auto" autoplay width="100%" height="100%"></video>');
+		var $video = $('<video preload="auto" autoplay class="bounceIn" style="width:50%;height:50%;position:absolute;left:25%;top:25%;"></video>');
 
 		$video.css({
 			"position" :"absolute",
@@ -178,6 +178,7 @@ function Carousel(carousel, options) {
 
 		//停止
 		$video.on("ended", function() {
+			return
 			cb.complete();
 			$video[0].pause()
 			$video.remove();

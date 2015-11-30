@@ -2,38 +2,35 @@
  * 第二副场景页面
  *
  */
-function PageB(element,pageComplete) {
+function PageB(element, pageComplete) {
 
-    var $element  = element;
+    var $element = element;
     //圣诞男孩
-    var $boy      = $element.find(".christmas-boy");
+    var $boy = $element.find(".christmas-boy");
     //3d旋转
     var $carousel = $element.find("#carousel");
     //女孩
-    var $girl     = $element.find(".girl");
+    var $girl = $element.find(".girl");
     //猫
-    var $cat      = $element.find(".cat");
+    var $cat = $element.find(".cat");
 
     // 时间设置
     var setTime = {
         //男孩
         boy: {
             //走路时间
-            walk:100,
+            walk: 4000,
         },
         //女孩
         girl: {
             //起身时间
-            standUp: {
-                a:2000,
-                b:3000
-            },
+            standUp: 1000,
             //抛书
-            throwBook: 4000,
+            throwBook: 2000,
             //走路
             walk: 3000,
             //飞奔拥抱走路
-            hugWalk: 500,
+            hugWalk: 1000,
         }
     }
 
@@ -46,21 +43,20 @@ function PageB(element,pageComplete) {
         //小女起立
         standUp: function() {
             var dfd = $.Deferred();
+            //起立
             (function() {
-                $girl.addClass("girl-standUp-a");
-            }).defer(setTime.girl.standUp.a);
-            (function() {
-                $girl.addClass("girl-standUp-b");
-            }).defer(setTime.girl.standUp.b);
+                $girl.addClass("girl-standUp");
+            }).defer(setTime.girl.standUp);
+            //抛书
             (function() {
                 $cat.addClass("cat-book");
                 $girl.addClass("girl-throwBook");
                 dfd.resolve()
-            }).defer(setTime.girl.throwBook);
+            }).defer(setTime.girl.throwBook + setTime.girl.standUp);
             return dfd;
         },
         walk: function(callback) {
-            var dfd  = $.Deferred();
+            var dfd = $.Deferred();
             //小女孩走路
             $girl.addClass("girl-walk");
             $girl.transition({
@@ -71,33 +67,35 @@ function PageB(element,pageComplete) {
             return dfd;
         },
         stopWalk: function() {
-            $girl.removeClass("girl-walk")
-                 .addClass("girl-stand")
-        },
-        //继续走路
-        runWalk: function() {
-            $girl.addClass("walk-run")
+            $girl.addClass("walk-stop")
+                .removeClass("girl-standUp")
+                .removeClass("girl-walk")
+                .removeClass("girl-throwBook")
+                .addClass("girl-stand")
         },
         //选择3d
-        choose:function(){
+        choose: function(callback) {
             $girl.addClass("girl-choose")
-            girlAction.runWalk();
+                .removeClass("walk-stop");
             $girl.one(support.animationEnd, function() {
                 callback();
             })
         },
-        reset:function(){
+        reset: function() {
             $girl.removeClass("girl-choose");
         },
-        hugWalk:function(callback){
-            $girl.addClass("girl-walk");
+        hugWalk: function(callback) {
+            $girl.addClass("girl-weep");
             $girl.transition({
-                "left": "7.2rem"
-            }, setTime.girl.hugWalk, "linear", callback)
+                "left": "7rem"
+            }, setTime.girl.hugWalk, "linear", function() {
+                $girl.addClass("walk-stop").removeClass("girl-weep")
+                callback();
+            })
         },
         //拥抱
-        hug:function(){
-            $girl.addClass("girl-hug");
+        hug: function() {
+            $girl.addClass("girl-hug").addClass("walk-run")
         }
     }
 
@@ -108,9 +106,9 @@ function PageB(element,pageComplete) {
     var boyAction = {
         //走路
         walk: function() {
-            var dfd  = $.Deferred();
+            var dfd = $.Deferred();
             $boy.transition({
-                "right": "5rem"
+                "right": "4.5rem"
             }, setTime.boy.walk, "linear", function() {
                 dfd.resolve()
             });
@@ -122,7 +120,7 @@ function PageB(element,pageComplete) {
             $boy.addClass("boy-stand");
         },
         //解开包裹
-        unwrapp:function(){
+        unwrapp: function() {
             var dfd = $.Deferred();
             $boy.addClass("boy-unwrapp");
             $boy.removeClass("boy-stand");
@@ -135,9 +133,13 @@ function PageB(element,pageComplete) {
         runWalk: function() {
             $boy.addClass("walk-run");
         },
-        hug:function(){
-            //重叠问题处理
-            $boy.addClass("boy-hug").one(support.animationEnd,function(){
+        reset: function() {
+            $boy.addClass("boy-reset");
+        },
+        //人物用拥抱
+        //重叠问题处理
+        hug: function() {
+            $boy.addClass("boy-hug").one(support.animationEnd, function() {
                 $(".christmas-boy-head").show()
             })
         },
@@ -169,12 +171,12 @@ function PageB(element,pageComplete) {
         .then(function() {
             //解开包裹
             return boyAction.unwrapp();
-        }) 
-        .then(function(){
-            //3d旋转
-            // return rotation3d()
         })
-        .then(function(){
+        .then(function() {
+            //3d旋转
+            return rotation3d()
+        })
+        .then(function() {
             girlAction.hugWalk(function() {
                 girlAction.hug();
                 boyAction.hug();
@@ -211,10 +213,13 @@ function PageB(element,pageComplete) {
             //只旋转3次
             if (start > end) {
                 carousel.destroy();
-                dfd.resolve();
+                boyAction.reset();
+                (function() {
+                    dfd.resolve();
+                }).defer(1000)
                 return
             }
-            (function(){
+            (function() {
                 play();
             }).defer(1000)
         };
@@ -233,35 +238,33 @@ function PageB(element,pageComplete) {
         girlAction.choose(function() {
             //选中视频
             carousel.selected(function() {
+                // //小女孩动作还原
+                // girlAction.reset();
+                // //旋转动作还原
+                // carousel.reset();
+                // //脱衣动作
+                // boyAction.strip(count);
 
+                // setTimeout(function() {
+                //     complete();
+                // }, 1000)
+
+                // 播放视频
+                carousel.palyVideo({
+                    //加载开始
+                    load: function() {
                         //小女孩动作还原
                         girlAction.reset();
                         //旋转动作还原
-                        carousel.reset();
+                          carousel.reset();
                         //脱衣动作
                         boyAction.strip(count);
-
-
-                        setTimeout(function(){
-                             complete();
-                         },1000)
-
-                //播放视频
-                // carousel.palyVideo({
-                //     //加载开始
-                //     load: function() {
-                //         //小女孩动作还原
-                //         girlAction.reset();
-                //         //旋转动作还原
-                //         carousel.reset();
-                //         //脱衣动作
-                //         boyAction.strip(count);
-                //     },
-                //     //完成
-                //     complete: function(){
-                //         complete();
-                //     }
-                // });
+                    },
+                    //完成
+                    complete: function(){
+                        complete();
+                    }
+                });
             });
         })
     }
@@ -287,4 +290,3 @@ function PageB(element,pageComplete) {
 
 
 }
-

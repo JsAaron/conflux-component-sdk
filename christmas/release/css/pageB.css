@@ -30,41 +30,40 @@
     position: absolute;
     z-index: 10;
     left: 1rem;
-    top: 3.5rem;
+    top: 3.2rem;
     background: url("../images/b/girl.png");
-    background-size: 2200% 100%;
+    background-size: 2100% 100%;
 }
 
 /**
  * 起身
  */
-.girl-standUp-a {
-    left:1.3rem;
-    background-position-x: -100%;
-}
-.girl-standUp-b {
-    top: 5.5rem;
-    left: 1rem;
+.girl-standUp { 
+    left:1.2rem;
     -webkit-animation-fill-mode: forwards;
-    -webkit-animation-name: standUpB;
-    -webkit-animation-duration: 1000ms;
-    -webkit-animation-timing-function: steps(2,start);
+    -webkit-animation-name: standUp;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-timing-function: steps(3,start);
 }
-@-webkit-keyframes standUpB {
+@-webkit-keyframes standUp {
     0% {
-        background-position-x: -100%;
+        background-position-x:0%;
     }
     100% {
         background-position-x: -300%;
+        top:4rem;
     }
 }
+
 /**
  * 抛书动作
  */
 .girl-throwBook {
+    top:4rem;
+    left: 0.5rem;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: throwBook;
-    -webkit-animation-duration: 1000ms;
+    -webkit-animation-duration: 2000ms;
     -webkit-animation-timing-function: steps(2,start);
 }
 @-webkit-keyframes throwBook {
@@ -100,19 +99,9 @@
  * 站立动作
  */
 .girl-stand{
-    -webkit-animation-name: girlStand;
-    -webkit-animation-duration: 500ms;
-    -webkit-animation-timing-function: steps(2,start);
+    top:4rem;
+    background-position-x: -1000%;
 }
-@-webkit-keyframes girlStand {
-    0% {
-        background-position-x: -900%;
-    }
-    100% {
-        background-position-x: -1100%;
-    }
-}
-
 
 
 /**
@@ -127,12 +116,33 @@
 }
 @-webkit-keyframes girlChoose {
     0% {
-        background-position-x: -700%;
+        background-position-x: -1000%;
     }
     100% {
-        background-position-x: -900%;
+        background-position-x: -1200%;
     }
 }
+
+
+/**
+ * 流泪奔跑
+ */
+.girl-weep{
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: girlWeep;
+    -webkit-animation-duration: 450ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: steps(4,end);
+}
+@-webkit-keyframes girlWeep {
+    0% {
+        background-position-x: -1300%;
+    }
+    100% {
+        background-position-x: -1700%;
+    }
+}
+
 
 /**
  * 女孩拥抱
@@ -140,16 +150,17 @@
 .girl-hug{
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: girlHug;
-    -webkit-animation-duration: 2000ms;
+    -webkit-animation-duration: 1000ms;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: steps(3,end);
 }
 @-webkit-keyframes girlHug {
     0% {
-        background-position-x: -1000%;
+        background-position-x: -1700%;
     }
     100% {
-        background-position-x: -1300%;
+        left:7.85rem;
+        background-position-x: -2000%;
     }
 }
 
@@ -192,7 +203,7 @@
     position: absolute;
     z-index: 5;
     right: -3.5rem;
-    top: 5.5rem;
+    top: 4rem;
     background: url("../images/b/boy.png");
     background-size: 1500% 100%;
     background-position-x: 0%;
@@ -260,6 +271,9 @@
     }
 }
 
+.boy-reset{
+   background-position-x: -1000%          
+}
 
 /**
  * 男孩拥抱
@@ -267,7 +281,7 @@
 .boy-hug{
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: boyHug;
-    -webkit-animation-duration: 2000ms;
+    -webkit-animation-duration: 1000ms;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: steps(3,end);
 }
@@ -284,8 +298,8 @@
  * 男孩头部
  */
 .christmas-boy-head{
-    left: 7.2rem;
-    top: 5.5rem;
+    left: 7.85rem;
+    top: 4rem;
     width: 3.5rem;
     height: 4.06rem;
     position: absolute;
@@ -294,4 +308,96 @@
     background-size: 1400% 100%;
     background-position-x: -1300%;
     display: none;
+}
+
+
+
+
+
+
+@-webkit-keyframes bounceIn {
+  from, 20%, 40%, 60%, 80%, to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(.9, .9, .9);
+    transform: scale3d(.9, .9, .9);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: scale3d(.97, .97, .97);
+    transform: scale3d(.97, .97, .97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes bounceIn {
+  from, 20%, 40%, 60%, 80%, to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(.9, .9, .9);
+    transform: scale3d(.9, .9, .9);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: scale3d(.97, .97, .97);
+    transform: scale3d(.97, .97, .97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.bounceIn {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: bounceIn;
+  animation-name: bounceIn;
 }

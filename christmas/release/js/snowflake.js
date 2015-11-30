@@ -14,85 +14,85 @@
         var snowElement = document.getElementById(elementName)
         var canvasContext = snowElement.getContext("2d");
 
-		var width  = config.layer.width;
-		var height = config.layer.height;
+        var width = config.layer.width;
+        var height = config.layer.height;
 
         //canvas尺寸修正
-		snowElement.width  = width;
-		snowElement.height = height;
+        snowElement.width = width;
+        snowElement.height = height;
 
-		//构建雪球的数量
-		var snowNumber = 50;
+        //构建雪球的数量
+        var snowNumber = 50;
 
-		//构建雪球对象
-  		var snowArrObjs = initSnow(snowNumber,width,height);
-  		var snowArrNum = snowArrObjs.length;
-  		/**
-  		 * 绘制页面
-  		 * @return {[type]} [description]
-  		 */
-		var render = function() {
-			//清理之前的矩形数据
-			canvasContext.clearRect(0, 0, width, height);
-			for (var i = 0; i < snowArrNum; ++i) {
-				snowArrObjs[i].render(canvasContext);
-			}
-		}
+        //构建雪球对象
+        var snowArrObjs = initSnow(snowNumber, width, height);
+        var snowArrNum = snowArrObjs.length;
+        /**
+         * 绘制页面
+         * @return {[type]} [description]
+         */
+        var render = function() {
+            //清理之前的矩形数据
+            canvasContext.clearRect(0, 0, width, height);
+            for (var i = 0; i < snowArrNum; ++i) {
+                snowArrObjs[i].render(canvasContext);
+            }
+        }
 
-		/**
-		 * 更新雪花
-		 * @return {[type]} [description]
-		 */
-		var update = function() {
-			for (var i = 0; i < snowArrNum; ++i) {
-				snowArrObjs[i].update();
-			}
-		}
+        /**
+         * 更新雪花
+         * @return {[type]} [description]
+         */
+        var update = function() {
+            for (var i = 0; i < snowArrNum; ++i) {
+                snowArrObjs[i].update();
+            }
+        }
 
-		/**
-		 * 绘制与更新
-		 * @return {[type]} [description]
-		 */
-		var renderAndUpdate = function() {
-			render();
-			update();
-			requestAnimationFrame(renderAndUpdate);
-		}
+        /**
+         * 绘制与更新
+         * @return {[type]} [description]
+         */
+        var renderAndUpdate = function() {
+            render();
+            update();
+            requestAnimationFrame(renderAndUpdate);
+        }
 
-		renderAndUpdate();
+        renderAndUpdate();
     }
 
-    function initSnow(snowNumber,width,height) {
-    	//雪球参数
-    	var options ={
-    		//雪球的半球距离
-			minRadius : 3,
-			maxRadius : 10,
-			// 运动的范围区域
-			maxX:width,
-			maxY:height,
-			//速率
-			minSpeedY : 0.05,
-			maxSpeedY : 2,
-			speedX    : 0.05,
-			//滤镜
-			minAlpha  : 0.5,
-			maxAlpha  : 1.0,
-			minMoveX  : 4,
-			maxMoveX  : 18
-    	}
+    function initSnow(snowNumber, width, height) {
+        //雪球参数
+        var options = {
+            //雪球的半球距离
+            minRadius: 3,
+            maxRadius: 10,
+            // 运动的范围区域
+            maxX: width,
+            maxY: height,
+            //速率
+            minSpeedY: 0.05,
+            maxSpeedY: 2,
+            speedX: 0.05,
+            //滤镜
+            minAlpha: 0.5,
+            maxAlpha: 1.0,
+            minMoveX: 4,
+            maxMoveX: 18
+        }
         var snowArr = [];
-		for (var i = 0; i < snowNumber; ++i) {
-			snowArr[i] = new Snow(options);
-		}
+        for (var i = 0; i < snowNumber; ++i) {
+            snowArr[i] = new Snow(options);
+        }
         return snowArr;
     }
 
     /**
      * 雪球类
      */
-    function Snow(snowSettings){
-    	this.snowSettings = snowSettings;
+    function Snow(snowSettings) {
+        this.snowSettings = snowSettings;
         this.radius = randomInRange(snowSettings.minRadius, snowSettings.maxRadius);
         //初始的x位置
         this.initialX = Math.random() * snowSettings.maxX;
