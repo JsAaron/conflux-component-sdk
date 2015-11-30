@@ -42,7 +42,7 @@
     left:1.2rem;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: standUp;
-    -webkit-animation-duration: 2000ms;
+    -webkit-animation-duration: 200ms;
     -webkit-animation-timing-function: steps(3,start);
 }
 @-webkit-keyframes standUp {
@@ -63,7 +63,7 @@
     left: 0.5rem;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-name: throwBook;
-    -webkit-animation-duration: 2000ms;
+    -webkit-animation-duration: 300ms;
     -webkit-animation-timing-function: steps(2,start);
 }
 @-webkit-keyframes throwBook {

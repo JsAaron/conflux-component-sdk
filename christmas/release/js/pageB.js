@@ -24,9 +24,9 @@ function PageB(element, pageComplete) {
         //女孩
         girl: {
             //起身时间
-            standUp: 1000,
+            standUp: 200,
             //抛书
-            throwBook: 2000,
+            throwBook: 300,
             //走路
             walk: 3000,
             //飞奔拥抱走路

@@ -178,7 +178,6 @@ function Carousel(carousel, options) {
 
 		//停止
 		$video.on("ended", function() {
-			return
 			cb.complete();
 			$video[0].pause()
 			$video.remove();
