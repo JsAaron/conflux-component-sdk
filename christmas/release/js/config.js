@@ -11,7 +11,7 @@ var config = {
     //否则默认全屏
     //如果设置，需要输入具体的px值
     layer: {
-		'width'  : 800,
+		'width'  : 600,
 		'top'    : 0,
 		'left'   : 0
     }

@@ -3,7 +3,7 @@
     height: 100%;
     background-image: url("../images/b/page-b-bg.png");
     position: absolute;
-    z-index: 4;
+    z-index: 40;
 }
 
 .walk-stop{
@@ -32,28 +32,50 @@
     left: 1rem;
     top: 3.5rem;
     background: url("../images/b/girl.png");
-    background-size: 1400% 100%;
+    background-size: 2200% 100%;
 }
 
 /**
  * 起身
  */
-.girl-standUp {
+.girl-standUp-a {
+    left:1.3rem;
+    background-position-x: -100%;
+}
+.girl-standUp-b {
     top: 5.5rem;
     left: 1rem;
-    background-position-x:-100%;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: standUpB;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-timing-function: steps(2,start);
 }
-
-.girl-book-run {
-     background-position-x:-200%;
+@-webkit-keyframes standUpB {
+    0% {
+        background-position-x: -100%;
+    }
+    100% {
+        background-position-x: -300%;
+    }
 }
-
 /**
- * 站立动作
+ * 抛书动作
  */
-.girl-stand{
-     background-position-x:-700%;
+.girl-throwBook {
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-name: throwBook;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-timing-function: steps(2,start);
 }
+@-webkit-keyframes throwBook {
+    0% {
+        background-position-x: -300%;
+    }
+    100% {
+        background-position-x: -500%;
+    }
+}
+
 
 /**
  * 小女孩走路
@@ -63,16 +85,35 @@
     -webkit-animation-name: girlWalk;
     -webkit-animation-duration: 900ms;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(4,end);
+    -webkit-animation-timing-function: steps(4,start);
 }
 @-webkit-keyframes girlWalk {
     0% {
-        background-position-x: -300%;
+        background-position-x: -500%;
     }
     100% {
-        background-position-x: -700%;
+        background-position-x: -900%;
     }
 }
+
+/**
+ * 站立动作
+ */
+.girl-stand{
+    -webkit-animation-name: girlStand;
+    -webkit-animation-duration: 500ms;
+    -webkit-animation-timing-function: steps(2,start);
+}
+@-webkit-keyframes girlStand {
+    0% {
+        background-position-x: -900%;
+    }
+    100% {
+        background-position-x: -1100%;
+    }
+}
+
+
 
 /**
  * 小女孩选择3d选择
