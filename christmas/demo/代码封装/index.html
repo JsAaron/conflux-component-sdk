@@ -6,6 +6,10 @@
     <title>圣诞主题</title>
     <link rel='stylesheet' href='common.css' />
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+    <script src="pageC.js"></script>
+    <script src="pageB.js"></script>
+    <script src="pageA.js"></script>
+    <script src="christmas.js"></script>
 </head>
 
 <body>
@@ -21,68 +25,30 @@
         </section>
     </section>
     选择页面：
-    <select id="page">
+    <select id="choose">
         <option value="page-a" selected="">1</option>
         <option value="page-b">2</option>
         <option value="page-c">3</option>
     </select>
+    <script type="text/javascript">
+    /**
+     * 自适应页面大小
+     * @param  {[type]} doc [description]
+     * @param  {[type]} win [description]
+     * @return {[type]}     [description]
+     */
+    var docEl = document.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            //自适应设置容器高度
+            var container = document.querySelector(".container")
+                //原始比例
+            var proportion = 900 / 1440;
+            container.style.height = container.clientWidth * proportion + "px";
+        };
+    window.addEventListener(resizeEvt, recalc, false);
+    document.addEventListener('DOMContentLoaded', recalc, false);
+    </script>
 </body>
-<script type="text/javascript">
-
-/**
- * 切换页面
- * 模拟镜头效果
- * @return {[type]} [description]
- */
-function changePage(element, effect, callback) {
-    element
-        .addClass(effect)
-        .one("animationend webkitTransitionEnd MSTransitionEnd", function() {
-            callback && callback();
-        })
-}
-
-//切换切换
-document.querySelector("#page").addEventListener("change", function(e) {
-    //页面名称
-    var pageName =  e.target.value;
-    switch (pageName) {
-        case "page-b":
-            changePage($(".page-a"),"effect-out",function(){
-                alert(pageName + "切换完毕")
-            })
-            break;
-        case "page-c":
-            changePage($(".page-c"),"effect-in",function(){
-                alert(pageName + "切换完毕")
-            })
-            break;
-    }
-
-}, false)
-
-
-
-/**
- * 自适应页面大小
- * @param  {[type]} doc [description]
- * @param  {[type]} win [description]
- * @return {[type]}     [description]
- */
-var docEl = document.documentElement,
-    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-    recalc = function() {
-        //自适应设置容器高度
-        var container = document.querySelector(".container")
-            //原始比例
-        var proportion = 900 / 1440;
-        container.style.height = container.clientWidth * proportion + "px";
-    };
-window.addEventListener(resizeEvt, recalc, false);
-document.addEventListener('DOMContentLoaded', recalc, false);
-
-
-
-</script>
 
 </html>
