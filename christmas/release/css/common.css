@@ -26,6 +26,7 @@
 section.effect-in{
     z-index: 15;
     display: block;
+    opacity: 0;
     -webkit-transform: scale(8); 
     -webkit-animation: effectIn 5s ease-in-out forwards;
     -webkit-transform-origin:58.5% 73.5%;
