@@ -177,17 +177,17 @@
 
 .window-content{
     -webkit-transform-style: preserve-3d;
-    width: 92%;
+    width: 91%;
     margin: 0 auto;
     height: 100%;
 
 }
 .window-bg{
-    width: 86%;
+    width: 90%;
     height: 95%;
     position: absolute;
     left:50%;
-    margin-left: -43%;
+    margin-left: -45%;
     bottom: 0;
     background: url("../images/a/page-a-window-bg.png");
     background-size: 100% 100%;  
