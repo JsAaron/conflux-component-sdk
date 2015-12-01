@@ -178,9 +178,12 @@ function Carousel(carousel, options) {
 
 		//停止
 		$video.on("ended", function() {
-			cb.complete();
 			$video[0].pause()
-			$video.remove();
+			//退出效果
+			$video.addClass("bounceOut").one(support.animationEnd, function() {
+				$video.remove();
+				cb.complete();
+			})
 		})
 
         $carousel.after($video)

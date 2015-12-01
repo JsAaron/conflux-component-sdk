@@ -41,10 +41,6 @@ var Christmas = function() {
     //页面对象
     var objA,objB,objC;
 
-        objB = new PageB($pageB, function() {
-            observer.publish("completeB");
-        })
-return
 	// 第一副页面
     objA = new PageA($pageA)
     objA.run(function() {
