@@ -4,9 +4,7 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
-    <link rel='stylesheet' href='reset.css' />
     <link rel='stylesheet' href='common.css' />
-    <script type="text/javascript" src="jquery-2.1.4.js"></script>
 </head>
 
 <body>
@@ -21,17 +19,36 @@
         <section class="page-c bg-adaptive">
         </section>
     </section>
+    选择页面：
+    <select id="page">
+        <option value="page-a" selected="">1</option>
+        <option value="page-b">2</option>
+        <option value="page-c">3</option>
+    </select>
 </body>
-
 <script type="text/javascript">
-    
-    //页面容器
-    var container = $(".container");
-    //设置新的页面容器大小
-    container.css({
-        "width":"400px",
-        "height":"300px"
-    });
+//自适应设置容器高度
+var container = document.querySelector(".container")
+//原始比例
+var proportion = 900 / 1440;
+container.style.height = container.clientWidth * proportion + "px";
+
+
+/**
+ * 下拉选择页面
+ * @type {[type]}
+ */
+var page = document.querySelector("#page");
+
+
+//层级
+var index = 10;
+//切换切换
+page.addEventListener("change",function(e){
+    //页面元素
+    var pageElement = document.querySelector("." + e.target.value)
+    pageElement.style.zIndex = ++index;
+},false)
 
 </script>
 
