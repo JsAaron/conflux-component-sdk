@@ -9,6 +9,7 @@
 
 /**
  * 圣诞树
+ * animation: name duration timing-function delay iteration-count direction;
  */
 
 .tree {
@@ -20,13 +21,18 @@
     left: 1rem;
     background-image: url("../images/a/trees.png");
     background-size: 200% 100%;
-    -webkit-animation-name: tree-run;
-    -webkit-animation-duration: 1000ms;
-    -webkit-animation-timing-function: steps(2);
-    -webkit-animation-iteration-count: infinite;
+    -webkit-animation:treeAnim 1s steps(2) infinite;
+    -moz-animation:treeAnim 1s steps(2) infinite;
 }
-
-@-webkit-keyframes tree-run {
+@-webkit-keyframes treeAnim {
+    0% {
+        background-position: 200% 100%;
+    }
+    100% {
+        background-position: 400% 100%;
+    }
+}
+@-moz-keyframes treeAnim {
     0% {
         background-position: 200% 100%;
     }
@@ -52,21 +58,24 @@
     background-size : 400% 100%;
 }
 
-
-
-
 /**
  * 男孩走路动作
  */
 
-.boy-animate {
-    -webkit-animation-name: boyAnimate;
-    -webkit-animation-duration: 750ms;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(3,end);
+.chs-boy-deer {
+    -webkit-animation:chsBoyDeer 0.75s steps(3,end) infinite;
+    -moz-animation:chsBoyDeer 0.75s steps(3,end) infinite;
 }
 
-@-webkit-keyframes boyAnimate {
+@-webkit-keyframes chsBoyDeer {
+    0% {
+        background-position-x: -0%;
+    }
+    100% {
+        background-position-x: -300%;
+    }
+}
+@-moz-keyframes chsBoyDeer {
     0% {
         background-position-x: -0%;
     }
@@ -137,15 +146,14 @@
     -webkit-animation: cloudy 5s ease-in-out infinite;
     background: #60768D;
     border-radius: 50%;
-    box-shadow: #60768D 1.2rem -0.2rem 0 -0.1rem, #60768D 25px -25px, #60768D 30px 10px, #60768D 60px 15px 0 -10px, #60768D 85px 5px 0 -5px;
+    box-shadow: #60768D 1.2rem -0.2rem 0 -0.1rem, #60768D 0.5rem -0.5rem, #60768D 0.8rem 0.2rem,#60768D 1.5rem 0.2rem 0 -0.2rem;
     height: 1rem;
     width: 1rem;
     position: absolute;
     left: .5rem;
-    top: 2rem;
+    top: 1.8rem;
     z-index: 5;
 }
-
 @-webkit-keyframes cloudy {
     50% {
         -webkit-transform: translateY(-0.1rem);
@@ -234,6 +242,7 @@
     height: 1.3rem;
      z-index: 110;
      box-shadow: 0 0 0.15rem #FCF0BC;
+      background-size: 100% 100%;
 }
 
 .window-animation{

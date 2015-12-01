@@ -44,7 +44,7 @@ PageA.prototype.openWindow = function(callback) {
  * @return {[type]} [description]
  */
 PageA.prototype.stopWalk = function(){
-    this.$boy.removeClass("boy-animate")
+    this.$boy.removeClass("chs-boy-deer")
 }
 
 

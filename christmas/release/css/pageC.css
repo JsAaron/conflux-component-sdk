@@ -9,6 +9,30 @@
 
 
 /**
+ * 圣诞树位置修正
+ */
+.treefix {
+    width: 1.9rem;
+    height: 3.3rem;
+    bottom: 1rem;
+    left:1.4rem;
+}
+
+/**
+ * 星星
+ */
+.page-c svg {
+    width: 0.6rem;
+    height: 0.6rem;
+    position: absolute;
+    left: 2.04rem;
+    top: 5.3rem;
+    z-index: 15;
+}
+
+
+
+/**
  * 鹿
  */
 

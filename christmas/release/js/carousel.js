@@ -160,7 +160,7 @@ function Carousel(carousel, options) {
 		 * vide标签
 		 * @type {[type]}
 		 */
-		var $video = $('<video preload="auto" autoplay class="bounceIn" style="width:50%;height:50%;position:absolute;left:25%;top:25%;"></video>');
+		var $video = $('<video preload="auto" autoplay class="bounceIn" style="width:50%;height:50%;position:absolute;left:25%;top:35%;"></video>');
 
 		$video.css({
 			"position" :"absolute",
@@ -173,7 +173,9 @@ function Carousel(carousel, options) {
 		//播放
 		$video.on("loadeddata", function() {
 			$video[0].play()
-			cb.load();
+			setTimeout(function(){
+				cb.load();
+			},1000)
 		})
 
 		//停止

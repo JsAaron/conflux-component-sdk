@@ -133,9 +133,6 @@ function PageB(element, pageComplete) {
         runWalk: function() {
             $boy.addClass("walk-run");
         },
-        reset: function() {
-            $boy.addClass("boy-reset");
-        },
         //人物用拥抱
         //重叠问题处理
         hug: function() {
@@ -194,6 +191,14 @@ function PageB(element, pageComplete) {
      */
     function rotation3d() {
         var dfd = $.Deferred();
+        (function(){
+            createGift(dfd);
+        }).defer(500);
+        return dfd;
+    }
+
+
+    function createGift(dfd) {
         //3d木马
         var carousel = createCarousel();
         //旋转起点
@@ -213,7 +218,6 @@ function PageB(element, pageComplete) {
             //只旋转3次
             if (start > end) {
                 carousel.destroy();
-                boyAction.reset();
                 (function() {
                     dfd.resolve();
                 }).defer(1000)
@@ -224,8 +228,9 @@ function PageB(element, pageComplete) {
             }).defer(1000)
         };
         play();
-        return dfd;
     }
+
+
 
     /**
      * 获取礼物

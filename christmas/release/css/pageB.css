@@ -234,13 +234,13 @@
  * 脱衣动作
  */
 .boy-strip-1{
-    background-position-x:-700%;
+    background-position-x:-800%;
 }
 .boy-strip-2{
-     background-position-x:-800%;
+     background-position-x:-900%;
 }
 .boy-strip-3{
-    background-position-x:-900%;
+   background-position-x: -1000%  
 }
 
 /**
@@ -271,9 +271,6 @@
     }
 }
 
-.boy-reset{
-   background-position-x: -1000%          
-}
 
 /**
  * 男孩拥抱

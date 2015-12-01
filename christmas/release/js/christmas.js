@@ -19,6 +19,25 @@ function changePage(element,effect,callback){
 }
 
 
+/**
+ * 背景音乐
+ * @param {[type]} url  [description]
+ * @param {[type]} loop [description]
+ */
+function Hmlt5Audio(url, loop) {
+    var audio = new Audio(url);
+    audio.autoplay = true;
+    audio.loop = loop || false; //是否循环
+    audio.play();
+    return {
+        end: function(callback) {
+            audio.addEventListener('ended', function() {
+                callback()
+            }, false);
+        }
+    }
+}
+
 
 var Christmas = function() {
 
@@ -38,43 +57,38 @@ var Christmas = function() {
     var $pageB = $(".page-b");
     var $pageC = $(".page-c");
 
-    //页面对象
-    var objA,objB,objC;
 
-	// 第一副页面
-    objA = new PageA($pageA)
+	//A场景页面
+    var objA = new PageA($pageA)
     objA.run(function() {
          observer.publish("completeA");
     });
 
-    //页面A-B页面切换
+    //进入B场景
+    observer.subscribe("pageB", function() {
+        new PageB($pageB, function() {
+            observer.publish("completeB");
+        })
+    })
+
+    //进入C场景
+    observer.subscribe("pageC", function() {
+        new PageC()
+    })
+
+    //页面A-B场景切换
     observer.subscribe("completeA", function() {
         changePage($pageA, "effect-out", function() {
             observer.publish("pageB");
         })
     })
 
-    //切换页面完毕
-    observer.subscribe("pageB", function() {
-        //处理页面B
-        objB = new PageB($pageB, function() {
-            observer.publish("completeB");
-        })
-    })
-
-    //执行B-C页面完毕
+    //页面B-C场景切换
     observer.subscribe("completeB", function() {
         changePage($pageC, "effect-in", function() {
             observer.publish("pageC");
         })
     })
-
-
-    //处理C页面
-    observer.subscribe("pageC", function() {
-        new PageC()
-    })
-
 };
 
 

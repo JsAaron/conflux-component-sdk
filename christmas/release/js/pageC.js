@@ -6,7 +6,7 @@ function PageC() {
 	//雪橇鹿
 	this.$deer = $(".deer");
 
-	this.$window   = $(".page-c .window");    
+    this.$window   = $(".page-c .window");    
     this.$leftWin  = this.$window.find(".window-left");
     this.$rightWin = this.$window.find(".window-right");
     this.$sceneBg  = this.$window.find(".window-scene-bg");
