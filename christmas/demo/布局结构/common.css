@@ -40,7 +40,7 @@
     height : 100%;
     background-image: url("http://img.mukewang.com/565d0b280001788014410901.png");
     position: absolute;
-    opacity: 0;
+    opacity: 1;
     z-index: 3;
 }
 

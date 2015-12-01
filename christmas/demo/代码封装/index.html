@@ -5,6 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
     <link rel='stylesheet' href='common.css' />
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
 </head>
 
 <body>
@@ -28,15 +29,47 @@
 </body>
 <script type="text/javascript">
 
-var doc = document;
 /**
- * 针对content中的html文本框
- * 增加rem的修改
+ * 切换页面
+ * 模拟镜头效果
+ * @return {[type]} [description]
+ */
+function changePage(element, effect, callback) {
+    element
+        .addClass(effect)
+        .one("animationend webkitTransitionEnd MSTransitionEnd", function() {
+            callback && callback();
+        })
+}
+
+//切换切换
+document.querySelector("#page").addEventListener("change", function(e) {
+    //页面名称
+    var pageName =  e.target.value;
+    switch (pageName) {
+        case "page-b":
+            changePage($(".page-a"),"effect-out",function(){
+                alert(pageName + "切换完毕")
+            })
+            break;
+        case "page-c":
+            changePage($(".page-c"),"effect-in",function(){
+                alert(pageName + "切换完毕")
+            })
+            break;
+    }
+
+}, false)
+
+
+
+/**
+ * 自适应页面大小
  * @param  {[type]} doc [description]
  * @param  {[type]} win [description]
  * @return {[type]}     [description]
  */
-var docEl = doc.documentElement,
+var docEl = document.documentElement,
     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
     recalc = function() {
         //自适应设置容器高度
@@ -46,25 +79,9 @@ var docEl = doc.documentElement,
         container.style.height = container.clientWidth * proportion + "px";
     };
 window.addEventListener(resizeEvt, recalc, false);
-doc.addEventListener('DOMContentLoaded', recalc, false);
+document.addEventListener('DOMContentLoaded', recalc, false);
 
 
-
-/**
- * 下拉选择页面
- * @type {[type]}
- */
-var page = document.querySelector("#page");
-
-
-//层级
-var index = 10;
-//切换切换
-page.addEventListener("change",function(e){
-    //页面元素
-    var pageElement = document.querySelector("." + e.target.value)
-    pageElement.style.zIndex = ++index;
-},false)
 
 </script>
 
