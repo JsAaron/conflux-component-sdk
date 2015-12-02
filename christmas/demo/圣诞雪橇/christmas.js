@@ -22,16 +22,6 @@ function changePage(element,effect,callback){
  * 中间调用
  */
 var Christmas = function() {
-
-    //页面容器
-    var container = $(".container");
-    //设置新的页面容器大小
-    container.css(config.layer);
-    //页面可视区域
-    var visualWidth  = container.width()
-    var visualHeight = container.height()
-
-    
     //页面容器元素
     var $pageA = $(".page-a");
     var $pageB = $(".page-b");

@@ -35,25 +35,13 @@
                 var clientWidth = docEl.clientWidth;
                 if (!clientWidth) return;
                 docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                //宽与高度
+                document.body.style.height = clientWidth * (900 / 1440) + "px"
             };
-
-        if (!doc.addEventListener) return;
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
 
-    //屏幕尺寸设置
-    var config = {
-        layer: {
-            'width': "800",
-            'top': 0,
-            'left': 0
-        }
-    }
-    var proportion = 900 / 1440;
-    var width = document.documentElement.clientWidth;
-    config.layer.width = width;
-    config.layer.height = width * proportion
     </script>
 </body>
 
