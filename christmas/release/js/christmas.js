@@ -63,6 +63,7 @@ var Christmas = function() {
         Hmlt5Audio('music/circulation.mp3',true)
     })
 
+
 	//A场景页面
     var objA = new PageA($pageA)
     objA.run(function() {

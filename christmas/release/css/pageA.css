@@ -173,6 +173,7 @@
     top: 6.2rem;
     cursor: pointer;
     -webkit-perspective: 500px;
+    overflow: hidden;
 }
 
 .window-content{
@@ -180,8 +181,8 @@
     width: 91%;
     margin: 0 auto;
     height: 100%;
-
 }
+
 .window-bg{
     width: 90%;
     height: 95%;

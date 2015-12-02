@@ -13,8 +13,8 @@
 .treefix {
     width: 1.9rem;
     height: 3.3rem;
-    bottom: 1rem;
-    left:1.4rem;
+    bottom: 1.2rem;
+    left: 1.4rem;
 }
 
 /**
@@ -24,8 +24,8 @@
     width: 0.6rem;
     height: 0.6rem;
     position: absolute;
-    left: 2.04rem;
-    top: 5.3rem;
+    left: 2.05rem;
+    top: 5rem;
     z-index: 15;
 }
 
@@ -40,10 +40,8 @@
     height: 1.5rem;
     position: absolute;
     z-index: 3;
-    top: 7.8rem;
+    bottom: 1rem;
     right: 4rem;
-    transform: scale(1.5);
-    background-size: 400% 100%;
     background: url("../images/c/deer.png") -300% -100%;
     background-size: 400% 100%;
 }

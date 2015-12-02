@@ -84,7 +84,7 @@ PageC.prototype.run = function(callback){
     next({
         "time": 5000,
         "style": {
-            "top": "4rem",
+            "bottom": "4rem",
             "right": "-6rem",
             "scale": "1"
         }
@@ -102,7 +102,7 @@ PageC.prototype.run = function(callback){
         return next({
             "time": 10000,
             "style": {
-                "top"   :"2rem",
+                "bottom" :"8rem",
                 "right": "15rem",
                 "scale": "0.2"
             }
