@@ -5,30 +5,27 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
     <link rel='stylesheet' href='common.css' />
-    <link rel='stylesheet' href='pageA.css' />
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript" src="http://img.mukewang.com/down/55ac9ea30001ace700000000.js"></script>
+    <link rel="stylesheet" type="text/css" href="pageA.css">
+    <script src="pageA.js"></script>
+    <script src="christmas.js"></script>
 </head>
 
 <body>
     <section class="container">
         <!-- 第一幅画面 -->
         <section class="page-a bg-adaptive">
-            <!-- 月亮 -->
-            <figure class="moon"></figure>
-            <!-- 圣诞树 -->
-            <figure class="tree"></figure>
-            <!-- 云 -->
-            <figure class="cloudy"></figure>
-
-            <!-- 星星 -->
-            <svg viewBox="0 0 512 486">
-                <defs>
-                    <linearGradient id="star" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#FCF0BC"></stop>
-                        <stop offset="0%" stop-color="#FCF0BC"></stop>
-                    </linearGradient>
-                </defs>
-                <polygon style="fill: url(#star);" points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon>
-            </svg>
+            <!-- 男孩 -->
+            <div class="chs-boy chs-boy-deer"></div>
+            <!-- 窗户 -->
+            <div class="window wood">
+                <div class="window-bg"></div>
+                <div class="window-content">
+                    <div class="window-left"></div>
+                    <div class="window-right"></div>
+                </div>
+            </div>
         </section>
         <!-- 第二幅画面 -->
         <section class="page-b bg-adaptive">
@@ -52,6 +49,7 @@
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
+
     </script>
 </body>
 
