@@ -38,9 +38,9 @@ function pageB(element, pageComplete) {
             var dfd = $.Deferred();
             $boy.addClass("boy-unwrapp");
             $boy.removeClass("boy-stand");
-            $boy.one(animationEnd, function() {
-                dfd.resolve();
-            })
+$boy.one(animationEnd, function() {
+    dfd.resolve();
+})
             return dfd;
         },
         //脱衣动作
