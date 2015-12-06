@@ -3,13 +3,13 @@
 var slice = Array.prototype.slice
 
 function toArray(a, i, j) {
-    return slice.call(a, i || 0, j || a.length);
-}
-/**
- * 返回true,如果传递的值不是未定义。
- * @param {Mixed}
- * @return {Boolean}
- */
+        return slice.call(a, i || 0, j || a.length);
+    }
+    /**
+     * 返回true,如果传递的值不是未定义。
+     * @param {Mixed}
+     * @return {Boolean}
+     */
 function isDefined(v) {
     return typeof v !== 'undefined';
 }
@@ -21,20 +21,20 @@ function isDefined(v) {
  * @return {[type]}   [description]
  */
 function applyIf(o, c) {
-    if (o) {
-        for (var p in c) {
-            //跳过已存在
-            if (!isDefined(o[p])) {
-                o[p] = c[p];
+        if (o) {
+            for (var p in c) {
+                //跳过已存在
+                if (!isDefined(o[p])) {
+                    o[p] = c[p];
+                }
             }
         }
+        return o;
     }
-    return o;
-}
-/**
- * @class String
- * 格式化字符串
- */
+    /**
+     * @class String
+     * 格式化字符串
+     */
 applyIf(String, {
     format: function(format) {
         var args = toArray(arguments, 1);
@@ -79,9 +79,9 @@ function Carousel(carousel, options) {
         var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});position:absolute;">' + '<img src="{3}" style="width:100%;height:100%;">' + '</figure>';
 
         return String.format(str,
-            "2rem",
+            "4rem",
             start,
-            "1.2rem",
+            "2.5rem",
             imgUrl
         )
     }
@@ -93,13 +93,14 @@ function Carousel(carousel, options) {
     function initStyle() {
         //场景元素
         $carousel.css({
-                "transform": "scale(0.3)",
-                "-webkit-perspective": "500px",
-                "position": "absolute",
-                "left": "6.8rem",
-                "top": "4.5rem"
-            })
-            //容器
+            // "transform": "scale(0.3)",
+            "-webkit-perspective": "500",
+            "-moz-perspective": "500px",
+            "position": "absolute",
+            "left": "6.8rem",
+            "top": "4.5rem"
+        });
+        //容器
         $spinner.css({
             "width": "2rem",
             "transform-style": "preserve-3d",
