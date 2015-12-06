@@ -4,39 +4,22 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
-    <link rel='stylesheet' href='common.css' />
-    <link rel="stylesheet" type="text/css" href="pageB.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
-    <script type="text/javascript" src="http://img.mukewang.com/down/55ac9ea30001ace700000000.js"></script>
-    <script src="carousel.js"></script>
-    <script src="pageB.js"></script>
-    <script src="christmas.js"></script>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    </style>
 </head>
 
 <body>
-    <section class="container">
-        <!-- 第一幅画面 -->
-        <section class="page-a bg-adaptive">
-        </section>
-        <!-- 第二幅画面 -->
-        <section class="page-b bg-adaptive">
-            <!-- 猫 -->
-            <figure class="cat"></figure>
-            <!-- 小女孩 -->
-            <figure class="girl"></figure>
-            <!-- 圣诞男孩 -->
-            <figure class="christmas-boy-head"></figure>
-            <figure class="christmas-boy boy-walk"> </figure>
-            <!-- 旋转木马 -->
-            <div id="carousel">
-                <figure id="spinner"></figure>
-            </div>
-        </section>
-        <!-- 第三幅画面 -->
-        <section class="page-c bg-adaptive">
-        </section>
-    </section>
-    <button>点击执行</button>
+    <div id="carousel" style="perspective: 500px; position: absolute; left: 6.8rem; top: 4.5rem;">
+        <figure id="spinner" style="width: 2rem; transform-style: preserve-3d; transition: 1s; -webkit-transition: 1s;">
+            <figure style="width:4rem;transform:rotateY(0deg) translateZ(2.5rem);position:absolute;"><img src="http://img.mukewang.com/5662e29a0001905a14410901.png" style="width:100%;height:100%;"></figure>
+            <figure style="width:4rem;transform: rotateY(120deg) translateZ(2.5rem) scaleY(.9);position:absolute;"><img src="http://img.mukewang.com/5662e2960001f16314410901.png" style="width:100%;height:100%;"></figure>
+            <figure style="width:4rem;transform: rotateY(240deg) translateZ(2.5rem) scaleY(.9);position:absolute;"><img src="http://img.mukewang.com/5662e26f00010dea14410901.png" style="width:100%;height:100%;"></figure>
+        </figure>
+    </div>
     <script type="text/javascript">
     //rem设置
     (function(doc, win) {
