@@ -14,13 +14,10 @@ var Christmas = function() {
     var $pageC = $(".page-c");
     //构建第二个场景页面对象
     new pageB($pageB);
+
 };
 
 
 $(function() {
     Christmas();
-	$("button").on("click", function() {
-		//圣诞主题效果，开始
-		Christmas()
-	})
 })

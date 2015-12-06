@@ -3,13 +3,13 @@
 var slice = Array.prototype.slice
 
 function toArray(a, i, j) {
-        return slice.call(a, i || 0, j || a.length);
-    }
-    /**
-     * 返回true,如果传递的值不是未定义。
-     * @param {Mixed}
-     * @return {Boolean}
-     */
+    return slice.call(a, i || 0, j || a.length);
+}
+/**
+ * 返回true,如果传递的值不是未定义。
+ * @param {Mixed}
+ * @return {Boolean}
+ */
 function isDefined(v) {
     return typeof v !== 'undefined';
 }
@@ -21,20 +21,20 @@ function isDefined(v) {
  * @return {[type]}   [description]
  */
 function applyIf(o, c) {
-        if (o) {
-            for (var p in c) {
-                //跳过已存在
-                if (!isDefined(o[p])) {
-                    o[p] = c[p];
-                }
+    if (o) {
+        for (var p in c) {
+            //跳过已存在
+            if (!isDefined(o[p])) {
+                o[p] = c[p];
             }
         }
-        return o;
     }
-    /**
-     * @class String
-     * 格式化字符串
-     */
+    return o;
+}
+/**
+ * @class String
+ * 格式化字符串
+ */
 applyIf(String, {
     format: function(format) {
         var args = toArray(arguments, 1);
@@ -76,12 +76,11 @@ function Carousel(carousel, options) {
      * @return {[type]}        [description]
      */
     function createStr(imgUrl) {
-        var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});position:absolute;">' 
-                        + '<img src="{3}" style="width:100%;height:100%;">' 
-                + '</figure>';
+        var str = '<figure style="transform:rotateY({0}deg) translateZ({1}) scaleY(.9);position:absolute;">'
+                     + '<img src="{2}" style="width:100%;height:100%;">'
+                 + '</figure>';
 
         return String.format(str,
-            "4rem",
             start,
             "2.5rem",
             imgUrl
@@ -104,7 +103,7 @@ function Carousel(carousel, options) {
         });
         //容器
         $spinner.css({
-            "width": "2rem",
+            "width": "4rem",
             "transform-style": "preserve-3d",
             "transition": "1s"
         })
@@ -129,4 +128,25 @@ function Carousel(carousel, options) {
     initStyle();
     //绘制节点
     render();
+
+
+    //旋转次数,游标,当前页码
+    var currIndex;
+
+    /**
+     * 运行旋转
+     * @param  {[type]}   count    [description]
+     * @param  {Function} callback [description]
+     * @return {[type]}            [description]
+     */
+    this.run = function(count, callback) {
+        currIndex = count;
+        //360
+        //480
+        //600
+        angle = (count - 1) * rotate + 360
+        $spinner
+            .css("-moz-transform", "rotateY(-" + angle + "deg)")
+            .css("transform", "rotateY(-" + angle + "deg)")
+    }
 }

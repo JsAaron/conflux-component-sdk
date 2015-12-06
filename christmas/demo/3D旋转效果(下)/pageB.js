@@ -16,4 +16,10 @@ function pageB(element, pageComplete) {
         ]
     });
 
+    var i = 0;
+    $("button").on("click", function() {
+        carousel.run(i++)
+    })
+
+
 }
