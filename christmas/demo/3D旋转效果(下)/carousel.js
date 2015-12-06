@@ -148,5 +148,8 @@ function Carousel(carousel, options) {
         $spinner
             .css("-moz-transform", "rotateY(-" + angle + "deg)")
             .css("transform", "rotateY(-" + angle + "deg)")
+            .one("transitionend webkitTransitionend", function() {
+                alert("旋转完成")
+            })
     }
 }
