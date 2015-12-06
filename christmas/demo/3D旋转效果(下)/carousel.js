@@ -76,7 +76,9 @@ function Carousel(carousel, options) {
      * @return {[type]}        [description]
      */
     function createStr(imgUrl) {
-        var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});position:absolute;">' + '<img src="{3}" style="width:100%;height:100%;">' + '</figure>';
+        var str = '<figure style="width:{0};transform:rotateY({1}deg) translateZ({2});position:absolute;">' 
+                        + '<img src="{3}" style="width:100%;height:100%;">' 
+                + '</figure>';
 
         return String.format(str,
             "4rem",
