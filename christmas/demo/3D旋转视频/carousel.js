@@ -147,7 +147,7 @@ function Carousel(carousel, options) {
             .css("-moz-transform", "rotateY(-" + angle + "deg)")
             .css("transform", "rotateY(-" + angle + "deg)")
             .one("transitionend webkitTransitionend", function() {
-                alert("旋转完成")
+               callback()
             })
     }
 
@@ -157,18 +157,17 @@ function Carousel(carousel, options) {
      * @param  {[type]} element [description]
      * @return {[type]}         [description]
      */
-    this.palyVideo = function(cb) {
+    this.palyVideo = function() {
         //索引从0开始
-        var index = currIndex - 1
+        var index = currIndex 
 
         var element = element || $contentElements.eq(index)
-        var layer = config.layer;
 
         /**
          * vide标签
          * @type {[type]}
          */
-        var $video = $('<video preload="auto" autoplay class="bounceIn" style="width:50%;height:50%;position:absolute;left:25%;top:35%;"></video>');
+        var $video = $('<video preload="auto" autoplay class="bounceIn" style="width:50%;height:50%;position:absolute;left:30%;top:35%;"></video>');
 
         $video.css({
             "position": "absolute",
@@ -181,18 +180,14 @@ function Carousel(carousel, options) {
         //播放
         $video.on("loadeddata", function() {
             $video[0].play()
-            setTimeout(function() {
-                cb.load();
-            }, 1000)
         })
 
         //停止
         $video.on("ended", function() {
             $video[0].pause()
-                //退出效果
-            $video.addClass("bounceOut").one(support.animationEnd, function() {
+            //退出效果
+            $video.addClass("bounceOut").one("animationend webkitAnimationEnd", function() {
                 $video.remove();
-                cb.complete();
             })
         })
 
