@@ -136,7 +136,8 @@
     left: 8rem;
 }
 
-.window-left.close,.window-right.close  {
+.window-left.close,
+.window-right.close {
     -webkit-animation: closeWindow 2s forwards;
     -moz-animation: closeWindow 2s forwards;
 }
@@ -148,6 +149,7 @@
         margin-left: 0;
     }
 }
+
 @-moz-keyframes closeWindow {
     100% {
         -moz-transform: scale(1) rotateY(0deg) rotateZ(0deg);
@@ -155,6 +157,7 @@
         margin-left: 0;
     }
 }
+
 
 /**
  * 场景背景
@@ -171,7 +174,8 @@
     bottom: .1rem;
     z-index: -1;
     margin-left: -1.13rem;
-    transform: translateZ(-50px);
+    -webkit-transform: translateZ(-50px);
+    -moz-transform: translateZ(-50px);
 }
 
 
@@ -188,7 +192,8 @@
     left: 50%;
     bottom: .1rem;
     margin-left: -0.4rem;
-    transform: translateZ(-50px);
+    -webkit-transform: translateZ(-50px);
+    -moz-transform: translateZ(-50px);
     opacity: 0;
-    z-index: 5
+    z-index: 500;
 }
