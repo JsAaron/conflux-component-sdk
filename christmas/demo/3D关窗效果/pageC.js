@@ -14,11 +14,9 @@ function pageC() {
     this.$sceneBg.transition({
         opacity: 0,
     }, 3000);
-    this.$closeBg.css("transform", "translateZ(0)")
     this.$closeBg.transition({
         opacity: 1
     }, 5000);
-
     //关门动作
     this.closeWindow();
 }
