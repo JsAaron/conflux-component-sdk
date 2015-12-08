@@ -134,11 +134,11 @@ $(function() {
         if (this.y > this.snowSettings.maxY) {
             this.y -= this.snowSettings.maxY;
         }
-        this.angle += this.speedX;
-        if (this.angle > Math.PI * 2) {
-            this.angle -= Math.PI * 2;
-        }
-        this.x = this.initialX + this.moveX * Math.sin(this.angle);
+this.angle += this.speedX;
+if (this.angle > Math.PI * 2) {
+    this.angle -= Math.PI * 2;
+}
+this.x = this.initialX + this.moveX * Math.sin(this.angle);
     }
 
 
