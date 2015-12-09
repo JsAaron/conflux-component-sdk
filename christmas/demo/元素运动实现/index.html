@@ -57,18 +57,22 @@
 
 <body>
     <div class="bird birdFly"></div>
+    <button>点击运动</button>
 </body>
 <script type="text/javascript">
 
+$("button").on("click",function(){
+    /**
+     * 通过transition的方式改变运动
+     */
+    $(".bird").transition({
+        'right': "3rem",
+    }, 10000,'linear',function(){
+        alert("结束")
+    });
 
-/**
- * 通过transition的方式改变运动
- */
-$(".bird").transition({
-    'right': "3rem",
-}, 10000,'linear',function(){
-    alert("结束")
-});
+})
+
 
 
 
