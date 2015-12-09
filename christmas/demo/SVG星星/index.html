@@ -4,61 +4,29 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
-    <link rel='stylesheet' href='common.css' />
-    <link rel='stylesheet' href='pageA.css' />
 </head>
 
 <body>
     <section class="container">
-        <!-- 第一幅画面 -->
-        <section class="page-a bg-adaptive">
-
-            <svg width="400" height="300" style="border:1px solid #cd0000;">
-                <rect x="10" y="5" width="20" height="15" fill="#cd0000"/>
-            </svg>
-
-
-            <!-- 月亮 -->
-            <figure class="moon"></figure>
-            <!-- 圣诞树 -->
-            <figure class="tree"></figure>
-            <!-- 云 -->
-            <figure class="cloudy"></figure>
-
-            <!-- 星星 -->
-            <svg viewBox="0 0 512 486">
-                <defs>
-                    <linearGradient id="star" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#FCF0BC"></stop>
-                        <stop offset="0%" stop-color="#FCF0BC"></stop>
-                    </linearGradient>
-                </defs>
-                <polygon style="fill: url(#star);" points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon>
-            </svg>
-        </section>
-        <!-- 第二幅画面 -->
-        <section class="page-b bg-adaptive">
-        </section>
-        <!-- 第三幅画面 -->
-        <section class="page-c bg-adaptive">
-        </section>
+        <!-- 星星1 -->
+        <svg viewBox="0 0 512 486">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713"></polygon>
+        </svg>
+        <!-- 星星2 -->
+        <svg viewBox="0 0 512 486">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon>
+        </svg>
+        <!-- 星星3 -->
+        <svg viewBox="0 0 512 486">
+            <defs>
+                <linearGradient id="star" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FCF0BC"></stop>
+                    <stop offset="0%" stop-color="#FCF0BC"></stop>
+                </linearGradient>
+            </defs>
+            <polygon style="fill: url(#star);" points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon>
+        </svg>
     </section>
-    <script type="text/javascript">
-    //rem设置
-    (function(doc, win) {
-        var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function() {
-                var clientWidth = docEl.clientWidth;
-                if (!clientWidth) return;
-                docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-                //宽与高度
-                document.body.style.height = clientWidth * (900 / 1440) + "px"
-            };
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);
-    </script>
 </body>
 
 </html>
