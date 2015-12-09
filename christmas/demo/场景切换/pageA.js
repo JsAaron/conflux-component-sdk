@@ -5,6 +5,6 @@ function pageA(callback) {
 
 		callback()
 
-	}, 2000)
+	}, 1000)
 
 }
