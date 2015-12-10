@@ -59,9 +59,9 @@ var Christmas = function() {
 
 
     //背景音乐
-    var audio1 = Hmlt5Audio('music/scene.mp3')
+    var audio1 = Hmlt5Audio('http://www.imooc.com/upload/media/one.mp3')
     audio1.end(function() {
-        Hmlt5Audio('music/circulation.mp3',true)
+        Hmlt5Audio('http://www.imooc.com/upload/media/two.mp3',true)
     })
 
 
