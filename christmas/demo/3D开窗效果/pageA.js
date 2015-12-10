@@ -30,6 +30,7 @@ pageA.prototype.openWindow = function(callback) {
     }
     var bind = function(data) {
         data.one("transitionend webkitTransitionEnd", function(event) {
+            data.removeClass("window-transition")
             complete()
         })
     }
