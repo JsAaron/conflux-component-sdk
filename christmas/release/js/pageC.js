@@ -43,16 +43,16 @@ PageC.prototype.closeWindow = function(callback) {
     var complete = function() {
         ++count
         if (count === 2) {
-            callback && callback();
+            callback && callback()
         }
     }
-    var bind = function(data) {
-        data.one(support.transitionEnd, function(event) {
+    var bind = function(element) {
+        element.addClass("close").one("animationend webkitAnimationEnd", function(event) {
             complete()
         })
     }
-    bind(this.$leftWin.addClass("close"))
-    bind(this.$rightWin.addClass("close"))
+    bind(this.$leftWin)
+    bind(this.$rightWin)
 }
 
 

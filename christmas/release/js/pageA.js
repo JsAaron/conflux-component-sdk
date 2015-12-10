@@ -32,6 +32,7 @@ PageA.prototype.openWindow = function(callback) {
     }
     var bind = function(data) {
         data.one(support.transitionEnd, function(event) {
+            data.removeClass("window-transition")
             complete()
         })
     }

@@ -57,6 +57,7 @@ var Christmas = function() {
     var $pageB = $(".page-b");
     var $pageC = $(".page-c");
 
+
     //背景音乐
     var audio1 = Hmlt5Audio('music/scene.mp3')
     audio1.end(function() {

@@ -1,7 +1,8 @@
 .page-c {
     width: 100%;
     height: 100%;
-    background-image: url("../images/c/page-c-bg.png");
+    /*background-image: url("../images/c/page-c-bg.png");*/
+    background-image: url("http://img.mukewang.com/565d0b280001788014410901.png");
     position: absolute;
     z-index: 3;
 }
@@ -10,6 +11,7 @@
 /**
  * 圣诞树位置修正
  */
+
 .treefix {
     width: 1.9rem;
     height: 3.3rem;
@@ -17,9 +19,11 @@
     left: 1.4rem;
 }
 
+
 /**
  * 星星
  */
+
 .page-c svg {
     width: 0.6rem;
     height: 0.6rem;
@@ -28,7 +32,6 @@
     top: 5rem;
     z-index: 15;
 }
-
 
 
 /**
@@ -42,7 +45,7 @@
     z-index: 3;
     bottom: 1rem;
     right: 4rem;
-    background: url("../images/c/deer.png") -300% -100%;
+    background: url(http://img.mukewang.com/565d0b1a0001d9aa29660268.png) -300% -100%;
     background-size: 400% 100%;
 }
 
@@ -52,18 +55,25 @@
  */
 
 .deer-animate {
-    -webkit-animation-name: deerAnimate;
-    -webkit-animation-duration: 750ms;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: steps(3, end);
+    -webkit-animation: deerAnimate 750ms steps(3, end) infinite;
+    -moz-animation: deerAnimate 750ms steps(3, end) infinite;
 }
 
 @-webkit-keyframes deerAnimate {
     0% {
-        background-position-x: -0%;
+        background-position: -0% 100%;
     }
     100% {
-        background-position-x: -300%;
+        background-position: -300% 100%;
+    }
+}
+
+@-moz-keyframes deerAnimate {
+    0% {
+        background-position: -0% 100%;
+    }
+    100% {
+        background-position: -300% 100%;
     }
 }
 
@@ -71,52 +81,69 @@
 /**
  * 窗户
  */
-.page-c .window{
-	left:8rem;
+
+.page-c .window {
+    left: 8rem;
 }
 
-.window-left.close {
-    -webkit-transition: 2s ease-in-out;
-    -webkit-transform: scale(1) rotateY(0deg);
-     margin-left: 0.01rem;
-}
-
+.window-left.close,
 .window-right.close {
-    -webkit-transition: 3s ease-in-out;
-    -webkit-transform: scale(1) rotateY(0deg);
-    margin-right: 0.01rem;
+    -webkit-animation: closeWindow 2s forwards;
+    -moz-animation: closeWindow 2s forwards;
 }
+
+@-webkit-keyframes closeWindow {
+    100% {
+        -webkit-transform: scale(1) rotateY(0deg) rotateZ(0deg);
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+@-moz-keyframes closeWindow {
+    100% {
+        -moz-transform: scale(1) rotateY(0deg) rotateZ(0deg);
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
 
 /**
  * 场景背景
  * @type {[type]}
  */
-.window-scene-bg{
-    background: url("../images/c/window-scene-bg.png");
+
+.window-scene-bg {
+    background: url(http://img.mukewang.com/565d0b4c0001816b02270135.png);
     background-size: 100% 100%;
     width: 2.26rem;
-    height:1.2rem;
+    height: 1.2rem;
     position: absolute;
     left: 50%;
     bottom: .1rem;
     z-index: -1;
     margin-left: -1.13rem;
-    transform:translateZ(-50px);
+    -webkit-transform: translateZ(-50px);
+    -moz-transform: translateZ(-50px);
 }
+
 
 /**
  * 关门背景
  */
-.window-close-bg{
-    background: url("../images/c/window-close-bg.png");
+
+.window-close-bg {
+    background: url(http://img.mukewang.com/565d0b3d00016a4600810081.png);
     background-size: 100% 100%;
     width: 0.8rem;
-    height:0.8rem;
+    height: 0.8rem;
     position: absolute;
     left: 50%;
-    bottom:.1rem;
+    bottom: .1rem;
     margin-left: -0.4rem;
-    transform:translateZ(-50px);
+    -webkit-transform: translateZ(-50px);
+    -moz-transform: translateZ(-50px);
     opacity: 0;
-    z-index: 5
+    z-index: 500;
 }

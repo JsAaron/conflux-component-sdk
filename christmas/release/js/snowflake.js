@@ -22,7 +22,7 @@
         snowElement.height = height;
 
         //构建雪球的数量
-        var snowNumber = 50;
+        var snowNumber = 80;
 
         //构建雪球对象
         var snowArrObjs = initSnow(snowNumber, width, height);

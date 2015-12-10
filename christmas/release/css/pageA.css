@@ -1,7 +1,8 @@
 .container .page-a {
     width: 100%;
     height: 100%;
-    background-image: url("../images/a/page-a-bg.png");
+    background-image: url("http://img.mukewang.com/565d07770001790814410901.png");
+    /*background-image: url("../images/a/page-a-bg.png");*/
     position: absolute;
     z-index: 5;
 }
@@ -19,11 +20,13 @@
     position: absolute;
     bottom: 0;
     left: 1rem;
-    background-image: url("../images/a/trees.png");
+    background-image: url(http://img.mukewang.com/565d07d30001c97605420424.png);
+    /*background-image: url("../images/a/trees.png");*/
     background-size: 200% 100%;
-    -webkit-animation:treeAnim 1s steps(2) infinite;
-    -moz-animation:treeAnim 1s steps(2) infinite;
+    -webkit-animation: treeAnim 1s steps(2) infinite;
+    -moz-animation: treeAnim 1s steps(2) infinite;
 }
+
 @-webkit-keyframes treeAnim {
     0% {
         background-position: 200% 100%;
@@ -32,6 +35,7 @@
         background-position: 400% 100%;
     }
 }
+
 @-moz-keyframes treeAnim {
     0% {
         background-position: 200% 100%;
@@ -47,50 +51,44 @@
  */
 
 .chs-boy {
-    width           : 5rem;
-    height          : 1.5rem;
-    position        : absolute;
-    z-index         : 3;
-    top             : .1rem;
-    right           : -3rem;
-    transform       : scale(0.1);
-    background      : url("../images/a/boy-sleigh-car.png") -300% -100%;
-    background-size : 400% 100%;
+    width: 5rem;
+    height: 1.5rem;
+    position: absolute;
+    z-index: 3;
+    top: .1rem;
+    right: -3rem;
+    transform: scale(0.1);
+    /*background      : url("../images/a/boy-sleigh-car.png") -300% -100%;*/
+    background: url(http://img.mukewang.com/565d07490001365329660269.png) -300% -100%;
+    background-size: 400% 100%;
 }
+
 
 /**
  * 男孩走路动作
  */
 
 .chs-boy-deer {
-    -webkit-animation:chsBoyDeer 0.75s steps(3,end) infinite;
-    -moz-animation:chsBoyDeer 0.75s steps(3,end) infinite;
+    -webkit-animation: chsBoyDeer 0.75s steps(3, end) infinite;
+    -moz-animation: chsBoyDeer 0.75s steps(3, end) infinite;
 }
 
 @-webkit-keyframes chsBoyDeer {
     0% {
-        background-position-x: -0%;
+        background-position: -0% 100%;
     }
     100% {
-        background-position-x: -300%;
+        background-position: -300% 100%;
     }
 }
+
 @-moz-keyframes chsBoyDeer {
     0% {
-        background-position-x: -0%;
+        background-position: -0% 100%;
     }
     100% {
-        background-position-x: -300%;
+        background-position: -300% 100%;
     }
-}
-
-
-/**
- * 人物停止
- */
-
-.boy-stop-animate {
-    -webkit-animation-play-state: paused;
 }
 
 
@@ -105,7 +103,8 @@
     position: absolute;
     left: 3.3rem;
     top: .8rem;
-    animation: nucleus 2s infinite linear;
+    -webkit-animation: nucleus 2s infinite linear;
+    -moz-animation: nucleus 2s infinite linear;
 }
 
 
@@ -114,6 +113,18 @@
  */
 
 @-webkit-keyframes nucleus {
+    0% {
+        box-shadow: 0 0 0 transparent;
+    }
+    50% {
+        box-shadow: 0 0 1rem #FCF0BC;
+    }
+    100% {
+        box-shadow: 0 0 0 transparent;
+    }
+}
+
+@-moz-keyframes nucleus {
     0% {
         box-shadow: 0 0 0 transparent;
     }
@@ -143,20 +154,29 @@
 /*云*/
 
 .cloudy {
-    -webkit-animation: cloudy 5s ease-in-out infinite;
     background: #60768D;
     border-radius: 50%;
-    box-shadow: #60768D 1.2rem -0.2rem 0 -0.1rem, #60768D 0.5rem -0.5rem, #60768D 0.8rem 0.2rem,#60768D 1.5rem 0.2rem 0 -0.2rem;
+    border-style: none;
+    box-shadow: #60768D 1.2rem -0.2rem 0 -0.1rem, #60768D 0.5rem -0.5rem, #60768D 0.8rem 0.2rem, #60768D 1.5rem 0.2rem 0 -0.2rem;
     height: 1rem;
     width: 1rem;
     position: absolute;
     left: .5rem;
     top: 1.8rem;
     z-index: 5;
+    -webkit-animation: cloudy 5s ease-in-out infinite;
+    -moz-animation: cloudy 5s ease-in-out infinite;
 }
+
 @-webkit-keyframes cloudy {
     50% {
         -webkit-transform: translateY(-0.1rem);
+    }
+}
+
+@-moz-keyframes cloudy {
+    50% {
+        -moz-transform: translateY(-0.1rem);
     }
 }
 
@@ -169,47 +189,52 @@
     width: 2.6rem;
     height: 1.5rem;
     position: absolute;
-    left:9.7rem;
+    left: 9.7rem;
     top: 6.2rem;
     cursor: pointer;
     -webkit-perspective: 500px;
+    -moz-perspective: 500px;
 }
 
-.window-content{
+.window-content {
     -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
     width: 91%;
     margin: 0 auto;
     height: 100%;
     overflow: hidden;
 }
 
-.window-bg{
+.window-bg {
     width: 90%;
-    height: 95%;
+    height: 90%;
     position: absolute;
-    left:50%;
+    left: 50%;
     margin-left: -45%;
     bottom: 0;
-    background: url("../images/a/page-a-window-bg.png");
-    background-size: 100% 100%;  
-    z-index: -1; 
+    /*background: url("../images/a/page-a-window-bg.png");*/
+    background: url(http://img.mukewang.com/565d07770001790814410901.png);
+    background-size: 100% 100%;
+    z-index: -1;
 }
 
-.window:before{
-    content:"";
-    background: url("../images/a/window-bottom.png");
+.window:before {
+    content: "";
+    /*background: url("../images/a/window-bottom.png");*/
+    background: url(http://img.mukewang.com/565d07e40001088402410017.png);
     width: 100%;
     height: 0.17rem;
     display: block;
     position: absolute;
-    bottom: 0.05rem;
+    bottom: 0.08rem;
     background-size: 100% 100%;
     z-index: 100;
 }
 
-.window:after{
-    content:"";
-    background: url("../images/a/window-bottom-shadow.png");
+.window:after {
+    content: "";
+    background: url(http://img.mukewang.com/565d080400018d2702270009.png);
+    /*background: url("../images/a/window-bottom-shadow.png");*/
     width: 100%;
     height: 0.09rem;
     display: block;
@@ -219,55 +244,57 @@
     z-index: 100;
 }
 
-
 .wood {
     display: block;
     overflow: hidden;
 }
 
+
+
 .window-left {
     float: left;
-     background: url("../images/a/window-left.png");
+    /*background: url("../images/a/window-left.png");*/
+    background: url(http://img.mukewang.com/565d081d0001cfd901140134.png);
     -webkit-border-top-left-radius: 0.1rem;
+    -moz-border-top-left-radius: 0.1rem;
 }
 
 .window-right {
     float: right;
-     background: url("../images/a/window-right.png");
-     -webkit-border-top-right-radius: 0.1rem;
+    /*background: url("../images/a/window-right.png");*/
+    background: url(http://img.mukewang.com/565d084c0001431b01140134.png);
+    -webkit-border-top-right-radius: 0.1rem;
+    -moz-border-top-right-radius: 0.1rem;
 }
 
 .window-left,
 .window-right {
-    width: 1.17rem;
+    width: 1.18rem;
     height: 1.3rem;
-     z-index: 110;
-     box-shadow: 0 0 0.15rem #FCF0BC;
-      background-size: 100% 100%;
+    z-index: 110;
+    box-shadow: 0 0 0.1rem #FCF0BC;
+    background-size: 100% 100%;
 }
-
-.window-animation{
-   -webkit-transition: 2s ease-in-out;
-}
-
 
 /**
  * 动画过程
  */
-.window-transition{
+
+.window-transition {
     -webkit-transition: 2s ease-in-out;
+    -moz-transition: 2s ease-in-out;
 }
 
-
 .window-left.hover {
-    -webkit-transform: scale(0.95) rotateY(60deg);
-     margin-top: 0.1rem;
-     margin-left: -0.25rem;
+    -webkit-transform: scale(0.95) rotateY(60deg) rotateZ(2deg);
+    -moz-transform: scale(0.95) rotateY(60deg) rotateZ(2deg);
+    margin-top: 0.1rem;
+    margin-left: -0.4rem;
 }
 
 .window-right.hover {
-/*    -webkit-transition: 2s ease-in-out;*/
-    -webkit-transform: scale(0.95) rotateY(-60deg);
-     margin-top: 0.1rem;
-    margin-right: -0.25rem;
+    -webkit-transform: scale(0.95) rotateY(-60deg) rotateZ(-2deg);
+    -moz-transform: scale(0.95) rotateY(-60deg) rotateZ(-2deg);
+    margin-top: 0.1rem;
+    margin-right: -0.4rem;
 }
