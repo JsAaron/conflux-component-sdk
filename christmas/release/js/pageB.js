@@ -177,9 +177,9 @@ function PageB(element, pageComplete) {
             girlAction.hugWalk(function() {
                 girlAction.hug();
                 boyAction.hug();
-                (function(){
+                (function() {
                     //整个动作完成
-                    pageComplete&& pageComplete()
+                    pageComplete && pageComplete()
                 }).defer(1000)
             })
         })
@@ -191,7 +191,7 @@ function PageB(element, pageComplete) {
      */
     function rotation3d() {
         var dfd = $.Deferred();
-        (function(){
+        (function() {
             createGift(dfd);
         }).defer(500);
         return dfd;
@@ -261,12 +261,12 @@ function PageB(element, pageComplete) {
                         //小女孩动作还原
                         girlAction.reset();
                         //旋转动作还原
-                          carousel.reset();
+                        carousel.reset();
                         //脱衣动作
                         boyAction.strip(count);
                     },
                     //完成
-                    complete: function(){
+                    complete: function() {
                         complete();
                     }
                 });
@@ -280,14 +280,14 @@ function PageB(element, pageComplete) {
         //3d旋转
         var carousel = new Carousel($carousel, {
             imgUrls: [
-                "images/carousel/1.png",
-                "images/carousel/2.png",
-                "images/carousel/3.png"
+                "http://img.mukewang.com/5662e29a0001905a14410901.png",
+                "http://img.mukewang.com/5662e2960001f16314410901.png",
+                "http://img.mukewang.com/5662e26f00010dea14410901.png"
             ],
             videoUrls: [
-                "images/carousel/1.mp4",
-                "images/carousel/2.mp4",
-                "images/carousel/3.mp4"
+                "http://www.imooc.com/upload/media/qx-one.mp4",
+                "http://www.imooc.com/upload/media/qx-two.mp4",
+                "http://www.imooc.com/upload/media/qx-three.mp4"
             ]
         });
         return carousel;
