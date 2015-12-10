@@ -4,7 +4,7 @@
     /*background-image: url("../images/c/page-c-bg.png");*/
     background-image: url("http://img.mukewang.com/565d0b280001788014410901.png");
     position: absolute;
-    z-index: 3;
+    z-index: 30;
 }
 
 
@@ -29,7 +29,7 @@
     height: 0.6rem;
     position: absolute;
     left: 2.05rem;
-    top: 5rem;
+    top: 5.1rem;
     z-index: 15;
 }
 
