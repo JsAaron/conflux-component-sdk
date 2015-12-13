@@ -104,8 +104,7 @@ function Carousel(carousel, options) {
         //容器
         $spinner.css({
             "width": "4rem",
-            "transform-style": "preserve-3d",
-            "transition": "1s"
+            "transform-style": "preserve-3d"
         })
     }
 
@@ -146,9 +145,19 @@ function Carousel(carousel, options) {
         //600
         angle = (count - 1) * rotate + 360
         $spinner
-            .css("-moz-transform", "rotateY(-" + angle + "deg)")
-            .css("transform", "rotateY(-" + angle + "deg)")
+            .css({
+                "transform": "rotateY(-" + angle + "deg)",
+                "transition":"1s"
+            })
+            .css({
+                "-moz-transform": "rotateY(-" + angle + "deg)",
+                "-moz-transition":"1s"
+            })
             .one("transitionend webkitTransitionend", function() {
+                //去掉transition保留在样式上
+                //照成的缩放元素会有动画变化
+                $spinner.css("transition","")
+                $spinner.css("-moz-transition","")
                 alert("旋转完成")
             })
     }
