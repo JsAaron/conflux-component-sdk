@@ -1,4 +1,5 @@
-###微信扑克牌小游戏
+###扑克牌游戏
+
 基于node+webpck，带有flexible方式布局
 >github: <https://github.com/JsAaron/myGames/tree/master/cardGame/>
 ****
