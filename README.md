@@ -10,12 +10,12 @@
 ****
 
 ###七夕主图
-慕课网七夕主题源码
+慕课网七夕主题
 >github: <https://github.com/JsAaron/myGames/tree/master/qixi>
 ****
 
 ##圣诞主图
-慕课网圣诞主题源码
+慕课网圣诞主题
 >github: <https://github.com/JsAaron/node-games/tree/master/christmas>
 ****
 
