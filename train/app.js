@@ -23,6 +23,7 @@ KISSY.add('banner', function() {
         init: function(data, callback) {
 
             var Game = (function e(t, n, r) {
+
                 function s(o, u) {
                     if (!n[o]) {
                         if (!t[o]) {
@@ -35,15 +36,22 @@ KISSY.add('banner', function() {
                         var l = n[o] = {
                             exports: {}
                         };
+
                         t[o][0].call(l.exports, function(e) {
                             var n = t[o][1][e];
                             return s(n ? n : e)
                         }, l, l.exports, e, t, n, r)
+
                     }
                     return n[o].exports
                 }
+
                 var i = typeof require == "function" && require;
-                for (var o = 0; o < r.length; o++) s(r[o]);
+
+                for (var o = 0; o < r.length; o++) {
+                    s(r[o])
+                };
+
                 return s
             })({
                 1: [function(require, module, exports) {
@@ -1027,6 +1035,7 @@ KISSY.add('banner', function() {
                     }
                 }, {}],
                 18: [function(require, module, exports) {
+                  
                     function Game(Gama, data) {
 
                         var game = {
