@@ -114,6 +114,11 @@ body {
     background-size: 100% 100%;
 }
 
+.box-sizing {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
 
 /**************************************************
@@ -121,7 +126,6 @@ body {
  *          首页页面
  *
  **************************************************/
-
 
 .slot-homepage {
     z-index: 1;
@@ -135,14 +139,10 @@ body {
     top: 70%;
     margin: 0 auto;
     left: 50%;
-    margin-left:-1.4rem;
+    margin-left: -1.4rem;
 }
 
-.slot-homepage .start-button-hover {
-
-}
-
-
+.slot-homepage .start-button-hover {}
 
 
 /**************************************************
@@ -151,15 +151,14 @@ body {
  *
  **************************************************/
 
-.slot-gamepage{
+.slot-gamepage {
     position: absolute;
     z-index: 2;
     background-image: url("../images/slotMachine/slot-gamepage-bg.png");
     background-size: 100% 100%;
- }
+}
 
-
-.slot-gamepage-box{
+.slot-gamepage-box {
     width: 13.28rem;
     height: 9.51rem;
     background-image: url("../images/slotMachine/slot-gamepage-box.png");
@@ -168,7 +167,7 @@ body {
     top: 30%;
 }
 
-.slot-gamepage-rotate{
+.slot-gamepage-rotate {
     width: 4rem;
     height: 4rem;
     background-image: url("../images/slotMachine/slot-gamepage-rotate.png");
@@ -178,6 +177,39 @@ body {
     top: 20%;
 }
 
-.slot-gamepage-switch{
-
+.slot-gamepage-roll {
+    width: 76%;
+    height: 68%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10%;
+    border: 1px solid blue;
 }
+
+.slot-gamepage-roll-container {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 33%;
+    border: 1px solid #000;
+    height: 3rem;
+    margin-top: 1.5rem;
+    overflow: hidden;
+    float: left;
+    text-align: center;
+}
+
+.slot-gamepage-roll-container:last-child{
+    width: 34%;
+}
+
+.slot-gamepage-roll-ul {
+   /*width: 100%;*/
+}
+
+.slot-gamepage-roll-ul li {
+    height: 1.5rem;
+    /*width: 100%;*/
+}
+
+.slot-gamepage-switch {}
