@@ -8,8 +8,7 @@ $(function() {
 
 
     $(".slot-gamepage-button").click(function() {
-        console.log(slot)
-        // slot.run();
+        slot.run();
     })
 
 })
