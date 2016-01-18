@@ -115,6 +115,7 @@ body {
 }
 
 
+
 /**************************************************
  *
  *          首页页面
@@ -123,14 +124,12 @@ body {
 
 
 .slot-homepage {
-    background-image: url("../images/logo.jpg");
     z-index: 1;
 }
 
 .slot-homepage .start-button {
     width: 2.8rem;
     height: 2.8rem;
-    background-image: url("../images/start-button.png");
     position: absolute;
     background-size: 100% 100%;
     top: 70%;
@@ -140,7 +139,7 @@ body {
 }
 
 .slot-homepage .start-button-hover {
-    background-image: url("../images/start-button-hover.png");
+
 }
 
 
@@ -152,4 +151,33 @@ body {
  *
  **************************************************/
 
- 
+.slot-gamepage{
+    position: absolute;
+    z-index: 2;
+    background-image: url("../images/slotMachine/slot-gamepage-bg.png");
+    background-size: 100% 100%;
+ }
+
+
+.slot-gamepage-box{
+    width: 13.28rem;
+    height: 9.51rem;
+    background-image: url("../images/slotMachine/slot-gamepage-box.png");
+    background-size: 100% 100%;
+    position: absolute;
+    top: 30%;
+}
+
+.slot-gamepage-rotate{
+    width: 4rem;
+    height: 4rem;
+    background-image: url("../images/slotMachine/slot-gamepage-rotate.png");
+    background-size: 100% 100%;
+    position: absolute;
+    left: 90%;
+    top: 20%;
+}
+
+.slot-gamepage-switch{
+
+}
