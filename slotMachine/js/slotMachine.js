@@ -120,6 +120,8 @@ var SlotMachine = function() {
 
         //活动页面
         this.active = this.settings.active;
+        //希望的目标结果
+        this.futureActive = null;
 
         //溢出高度
         this._maxTop = -this.$container.height();
@@ -136,9 +138,6 @@ var SlotMachine = function() {
 
         //当前可视区元素
         this._marginTop = this.direction.initial;
-
-        //希望的目标结果
-        this.futureActive = null;
 
         //状态
         this.running = false;
@@ -197,6 +196,75 @@ var SlotMachine = function() {
             }
         }, {
             /**
+             * 运行游戏
+             * rotate 圈速
+             * active 期望的目标
+             * complete 完成回调
+             * @type {String}
+             */
+            key: 'run',
+            value: function run(options) {
+                options = options || {};
+
+                var rotate = options.rotate,
+                    complete = options.complete,
+                    active = options.active;
+
+                //旋转衔接延时
+                var delay = this.settings.delay;
+
+                //期待的目标元素
+                //传递传毒
+                //通过随机获取
+                if (this.futureActive === null) {
+                    this.futureActive = active || this.custom;
+                }
+
+                //运行标志
+                this.running = true;
+                this._fade = true;
+
+                //增加朦胧度
+                //修正动画的速率
+                if (rotate) {
+                    switch (rotate) {
+                        case 1:
+                        case 2:
+                            this._animationFX = FX_SLOW;
+                            break;
+                        case 3:
+                        case 4:
+                            this._animationFX = FX_NORMAL;
+                            delay /= 1.5;
+                            break;
+                        default:
+                            this._animationFX = FX_FAST;
+                            delay /= 2;
+                    }
+                } else {
+                    this._animationFX = FX_FAST;
+                    delay /= 2;
+                }
+
+                //执行动画
+                this.$container.animate({
+                    marginTop: this.direction.to
+                }, delay, 'linear', function cb() {
+                    //重置初始值
+                    this._marginTop = this.direction.first;
+                    if (rotate - 1 <= 0) {
+                        // this.stop();
+                    } else {
+                        this.run({
+                            rotate: rotate - 1,
+                            active: active
+                        });
+                    }
+                }.bind(this));
+
+            }
+        }, {
+            /**
              * 停止游戏
              * @type {String}
              */
@@ -244,72 +312,6 @@ var SlotMachine = function() {
 
             }
 
-        }, {
-            /**
-             * 运行游戏
-             * rotate 圈速
-             * active 期望的目标
-             * complete 完成回调
-             * @type {String}
-             */
-            key: 'run',
-            value: function run(options) {
-                options = options || {};
-
-                var rotate = options.rotate,
-                    complete = options.complete,
-                    active = options.active;
-
-                //旋转衔接延时
-                var delay = this.settings.delay;
-
-                //期待的目标元素
-                //传递传毒
-                //通过随机获取
-                if (this.futureActive === null) {
-                    this.futureActive = active || this.custom;
-                }
-
-                //增加朦胧度
-                if (rotate) {
-                    switch (rotate) {
-                        case 1:
-                        case 2:
-                            this._animationFX = FX_SLOW;
-                            break;
-                        case 3:
-                        case 4:
-                            this._animationFX = FX_NORMAL;
-                            delay /= 1.5;
-                            break;
-                        default:
-                            this._animationFX = FX_FAST;
-                            delay /= 2;
-                    }
-                } else {
-                    this._animationFX = FX_FAST;
-                    delay /= 2;
-                }
-
-                //运行标志
-                this.running = true;
-
-                //执行动画
-                this.$container.animate({
-                    marginTop: this.direction.to
-                }, delay, 'linear', function cb() {
-                    this._marginTop = this.direction.first;
-                    if (rotate - 1 <= 0) {
-                        this.stop();
-                    } else {
-                        this.run({
-                            rotate: rotate - 1,
-                            active: active
-                        });
-                    }
-                }.bind(this));
-
-            }
         }, {
             key: 'raf',
             value: function raf(cb, timeout) {
@@ -426,6 +428,20 @@ var SlotMachine = function() {
                 alert('direction')
             }
         }, {
+            key: '_fxClass',
+            set: function set(FX_SPEED) {
+                var classes = [FX_FAST, FX_NORMAL, FX_SLOW].join(' ');
+
+                this.$slotRolls.removeClass(classes).addClass(FX_SPEED);
+            }
+
+            /**
+             * @desc PRIVATE - Set CSS classes to make speed effect
+             * @param string FX_SPEED - Element speed [FX_FAST_BLUR||FX_NORMAL_BLUR||FX_SLOW_BLUR||FX_STOP]
+             * @param string||boolean fade - Set fade gradient effect
+             */
+
+        },{
             /**
              * 【指令】
              * 增加模糊度
@@ -434,7 +450,7 @@ var SlotMachine = function() {
             key: '_animationFX',
             set: function set(FX_SPEED) {
                 var delay = this.settings.delay / 4,
-                    $elements = this.$slot.add(this.$slotRolls);
+                    $elements = this.$container.add(this.$slotRolls);
                 this.raf(function cb() {
                     this._fxClass = FX_SPEED;
                     if (this.fade !== true || FX_SPEED === FX_STOP) {
