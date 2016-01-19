@@ -118,9 +118,14 @@ var SlotMachine = function() {
 
         this.$slot.append($structure)
 
+        //活动页面
+        this.active = this.settings.active;
+
         //溢出高度
         this._maxTop = -this.$container.height();
-        this._initSlot();
+
+        //增加前后节点
+        this._addSlotRolls();
 
         //最小高度
         //outerHeight包括border与padding
@@ -148,7 +153,7 @@ var SlotMachine = function() {
              * 初始化,增加头尾部
              * @type {String}
              */
-            key: '_initSlot',
+            key: '_addSlotRolls',
             value: function _initSlot() {
                 this._$slotRollsFirst = this.$slotRolls.last().clone();
                 this._$slotRollsLast = this.$slotRolls.first().clone();
@@ -164,6 +169,7 @@ var SlotMachine = function() {
             key: '_initDirection',
             value: function _initDirection() {
                 var slotRollsNum = this.$slotRolls.length;
+                console.log(this.active)
                 this._direction = {
                     //方向
                     selected: this.settings.direction === 'down' ? 'down' : 'up',
@@ -321,10 +327,18 @@ var SlotMachine = function() {
             }
 
         }, {
+            /**
+             * 处理活动页面页码
+             * @type {String}
+             */
             key: 'active',
             get: function get() {
                 return this._active;
             },
+            /**
+             * 过滤页码可靠性
+             * @param {[type]} index [description]
+             */
             set: function set(index) {
                 this._active = index;
                 if (index < 0 || index >= this.$slotRolls.length) {
@@ -409,7 +423,7 @@ var SlotMachine = function() {
                 return this._direction[this._direction.selected];
             },
             set: function set(direction) {
-                alert(1)
+                alert('direction')
             }
         }, {
             /**

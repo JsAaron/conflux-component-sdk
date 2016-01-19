@@ -4,7 +4,7 @@ $(function() {
 
 
     var slot = new SlotMachine("#slot-roll-a", {
-        active: 1,
+        active: 1, 
         delay: 500,
         imgUrl: [
             "./images/slotMachine/roll/slot1.png",
@@ -19,8 +19,8 @@ $(function() {
 
     $(".slot-gamepage-button").click(function() {
         slot.run({
-            rotate: 5,
-            active: 0,
+            rotate: 3,
+            active: 3,
             complete: function() {
 
             }
