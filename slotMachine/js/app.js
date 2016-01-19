@@ -20,7 +20,7 @@ $(function() {
     $(".slot-gamepage-button").click(function() {
         slot.run({
             rotate: 5,
-            active: 2,
+            active: 0,
             complete: function() {
 
             }

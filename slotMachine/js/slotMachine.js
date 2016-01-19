@@ -196,15 +196,46 @@ var SlotMachine = function() {
              */
             key: 'stop',
             value: function stop() {
-
                 if (!this.running) {
                     return;
                 }
-
                 //停止动画队列
                 this.$container.clearQueue().stop(true, false);
+                //重新设置反弹
+                this._animationFX = FX_SLOW;
+                this.running = true;
+                this.stopping = true;
 
-                // console.log(1)
+
+                this.active = this.visibleTile;
+
+
+
+                if (this.futureActive > this.active) {
+                    if (this.active === 0 && this.futureActive === this.$slotRolls.length - 1) {
+                        this._marginTop = this.direction.firstToLast;
+                    }
+
+                } else if (this.active === this.$slotRolls.length - 1 && this.futureActive === 0) {
+                    this._marginTop = this.direction.lastToFirst;
+                }
+
+                this.active = this.futureActive;
+                var delay = this.settings.delay * 3;
+
+
+
+                this.$container.animate({
+                    marginTop: this.getOffset(this.active)
+                }, delay, 'easeOutBounce', (function cb() {
+
+                    this.stopping = false;
+                    this.running = false;
+                    this.futureActive = null;
+
+
+                }).bind(this));
+
             }
 
         }, {
@@ -275,12 +306,6 @@ var SlotMachine = function() {
             }
         }, {
             key: 'raf',
-
-            /**
-             * @desc PUBLIC - Custom setTimeout using requestAnimationFrame
-             * @param function cb - Callback
-             * @param {Number} timeout - Timeout delay
-             */
             value: function raf(cb, timeout) {
                 var startTime = new Date().getTime(),
                     _rafHandler = function _rafHandler() {
@@ -295,6 +320,26 @@ var SlotMachine = function() {
                 rAF(_rafHandler);
             }
 
+        }, {
+            key: 'active',
+            get: function get() {
+                return this._active;
+            },
+            set: function set(index) {
+                this._active = index;
+                if (index < 0 || index >= this.$slotRolls.length) {
+                    this._active = 0;
+                }
+            }
+        }, {
+            key: 'visibleTile',
+            get: function get() {
+                var firstTileHeight = this.$slotRolls.first().height(),
+                    rawContainerMargin = this.$container.css('margin-top'),
+                    containerMargin = parseInt(rawContainerMargin.replace(/px/, ''), 10);
+
+                return Math.abs(Math.round(containerMargin / firstTileHeight)) - 1;
+            }
         }, {
             /**
              *【指令】
@@ -396,30 +441,8 @@ var SlotMachine = function() {
             set: function set(margin) {
                 this.$container.css('margin-top', margin);
             }
-        },{
-            /**
-             * 【指令】
-             * 
-             * @type {String}
-             */
-            key: 'visibleTile',
-            get: function get() {
-                var firstTileHeight = this.$tiles.first().height(),
-                    rawContainerMargin = this.$container.css('margin-top'),
-                    containerMargin = parseInt(rawContainerMargin.replace(/px/, ''), 10);
-
-                return Math.abs(Math.round(containerMargin / firstTileHeight)) - 1;
-            }
-
-            /**
-             * @desc PUBLIC - Get random element different than last shown
-             * @param {Boolean} cantBeTheCurrent - true||undefined if cant be choosen the current element, prevents repeat
-             * @return {Number} - Element index
-             */
 
         }
-
-
 
     ]);
 
