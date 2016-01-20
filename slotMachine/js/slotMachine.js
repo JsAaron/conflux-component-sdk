@@ -148,8 +148,6 @@ var SlotMachine = function() {
         //状态
         this.running = false;
         this.stopping = false;
-
-        console.log(this)
     }
 
 

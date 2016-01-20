@@ -151,11 +151,19 @@ body {
 *
 **************************************************/
 
+.slot-gamepage,
+.slot-gamepage-roll-container ul li,
+.slot-gamepage-box-right-vertical,
+.slot-gamepage-lottery,
+.slot-gamepage-box-right-circle,
+.slot-gamepage-box-left {
+    background-size: 100% 100%;
+}
+
 .slot-gamepage {
     position: absolute;
     z-index: 2;
     background-image: url("../images/slotMachine/slot-gamepage-bg.png");
-    background-size: 100% 100%;
 }
 
 .slot-gamepage-box {
@@ -170,34 +178,30 @@ body {
     width: 85%;
     height: 100%;
     background-image: url("../images/slotMachine/slot-gamepage-box.png");
-    background-size: 100% 100%;
 }
 
 .slot-gamepage-box-right {
     width: 15%;
     height: 70%;
-    border: 1px solid red;
-    display: inline-block;
+    float: right;
 }
-
 
 .slot-gamepage-roll {
     width: 78%;
     height: 69%;
-    margin-left: 10%;
+    margin-left: 11%;
     margin-top: 11%;
-    border: 1px solid blue;
 }
 
 .slot-gamepage-roll-container {
     width: 33%;
-    border: 1px solid #000;
     height: 60%;
     line-height: 60%;
     margin-top: 15%;
     overflow: hidden;
     float: left;
     text-align: center;
+    padding: 0.2rem;
 }
 
 .slot-gamepage-roll-container:last-child {
@@ -211,7 +215,23 @@ body {
 .slot-gamepage-roll-container ul li {
     width: 100%;
     height: 3.5rem;
-    background-size: 100% 100%;
+}
+
+.slot-gamepage-box-right-vertical {
+    width: 100%;
+    height: 70%;
+    margin-top: 120%;
+    margin-left: -26%;
+    background-image: url("../images/slotMachine/slot-gamepage-vertical.png");
+}
+
+.slot-gamepage-box-right-circle{
+    right: 2.6%;
+    width: 3rem;
+    top: 5%;
+    height: 3rem;
+    position: absolute;
+    background-image: url("../images/slotMachine/slot-gamepage-circle.png");
 }
 
 .slot-gamepage-lottery {
@@ -222,7 +242,6 @@ body {
     left: 50%;
     margin-left: -19%;
     background-image: url("../images/slotMachine/slot-gamepage-lottery.png");
-    background-size: 100% 100%;
 }
 
 .slot-gamepage-lottery:active {

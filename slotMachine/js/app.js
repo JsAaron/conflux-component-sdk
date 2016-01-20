@@ -144,6 +144,15 @@
 
 
        $(".slot-gamepage-lottery").click(function() {
+
+          $(".slot-gamepage-box-right-circle").css({
+              top: '35%', 
+              transform: 'scale(0.7)',
+              transitionTimingFunction:'linear',
+              transitionDuration:'800ms'
+          })
+
+
            slot1.run({
                rotate: 6,
                active: 2,
