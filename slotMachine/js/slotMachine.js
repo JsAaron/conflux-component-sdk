@@ -168,7 +168,7 @@ var SlotMachine = function() {
             key: '_initDirection',
             value: function _initDirection() {
                 var slotRollsNum = this.$slotRolls.length;
-                console.log(this.active)
+
                 this._direction = {
                     //方向
                     selected: this.settings.direction === 'down' ? 'down' : 'up',
@@ -441,7 +441,7 @@ var SlotMachine = function() {
              * @param string||boolean fade - Set fade gradient effect
              */
 
-        },{
+        }, {
             /**
              * 【指令】
              * 增加模糊度

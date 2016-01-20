@@ -4,7 +4,7 @@ $(function() {
 
 
     var slot = new SlotMachine("#slot-roll-a", {
-        active: 1, 
+        active: 0, 
         delay: 500,
         imgUrl: [
             "./images/slotMachine/roll/slot1.png",
