@@ -101,6 +101,13 @@ var SlotMachine = function() {
         this.settings = $.extend({}, defaults, options);
         this.defaults = defaults;
 
+        //自动模式选择
+        //默认用css3
+        if ((!options.mode && !utils.style.transform) 
+            || (options.mode && !utils.style.transform)) {
+            this.settings.mode = 0
+        }
+
         //jQuery元素
         this.$slot = $(slot);
 
@@ -243,29 +250,32 @@ var SlotMachine = function() {
                     delay /= 2;
                 }
 
-
                 var _complete = function() {
                     //重置初始值
-                    self._activeTop = self.direction.first;
+                    self._activeTop = self.getOffset(self.active)
+
                     if (rotate - 1 <= 0) {
-                        self.stop();
+                         self.stop();
                     } else {
-                        self.run({
-                            rotate: rotate - 1,
-                            active: active
-                        });
+                        setTimeout(function() {
+                            self.run({
+                                rotate: rotate - 1,
+                                active: active
+                            });
+                        })
                     }
                 }
-
-
                 var to = this.direction.to;
- 
                 //transform动画
-                if (this.settings.mode && utils.style.transform) {
+                if (this.settings.mode) {
                     this.$container.css({
                         [utils.style.transform]: 'translate3d(0px,' + to + 'px,0px)',
+                        [utils.style.transitionTimingFunction]: 'linear',
                         [utils.style.transitionDuration]: delay + "ms"
-                    }).on(utils.style.transitionEnd, _complete)
+                    }).one(utils.style.transitionEnd, function(){
+                        self.$container.css(utils.style.transitionDuration, '')
+                        _complete();
+                    })
            
                 } else {
                     //坐标动画
@@ -275,9 +285,6 @@ var SlotMachine = function() {
                         _complete.call(this);
                     }.bind(this));
                 }
-
-
-
             }
         },  {
             /**
@@ -290,15 +297,36 @@ var SlotMachine = function() {
                 this._animationFX = FX_SLOW;
                 this.running = true;
                 this.stopping = true;
+                
+                var self = this;
+
                 //设定一个延时
                 var delay = this.settings.delay * 3;
-                this.$container.animate({
-                    marginTop: this.getOffset(this.futureActive)
-                }, delay, 'easeOutBounce', (function cb() {
-                    this.stopping = false;
-                    this.running = false;
-                    this.futureActive = null;
-                }).bind(this));
+                var to = this.getOffset(this.futureActive);
+
+                var _complete = function() {
+                    self.stopping = false;
+                    self.running = false;
+                    self.futureActive = null;
+                }
+
+                if (this.settings.mode) {
+                    this.$container.css({
+                        [utils.style.transform]: 'translate3d(0px,' + to + 'px,0px)',
+                        [utils.style.transitionTimingFunction]: 'ease',
+                        [utils.style.transitionDuration]: delay + "ms"
+                    }).one(utils.style.transitionEnd, function(){
+                        self.$container.css(utils.style.transitionDuration, '')
+                        _complete();
+                    })
+                }else{
+                    this.$container.animate({
+                        marginTop: this.getOffset(this.futureActive)
+                    }, delay, 'easeOutBounce', (function cb() {
+                        _complete();
+                    }).bind(this));                    
+                }
+
                 //关闭模糊
                 this.raf(function cb() {
                     this._animationFX = FX_STOP;
@@ -356,16 +384,7 @@ var SlotMachine = function() {
                     this._active = 0;
                 }
             }
-        }, {
-            key: 'visibleTile',
-            get: function get() {
-                var firstTileHeight = this.$slotRolls.first().height(),
-                    rawContainerMargin = this.$container.css('margin-top'),
-                    containerMargin = parseInt(rawContainerMargin.replace(/px/, ''), 10);
-
-                return Math.abs(Math.round(containerMargin / firstTileHeight)) - 1;
-            }
-        }, {
+        },  {
             /**
              *【指令】
              * 随机算法
@@ -468,11 +487,11 @@ var SlotMachine = function() {
              * @type {String}
              */
             key: '_activeTop',
-            set: function set(y) {
-                if (this.settings.mode && utils.style.transform) {
-                    this.$container.css(utils.style.transform, 'translate3d(0px,' + y + 'px,0px)');
+            set: function set(to, cb) {
+                if (this.settings.mode) {
+                    this.$container.css(utils.style.transform, 'translate3d(0px,' + to + 'px,0px)')
                 } else {
-                    this.$container.css('margin-top', y);
+                    this.$container.css('margin-top', to);
                 }
             }
 

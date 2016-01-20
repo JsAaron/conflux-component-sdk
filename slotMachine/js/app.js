@@ -79,13 +79,13 @@
 
 
        me.extend(me.style = {}, {
-           animationEnd             : ANIMATION_END,
-           transitionEnd            : TRANSITION_END,
-           transform                : _transform,
-           transitionTimingFunction : _prefixStyle('transitionTimingFunction'),
-           transitionDuration       : _prefixStyle('transitionDuration'),
-           transitionDelay          : _prefixStyle('transitionDelay'),
-           transformOrigin          : _prefixStyle('transformOrigin')
+           animationEnd: ANIMATION_END,
+           transitionEnd: TRANSITION_END,
+           transform: _transform,
+           transitionTimingFunction: _prefixStyle('transitionTimingFunction'),
+           transitionDuration: _prefixStyle('transitionDuration'),
+           transitionDelay: _prefixStyle('transitionDelay'),
+           transformOrigin: _prefixStyle('transformOrigin')
        });
 
        return me;
@@ -95,14 +95,11 @@
    $(function() {
        'use strict';
 
-
-
-
        var slot1 = new SlotMachine("#slot-roll-a", {
            fade: true, //启动图片滚动模糊感,
-           mode:0,
+           mode: 0,
            active: 0, //首页页码
-           delay: 800, //一个周期滚动的时间
+           delay: 500, //一个周期滚动的时间
            imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
                "./images/slotMachine/roll/slot1.png",
                "./images/slotMachine/roll/slot2.png",
@@ -116,8 +113,9 @@
 
        var slot2 = new SlotMachine("#slot-roll-b", {
            fade: true, //启动图片滚动模糊感,
+           mode: 0,
            active: 0, //首页页码
-           delay: 800, //一个周期滚动的时间
+           delay: 500, //一个周期滚动的时间
            imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
                "./images/slotMachine/roll/slot1.png",
                "./images/slotMachine/roll/slot2.png",
@@ -127,12 +125,12 @@
                "./images/slotMachine/roll/slot6.png"
            ]
        })
-
 
        var slot3 = new SlotMachine("#slot-roll-c", {
            fade: true, //启动图片滚动模糊感,
+           mode: 0,
            active: 0, //首页页码
-           delay: 800, //一个周期滚动的时间
+           delay: 500, //一个周期滚动的时间
            imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
                "./images/slotMachine/roll/slot1.png",
                "./images/slotMachine/roll/slot2.png",
@@ -142,6 +140,7 @@
                "./images/slotMachine/roll/slot6.png"
            ]
        })
+
 
 
        $(".slot-gamepage-lottery").click(function() {
@@ -152,6 +151,25 @@
 
                }
            });
+           setTimeout(function() {
+               slot2.run({
+                   rotate: 6,
+                   active: 2,
+                   complete: function() {
+
+                   }
+               });
+           }, 500);
+           setTimeout(function() {
+               slot3.run({
+                   rotate: 6,
+                   active: 2,
+                   complete: function() {
+
+                   }
+               });
+           }, 1000);
+
        })
 
    })
