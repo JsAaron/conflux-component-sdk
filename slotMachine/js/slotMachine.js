@@ -266,10 +266,13 @@ var SlotMachine = function() {
                 var to = this.direction.to;
                 //transform动画
                 if (this.settings.mode) {
+                    var transform = utils.style.transform;
+                    var transitionTimingFunction = utils.style.transitionTimingFunction;
+                    var transitionDuration = utils.style.transitionDuration;
                     this.$container.css({
-                        [utils.style.transform]: 'translate3d(0px,' + to + 'px,0px)',
-                        [utils.style.transitionTimingFunction]: 'linear',
-                        [utils.style.transitionDuration]: delay + "ms"
+                        transform: 'translate3d(0px,' + to + 'px,0px)',
+                        transitionTimingFunction: 'linear',
+                        transitionDuration: delay + "ms"
                     }).one(utils.style.transitionEnd, function(){
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
@@ -309,10 +312,13 @@ var SlotMachine = function() {
                 }
 
                 if (this.settings.mode) {
+                    var transform = utils.style.transform;
+                    var transitionTimingFunction = utils.style.transitionTimingFunction;
+                    var transitionDuration = utils.style.transitionDuration;
                     this.$container.css({
-                        [utils.style.transform]: 'translate3d(0px,' + to + 'px,0px)',
-                        [utils.style.transitionTimingFunction]: 'ease',
-                        [utils.style.transitionDuration]: delay + "ms"
+                        transform: 'translate3d(0px,' + to + 'px,0px)',
+                        transitionTimingFunction: 'ease',
+                        transitionDuration: delay + "ms"
                     }).one(utils.style.transitionEnd, function(){
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
