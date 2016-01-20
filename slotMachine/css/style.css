@@ -159,51 +159,19 @@ body {
 }
 
 .slot-gamepage-box {
-    width: 13.28rem;
-    height: 9.51rem;
+    width: 98%;
+    height: 40%;
     background-image: url("../images/slotMachine/slot-gamepage-box.png");
     background-size: 100% 100%;
     position: absolute;
-    top: 30%;
+    top: 28%;
 }
-
-/**
- * 红色按钮
- */
-.slot-gamepage-roll-lottery {
-    position: absolute;
-    width: 29%;
-    height: 100%;
-    border: 1px solid #ccc;
-    right: -20%;
-    top: 2%;
-}
-.slot-gamepage-roll-lottery:before{
-    content:'';
-    position: absolute;
-    background-image: url("../images/slotMachine/slot-gamepage-vertical.png");
-    width: 50%;
-    height: 100%;
-}
-
-.slot-gamepage-rotate {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-image: url("../images/slotMachine/slot-gamepage-rotate.png");
-    background-size: 100% 100%;
-    position: absolute;
-    left: 5%;
-    top: 20%;
-}
-
-
 
 .slot-gamepage-roll {
-    width: 76%;
-    height: 68%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 10%;
+    width: 70%;
+    height: 70%;
+    margin-left: 10%;
+    margin-top: 9%;
     border: 1px solid blue;
 }
 
@@ -213,9 +181,9 @@ body {
     box-sizing: border-box;
     width: 33%;
     border: 1px solid #000;
-    height: 3rem;
-    line-height: 3rem;
-    margin-top: 1.5rem;
+    height: 40%;
+    line-height: 40%;
+    margin-top: 20%;
     overflow: hidden;
     float: left;
     text-align: center;
@@ -230,20 +198,18 @@ body {
 }
 
 .slot-gamepage-roll-container ul li {
-    height: 3rem;
     width: 100%;
+    height: 3.5rem;
     background-size: 100% 100%;
 }
 
-.slot-gamepage-switch {}
-
 .slot-gamepage-lottery {
-    width: 8rem;
-    height: 3rem;
+    width: 38%;
+    height: 8%;
     position: absolute;
-    bottom: 10%;
+    bottom: 15%;
     left: 50%;
-    margin-left: -4rem;
+    margin-left: -19%;
     background-image: url("../images/slotMachine/slot-gamepage-lottery.png");
     background-size: 100% 100%;
 }

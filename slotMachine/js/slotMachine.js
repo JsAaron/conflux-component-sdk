@@ -1,56 +1,52 @@
 /**
  * 基于jQuery编写的老虎机
- */
-
-
-'use strict';
-
-/**
- * requestAnimationFrame
- * @type {[type]}
- */
-var rAF = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-    };
-
-/**
- * 定义defineProperties
- * [description]
- * @param  {[type]} ) {               
- */
-var _createClass = (function() {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    return function(Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-    };
-})();
-
-
-/**
  * 老虎机游戏类
  * @return {[type]} [description]
  */
 var SlotMachine = function() {
+
+    /**
+     * requestAnimationFrame
+     * @type {[type]}
+     */
+    var rAF = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+
+    /**
+     * 定义defineProperties
+     * [description]
+     * @param  {[type]} ) {               
+     */
+    var _createClass = (function() {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+        return function(Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    })();
+
+
     /**
      * 默认参数
      * @type {Object}
      */
     var defaults = {
+            fade: true, //模糊度
             active: 0, //选中的元素
             delay: 200, // 动画延时
             randomize: null, //随机函数
@@ -87,10 +83,10 @@ var SlotMachine = function() {
      * 创建列表
      * @return {[type]} [description]
      */
-    function createli(imgUrl) {
+    function createli(imgUrl, height) {
         var str = '';
         imgUrl.forEach(function(url, index) {
-            str += '<li style="background-image:url(' + url + ');"></li>';
+            str += '<li style="height:' + height + 'px;background-image:url(' + url + ');"></li>';
         })
         return str;
     }
@@ -108,7 +104,7 @@ var SlotMachine = function() {
         //jQuery元素
         this.$slot = $(slot);
 
-        var structure = '<ul>' + createli(options.imgUrl) + '</ul>'
+        var structure = '<ul>' + createli(options.imgUrl, this.$slot.height()) + '</ul>'
         var $structure = $(structure);
 
         //溢出包裹元素
@@ -122,12 +118,15 @@ var SlotMachine = function() {
         this.active = this.settings.active;
         //希望的目标结果
         this.futureActive = null;
+        //前后节点
+        this._$slotRollsFirst = null;
+        this._$slotRollsLast = null;
 
         //溢出高度
         this._maxTop = -this.$container.height();
 
         //增加前后节点
-        this._addSlotRolls();
+        this._addRolls();
 
         //最小高度
         //outerHeight包括border与padding
@@ -136,8 +135,8 @@ var SlotMachine = function() {
         //计算翻动坐标参数
         this._initDirection();
 
-        //当前可视区元素
-        this._marginTop = this.direction.initial;
+        //当前可视区元素坐标值
+        this._activeTop = this.direction.initial;
 
         //状态
         this.running = false;
@@ -152,7 +151,7 @@ var SlotMachine = function() {
              * 初始化,增加头尾部
              * @type {String}
              */
-            key: '_addSlotRolls',
+            key: '_addRolls',
             value: function _initSlot() {
                 this._$slotRollsFirst = this.$slotRolls.last().clone();
                 this._$slotRollsLast = this.$slotRolls.first().clone();
@@ -214,15 +213,13 @@ var SlotMachine = function() {
                 var delay = this.settings.delay;
 
                 //期待的目标元素
-                //传递传毒
-                //通过随机获取
+                //传值/随机
                 if (this.futureActive === null) {
                     this.futureActive = active || this.custom;
                 }
 
                 //运行标志
                 this.running = true;
-                this._fade = true;
 
                 //增加朦胧度
                 //修正动画的速率
@@ -251,9 +248,9 @@ var SlotMachine = function() {
                     marginTop: this.direction.to
                 }, delay, 'linear', function cb() {
                     //重置初始值
-                    this._marginTop = this.direction.first;
+                    this._activeTop = this.direction.first;
                     if (rotate - 1 <= 0) {
-                        // this.stop();
+                        this.stop();
                     } else {
                         this.run({
                             rotate: rotate - 1,
@@ -261,6 +258,32 @@ var SlotMachine = function() {
                         });
                     }
                 }.bind(this));
+
+            }
+        }, {
+            /**
+             * 反弹处理
+             * @type {String}
+             */
+            key: '_rebound',
+            value: function _rebound() {
+                //重新设置模糊动画
+                this._animationFX = FX_SLOW;
+                this.running = true;
+                this.stopping = true;
+                //设定一个延时
+                var delay = this.settings.delay * 3;
+                this.$container.animate({
+                    marginTop: this.getOffset(this.futureActive)
+                }, delay, 'easeOutBounce', (function cb() {
+                    this.stopping     = false;
+                    this.running      = false;
+                    this.futureActive = null;
+                }).bind(this));
+                //关闭模糊
+                this.raf(function cb() {
+                    this._animationFX = FX_STOP;
+                }.bind(this), delay / 1.75);
 
             }
         }, {
@@ -275,41 +298,8 @@ var SlotMachine = function() {
                 }
                 //停止动画队列
                 this.$container.clearQueue().stop(true, false);
-                //重新设置反弹
-                this._animationFX = FX_SLOW;
-                this.running = true;
-                this.stopping = true;
-
-
-                this.active = this.visibleTile;
-
-
-
-                if (this.futureActive > this.active) {
-                    if (this.active === 0 && this.futureActive === this.$slotRolls.length - 1) {
-                        this._marginTop = this.direction.firstToLast;
-                    }
-
-                } else if (this.active === this.$slotRolls.length - 1 && this.futureActive === 0) {
-                    this._marginTop = this.direction.lastToFirst;
-                }
-
-                this.active = this.futureActive;
-                var delay = this.settings.delay * 3;
-
-
-
-                this.$container.animate({
-                    marginTop: this.getOffset(this.active)
-                }, delay, 'easeOutBounce', (function cb() {
-
-                    this.stopping = false;
-                    this.running = false;
-                    this.futureActive = null;
-
-
-                }).bind(this));
-
+                //反弹处理
+                this._rebound();
             }
 
         }, {
@@ -428,19 +418,15 @@ var SlotMachine = function() {
                 alert('direction')
             }
         }, {
+            /**
+             * 增加对样的样式
+             * @type {String}
+             */
             key: '_fxClass',
             set: function set(FX_SPEED) {
                 var classes = [FX_FAST, FX_NORMAL, FX_SLOW].join(' ');
-
                 this.$slotRolls.removeClass(classes).addClass(FX_SPEED);
             }
-
-            /**
-             * @desc PRIVATE - Set CSS classes to make speed effect
-             * @param string FX_SPEED - Element speed [FX_FAST_BLUR||FX_NORMAL_BLUR||FX_SLOW_BLUR||FX_STOP]
-             * @param string||boolean fade - Set fade gradient effect
-             */
-
         }, {
             /**
              * 【指令】
@@ -449,15 +435,10 @@ var SlotMachine = function() {
              */
             key: '_animationFX',
             set: function set(FX_SPEED) {
-                var delay = this.settings.delay / 4,
-                    $elements = this.$container.add(this.$slotRolls);
+                if (!this.settings.fade) return;
+                var delay = this.settings.delay / 4;
                 this.raf(function cb() {
                     this._fxClass = FX_SPEED;
-                    if (this.fade !== true || FX_SPEED === FX_STOP) {
-                        $elements.removeClass(FX_GRADIENT);
-                    } else {
-                        $elements.addClass(FX_GRADIENT);
-                    }
                 }.bind(this), delay);
             }
 
@@ -467,7 +448,7 @@ var SlotMachine = function() {
              * 设置container的margin-top值
              * @type {String}
              */
-            key: '_marginTop',
+            key: '_activeTop',
             set: function set(margin) {
                 this.$container.css('margin-top', margin);
             }
