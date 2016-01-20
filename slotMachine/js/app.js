@@ -101,9 +101,9 @@
            active: 0, //首页页码
            delay: 500, //一个周期滚动的时间
            imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
-               "./images/slotMachine/roll/slot1.png",
-               "./images/slotMachine/roll/slot2.png",
-               "./images/slotMachine/roll/slot3.png",
+               "./images/slotMachine/roll/1.png",
+               "./images/slotMachine/roll/2.png",
+               "./images/slotMachine/roll/3.png",
                "./images/slotMachine/roll/slot4.png",
                "./images/slotMachine/roll/slot5.png",
                "./images/slotMachine/roll/slot6.png"
