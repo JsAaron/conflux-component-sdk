@@ -129,6 +129,9 @@ var SlotMachine = function() {
         this._$slotRollsFirst = null;
         this._$slotRollsLast = null;
 
+        //回调
+        this._oncompleteStack = [];
+
         //溢出高度
         this._maxTop = -this.$container.height();
 
@@ -216,6 +219,8 @@ var SlotMachine = function() {
 
                 //旋转衔接延时
                 var delay = this.settings.delay;
+
+                this._oncompleteStack.push(complete);
 
                 //期待的目标元素
                 //传值/随机
@@ -309,6 +314,10 @@ var SlotMachine = function() {
                     self.stopping = false;
                     self.running = false;
                     self.futureActive = null;
+                    var cb;
+                    while (cb = self._oncompleteStack.shift()) {
+                        cb();
+                    }
                 }
 
                 if (this.settings.mode) {
