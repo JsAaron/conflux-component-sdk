@@ -11,7 +11,7 @@ function GamePage() {
     var createSlot = function(domName) {
         return new SlotMachine("#" + domName, {
             fade: true, //启动图片滚动模糊感,
-            mode: 0,
+            mode: 0, //用的left模式, 0/1
             active: 0, //首页页码
             delay: 500, //一个周期滚动的时间
             imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
@@ -34,7 +34,7 @@ function GamePage() {
         return function() {
             --count;
             if (!count) {
-                alert(1)
+                // alert(1)
             }
         }
     }();

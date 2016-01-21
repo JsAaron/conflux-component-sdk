@@ -84,9 +84,12 @@ var SlotMachine = function() {
      * @return {[type]} [description]
      */
     function createli(imgUrl, height) {
+        height = Math.ceil(height)
         var str = '';
         imgUrl.forEach(function(url, index) {
-            str += '<li style="height:' + height + 'px;background-image:url(' + url + ');"></li>';
+            str += '<li style="height:' + height + 'px;">'
+                  +  '<img src="'+ url +'";></img>'
+                  +'</li>';
         })
         return str;
     }
@@ -111,7 +114,7 @@ var SlotMachine = function() {
         //jQuery元素
         this.$slot = $(slot);
 
-        var structure = '<ul>' + createli(options.imgUrl, this.$slot.height()) + '</ul>'
+        var structure = '<ul>' + createli(options.imgUrl, this.$slot.outerHeight()) + '</ul>'
         var $structure = $(structure);
 
         //溢出包裹元素

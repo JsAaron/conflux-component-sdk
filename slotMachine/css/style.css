@@ -200,8 +200,6 @@ body {
     margin-top: 15%;
     overflow: hidden;
     float: left;
-    text-align: center;
-    padding: 0.2rem;
 }
 
 .slot-gamepage-roll-container:last-child {
@@ -216,6 +214,13 @@ body {
     width: 100%;
     height: 3.5rem;
 }
+
+.slot-gamepage-roll-container ul li img{
+    width: 100%;
+    height: 100%;
+    padding: 0.2rem;
+}
+
 
 .slot-gamepage-box-right-vertical {
     width: 100%;
