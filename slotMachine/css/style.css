@@ -80,7 +80,6 @@ small {
 }
 
 a {
-    margin: 0 0 0 10px;
     font-size: 12px;
     color: #3c3c3c;
 }
@@ -118,6 +117,10 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 
@@ -128,117 +131,352 @@ body {
 **************************************************/
 
 .slot-homepage {
-    z-index: 1;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/slotMachine/homepage-bg.png");
 }
 
-.slot-homepage .start-button {
-    width: 2.8rem;
-    height: 2.8rem;
+.slot-homepage .introduce {
+    width: 40%;
+    height: 7%;
     position: absolute;
     background-size: 100% 100%;
-    top: 70%;
+    top: 68%;
     margin: 0 auto;
     left: 50%;
-    margin-left: -1.4rem;
+    margin-left: -20%;
+    background-image: url("../images/slotMachine/introduce.png");
 }
 
-.slot-homepage .start-button-hover {}
+.slot-homepage .help {
+    width: 40%;
+    height: 7%;
+    position: absolute;
+    background-size: 100% 100%;
+    top: 78%;
+    margin: 0 auto;
+    left: 25%;
+    margin-left: -20%;
+    background-image: url("../images/slotMachine/help.png");
+}
 
+.slot-homepage .enter {
+    width: 40%;
+    height: 7%;
+    position: absolute;
+    background-size: 100% 100%;
+    top: 78%;
+    margin: 0 auto;
+    right: 5%;
+    margin-left: -20%;
+    background-image: url("../images/slotMachine/enter.png");
+}
+
+.slot-homepage .help-content {
+    width: 100%;
+    height: 100%;
+    background: red;
+    display: none;
+    position: absolute;
+    z-index: 10;
+    background-size: 100% 100%;
+    background-image: url("../images/slotMachine/help-content.png");
+}
+
+.slot-homepage .help-monkey {
+    width: 35%;
+    height: 18%;
+    position: absolute;
+    background-size: 100% 100%;
+    top: 7%;
+    margin: 0 auto;
+    left: 2%;
+    background-image: url("../images/slotMachine/help-monkey.png");
+}
+
+.slot-homepage .help-back {
+    width: 40%;
+    height: 7%;
+    position: absolute;
+    background-size: 100% 100%;
+    top: 90%;
+    margin: 0 auto;
+    left: 50%;
+    margin-left: -20%;
+    background-image: url("../images/slotMachine/help-back.png")
+}
+
+.slot-homepage .balloon-md {
+    width: 9%;
+    height: 7%;
+    position: absolute;
+    background-size: 100% 100%;
+    top: 4%;
+    background-image: url("../images/slotMachine/balloon-md.png");
+    -webkit-animation: balloon3 6s ease-in-out infinite;
+    -moz-animation: balloon3 6s ease-in-out infinite;
+    -o-animation: balloon3 6s ease-in-out infinite;
+    animation: balloon3 6s ease-in-out infinite;
+}
+
+.slot-homepage .balloon-bg {
+    width: 13%;
+    height: 10%;
+    position: absolute;
+    left: 15%;
+    background-size: 100% 100%;
+    background-image: url("../images/slotMachine/balloon-bg.png");
+    -webkit-animation: balloon1 10s ease-in-out infinite;
+    -moz-animation: balloon1 10s ease-in-out infinite;
+    -o-animation: balloon1 10s ease-in-out infinite;
+    animation: balloon1 10s ease-in-out infinite;
+}
+
+.slot-homepage .balloon-sm {
+    width: 10%;
+    height: 8%;
+    position: absolute;
+    left: 30%;
+    top: 5%;
+    background-size: 100% 100%;
+    background-image: url("../images/slotMachine/balloon-sm.png");
+    -webkit-animation: balloon2 10s ease-in-out infinite;
+    -moz-animation: balloon2 10s ease-in-out infinite;
+    -o-animation: balloon2 10s ease-in-out infinite;
+    animation: balloon2 10s ease-in-out infinite;
+}
+
+
+}
+@-webkit-keyframes balloon1 {
+    0%,
+    100% {
+        -webkit-transform: translate(0, -10px) rotate(6eg);
+    }
+    
+    50% {
+        -webkit-transform: translate(-20px, 30px) rotate(-8deg);
+    }
+}
+@keyframes balloon1 {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(6eg);
+    }
+    
+    50% {
+        transform: translate(10px, 5px) rotate(-8deg);
+    }
+}
+@-webkit-keyframes balloon2 {
+    0%,
+    100% {
+        -webkit-transform: translate(10px, -10px) rotate(-8eg);
+    }
+    
+    50% {
+        -webkit-transform: translate(-15px, 0px) rotate(10deg);
+    }
+}
+@-moz-keyframes balloon2 {
+    0%,
+    100% {
+        -moz-transform: translate(10px, -10px) rotate(-8eg);
+    }
+    
+    50% {
+        -moz-transform: translate(-15px, 0px) rotate(10deg);
+    }
+}
+@-webkit-keyframes balloon3 {
+    0%,
+    100% {
+        -webkit-transform: translateX(0) rotate(-6deg);
+    }
+    
+    50% {
+        -webkit-transform: translateX(10px) rotate(8deg);
+    }
+}
+@-moz-keyframes balloon3 {
+    0%,
+    100% {
+        -moz-transform: translateX(0) rotate(-6deg);
+    }
+    
+    50% {
+        -moz-transform: translateX(10px) rotate(8deg);
+    }
+}
 
 /**************************************************
 *
 *          游戏页面
 *
 **************************************************/
-
 .slot-gamepage,
+.slot-homepage,
 .slot-gamepage-roll-container ul li,
 .slot-gamepage-box-right-vertical,
 .slot-gamepage-lottery,
-.slot-gamepage-box-right-circle,
+.slot-gamepage-box-right-rod,
+.slot-gamepage header a:first-child,
+.slot-gamepage header a:last-child,
 .slot-gamepage-box-left {
     background-size: 100% 100%;
 }
-
 .slot-gamepage {
     position: absolute;
-    z-index: 2;
-    background-image: url("../images/slotMachine/slot-gamepage-bg.png");
+    background-image: url("../images/slotMachine/gamepage-bg.png");
 }
 
+/**
+ * 标题
+ */
+.slot-gamepage header {
+    width: 35%;
+    height: 12%;
+    top: 3%;
+    position: absolute;
+    right: 3%;
+}
+.slot-gamepage header a:first-child {
+    display: block;
+    width: 100%;
+    height: 35%;
+    background-image: url("../images/slotMachine/slot-title-a.png");
+}
+.slot-gamepage header a:last-child {
+    display: block;
+    width: 100%;
+    height: 65%;
+    background-image: url("../images/slotMachine/slot-title-b.png");
+}
+
+/**
+ * 游戏盒子
+ */
 .slot-gamepage-box {
     width: 100%;
     height: 40%;
     position: absolute;
     top: 28%;
 }
-
 .slot-gamepage-box-left {
     float: left;
     width: 85%;
     height: 100%;
-    background-image: url("../images/slotMachine/slot-gamepage-box.png");
+    background-image: url("../images/slotMachine/gamepage-box.png");
+}
+.slot-gamepage-box .box-flash {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+@-webkit-keyframes flash {
+    0% {
+        background-image: url("../images/slotMachine/gamepage-box.png");
+    }
+    
+    50% {
+        background-image: url("../images/slotMachine/gamepage-box-active.png");
+    }
+    
+    100% {
+        background-image: url("../images/slotMachine/gamepage-box.png");
+    }
+}
+@keyframes flash {
+    0% {
+        background-image: url("../images/slotMachine/gamepage-box.png");
+    }
+    
+    50% {
+        background-image: url("../images/slotMachine/gamepage-box-active.png");
+    }
+    
+    100% {
+        background-image: url("../images/slotMachine/gamepage-box.png");
+    }
+}
+.slot-gamepage-roll {
+    width: 78%;
+    height: 69%;
+    margin-left: 10%;
+    margin-top: 11%;
+}
+.slot-gamepage-roll-container {
+    width: 33.5%;
+    height: 65%;
+    margin-top: 12%;
+    overflow: hidden;
+    float: left;
+}
+.slot-gamepage-roll-container:first-child {
+    position: relative;
+    left: -0.25%;
+}
+.slot-gamepage-roll-container:nth-child(2) {
+    position: relative;
+    left: 0.1%;
+    /*left: 0.8%;*/
+}
+.slot-gamepage-roll-container:last-child {
+    position: relative;
+    left: 0.8%;
+    width: 33%;
+}
+.slot-gamepage-roll-container ul {
+    width: 100%;
+}
+.slot-gamepage-roll-container ul li {
+    width: 100%;
+    height: 3.5rem;
+}
+.slot-gamepage-roll-container ul li img {
+    width: 100%;
+    height: 100%;
+    padding: 0 0.2rem;
+}
+.slot-gamepage-roll-container ul:first-child {
+    color: red;
 }
 
+/**
+ * 滑杆按钮
+ */
 .slot-gamepage-box-right {
     width: 15%;
     height: 70%;
     float: right;
 }
-
-.slot-gamepage-roll {
-    width: 78%;
-    height: 69%;
-    margin-left: 11%;
-    margin-top: 11%;
-}
-
-.slot-gamepage-roll-container {
-    width: 33%;
-    height: 60%;
-    line-height: 60%;
-    margin-top: 15%;
-    overflow: hidden;
-    float: left;
-}
-
-.slot-gamepage-roll-container:last-child {
-    width: 34%;
-}
-
-.slot-gamepage-roll-container ul {
-    width: 100%;
-}
-
-.slot-gamepage-roll-container ul li {
-    width: 100%;
-    height: 3.5rem;
-}
-
-.slot-gamepage-roll-container ul li img{
-    width: 100%;
-    height: 100%;
-    padding: 0.2rem;
-}
-
-
 .slot-gamepage-box-right-vertical {
-    width: 100%;
+    width: 90%;
     height: 70%;
     margin-top: 120%;
     margin-left: -26%;
-    background-image: url("../images/slotMachine/slot-gamepage-vertical.png");
+    background: red;
 }
-
-.slot-gamepage-box-right-circle{
-    right: 2.6%;
-    width: 3rem;
-    top: 5%;
-    height: 3rem;
+.slot-gamepage-box-right-rod {
+    right: 3.5%;
+    width: 19%;
+    top: 19%;
+    height: 50%;
     position: absolute;
-    background-image: url("../images/slotMachine/slot-gamepage-circle.png");
+    background-image: url("../images/slotMachine/rod-top.png");
+}
+.slot-gamepage-box .rod-up {
+    top: 32%;
+    background-image: url("../images/slotMachine/rod-bottom.png");
 }
 
+/**
+ * 摇奖按钮
+ */
 .slot-gamepage-lottery {
     width: 38%;
     height: 8%;
@@ -246,10 +484,333 @@ body {
     bottom: 15%;
     left: 50%;
     margin-left: -19%;
-    background-image: url("../images/slotMachine/slot-gamepage-lottery.png");
+    background-image: url("../images/slotMachine/gamepage-lottery.png");
 }
 
-.slot-gamepage-lottery:active {
+/**************************************************
+*
+*          摇奖结果页面
+*
+**************************************************/
+.slot-reslut-paper,
+.slot-reslut-back,
+.slot-reslut-paper-gem,
+.slot-reslut .slot-reslut-paper:after,
+.slot-reslut .slot-reslut-back,
+.slot-reslut-none .slot-reslut-paper-dice,
+.slot-reslut-none .slot-reslut-paper:before,
+.slot-reslut-none .slot-reslut-paper:after,
+.slot-reslut-title,
+.slot-reslut-sign-a,
+.slot-reslut-sign-b,
+.slot-reslut-sign-c,
+.slot-reslut-monkey-left,
+.slot-reslut-monkey-middle,
+.slot-reslut-monkey-right,
+.slot-reslut-envelope {
+    background-size: 100% 100%;
+}
+.slot-gamepage-result {
+    display: none;
+    z-index: 100;
+    background-image: url("../images/slotMachine/game-result-bg.png");
+}
+
+/**
+ * 未中奖
+ */
+.slot-reslut-none {
+    width: 80%;
+    height: 52%;
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    display: none;
+}
+.slot-reslut-none .slot-reslut-paper {
+    width: 95%;
+    height: 40%;
+    margin: 0 auto;
+    background-image: url("../images/slotMachine/result/paper.png");
+}
+.slot-reslut-none .slot-reslut-paper:before {
+    content: '';
+    position: absolute;
+    z-index: 111;
+    width: 30%;
+    height: 5%;
+    top: 16%;
+    left: 35%;
+    background-image: url("../images/slotMachine/result/pity-title.png");
+}
+.slot-reslut-none .slot-reslut-paper:after {
+    content: '';
+    position: absolute;
+    z-index: 111;
+    width: 70%;
+    height: 5%;
+    top: 23%;
+    left: 15%;
+    background-image: url("../images/slotMachine/result/lose-title.png");
+}
+
+/**
+ * 骰子
+ */
+.slot-reslut-none .slot-reslut-paper-dice {
+    top: -20%;
+    position: relative;
+    margin: 0 auto;
+    width: 30%;
+    height: 55%;
+    background-image: url("../images/slotMachine/result/dice.png");
+}
+.slot-reslut-none .slot-reslut-envelope {
+    width: 100%;
+    height: 20%;
+    position: relative;
+    top: -10%;
+    background-image: url("../images/slotMachine/result/envelope-sm.png");
+}
+.slot-reslut-none .slot-reslut-back {
+    width: 55%;
+    height: 15%;
+    margin: 0 auto;
+    background-image: url("../images/slotMachine/result/lottery.png")
+}
+.slot-reslut-none .slot-reslut-title {
+    position: absolute;
+    margin-left: -20%;
+    left: 50%;
+    top: 85%;
+    width: 40%;
+    height: 5.5%;
+    background-image: url("../images/slotMachine/result/lottery-title.png");
+}
+
+/**
+ * 中奖
+ */
+.slot-reslut {
+    width: 80%;
+    height: 52%;
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    /*display: none;*/
+}
+.slot-reslut .slot-reslut-paper {
+    width: 95%;
+    height: 40%;
+    margin: 0 auto;
+    background-image: url("../images/slotMachine/result/paper.png");
+}
+.slot-reslut .slot-reslut-paper:after {
+    content: '';
+    position: absolute;
+    z-index: 111;
+    width: 84%;
+    height: 5%;
+    top: 28%;
+    margin-left: -42%;
+    left: 50%;
+    background-image: url("../images/slotMachine/result/gem-title.png")
+}
+.slot-reslut .slot-reslut-envelope {
+    width: 100%;
+    top: -5%;
+    height: 35%;
+    position: relative;
+    background-image: url("../images/slotMachine/result/envelope-bg.png");
+}
+.slot-reslut .slot-reslut-back {
+    width: 50%;
+    height: 17%;
+    margin: 0 auto;
+    background-image: url("../images/slotMachine/result/lottery.png")
+}
+.slot-reslut .slot-reslut-title {
+    position: absolute;
+    margin-left: -20%;
+    left: 50%;
+    top: 95%;
+    width: 40%;
+    height: 5.5%;
+    background-image: url("../images/slotMachine/result/lottery-title.png");
+}
+
+/**
+ * 盆子
+ */
+.slot-reslut-paper-gem {
+    display: none;
+    top: -88%;
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+    height: 150%;
+    background-image: url("../images/slotMachine/result/gem.png");
+}
+
+/**
+ * 盆子与骰子动画
+ */
+.slot-gamepage-result .bounceIn {
+    display: block;
+    -webkit-animation-name: bounceIn;
+    animation-name: bounceIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        transform: scale(.3)
+    }
+    
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+    
+    70% {
+        -webkit-transform: scale(.9);
+        transform: scale(.9)
+    }
+    
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        -ms-transform: scale(.3);
+        transform: scale(.3)
+    }
+    
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+    
+    70% {
+        -webkit-transform: scale(.9);
+        -ms-transform: scale(.9);
+        transform: scale(.9)
+    }
+    
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+/**
+ * 底部
+ */
+.slot-result-bottom {
+    width: 100%;
+    height: 35%;
+    position: relative;
+    bottom: -65%;
+    text-align: center;
+}
+.slot-result-bottom li {
+    width: 33%;
+    height: 100%;
+    float: left;
+}
+.slot-result-bottom li:last-child {
+    width: 34%;
+}
+.slot-reslut-sign-a,
+.slot-reslut-sign-b,
+.slot-reslut-sign-c {
+    width: 90%;
+    height: 40%;
+    position: relative;
+    z-index: 5;
+}
+.slot-reslut-sign-a {
+    top: 60%;
+    left: 5%;
+    background-image: url("../images/slotMachine/result/sign-a.png");
+}
+.slot-reslut-sign-b {
+    top: 60%;
+    left: 5%;
+    background-image: url("../images/slotMachine/result/sign-b.png");
+}
+.slot-reslut-sign-c {
+    top: 60%;
+    left: 5%;
+    background-image: url("../images/slotMachine/result/sign-c.png");
+}
+.slot-reslut-monkey-left,
+.slot-reslut-monkey-middle,
+.slot-reslut-monkey-right {
+    height: 38%;
+    position: relative;
+    z-index: 3;
+}
+.slot-reslut-monkey-left {
+    width: 75%;
+    top: 3%;
+    left: 15%;
+    background-image: url("../images/slotMachine/result/monkey-left.png");
+}
+.slot-reslut-monkey-middle {
+    width: 65%;
+    left: 17.5%;
+    background-image: url("../images/slotMachine/result/monkey-middle.png");
+}
+.slot-reslut-monkey-right {
+    width: 60%;
+    left: 20%;
+    top: -3%;
+    background-image: url("../images/slotMachine/result/monkey-right.png");
+}
+
+/**
+ * 猴子移动
+ */
+.slot-result-bottom .monkey-move {
+    -webkit-transition: transform 1s linear 1s;
+    -webkit-transform: translateY(-40%);
+    transition: transform 1s linear 1s;
+    transform: translateY(-40%);
+}
+.slot-result-bottom .mokey-delay-middle {
+    -webkit-transition-delay: 2s;
+    transition-delay: 2s;
+}
+.slot-result-bottom .mokey-delay-right {
+    -webkit-transition-delay: 3s;
+    transition-delay: 3s;
+}
+
+/**
+ * 按钮效果
+ * @type {[type]}
+ */
+.slot-gamepage-lottery:active,
+.slot-homepage .enter:active,
+.slot-homepage .help:active,
+.slot-homepage .help-back:active,
+.slot-reslut-back:active,
+.slot-homepage .introduce:active {
     -webkit-animation-name: pulse;
     animation-name: pulse;
     -webkit-animation-duration: 1s;
@@ -257,47 +818,46 @@ body {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
-
 @-webkit-keyframes pulse {
     from {
         -webkit-transform: scale3d(0.95, 0.95, 0.95);
         transform: scale3d(0.95, 0.95, 0.95);
     }
+    
     50% {
         -webkit-transform: scale3d(1.05, 1.05, 1.05);
         transform: scale3d(1.05, 1.05, 1.05);
     }
+    
     to {
         -webkit-transform: scale3d(0.95, 0.95, 0.95);
         transform: scale3d(0.95, 0.95, 0.95);
     }
 }
-
 @keyframes pulse {
     from {
         -webkit-transform: scale3d(0.95, 0.95, 0.95);
         transform: scale3d(0.95, 0.95, 0.95);
     }
+    
     50% {
         -webkit-transform: scale3d(1.05, 1.05, 1.05);
         transform: scale3d(1.05, 1.05, 1.05);
     }
+    
     to {
         -webkit-transform: scale3d(0.95, 0.95, 0.95);
         transform: scale3d(0.95, 0.95, 0.95);
     }
 }
-
 .pulse {
     -webkit-animation-name: pulse;
     animation-name: pulse;
 }
 
-
 /**
 * 动画样式
 */
-
 .slotMachineBlurFast {
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
@@ -306,7 +866,6 @@ body {
     filter: blur(5px);
     filter: url("data:image/svg+xml;utf8,<svg version="1.1" xmlns="http: // www.w3.org/2000/svg" width="0" height="0"><filter id="slotMachineBlurFilterFast"><feGaussianBlur stdDeviation="5" ></feGaussianBlur></filter></svg>#slotMachineBlurFilterFast");filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius="5")}
 }
-
 .slotMachineBlurMedium {
     -webkit-filter: blur(3px);
     -moz-filter: blur(3px);
@@ -315,7 +874,6 @@ body {
     filter: blur(3px);
     filter: url("data:image/svg+xml;utf8,<svg version="1.1" xmlns="http: // www.w3.org/2000/svg" width="0" height="0"><filter id="slotMachineBlurFilterMedium"><feGaussianBlur stdDeviation="3" ></feGaussianBlur></filter></svg>#slotMachineBlurFilterMedium");filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius="3")}
 }
-
 .slotMachineBlurSlow {
     -webkit-filter: blur(1px);
     -moz-filter: blur(1px);
@@ -324,7 +882,6 @@ body {
     filter: blur(1px);
     filter: url("data:image/svg+xml;utf8,<svg version="1.1" xmlns="http: // www.w3.org/2000/svg" width="0" height="0"><filter id="slotMachineBlurFilterSlow"><feGaussianBlur stdDeviation="1" ></feGaussianBlur></filter></svg>#slotMachineBlurFilterSlow");filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius="1")}
 }
-
 .slotMachineGradient {
     -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(25%, rgba(0, 0, 0, 1)), color-stop(75%, rgba(0, 0, 0, 1)), color-stop(100%, rgba(0, 0, 0, 0)));
     mask: url("data:image/svg+xml;utf8,<svg version="1.1" xmlns="http: // www.w3.org/2000/svg" width="0" height="0"><mask id="slotMachineFadeMask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><linearGradient id="slotMachineFadeGradient" gradientUnits="objectBoundingBox" x="0" y="0"><stop stop-color="white" stop-opacity="0" offset="0"></stop><stop stop-color="white" stop-opacity="1" offset="0.25"></stop><stop stop-color="white" stop-opacity="1" offset="0.75"></stop><stop stop-color="white" stop-opacity="0" offset="1"></stop></linearGradient><rect x="0" y="-1" width="1" height="1" transform="rotate(90)" fill="url(#slotMachineFadeGradient)"></rect></mask></svg>#slotMachineFadeMask");}

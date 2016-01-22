@@ -12,13 +12,27 @@
     <section class="slot-machine full-screen">
         <!-- 首页 -->
         <section class="slot-homepage full-screen">
-            <div class="start-button"></div>
+            <div class="introduce"></div>
+            <div class="help"></div>
+            <div class="enter"></div>
+            <section class="help-content">
+                <div class="help-monkey"></div>
+                <div class="balloon-md"></div>
+                <div class="balloon-bg"></div>
+                <div class="balloon-sm"></div>
+                <div class="help-back"></div>
+            </section>
         </section>
         <!-- 游戏 -->
         <div class="slot-gamepage full-screen">
+            <!-- 标题 -->
+            <header>
+                <a></a>
+                <a></a>
+            </header>
             <!-- 抽奖框 -->
             <div class="slot-gamepage-box">
-                <div class="slot-gamepage-box-left">
+                <div class="slot-gamepage-box-left box-flash">
                     <div class="slot-gamepage-roll">
                         <div id="slot-roll-1" class="slot-gamepage-roll-container"></div>
                         <div id="slot-roll-2" class="slot-gamepage-roll-container"></div>
@@ -27,11 +41,47 @@
                 </div>
                 <div class="slot-gamepage-box-right">
                     <div class="slot-gamepage-box-right-vertical"></div>
-                    <div class="slot-gamepage-box-right-circle"></div>
+                    <div class="slot-gamepage-box-right-rod"></div>
                 </div>
             </div>
             <!-- 开始按钮 -->
             <div class="slot-gamepage-lottery"></div>
+            <!-- 结果页面 -->
+            <div class="slot-gamepage-result full-screen">
+                <!-- 未中奖 -->
+                <section class="slot-reslut-none">
+                    <div class="slot-reslut-paper">
+                        <div class="slot-reslut-paper-dice"></div>
+                    </div>
+                    <div class="slot-reslut-envelope"></div>
+                    <div class="slot-reslut-back"></div>
+                    <div class="slot-reslut-title"></div>
+                </section>
+                <!-- 中奖 -->
+                <section class="slot-reslut">
+                    <div class="slot-reslut-paper">
+                        <div class="slot-reslut-paper-gem"></div>
+                    </div>
+                    <div class="slot-reslut-envelope"></div>
+                    <div class="slot-reslut-back"></div>
+                    <div class="slot-reslut-title"></div>
+                </section>
+                <!-- 底部 -->
+                <ul class="slot-result-bottom">
+                    <li>
+                        <div class="slot-reslut-sign-a"></div>
+                        <div class="slot-reslut-monkey-left"></div>
+                    </li>
+                    <li>
+                        <div class="slot-reslut-sign-b"></div>
+                        <div class="slot-reslut-monkey-middle"></div>
+                    </li>
+                    <li>
+                        <div class="slot-reslut-sign-c"></div>
+                        <div class="slot-reslut-monkey-right"></div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
     <script type="text/javascript" src="js/flexible.js"></script>
