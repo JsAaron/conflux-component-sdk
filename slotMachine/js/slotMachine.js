@@ -291,12 +291,24 @@ var SlotMachine = function() {
              */
             key: 'run',
             value: function run(options, complete) {
-                if(this.running) return;
+                if (this.running) return;
                 //成功回调
                 this._oncompleteStack.push(complete);
                 //运行游戏
                 this._run(options);
             }
+        }, {
+
+            /**
+             * 销毁
+             * @type {String}
+             */
+            key: 'destroy',
+            value: function destroy() {
+                this.$container.off();
+                this.$container.remove();
+            }
+
         }, {
             /**
              * 复位接口

@@ -33,24 +33,15 @@ function GamePage(eleName) {
     var slotNum = 3;
     var i = 1;
 
+
+    /**
+     * 创建游戏col
+     * @param  {[type]} domName [description]
+     * @return {[type]}         [description]
+     */
     function createSlot(domName) {
-        return new SlotMachine("#" + domName, {
-            fade: true, //启动图片滚动模糊感,
-            mode: 1, //用的left模式, 0/1
-            active: 0, //首页页码
-            delay: 500, //一个周期滚动的时间
-            imgUrl: [ //图片的地址，生成对应的列表，按照图片顺序排列
-                "./images/slotMachine/roll/1.png",
-                "./images/slotMachine/roll/2.png",
-                "./images/slotMachine/roll/3.png",
-                "./images/slotMachine/roll/1.png",
-                "./images/slotMachine/roll/2.png",
-                "./images/slotMachine/roll/3.png"
-            ]
-        })
+        return new SlotMachine("#" + domName, slotGames.conf.games)
     }
-
-
     for (; i <= slotNum; i++) {
         slots.push(createSlot("slot-roll-" + i))
     }
@@ -109,6 +100,18 @@ function GamePage(eleName) {
 
 
     /**
+     * 控制老虎机动作
+     * @param  {[type]} action [description]
+     * @return {[type]}        [description]
+     */
+    function slotsAction(action) {
+        slots.forEach(function(slot) {
+            slot[action] && slot[action]()
+        });
+    }
+
+
+    /**
      * 动作恢复
      * @return {[type]} [description]
      */
@@ -116,17 +119,45 @@ function GamePage(eleName) {
         $rod.removeClass("rod-up");
         $box.removeClass("box-flash");
         gameComplete = createFn();
-        slots.forEach(function(slot) {
-            slot.reset()
-        });
+        slotsAction("reset")
     }
+
+    /**
+     * 状态对象
+     * @type {Object}
+     */
+    var _data = {}
+    var collect = utils.createClass({}, [{
+        key: 'state',
+        set: function(value) {
+            getState.request = false;
+            _data.state = value;
+        },
+        get: function() {
+            console.log(1)
+            return _data.state;
+        }
+    }])
+    
+    /**
+     * 获取状态
+     * @return {[type]} [description]
+     */
+    function getState() {
+        if (!getState.request) {
+            getState.request = true;
+            slotGames.conf.request(collect);
+        }
+    }
+
+    getState();
 
 
     /**
-     * 按钮
-     * 开始摇奖
+     * 开始游戏
+     * @return {[type]} [description]
      */
-    $lottery.on(utils.END_EV, function() {
+    function stateGame() {
         //增加动作
         $rod.addClass("rod-up");
         $box.addClass("box-flash");
@@ -140,6 +171,21 @@ function GamePage(eleName) {
         setTimeout(function() {
             slots[2].run(config[2], gameComplete);
         }, 1000);
+    }
+
+    /**
+     * 按钮
+     * 开始摇奖
+     */
+    $lottery.on(utils.END_EV, function() {
+        console.log(collect.state)
+        //如果请求未提交
+        if(void 0 == collect.state){
+            getState();
+            return;
+        }
+        alert(1)
+        stateGame();
     })
 
 
@@ -168,6 +214,18 @@ function GamePage(eleName) {
      */
     this.watch = function(name, fn) {
         _events.push(fn)
+    }
+
+
+    /**
+     * 销毁
+     * @return {[type]} [description]
+     */
+    this.destroy = function() {
+        $lottery.off();
+        $header.off();
+        $reslutBack.off();
+        slotsAction("destroy")
     }
 
     this.show();
@@ -288,10 +346,8 @@ function GamePage(eleName) {
      */
     function resultPage(state, gameCount) {
 
-        var title = gameCount 
-            ? "你今天还有剩下" + gameCount + "次机会"
-            : "3次抽奖结束"
- 
+        var title = gameCount ? "你今天还有剩下" + gameCount + "次机会" : "3次抽奖结束"
+
         var $p = appendTitle(title)
 
         //显示内容页面

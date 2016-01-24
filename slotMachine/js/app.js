@@ -1,15 +1,13 @@
 /**
- * 老虎机主题
- * @param  {[type]} ) {                   GamePage();} [description]
- * @return {[type]}   [description]
+ * 游戏开始
+ * @return {[type]} [description]
  */
-$(function() {
+function slotGames() {
 
-    var $hmoepage    = $(".slot-homepage")
-    var $enter       = $hmoepage.find(".enter");
-    var $help        = $hmoepage.find(".help");
+    var $hmoepage = $(".slot-homepage");
     var $helpContent = $(".help-content");
-    var gameObj      = null;
+    var $enter = $hmoepage.find(".enter");
+    var $help = $hmoepage.find(".help");
 
     /**
      * 活动介绍
@@ -25,37 +23,34 @@ $(function() {
 
 
     /**
-     * 游戏配置
-     * @type {Object}
-     */
-    var gameConfig = {
-
-    }
-
-
-    /**
      * 进入游戏                         
      * @return {[type]}   [description]
      */
     $enter.on(utils.END_EV, function(e) {
         //隐藏主页
         $hmoepage.hide();
-        //新建
-        if (!gameObj) {
-            gameObj = new GamePage(".slot-gamepage");
-            //退出游戏
-            gameObj.watch("exit", function() {
-                $hmoepage.show();
-                gameObj.resetGame();
-            })
-        } else {
-            //对象存在
-            gameObj.show()
-        }
+        //游戏页面
+        var gameObj = new GamePage(".slot-gamepage");
+        //退出游戏
+        gameObj.watch("exit", function() {
+            $hmoepage.show();
+            gameObj.destroy();
+        })
         return false;
     });
 
 
-    // $enter.trigger(utils.END_EV)
+    $enter.trigger(utils.END_EV)
 
+}
+
+
+
+/**
+ * 老虎机主题
+ * @param  {[type]} ) {                   GamePage();} [description]
+ * @return {[type]}   [description]
+ */
+$(function() {
+    slotGames();
 })
