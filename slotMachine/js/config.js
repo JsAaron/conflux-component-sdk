@@ -21,12 +21,12 @@ slotGames.conf = {
         fade: true,
         /**
          * 模式
-         * 1 常规修改magin-top的方式
-         * 2 css3 transform模式
+         * 0 常规修改magin-top的方式
+         * 1 css3 transform模式
          * 如果不选,默认会根据支持度切换
          * @type {Number}
          */
-        mode: 1,
+        mode: 0,
         /**
          * 一个周期滚动的时间
          * @type {Number}
@@ -36,7 +36,7 @@ slotGames.conf = {
          * 图片的地址，生成对应的列表，按照图片顺序排列
          * @type {Array}
          */
-        imgUrl: [ 
+        imgUrl: [
             "./images/slotMachine/roll/1.png",
             "./images/slotMachine/roll/2.png",
             "./images/slotMachine/roll/3.png",
@@ -50,6 +50,11 @@ slotGames.conf = {
          * @type {Number}
          */
         active: 0,
+        /**
+         * 圈数
+         * @type {Number}
+         */
+        rotate: 10
     },
     /**
      * 每次执行游戏需要发送的请求
@@ -66,8 +71,8 @@ slotGames.conf = {
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state = true
-            res.active = 2
+            res.state = false
+            res.active = 1
         }, 1000)
     }
 }

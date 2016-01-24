@@ -414,7 +414,7 @@ body {
 .slot-gamepage-roll-container {
     width: 33.5%;
     height: 65%;
-    margin-top: 12%;
+    margin-top: 13%;
     overflow: hidden;
     float: left;
 }
@@ -759,6 +759,7 @@ body {
  * 盆子与骰子动画
  */
 .slot-gamepage-result .bounceIn {
+    display: block;
     -webkit-animation-name: bounceIn;
     animation-name: bounceIn;
     -webkit-animation-duration: 1s;

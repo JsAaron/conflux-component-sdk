@@ -4,10 +4,10 @@
  */
 function slotGames() {
 
-    var $hmoepage = $(".slot-homepage");
+    var $hmoepage    = $(".slot-homepage");
     var $helpContent = $(".help-content");
-    var $enter = $hmoepage.find(".enter");
-    var $help = $hmoepage.find(".help");
+    var $enter       = $hmoepage.find(".enter");
+    var $help        = $hmoepage.find(".help");
 
     /**
      * 活动介绍
@@ -48,7 +48,6 @@ function slotGames() {
 
 /**
  * 老虎机主题
- * @param  {[type]} ) {                   GamePage();} [description]
  * @return {[type]}   [description]
  */
 $(function() {

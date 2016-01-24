@@ -11,22 +11,22 @@ function GamePage(eleName) {
         return $gamePage.find(className)
     }
 
-    var $rod           = findele(".slot-gamepage-box-right-rod");
-    var $box           = findele(".slot-gamepage-box-left");
-    var $lottery       = findele(".slot-gamepage-lottery");
-    var $resultPage    = findele(".slot-gamepage-result");
-    var $monkeyLeft    = findele(".slot-reslut-monkey-left");
-    var $monkeyMiddle  = findele(".slot-reslut-monkey-middle");
-    var $monkeyRight   = findele(".slot-reslut-monkey-right");
-    var $gem           = findele(".slot-reslut-paper-gem");
-    var $dice          = findele(".slot-reslut-paper-dice");
-    var $reslutBack    = findele(".slot-reslut-back");
+    var $rod = findele(".slot-gamepage-box-right-rod");
+    var $box = findele(".slot-gamepage-box-left");
+    var $lottery = findele(".slot-gamepage-lottery");
+    var $resultPage = findele(".slot-gamepage-result");
+    var $monkeyLeft = findele(".slot-reslut-monkey-left");
+    var $monkeyMiddle = findele(".slot-reslut-monkey-middle");
+    var $monkeyRight = findele(".slot-reslut-monkey-right");
+    var $gem = findele(".slot-reslut-paper-gem");
+    var $dice = findele(".slot-reslut-paper-dice");
+    var $reslutBack = findele(".slot-reslut-back");
     var $resultLottery = findele(".slot-reslut");
-    var $resultNone    = findele(".slot-reslut-none");
-    var $envelope      = findele(".slot-reslut-envelope");
-    var $header        = findele("header");
+    var $resultNone = findele(".slot-reslut-none");
+    var $envelope = findele(".slot-reslut-envelope");
+    var $header = findele("header");
 
-    var gameCount = 3; //游戏次数
+    var gameCount = slotGames.conf.count; //游戏次数
     var gameComplete;
     var _events = [];
     var slots = []; //实例
@@ -51,28 +51,81 @@ function GamePage(eleName) {
      * 随机
      * @return {[type]} [description]
      */
-    function random(n) {
-        return Math.floor(Math.random() * n);
+    var randomOrder = [];
+
+    function random(len) {
+        //计算随机
+        var calculate = function() {
+            return Math.floor(Math.random() * len);
+        }
+        for (var i = 0, len; i < len; i++) {
+            var order = calculate();
+            if (randomOrder.length > 0) {
+                while (jQuery.inArray(order, randomOrder) > -1) {
+                    order = calculate(len) //如果重复了，再次随机,直到每一个都唯一
+                }
+            }
+            randomOrder.push(order);
+        }
+        return randomOrder;
     }
 
 
     /**
-     * 配置文件
-     * rotate 转动的圈数
-     * active 停留的目标位置(img的索引)
+     * 默认配置文件
      * @type {Array}
      */
-    var config = [{
-        rotate: 6,
-        active: 2,
-    }, {
-        rotate: 6,
-        active: 2,
-    }, {
-        rotate: 6,
-        active: 2
-    }]
+    var config = [];
+    var actives = random(3);
+    actives.forEach(function(active,index){
+        config[index] = {
+            rotate :slotGames.conf.games.rotate,
+            active :active
+        }
+    })
 
+
+    /**
+     * 状态对象
+     * @type {Object}
+     */
+    var _data = {}
+    var collect = utils.createClass({}, [{
+        key: 'state',
+        set: function(state) {
+            getState.request = false;
+            _data.state = state;
+            updateConf();
+            if (stateGame.click) {
+                stateGame();
+            }
+        },
+        get: function() {
+            return _data.state;
+        }
+    }, {
+        key: 'active',
+        set: function(value) {
+            _data.active = value;
+            updateConf(value); //更新配置文件
+        },
+        get: function() {
+            return _data.active;
+        }
+    }])
+
+
+    /**
+     * 更新配置文件
+     * @return {[type]} [description]
+     */
+    function updateConf() {
+        if (collect.state && collect.active) { //成功
+           config.forEach(function(data){
+                data.active = collect.active
+           })
+        }
+    }
 
     /**
      * 构建完成函数
@@ -86,9 +139,8 @@ function GamePage(eleName) {
                 setTimeout(function() {
                     stateGame.state = false;
                     --gameCount;
-                    var result = false;
-                    resultPage(result, gameCount);
-                }, 500)
+                    resultPage(collect.state, gameCount);
+                }, 800)
             }
         }
     }
@@ -123,25 +175,7 @@ function GamePage(eleName) {
         slotsAction("reset")
     }
 
-    /**
-     * 状态对象
-     * @type {Object}
-     */
-    var _data = {}
-    var collect = utils.createClass({}, [{
-        key: 'state',
-        set: function(value) {
-            getState.request = false;
-            _data.state = value;
-            if(stateGame.click){
-                stateGame();
-            }
-        },
-        get: function() {
-            return _data.state;
-        }
-    }])
-    
+
     /**
      * 获取状态
      * @return {[type]} [description]
@@ -161,23 +195,23 @@ function GamePage(eleName) {
      * @return {[type]} [description]
      */
     function stateGame() {
-        if(stateGame.state){
+        if (stateGame.state) {
             return;
         }
-        stateGame.state = true
+        stateGame.state = true;
         //增加动作
         $rod.addClass("rod-up");
         $box.addClass("box-flash");
         //运行
         setTimeout(function() {
             slots[0].run(config[0], gameComplete);
-        }, 300);
+        }, 500);
         setTimeout(function() {
             slots[1].run(config[1], gameComplete);
-        }, 600);
+        }, 1000);
         setTimeout(function() {
             slots[2].run(config[2], gameComplete);
-        }, 1000);
+        }, 1500);
     }
 
     /**
@@ -186,7 +220,7 @@ function GamePage(eleName) {
      */
     $lottery.on("click", function() {
         //如果请求未提交
-        if(void 0 == collect.state){
+        if (void 0 == collect.state) {
             stateGame.click = true;
             return;
         }
