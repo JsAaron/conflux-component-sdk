@@ -84,6 +84,7 @@ function GamePage(eleName) {
             --count;
             if (!count) {
                 setTimeout(function() {
+                    stateGame.state = false;
                     --gameCount;
                     var result = false;
                     resultPage(result, gameCount);
@@ -132,9 +133,11 @@ function GamePage(eleName) {
         set: function(value) {
             getState.request = false;
             _data.state = value;
+            if(stateGame.click){
+                stateGame();
+            }
         },
         get: function() {
-            console.log(1)
             return _data.state;
         }
     }])
@@ -158,6 +161,10 @@ function GamePage(eleName) {
      * @return {[type]} [description]
      */
     function stateGame() {
+        if(stateGame.state){
+            return;
+        }
+        stateGame.state = true
         //增加动作
         $rod.addClass("rod-up");
         $box.addClass("box-flash");
@@ -177,14 +184,12 @@ function GamePage(eleName) {
      * 按钮
      * 开始摇奖
      */
-    $lottery.on(utils.END_EV, function() {
-        console.log(collect.state)
+    $lottery.on("click", function() {
         //如果请求未提交
         if(void 0 == collect.state){
-            getState();
+            stateGame.click = true;
             return;
         }
-        alert(1)
         stateGame();
     })
 
