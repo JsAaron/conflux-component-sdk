@@ -306,7 +306,7 @@ function GamePage(eleName) {
         //弹跳动画
         setTimeout(function() {
             bounceIn(state)
-        }, 1500);
+        }, 1000);
 
         //猴子动画
         setTimeout(function() {

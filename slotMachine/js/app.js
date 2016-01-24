@@ -37,7 +37,7 @@ $(function() {
      * 进入游戏                         
      * @return {[type]}   [description]
      */
-    $enter.on(utils.END_EV, function() {
+    $enter.on(utils.END_EV, function(e) {
         //隐藏主页
         $hmoepage.hide();
         //新建
@@ -52,6 +52,7 @@ $(function() {
             //对象存在
             gameObj.show()
         }
+        return false;
     });
 
 

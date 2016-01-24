@@ -554,10 +554,10 @@ body {
     content: '';
     position: absolute;
     z-index: 111;
-    width: 70%;
+    width: 80%;
     height: 5%;
     top: 23%;
-    left: 15%;
+    left: 10%;
     background-image: url("../images/slotMachine/result/lose-title.png");
 }
 
