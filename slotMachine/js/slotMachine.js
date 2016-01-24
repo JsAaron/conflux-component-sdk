@@ -45,7 +45,7 @@ var SlotMachine = function() {
      * @type {Object}
      */
     var defaults = {
-            mode:1, //0:left 1:css3
+            mode: 1, //0:left 1:css3
             fade: true, //模糊度
             active: 0, //选中的元素
             delay: 200, // 动画延时
@@ -84,9 +84,10 @@ var SlotMachine = function() {
      * @return {[type]} [description]
      */
     function createli(imgUrl, height) {
+        height = Math.ceil(height)
         var str = '';
         imgUrl.forEach(function(url, index) {
-            str += '<li style="height:' + height + 'px;background-image:url(' + url + ');"></li>';
+            str += '<li style="height:' + height + 'px;">' + '<img src="' + url + '";></img>' + '</li>';
         })
         return str;
     }
@@ -103,15 +104,14 @@ var SlotMachine = function() {
 
         //自动模式选择
         //默认用css3
-        if ((!options.mode && !utils.style.transform) 
-            || (options.mode && !utils.style.transform)) {
+        if ((!options.mode && !utils.style.transform) || (options.mode && !utils.style.transform)) {
             this.settings.mode = 0
         }
 
         //jQuery元素
         this.$slot = $(slot);
 
-        var structure = '<ul>' + createli(options.imgUrl, this.$slot.height()) + '</ul>'
+        var structure = '<ul>' + createli(options.imgUrl, this.$slot.outerHeight()) + '</ul>'
         var $structure = $(structure);
 
         //溢出包裹元素
@@ -128,6 +128,9 @@ var SlotMachine = function() {
         //前后节点
         this._$slotRollsFirst = null;
         this._$slotRollsLast = null;
+
+        //回调
+        this._oncompleteStack = [];
 
         //溢出高度
         this._maxTop = -this.$container.height();
@@ -199,21 +202,12 @@ var SlotMachine = function() {
                 };
             }
         }, {
-            /**
-             * 运行游戏
-             * rotate 圈速
-             * active 期望的目标
-             * complete 完成回调
-             * @type {String}
-             */
-            key: 'run',
-            value: function run(options) {
+            key: '_run',
+            value: function _run(options) {
                 options = options || {};
                 var self = this;
                 var rotate = options.rotate,
-                    complete = options.complete,
                     active = options.active;
-
                 //旋转衔接延时
                 var delay = this.settings.delay;
 
@@ -253,10 +247,10 @@ var SlotMachine = function() {
                     self._activeTop = self.getOffset(self.active)
 
                     if (rotate - 1 <= 0) {
-                         self.stop();
+                        self.stop();
                     } else {
                         setTimeout(function() {
-                            self.run({
+                            self._run({
                                 rotate: rotate - 1,
                                 active: active
                             });
@@ -273,11 +267,11 @@ var SlotMachine = function() {
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'linear',
                         transitionDuration: delay + "ms"
-                    }).one(utils.style.transitionEnd, function(){
+                    }).one(utils.style.transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
                     })
-           
+
                 } else {
                     //坐标动画
                     this.$container.animate({
@@ -287,7 +281,41 @@ var SlotMachine = function() {
                     }.bind(this));
                 }
             }
-        },  {
+        }, {
+            /**
+             * 运行游戏
+             * rotate 圈速
+             * active 期望的目标
+             * complete 完成回调
+             * @type {String}
+             */
+            key: 'run',
+            value: function run(options, complete) {
+                if(this.running) return;
+                //成功回调
+                this._oncompleteStack.push(complete);
+                //运行游戏
+                this._run(options);
+            }
+        }, {
+            /**
+             * 复位接口
+             * @type {String}
+             */
+            key: 'reset',
+            value: function reset() {
+                if (!this.running) {
+                    return;
+                }
+                this.reseting = true;
+                //停止动画队列
+                this.$container.clearQueue().stop(true, false);
+                this.$container.css(utils.style.transitionDuration, "")
+                this._activeTop = this.direction.initial;
+                this._animationFX = FX_STOP;
+                this.running = false;
+            }
+        }, {
             /**
              * 反弹处理
              * @type {String}
@@ -298,7 +326,7 @@ var SlotMachine = function() {
                 this._animationFX = FX_SLOW;
                 this.running = true;
                 this.stopping = true;
-                
+
                 var self = this;
 
                 //设定一个延时
@@ -309,6 +337,10 @@ var SlotMachine = function() {
                     self.stopping = false;
                     self.running = false;
                     self.futureActive = null;
+                    var cb;
+                    while (cb = self._oncompleteStack.shift()) {
+                        cb();
+                    }
                 }
 
                 if (this.settings.mode) {
@@ -319,16 +351,16 @@ var SlotMachine = function() {
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'ease',
                         transitionDuration: delay + "ms"
-                    }).one(utils.style.transitionEnd, function(){
+                    }).one(utils.style.transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
                     })
-                }else{
+                } else {
                     this.$container.animate({
                         marginTop: this.getOffset(this.futureActive)
                     }, delay, 'easeOutBounce', (function cb() {
                         _complete();
-                    }).bind(this));                    
+                    }).bind(this));
                 }
 
                 //关闭模糊
@@ -388,7 +420,7 @@ var SlotMachine = function() {
                     this._active = 0;
                 }
             }
-        },  {
+        }, {
             /**
              *【指令】
              * 随机算法
