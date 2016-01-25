@@ -37,52 +37,25 @@ var utils = (function() {
     var SUPPORT_TOUCH = ('ontouchstart' in window);
 
     me.extend(me, {
-        RESIZE_EV: 'onorientationchange' in window ? 'orientationchange' : 'resize',
-        START_EV: SUPPORT_TOUCH ? 'touchstart' : 'mousedown',
-        MOVE_EV: SUPPORT_TOUCH ? 'touchmove' : 'mousemove',
-        END_EV: SUPPORT_TOUCH ? 'touchend' : 'mouseup',
-        CANCEL_EV: SUPPORT_TOUCH ? 'touchcancel' : 'mouseup',
-        hasTransform: _transform !== false,
-        hasPerspective: _prefixStyle('perspective') in _elementStyle,
-        hasTouch: SUPPORT_TOUCH,
-        hasPointer: window.PointerEvent || window.MSPointerEvent, // IE10 is prefixed
-        hasTransition: _prefixStyle('transition') in _elementStyle
+        RESIZE_EV      : 'onorientationchange' in window ? 'orientationchange' : 'resize',
+        START_EV       : SUPPORT_TOUCH ? 'touchstart' : 'mousedown',
+        MOVE_EV        : SUPPORT_TOUCH ? 'touchmove' : 'mousemove',
+        END_EV         : SUPPORT_TOUCH ? 'touchend' : 'mouseup',
+        CANCEL_EV      : SUPPORT_TOUCH ? 'touchcancel' : 'mouseup',
+        hasTransform   : _transform !== false,
+        hasPerspective : _prefixStyle('perspective') in _elementStyle,
+        hasTouch       : SUPPORT_TOUCH,
+        hasPointer     : window.PointerEvent || window.MSPointerEvent, // IE10 is prefixed
+        hasTransition  : _prefixStyle('transition') in _elementStyle
     });
-
-    (function() {
-        var vendors, TRANSITION_END_NAMES, ANIMATION_END_NAMES;
-        vendors = _prefixStyle('animation'),
-            TRANSITION_END_NAMES = {
-                "moz": "transitionend",
-                "webkit": "webkitTransitionEnd",
-                "ms": "MSTransitionEnd",
-                "o": "oTransitionEnd"
-            }
-        ANIMATION_END_NAMES = {
-            "moz": "animationend",
-            "webkit": "webkitAnimationEnd",
-            "ms": "MSAnimationEnd",
-            "o": "oAnimationEnd"
-        };
-
-        if (!vendors) return;
-        vendors = vendors.split('-');
-        if (!vendors[1]) return;
-
-        TRANSITION_END = TRANSITION_END_NAMES[vendors[1]];
-        ANIMATION_END = ANIMATION_END_NAMES[vendors[1]];
-        KEYFRAMES = '@-' + vendors[1] + '-keyframes ';
-    })();
 
 
     me.extend(me.style = {}, {
-        animationEnd: ANIMATION_END,
-        transitionEnd: TRANSITION_END,
-        transform: _transform,
-        transitionTimingFunction: _prefixStyle('transitionTimingFunction'),
-        transitionDuration: _prefixStyle('transitionDuration'),
-        transitionDelay: _prefixStyle('transitionDelay'),
-        transformOrigin: _prefixStyle('transformOrigin')
+        transform                : _transform,
+        transitionTimingFunction : _prefixStyle('transitionTimingFunction'),
+        transitionDuration       : _prefixStyle('transitionDuration'),
+        transitionDelay          : _prefixStyle('transitionDelay'),
+        transformOrigin          : _prefixStyle('transformOrigin')
     });
 
     /**

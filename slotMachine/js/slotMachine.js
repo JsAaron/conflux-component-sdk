@@ -5,6 +5,8 @@
  */
 var SlotMachine = function() {
 
+    var transitionEnd = "webkitTransitionEnd transitionEnd"
+
     /**
      * requestAnimationFrame
      * @type {[type]}
@@ -242,11 +244,12 @@ var SlotMachine = function() {
                     var transform = utils.style.transform;
                     var transitionTimingFunction = utils.style.transitionTimingFunction;
                     var transitionDuration = utils.style.transitionDuration;
+        
                     this.$container.css({
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'linear',
                         transitionDuration: duration + "ms"
-                    }).one(utils.style.transitionEnd, function() {
+                    }).one(transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
                     })
@@ -349,7 +352,7 @@ var SlotMachine = function() {
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'ease',
                         transitionDuration: duration + "ms"
-                    }).one(utils.style.transitionEnd, function() {
+                    }).one(transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
                     })

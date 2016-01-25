@@ -155,8 +155,6 @@ body {
 
 .slot-music-rotate {
     -webkit-animation: spin 6s linear infinite;
-    -moz-animation: spin 6s linear infinite;
-    -o-animation: spin 6s linear infinite;
     animation: spin 6s linear infinite;
 }
 
@@ -282,8 +280,6 @@ body {
     top: 4%;
     background-image: url("../images/slotMachine/balloon-md.png");
     -webkit-animation: balloon3 6s ease-in-out infinite;
-    -moz-animation: balloon3 6s ease-in-out infinite;
-    -o-animation: balloon3 6s ease-in-out infinite;
     animation: balloon3 6s ease-in-out infinite;
 }
 
@@ -295,8 +291,6 @@ body {
     background-size: 100% 100%;
     background-image: url("../images/slotMachine/balloon-bg.png");
     -webkit-animation: balloon1 10s ease-in-out infinite;
-    -moz-animation: balloon1 10s ease-in-out infinite;
-    -o-animation: balloon1 10s ease-in-out infinite;
     animation: balloon1 10s ease-in-out infinite;
 }
 
@@ -309,8 +303,6 @@ body {
     background-size: 100% 100%;
     background-image: url("../images/slotMachine/balloon-sm.png");
     -webkit-animation: balloon2 10s ease-in-out infinite;
-    -moz-animation: balloon2 10s ease-in-out infinite;
-    -o-animation: balloon2 10s ease-in-out infinite;
     animation: balloon2 10s ease-in-out infinite;
 }
 
@@ -326,16 +318,6 @@ body {
         -webkit-transform: translate(-20px, 30px) rotate(-8deg);
     }
 }
-@keyframes balloon1 {
-    0%,
-    100% {
-        transform: translate(0, 0) rotate(6eg);
-    }
-    
-    50% {
-        transform: translate(10px, 5px) rotate(-8deg);
-    }
-}
 @-webkit-keyframes balloon2 {
     0%,
     100% {
@@ -344,16 +326,6 @@ body {
     
     50% {
         -webkit-transform: translate(-15px, 0px) rotate(10deg);
-    }
-}
-@-moz-keyframes balloon2 {
-    0%,
-    100% {
-        -moz-transform: translate(10px, -10px) rotate(-8eg);
-    }
-    
-    50% {
-        -moz-transform: translate(-15px, 0px) rotate(10deg);
     }
 }
 @-webkit-keyframes balloon3 {
@@ -366,16 +338,7 @@ body {
         -webkit-transform: translateX(10px) rotate(8deg);
     }
 }
-@-moz-keyframes balloon3 {
-    0%,
-    100% {
-        -moz-transform: translateX(0) rotate(-6deg);
-    }
-    
-    50% {
-        -moz-transform: translateX(10px) rotate(8deg);
-    }
-}
+
 
 /**************************************************
 *
@@ -957,7 +920,7 @@ body {
  * 猴子移动
  */
 .slot-result-bottom .monkey-move {
-    -webkit-transition: transform 1s linear 1s;
+    -webkit-transition: -webkit-transform 1s linear 1s;
     -webkit-transform: translateY(-40%);
     transition: transform 1s linear 1s;
     transform: translateY(-40%);
