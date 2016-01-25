@@ -31,7 +31,7 @@ slotGames.conf = {
          * 一个周期滚动的时间
          * @type {Number}
          */
-        duration: 500,
+        duration: 100,
         /**
          * 图片的地址，生成对应的列表，按照图片顺序排列
          * @type {Array}
@@ -64,16 +64,16 @@ slotGames.conf = {
      *
      * res.active 
      *   可以设置游戏停留的图片停留的目标图片
-     *   从0开始索引
-     *  
+     *   从1开始索引
+     *
      * @return {[type]} [description]
      */
     request: function(res) {
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state = false
-            res.active = 1
+            res.state  = true
+            res.active = 2  //1,2,3
         }, 1000)
     }
 }

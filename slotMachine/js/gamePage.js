@@ -11,21 +11,21 @@ function GamePage(eleName) {
         return $gamePage.find(className)
     }
 
-    var $rod           = findele(".slot-gamepage-box-right-rod");
-    var $box           = findele(".slot-gamepage-box-left");
-    var $lottery       = findele(".slot-gamepage-lottery");
-    var $resultPage    = findele(".slot-gamepage-result");
-    var $monkeyLeft    = findele(".slot-reslut-monkey-left");
-    var $monkeyMiddle  = findele(".slot-reslut-monkey-middle");
-    var $monkeyRight   = findele(".slot-reslut-monkey-right");
-    var $gem           = findele(".slot-reslut-paper-gem");
-    var $dice          = findele(".slot-reslut-paper-dice");
-    var $reslutBack    = findele(".slot-reslut-back");
+    var $rod = findele(".slot-gamepage-box-right-rod");
+    var $box = findele(".slot-gamepage-box-left");
+    var $lottery = findele(".slot-gamepage-lottery");
+    var $resultPage = findele(".slot-gamepage-result");
+    var $monkeyLeft = findele(".slot-reslut-monkey-left");
+    var $monkeyMiddle = findele(".slot-reslut-monkey-middle");
+    var $monkeyRight = findele(".slot-reslut-monkey-right");
+    var $gem = findele(".slot-reslut-paper-gem");
+    var $dice = findele(".slot-reslut-paper-dice");
+    var $reslutBack = findele(".slot-reslut-back");
     var $resultLottery = findele(".slot-reslut");
-    var $resultNone    = findele(".slot-reslut-none");
-    var $envelope      = findele(".slot-reslut-envelope");
-    var $header        = findele("header");
-    
+    var $resultNone = findele(".slot-reslut-none");
+    var $envelope = findele(".slot-reslut-envelope");
+    var $header = findele("header");
+
     var gameCount = slotGames.conf.count; //游戏次数
     var gameComplete;
     var _events = [];
@@ -75,7 +75,7 @@ function GamePage(eleName) {
      * 构建完成函数
      * @return {[type]}          [description]
      */
-     var createFn = function() {
+    var createFn = function() {
         var count = slotNum;
         return function() {
             --count;
@@ -98,23 +98,26 @@ function GamePage(eleName) {
 
     /**
      * 默认配置文件
+     * 随机页面
      * @type {Array}
      */
     var config = [];
     var actives = random(3);
-    actives.forEach(function(active,index){
+    actives.forEach(function(active, index) {
         config[index] = {
-            rotate   : slotGames.conf.games.rotate, //转动圈数
-            active   : active //停留页面
-            // delay    : index * 1000 //动画延时
+            rotate: slotGames.conf.games.rotate, //转动圈数
+            active: active //停留页面
+                // delay    : index * 1000 //动画延时
         }
     })
+
 
     /**
      * 状态对象
      * @type {Object}
      */
     var _data = {};
+    var _nectfn = false;
     var collect = utils.createClass({}, [{
         key: 'state',
         set: function(state) {
@@ -122,7 +125,16 @@ function GamePage(eleName) {
             _data.state = state;
             updateConf();
             if (stateGame.click) {
-                stateGame();
+                stateGame.click = null;
+                if (state) { //如果是成功页面
+                    if (collect.active) {
+                        stateGame()
+                    } else {
+                        _nectfn = true;
+                    }
+                } else {
+                    stateGame();
+                }
             }
         },
         get: function() {
@@ -132,7 +144,11 @@ function GamePage(eleName) {
         key: 'active',
         set: function(value) {
             _data.active = value;
-            updateConf(value); //更新配置文件
+            updateConf(); //更新配置文件
+            if(_nectfn){
+                stateGame();
+                _nectfn =false;
+            }
         },
         get: function() {
             return _data.active;
@@ -144,11 +160,11 @@ function GamePage(eleName) {
      * 更新配置文件
      * @return {[type]} [description]
      */
-    function updateConf() {
+    function updateConf(value) {
         if (collect.state && collect.active) { //成功
-           config.forEach(function(data){
-                data.active = collect.active
-           })
+            actives.forEach(function(active, index) {
+                config[index]['active'] = collect.active;
+            })
         }
     }
 
@@ -158,10 +174,10 @@ function GamePage(eleName) {
      * @param  {[type]} action [description]
      * @return {[type]}        [description]
      */
-    function slotsAction(action, options) {
+    function slotsAction(action, flag) {
         slots.forEach(function(slot, index) {
-            if (options) {
-                slot[action] && slot[action](options[index], gameComplete)
+            if (flag) {
+                slot[action] && slot[action](config[index], gameComplete)
             } else {
                 slot[action] && slot[action]()
             }
@@ -187,6 +203,7 @@ function GamePage(eleName) {
      */
     function getState() {
         if (!getState.request) {
+            //如果发送了请求
             getState.request = true;
             slotGames.conf.request(collect);
         }
@@ -208,7 +225,7 @@ function GamePage(eleName) {
         $rod.addClass("rod-up");
         $box.addClass("box-flash");
         //运行
-        slotsAction("run", config)
+        slotsAction("run", true)
     }
 
     /**
@@ -221,6 +238,13 @@ function GamePage(eleName) {
             stateGame.click = true;
             return;
         }
+
+        //如果还有数据在情况
+        if (getState.request) {
+            stateGame.click = true;
+            return
+        }
+
         stateGame();
     })
 
@@ -344,7 +368,7 @@ function GamePage(eleName) {
      * @return {[type]}      [descriptions]
      */
     $reslutBack.on(utils.END_EV, function(e) {
-        if(!gameCount)return;
+        if (!gameCount) return;
         e.stopPropagation();
         setTimeout(function() {
             $resultPage.hide();
@@ -376,6 +400,19 @@ function GamePage(eleName) {
         return $p;
     }
 
+
+    /**
+     * 礼品出现
+     * @return {[type]} [description]
+     */
+    var gift = function(active) {
+        var $gift = $(".slot-gift")
+        var element = $gift.find(".slot-gift-" + active)
+        setTimeout(function(){
+            element.show();
+        },2000)
+    }
+
     /**
      * 结果页面
      * @return {[type]} [description]
@@ -391,6 +428,15 @@ function GamePage(eleName) {
 
         //显示结果页面
         resultBg(state);
+
+        /**
+         * 奖品处理
+         * active 对应奖品图片的标记
+         */
+        var active = collect.active;
+        if (state && void 0 != active) {
+            gift(active);
+        }
 
         //游戏复位
         setTimeout(function() {

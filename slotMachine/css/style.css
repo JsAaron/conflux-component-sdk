@@ -339,7 +339,6 @@ body {
     }
 }
 
-
 /**************************************************
 *
 *          游戏页面
@@ -544,6 +543,7 @@ body {
 }
 .slot-gamepage-result {
     display: none;
+    
     z-index: 80;
 }
 .slot-gamepage .slot-gamepage-result-bg {
@@ -765,6 +765,29 @@ body {
     height: 5.5%;
     background-image: url("../images/slotMachine/result/lottery-title.png");
 }
+
+/**
+ * 奖品
+ */
+.slot-gift-1,.slot-gift-2,.slot-gift-3 {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    z-index: 200;
+    display: none;
+}
+.slot-gift-1 {
+    background: red;
+}
+.slot-gift-2 {
+    background: yellow;
+}
+.slot-gift-3 {
+    background: blue;
+}
+
 
 /**
  * 盆子

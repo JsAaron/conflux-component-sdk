@@ -184,19 +184,11 @@ var SlotMachine = function() {
             }
         }, {
             key: '_run',
-            value: function _run(options) {
-                options = options || {};
+            value: function _run(rotate,active) {
+
                 var self = this;
-                var rotate = options.rotate,
-                    active = options.active;
                 //旋转衔接延时
                 var duration = this.settings.duration;
-
-                //期待的目标元素
-                //传值/随机
-                if (this.futureActive === null) {
-                    this.futureActive = active || this.custom;
-                }
 
                 //运行标志
                 this.running = true;
@@ -231,10 +223,8 @@ var SlotMachine = function() {
                         self.stop();
                     } else {
                         setTimeout(function() {
-                            self._run({
-                                rotate: rotate - 1,
-                                active: active
-                            });
+                            var newValue = (rotate - 1);
+                            self._run(newValue, active);
                         })
                     }
                 }
@@ -244,7 +234,6 @@ var SlotMachine = function() {
                     var transform = utils.style.transform;
                     var transitionTimingFunction = utils.style.transitionTimingFunction;
                     var transitionDuration = utils.style.transitionDuration;
-        
                     this.$container.css({
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'linear',
@@ -284,7 +273,21 @@ var SlotMachine = function() {
                     }.bind(this), options.delay)
                     return;
                 }
-                this._run(options);
+                var active = options.active;
+                var rotate = options.rotate;
+                --active;
+
+                //期待的目标元素
+                //传值/随机
+                if (this.futureActive === null) {
+                    if (void 0 == active) {
+                        this.futureActive = this.custom;
+                    } else {
+                        this.futureActive = active
+                    }
+                }
+
+                this._run(rotate,active);
             }
         }, {
 
@@ -332,6 +335,7 @@ var SlotMachine = function() {
 
                 //设定一个延时
                 var duration = this.settings.duration * 3;
+
                 var to = this.getOffset(this.futureActive);
 
                 var _complete = function() {
