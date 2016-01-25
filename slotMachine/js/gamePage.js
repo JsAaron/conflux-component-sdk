@@ -105,8 +105,8 @@ function GamePage(eleName) {
     actives.forEach(function(active,index){
         config[index] = {
             rotate   : slotGames.conf.games.rotate, //转动圈数
-            active   : active, //停留页面
-            delay    : index * 1000 //动画延时
+            active   : active //停留页面
+            // delay    : index * 1000 //动画延时
         }
     })
 
@@ -344,13 +344,13 @@ function GamePage(eleName) {
      * @return {[type]}      [descriptions]
      */
     $reslutBack.on(utils.END_EV, function(e) {
+        if(!gameCount)return;
         e.stopPropagation();
         setTimeout(function() {
             $resultPage.hide();
             resetResultPage();
         }, 500)
     });
-
 
 
     /**

@@ -137,6 +137,54 @@ body {
     background-image: url("../images/slotMachine/homepage-bg.png");
 }
 
+
+/**
+ * 音乐
+ */
+
+.slot-music {
+    min-width: 30px;
+    min-height: 30px;
+    position: absolute;
+    top: 1%;
+    right: 2%;
+    background-size: 100% 100%;
+    background-image: url("../images/slotMachine/music.png");
+    z-index: 100;
+}
+
+.slot-music-rotate {
+    animation: spin 6s linear infinite;
+}
+
+.pauseWalk {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        webkit-transform: rotate(360deg);
+    }
+    100% {
+        webkit-transform: rotate(0deg);
+    }
+}
+
+
+/**
+ * 商家介绍
+ */
+
 .slot-homepage .introduce {
     width: 40%;
     height: 7%;
@@ -148,6 +196,21 @@ body {
     margin-left: -20%;
     background-image: url("../images/slotMachine/introduce.png");
 }
+
+.slot-homepage .introduce-content {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    z-index: 10;
+    background-size: 100% 100%;
+    background-image: url("../images/slotMachine/homepage-bg.png");
+}
+
+
+/**
+ * 活动介绍
+ */
 
 .slot-homepage .help {
     width: 40%;
@@ -195,7 +258,8 @@ body {
     background-image: url("../images/slotMachine/help-monkey.png");
 }
 
-.slot-homepage .help-back {
+.slot-homepage .help-back,
+.slot-homepage .introduce-back {
     width: 40%;
     height: 7%;
     position: absolute;
@@ -514,7 +578,7 @@ body {
 }
 .slot-gamepage-result {
     display: none;
-    z-index: 100;
+    z-index: 80;
 }
 .slot-gamepage .slot-gamepage-result-bg {
     background-image: url("../images/slotMachine/game-result-bg.png");
@@ -912,6 +976,7 @@ body {
 .slot-homepage .enter:active,
 .slot-homepage .help:active,
 .slot-homepage .help-back:active,
+.slot-homepage .introduce-back:active,
 .slot-reslut-back:active,
 .slot-homepage .introduce:active {
     -webkit-animation-name: pulse;
