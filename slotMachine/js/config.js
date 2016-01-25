@@ -26,12 +26,12 @@ slotGames.conf = {
          * 如果不选,默认会根据支持度切换
          * @type {Number}
          */
-        mode: 0,
+        mode: 1,
         /**
          * 一个周期滚动的时间
          * @type {Number}
          */
-        delay: 500,
+        duration: 500,
         /**
          * 图片的地址，生成对应的列表，按照图片顺序排列
          * @type {Array}
@@ -58,12 +58,13 @@ slotGames.conf = {
     },
     /**
      * 每次执行游戏需要发送的请求
-     * state ajax执行的状态
-     *   state = true  //进入正确页面
-     *   state = false //进入错误页面
+     * res.state
+     *   res.state = true  //进入正确页面
+     *   res.state = false //进入错误页面
      *
-     * active 
-     *   可以设置游戏停留的图片索引
+     * res.active 
+     *   可以设置游戏停留的图片停留的目标图片
+     *   从0开始索引
      *  
      * @return {[type]} [description]
      */

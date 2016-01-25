@@ -40,7 +40,7 @@ function slotGames() {
     });
 
 
-    $enter.trigger(utils.END_EV)
+    // $enter.trigger(utils.END_EV)
 
 }
 

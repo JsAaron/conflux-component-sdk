@@ -461,7 +461,7 @@ body {
     height: 70%;
     margin-top: 120%;
     margin-left: -26%;
-    background: red;
+    background-image: url("../images/slotMachine/rod-bg.png");
 }
 .slot-gamepage-box-right-rod {
     right: 3.5%;

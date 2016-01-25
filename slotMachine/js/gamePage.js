@@ -11,26 +11,26 @@ function GamePage(eleName) {
         return $gamePage.find(className)
     }
 
-    var $rod = findele(".slot-gamepage-box-right-rod");
-    var $box = findele(".slot-gamepage-box-left");
-    var $lottery = findele(".slot-gamepage-lottery");
-    var $resultPage = findele(".slot-gamepage-result");
-    var $monkeyLeft = findele(".slot-reslut-monkey-left");
-    var $monkeyMiddle = findele(".slot-reslut-monkey-middle");
-    var $monkeyRight = findele(".slot-reslut-monkey-right");
-    var $gem = findele(".slot-reslut-paper-gem");
-    var $dice = findele(".slot-reslut-paper-dice");
-    var $reslutBack = findele(".slot-reslut-back");
+    var $rod           = findele(".slot-gamepage-box-right-rod");
+    var $box           = findele(".slot-gamepage-box-left");
+    var $lottery       = findele(".slot-gamepage-lottery");
+    var $resultPage    = findele(".slot-gamepage-result");
+    var $monkeyLeft    = findele(".slot-reslut-monkey-left");
+    var $monkeyMiddle  = findele(".slot-reslut-monkey-middle");
+    var $monkeyRight   = findele(".slot-reslut-monkey-right");
+    var $gem           = findele(".slot-reslut-paper-gem");
+    var $dice          = findele(".slot-reslut-paper-dice");
+    var $reslutBack    = findele(".slot-reslut-back");
     var $resultLottery = findele(".slot-reslut");
-    var $resultNone = findele(".slot-reslut-none");
-    var $envelope = findele(".slot-reslut-envelope");
-    var $header = findele("header");
-
+    var $resultNone    = findele(".slot-reslut-none");
+    var $envelope      = findele(".slot-reslut-envelope");
+    var $header        = findele("header");
+    
     var gameCount = slotGames.conf.count; //游戏次数
     var gameComplete;
     var _events = [];
     var slots = []; //实例
-    var slotNum = 3;
+    var slotNum = 3; //图片
     var i = 1;
 
 
@@ -72,6 +72,31 @@ function GamePage(eleName) {
 
 
     /**
+     * 构建完成函数
+     * @return {[type]}          [description]
+     */
+     var createFn = function() {
+        var count = slotNum;
+        return function() {
+            --count;
+            if (!count) {
+                setTimeout(function() {
+                    stateGame.state = false;
+                    --gameCount;
+                    resultPage(collect.state, gameCount);
+                }, 800)
+            }
+        }
+    }
+
+    /**
+     * 完成函数
+     * @return {[type]} [description]
+     */
+    gameComplete = createFn();
+
+
+    /**
      * 默认配置文件
      * @type {Array}
      */
@@ -79,17 +104,17 @@ function GamePage(eleName) {
     var actives = random(3);
     actives.forEach(function(active,index){
         config[index] = {
-            rotate :slotGames.conf.games.rotate,
-            active :active
+            rotate   : slotGames.conf.games.rotate, //转动圈数
+            active   : active, //停留页面
+            delay    : index * 1000 //动画延时
         }
     })
-
 
     /**
      * 状态对象
      * @type {Object}
      */
-    var _data = {}
+    var _data = {};
     var collect = utils.createClass({}, [{
         key: 'state',
         set: function(state) {
@@ -127,39 +152,19 @@ function GamePage(eleName) {
         }
     }
 
-    /**
-     * 构建完成函数
-     * @return {[type]}          [description]
-     */
-    function createFn(argument) {
-        var count = slotNum;
-        return function() {
-            --count;
-            if (!count) {
-                setTimeout(function() {
-                    stateGame.state = false;
-                    --gameCount;
-                    resultPage(collect.state, gameCount);
-                }, 800)
-            }
-        }
-    }
-
-    /**
-     * 完成函数
-     * @return {[type]} [description]
-     */
-    gameComplete = createFn();
-
 
     /**
      * 控制老虎机动作
      * @param  {[type]} action [description]
      * @return {[type]}        [description]
      */
-    function slotsAction(action) {
-        slots.forEach(function(slot) {
-            slot[action] && slot[action]()
+    function slotsAction(action, options) {
+        slots.forEach(function(slot, index) {
+            if (options) {
+                slot[action] && slot[action](options[index], gameComplete)
+            } else {
+                slot[action] && slot[action]()
+            }
         });
     }
 
@@ -203,15 +208,7 @@ function GamePage(eleName) {
         $rod.addClass("rod-up");
         $box.addClass("box-flash");
         //运行
-        setTimeout(function() {
-            slots[0].run(config[0], gameComplete);
-        }, 500);
-        setTimeout(function() {
-            slots[1].run(config[1], gameComplete);
-        }, 1000);
-        setTimeout(function() {
-            slots[2].run(config[2], gameComplete);
-        }, 1500);
+        slotsAction("run", config)
     }
 
     /**

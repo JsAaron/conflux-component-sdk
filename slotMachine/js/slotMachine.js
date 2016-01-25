@@ -18,27 +18,6 @@ var SlotMachine = function() {
             window.setTimeout(callback, 1000 / 60);
         };
 
-    /**
-     * 定义defineProperties
-     * [description]
-     * @param  {[type]} ) {               
-     */
-    var _createClass = (function() {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-        return function(Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    })();
 
     /**
      * 默认参数
@@ -48,7 +27,7 @@ var SlotMachine = function() {
             mode: 1, //0:left 1:css3
             fade: true, //模糊度
             active: 0, //选中的元素
-            delay: 200, // 动画延时
+            duration: 200, // 动画周期时间
             randomize: null, //随机函数
             complete: null, // 完成的回调
             direction: 'up' // 运动方向
@@ -154,7 +133,7 @@ var SlotMachine = function() {
     }
 
 
-    _createClass(SlotClass, [{
+    utils.createClass(SlotClass.prototype, [{
             /**
              * 初始化,增加头尾部
              * @type {String}
@@ -209,7 +188,7 @@ var SlotMachine = function() {
                 var rotate = options.rotate,
                     active = options.active;
                 //旋转衔接延时
-                var delay = this.settings.delay;
+                var duration = this.settings.duration;
 
                 //期待的目标元素
                 //传值/随机
@@ -231,15 +210,15 @@ var SlotMachine = function() {
                         case 3:
                         case 4:
                             this._animationFX = FX_NORMAL;
-                            delay /= 1.5;
+                            duration /= 1.5;
                             break;
                         default:
                             this._animationFX = FX_FAST;
-                            delay /= 2;
+                            duration /= 2;
                     }
                 } else {
                     this._animationFX = FX_FAST;
-                    delay /= 2;
+                    duration /= 2;
                 }
 
                 var _complete = function() {
@@ -266,7 +245,7 @@ var SlotMachine = function() {
                     this.$container.css({
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'linear',
-                        transitionDuration: delay + "ms"
+                        transitionDuration: duration + "ms"
                     }).one(utils.style.transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
@@ -276,7 +255,7 @@ var SlotMachine = function() {
                     //坐标动画
                     this.$container.animate({
                         marginTop: to
-                    }, delay, 'linear', function cb() {
+                    }, duration, 'linear', function cb() {
                         _complete.call(this);
                     }.bind(this));
                 }
@@ -295,6 +274,13 @@ var SlotMachine = function() {
                 //成功回调
                 this._oncompleteStack.push(complete);
                 //运行游戏
+                //如果有延时
+                if (options.delay) {
+                    setTimeout(function() {
+                        this._run(options);
+                    }.bind(this), options.delay)
+                    return;
+                }
                 this._run(options);
             }
         }, {
@@ -316,7 +302,7 @@ var SlotMachine = function() {
              */
             key: 'reset',
             value: function reset() {
-                if (!this.running) {
+                if (this.running) {
                     return;
                 }
                 this.reseting = true;
@@ -342,7 +328,7 @@ var SlotMachine = function() {
                 var self = this;
 
                 //设定一个延时
-                var delay = this.settings.delay * 3;
+                var duration = this.settings.duration * 3;
                 var to = this.getOffset(this.futureActive);
 
                 var _complete = function() {
@@ -362,7 +348,7 @@ var SlotMachine = function() {
                     this.$container.css({
                         transform: 'translate3d(0px,' + to + 'px,0px)',
                         transitionTimingFunction: 'ease',
-                        transitionDuration: delay + "ms"
+                        transitionDuration: duration + "ms"
                     }).one(utils.style.transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
                         _complete();
@@ -370,7 +356,7 @@ var SlotMachine = function() {
                 } else {
                     this.$container.animate({
                         marginTop: this.getOffset(this.futureActive)
-                    }, delay, 'easeOutBounce', (function cb() {
+                    }, duration, 'easeOutBounce', (function cb() {
                         _complete();
                     }).bind(this));
                 }
@@ -378,7 +364,7 @@ var SlotMachine = function() {
                 //关闭模糊
                 this.raf(function cb() {
                     this._animationFX = FX_STOP;
-                }.bind(this), delay / 1.75);
+                }.bind(this), duration / 1.75);
 
             }
         }, {
@@ -522,10 +508,10 @@ var SlotMachine = function() {
             key: '_animationFX',
             set: function set(FX_SPEED) {
                 if (!this.settings.fade) return;
-                var delay = this.settings.delay / 4;
+                var duration = this.settings.duration / 4;
                 this.raf(function cb() {
                     this._fxClass = FX_SPEED;
-                }.bind(this), delay);
+                }.bind(this), duration);
             }
 
         }, {
