@@ -393,7 +393,9 @@ function GamePage(eleName) {
         resultBg(state);
 
         //游戏复位
-        resetGame();
+        setTimeout(function() {
+            resetGame();
+        }, 0)
 
         //弹跳动画
         setTimeout(function() {

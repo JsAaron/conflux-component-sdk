@@ -25,11 +25,6 @@ function slotGames() {
         audio.loop = loop|| false; //是否循环
         audio.play();
         return {
-            end: function(callback) {
-                audio.addEventListener('ended', function() {
-                    callback()
-                }, false);
-            },
             pause:function(){
                audio && audio.pause();
             },
@@ -46,6 +41,21 @@ function slotGames() {
      */
     var state;
     var audio = null;
+
+    var createAudio = function() {
+        if (audio) return;
+        $music.addClass("slot-music-rotate");
+        audio = Hmlt5Audio('music/scene.mp3');
+        state = "play";
+    }
+
+    //微信音频处理
+    document.addEventListener("WeixinJSBridgeReady", function() {
+        WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+            createAudio();
+        });
+    }, false);
+
     $music.on(utils.END_EV, function() {
         if (state === "play") {
             $music.addClass("pauseWalk");
@@ -56,13 +66,8 @@ function slotGames() {
             audio && audio.play();
             state = "play";
         }
-        if (!audio) {
-            $music.addClass("slot-music-rotate");
-            audio = Hmlt5Audio('music/scene.mp3');
-            state = "play";
-        }
     });
-    $music.trigger(utils.END_EV)
+
 
     /**
      * 商家介绍
