@@ -83,6 +83,7 @@ function GamePage(eleName) {
                 setTimeout(function() {
                     --gameCount;
                     resultPage(collect.state, gameCount , function(){
+                        stateGame.click = false;
                         resetGame();
                     });
                 }, 500)
@@ -113,6 +114,27 @@ function GamePage(eleName) {
     })
 
 
+   /**
+     * 延时函数
+     * @return {[type]} [description]
+     */
+    function delayGame() {
+        var count = 3;
+        return function() {
+            --count
+            if (!count) {
+                stateGame.click && stateGame();
+            }
+        }
+    }
+
+    /**
+     * 延时执行
+     * @type {[type]}
+     */
+    var collectComplete = delayGame()
+
+
     /**
      * 状态对象
      * @type {Object}
@@ -127,7 +149,8 @@ function GamePage(eleName) {
         set: function(state) {
             _data.state = state;
             updateConf();
-            getState.request = false;
+            requestState.request = false;
+            collectComplete();
         },
         get: function() {
             return _data.state;
@@ -141,6 +164,7 @@ function GamePage(eleName) {
         set: function(value) {
             _data.active = value;
             updateConf(); //更新配置文件
+            collectComplete();
         },
         get: function() {
             return _data.active;
@@ -153,6 +177,7 @@ function GamePage(eleName) {
         key: 'prize',
         set: function(value) {
             _data.prize = value;
+            collectComplete();
         },
         get: function() {
             return _data.prize;
@@ -170,28 +195,6 @@ function GamePage(eleName) {
                 config[index]['active'] = collect.active;
             })
         }
-    }
-
-
-    /**
-     * 可点击
-     * @return {[type]} [description]
-     */
-    function clickable() {
-        //还在获取中
-        if (getState.request) {
-            return false;
-        }
-        if (collect.state) {
-            //页面与礼品编号必须存在
-            if (collect.active && collect.prize) {
-                return true;
-            }
-        } else {
-            //失败页面
-            return true;
-        }
-        return true
     }
 
 
@@ -229,15 +232,15 @@ function GamePage(eleName) {
      * 获取状态
      * @return {[type]} [description]
      */
-    function getState() {
-        if (!getState.request) {
+    function requestState() {
+        if (!requestState.request) {
             //如果发送了请求
-            getState.request = true;
+            requestState.request = true;
             slotGames.conf.request(collect);
         }
     }
 
-    getState();
+    requestState();
 
 
     /**
@@ -257,11 +260,42 @@ function GamePage(eleName) {
     }
 
 
+
+    /**
+     * 可点击
+     * @return {[type]} [description]
+     */
+    function clickable() {
+        //还在获取中
+        if (requestState.request) {
+            return false;
+        }
+        if (collect.state) {
+            //页面与礼品编号必须存在
+            if (collect.active && collect.prize) {
+                return true;
+            }
+        } else {
+            //失败页面
+            return true;
+        }
+        return true
+    }
+
+
     /**
      * 开始摇奖
      * @return {[type]}   [description]
      */
     $lottery.on("click", function(e) {
+
+        //只允许点击一次
+        if (stateGame.click) {
+            return;
+        }
+        //点击了开始按钮
+        stateGame.click = true;
+
         if (clickable()) {
             stateGame();
         }
@@ -389,6 +423,9 @@ function GamePage(eleName) {
     $reslutBack.on(utils.END_EV, function(e) {
         if (!gameCount) return;
         e.stopPropagation();
+        //重新获取状态
+        requestState();
+        collectComplete = delayGame();
         setTimeout(function() {
             $resultPage.hide();
             resetResultPage();
@@ -428,7 +465,7 @@ function GamePage(eleName) {
         // var $gift = $(".slot-gift")
         // var element = $gift.find(".slot-gift-" + active)
         setTimeout(function(){
-            alert('礼品编号prize：' + prize)
+            console.log('礼品编号prize：' + prize)
         },2000)
     }
 

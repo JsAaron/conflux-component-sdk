@@ -72,12 +72,20 @@ slotGames.conf = {
      * @return {[type]} [description]
      */
     request: function(res) {
+
+        function GetRandomNum(Min, Max) {
+            var Range = Max - Min;
+            var Rand = Math.random();
+            return (Min + Math.round(Rand * Range));
+        }
+        
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state  = true //显示中奖页面
-            res.active = 1  //老虎机中奖图片1,2,3 
-            res.prize  = 10 ; //奖品编号
+            res.state  = GetRandomNum(1, 2) == 1? true : false //显示中奖页面
+            res.active = GetRandomNum(1, 3)  //老虎机中奖图片1,2,3 
+            res.prize  = GetRandomNum(1, 10) ; //奖品编号
+            console.log(res)
         }, 1000)
     },
 
