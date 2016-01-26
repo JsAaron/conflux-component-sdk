@@ -66,14 +66,18 @@ slotGames.conf = {
      *   可以设置游戏停留的图片停留的目标图片
      *   从1开始索引
      *
+     * res.active 
+     *    设置奖品的编号
+     * 
      * @return {[type]} [description]
      */
     request: function(res) {
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state = true
-            res.active = 1 //1,2,3
+            res.state  = true //显示中奖页面
+            res.active = 1  //老虎机中奖图片1,2,3 
+            res.prize  = 10 ; //奖品编号
         }, 1000)
     },
 

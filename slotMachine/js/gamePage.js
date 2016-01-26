@@ -11,27 +11,27 @@ function GamePage(eleName) {
         return $gamePage.find(className)
     }
 
-    var $rod = findele(".slot-gamepage-box-right-rod");
-    var $box = findele(".slot-gamepage-box-left");
-    var $lottery = findele(".slot-gamepage-lottery");
-    var $resultPage = findele(".slot-gamepage-result");
-    var $monkeyLeft = findele(".slot-reslut-monkey-left");
-    var $monkeyMiddle = findele(".slot-reslut-monkey-middle");
-    var $monkeyRight = findele(".slot-reslut-monkey-right");
-    var $gem = findele(".slot-reslut-paper-gem");
-    var $dice = findele(".slot-reslut-paper-dice");
-    var $reslutBack = findele(".slot-reslut-back");
+    var $rod           = findele(".slot-gamepage-box-right-rod");
+    var $box           = findele(".slot-gamepage-box-left");
+    var $lottery       = findele(".slot-gamepage-lottery");
+    var $resultPage    = findele(".slot-gamepage-result");
+    var $monkeyLeft    = findele(".slot-reslut-monkey-left");
+    var $monkeyMiddle  = findele(".slot-reslut-monkey-middle");
+    var $monkeyRight   = findele(".slot-reslut-monkey-right");
+    var $gem           = findele(".slot-reslut-paper-gem");
+    var $dice          = findele(".slot-reslut-paper-dice");
+    var $reslutBack    = findele(".slot-reslut-back");
     var $resultLottery = findele(".slot-reslut");
-    var $resultNone = findele(".slot-reslut-none");
-    var $envelope = findele(".slot-reslut-envelope");
-    var $header = findele("header");
-
-    var gameCount = slotGames.conf.count; //游戏次数
+    var $resultNone    = findele(".slot-reslut-none");
+    var $envelope      = findele(".slot-reslut-envelope");
+    var $header        = findele("header");
+    
+    var gameCount      = slotGames.conf.count; //游戏次数
     var gameComplete;
-    var _events = [];
-    var slots = []; //实例
-    var slotNum = 3; //图片
-    var i = 1;
+    var _events        = [];
+    var slots          = []; //实例
+    var slotNum        = 3; //图片
+    var i              = 1;
 
 
     /**
@@ -81,10 +81,11 @@ function GamePage(eleName) {
             --count;
             if (!count) {
                 setTimeout(function() {
-                    stateGame.state = false;
                     --gameCount;
-                    resultPage(collect.state, gameCount);
-                }, 800)
+                    resultPage(collect.state, gameCount , function(){
+                        resetGame();
+                    });
+                }, 500)
             }
         }
     }
@@ -117,41 +118,44 @@ function GamePage(eleName) {
      * @type {Object}
      */
     var _data = {};
-    var _nectfn = false;
     var collect = utils.createClass({}, [{
+        /**
+         * 显示中奖页面
+         * @type {String}
+         */
         key: 'state',
         set: function(state) {
-            getState.request = false;
             _data.state = state;
             updateConf();
-            if (stateGame.click) {
-                stateGame.click = null;
-                if (state) { //如果是成功页面
-                    if (collect.active) {
-                        stateGame()
-                    } else {
-                        _nectfn = true;
-                    }
-                } else {
-                    stateGame();
-                }
-            }
+            getState.request = false;
         },
         get: function() {
             return _data.state;
         }
     }, {
+        /**
+         * 老虎机中奖图片
+         * @type {String}
+         */
         key: 'active',
         set: function(value) {
             _data.active = value;
             updateConf(); //更新配置文件
-            if(_nectfn){
-                stateGame();
-                _nectfn =false;
-            }
         },
         get: function() {
             return _data.active;
+        }
+    }, {
+        /**
+         * 礼品编号
+         * @type {String}
+         */
+        key: 'prize',
+        set: function(value) {
+            _data.prize = value;
+        },
+        get: function() {
+            return _data.prize;
         }
     }])
 
@@ -160,12 +164,34 @@ function GamePage(eleName) {
      * 更新配置文件
      * @return {[type]} [description]
      */
-    function updateConf(value) {
+    function updateConf() {
         if (collect.state && collect.active) { //成功
             actives.forEach(function(active, index) {
                 config[index]['active'] = collect.active;
             })
         }
+    }
+
+
+    /**
+     * 可点击
+     * @return {[type]} [description]
+     */
+    function clickable() {
+        //还在获取中
+        if (getState.request) {
+            return false;
+        }
+        if (collect.state) {
+            //页面与礼品编号必须存在
+            if (collect.active && collect.prize) {
+                return true;
+            }
+        } else {
+            //失败页面
+            return true;
+        }
+        return true
     }
 
 
@@ -194,6 +220,7 @@ function GamePage(eleName) {
         $rod.removeClass("rod-up");
         $box.removeClass("box-flash");
         gameComplete = createFn();
+        stateGame.state = false;
         slotsAction("reset")
     }
 
@@ -229,24 +256,15 @@ function GamePage(eleName) {
         slotsAction("run", true)
     }
 
+
     /**
-     * 按钮
      * 开始摇奖
+     * @return {[type]}   [description]
      */
-    $lottery.on(utils.END_EV, function() {
-        //如果请求未提交
-        if (void 0 == collect.state) {
-            stateGame.click = true;
-            return;
+    $lottery.on("click", function(e) {
+        if (clickable()) {
+            stateGame();
         }
-
-        //如果还有数据在情况
-        if (getState.request) {
-            stateGame.click = true;
-            return
-        }
-
-        stateGame();
     })
 
 
@@ -406,11 +424,11 @@ function GamePage(eleName) {
      * 礼品出现
      * @return {[type]} [description]
      */
-    var gift = function(active) {
-        var $gift = $(".slot-gift")
-        var element = $gift.find(".slot-gift-" + active)
+    var gift = function(prize) {
+        // var $gift = $(".slot-gift")
+        // var element = $gift.find(".slot-gift-" + active)
         setTimeout(function(){
-            element.show();
+            alert('礼品编号prize：' + prize)
         },2000)
     }
 
@@ -418,7 +436,7 @@ function GamePage(eleName) {
      * 结果页面
      * @return {[type]} [description]
      */
-    function resultPage(state, gameCount) {
+    function resultPage(state, gameCount, cb) {
 
         var title = gameCount ? "你今天还有剩下" + gameCount + "次机会" : "3次抽奖结束"
 
@@ -432,16 +450,15 @@ function GamePage(eleName) {
 
         /**
          * 奖品处理
-         * active 对应奖品图片的标记
+         * prize 对应奖品图片的标记
          */
-        var active = collect.active;
-        if (state && void 0 != active) {
-            gift(active);
+        if (collect.active && collect.prize) {
+            gift(collect.prize);
         }
 
-        //游戏复位
+        //切换后回调
         setTimeout(function() {
-            resetGame();
+            cb();
         }, 0)
 
         //弹跳动画

@@ -961,7 +961,7 @@ body {
 .slot-homepage .help-back:active,
 .slot-homepage .introduce-back:active,
 .slot-reslut-back:active,
-.slot-homepage .introduce:active {
+.slot-homepage .introduce:active , .clickeffect{
     -webkit-animation-name: pulse;
     animation-name: pulse;
     -webkit-animation-duration: 1s;
