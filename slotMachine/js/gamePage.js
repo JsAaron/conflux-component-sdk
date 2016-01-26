@@ -233,7 +233,7 @@ function GamePage(eleName) {
      * 按钮
      * 开始摇奖
      */
-    $lottery.on("click", function() {
+    $lottery.on(utils.END_EV, function() {
         //如果请求未提交
         if (void 0 == collect.state) {
             stateGame.click = true;
