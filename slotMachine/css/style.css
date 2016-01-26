@@ -240,7 +240,6 @@ body {
 .slot-homepage .help-content {
     width: 100%;
     height: 100%;
-    background: red;
     display: none;
     position: absolute;
     z-index: 10;
@@ -435,47 +434,42 @@ body {
     }
 }
 .slot-gamepage-roll {
-    width: 78%;
+    position: absolute;
+    width: 68%;
     height: 69%;
-    margin-left: 10%;
-    margin-top: 11%;
+    left: 8%;
+    top: 13%;
 }
 .slot-gamepage-roll-container {
     width: 33.5%;
     height: 65%;
-    margin-top: 13%;
+    margin-top: 12%;
     overflow: hidden;
-    float: left;
 }
 .slot-gamepage-roll-container:first-child {
-    position: relative;
-    left: -0.25%;
+    position: absolute;
 }
 .slot-gamepage-roll-container:nth-child(2) {
-    position: relative;
-    left: 0.1%;
-    /*left: 0.8%;*/
+    position: absolute;
+    left: 33.3%;
 }
 .slot-gamepage-roll-container:last-child {
-    position: relative;
-    left: 0.8%;
-    width: 33%;
+    position: absolute;
+    left: 66.5%;
 }
 .slot-gamepage-roll-container ul {
+    position: absolute;
     width: 100%;
 }
 .slot-gamepage-roll-container ul li {
     width: 100%;
-    height: 3.5rem;
 }
 .slot-gamepage-roll-container ul li img {
     width: 100%;
     height: 100%;
     padding: 0.1rem 0.2rem;
 }
-.slot-gamepage-roll-container ul:first-child {
-    color: red;
-}
+
 
 /**
  * 滑杆按钮

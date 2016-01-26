@@ -31,7 +31,7 @@ slotGames.conf = {
          * 一个周期滚动的时间
          * @type {Number}
          */
-        duration: 100,
+        duration: 500,
         /**
          * 图片的地址，生成对应的列表，按照图片顺序排列
          * @type {Array}

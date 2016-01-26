@@ -52,7 +52,7 @@ function slotGames() {
     //微信音频处理
     document.addEventListener("WeixinJSBridgeReady", function() {
         WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-            createAudio();
+            // createAudio();
         });
     }, false);
 
@@ -111,7 +111,7 @@ function slotGames() {
     });
 
 
-    // $enter.trigger(utils.END_EV)
+    $enter.trigger(utils.END_EV)
 
 }
 

@@ -6,6 +6,8 @@
 var SlotMachine = function() {
 
     var transitionEnd = "webkitTransitionEnd transitionEnd"
+    var translateZ = utils.hasPerspective ? ' translateZ(0)' : '';
+
 
     /**
      * requestAnimationFrame
@@ -184,7 +186,7 @@ var SlotMachine = function() {
             }
         }, {
             key: '_run',
-            value: function _run(rotate,active) {
+            value: function _run(rotate, active) {
 
                 var self = this;
                 //旋转衔接延时
@@ -215,12 +217,14 @@ var SlotMachine = function() {
                     duration /= 2;
                 }
 
+                console.log(duration)
+
                 var _complete = function() {
                     //重置初始值
                     self._activeTop = self.getOffset(self.active)
 
                     if (rotate - 1 <= 0) {
-                        self.stop();
+                        // self.stop();
                     } else {
                         setTimeout(function() {
                             var newValue = (rotate - 1);
@@ -235,7 +239,7 @@ var SlotMachine = function() {
                     var transitionTimingFunction = utils.style.transitionTimingFunction;
                     var transitionDuration = utils.style.transitionDuration;
                     this.$container.css({
-                        transform: 'translate3d(0px,' + to + 'px,0px)',
+                        transform: 'translate(0px,' + to + 'px)' + translateZ,
                         transitionTimingFunction: 'linear',
                         transitionDuration: duration + "ms"
                     }).one(transitionEnd, function() {
@@ -246,7 +250,7 @@ var SlotMachine = function() {
                 } else {
                     //坐标动画
                     this.$container.animate({
-                        marginTop: to
+                        top: to
                     }, duration, 'linear', function cb() {
                         _complete.call(this);
                     }.bind(this));
@@ -287,7 +291,7 @@ var SlotMachine = function() {
                     }
                 }
 
-                this._run(rotate,active);
+                this._run(rotate, active);
             }
         }, {
 
@@ -353,8 +357,8 @@ var SlotMachine = function() {
                     var transitionTimingFunction = utils.style.transitionTimingFunction;
                     var transitionDuration = utils.style.transitionDuration;
                     this.$container.css({
-                        transform: 'translate3d(0px,' + to + 'px,0px)',
-                        transitionTimingFunction: 'ease',
+                        transform: 'translate(0px,' + to + 'px)' + translateZ,
+                        transitionTimingFunction: 'linear',
                         transitionDuration: duration + "ms"
                     }).one(transitionEnd, function() {
                         self.$container.css(utils.style.transitionDuration, '')
@@ -362,7 +366,7 @@ var SlotMachine = function() {
                     })
                 } else {
                     this.$container.animate({
-                        marginTop: this.getOffset(this.futureActive)
+                        top: this.getOffset(this.futureActive)
                     }, duration, 'easeOutBounce', (function cb() {
                         _complete();
                     }).bind(this));
@@ -530,9 +534,9 @@ var SlotMachine = function() {
             key: '_activeTop',
             set: function set(to, cb) {
                 if (this.settings.mode) {
-                    this.$container.css(utils.style.transform, 'translate3d(0px,' + to + 'px,0px)')
+                    this.$container.css(utils.style.transform, 'translate(0px,' + to + 'px)' + translateZ)
                 } else {
-                    this.$container.css('margin-top', to);
+                    this.$container.css('top', to);
                 }
             }
 

@@ -223,7 +223,7 @@ function GamePage(eleName) {
         stateGame.state = true;
         //增加动作
         $rod.addClass("rod-up");
-        $box.addClass("box-flash");
+        // $box.addClass("box-flash");
         //运行
         slotsAction("run", true)
     }
