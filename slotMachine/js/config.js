@@ -72,8 +72,20 @@ slotGames.conf = {
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state  = true
-            res.active = 2  //1,2,3
+            res.state = true
+            res.active = 1 //1,2,3
         }, 1000)
-    }
+    },
+
+    /**
+     * 预加载图片
+     * @type {Array}
+     */
+    preloadimages: [
+        "./images/slotMachine/homepage-bg.png",
+        "./images/slotMachine/help.png",
+        "./images/slotMachine/introduce.png",
+        "./images/slotMachine/enter.png",
+        "./images/slotMachine/help-back.png"
+    ]
 }

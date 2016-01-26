@@ -217,14 +217,11 @@ var SlotMachine = function() {
                     duration /= 2;
                 }
 
-                console.log(duration)
-
                 var _complete = function() {
                     //重置初始值
                     self._activeTop = self.getOffset(self.active)
-
                     if (rotate - 1 <= 0) {
-                        // self.stop();
+                         self.stop();
                     } else {
                         setTimeout(function() {
                             var newValue = (rotate - 1);
@@ -232,7 +229,9 @@ var SlotMachine = function() {
                         })
                     }
                 }
+
                 var to = this.direction.to;
+
                 //transform动画
                 if (this.settings.mode) {
                     var transform = utils.style.transform;
@@ -340,7 +339,7 @@ var SlotMachine = function() {
                 //设定一个延时
                 var duration = this.settings.duration * 3;
 
-                var to = this.getOffset(this.futureActive);
+                var to = this.getOffset(this.futureActive + 3);
 
                 var _complete = function() {
                     self.stopping = false;

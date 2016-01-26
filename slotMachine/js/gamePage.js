@@ -177,7 +177,8 @@ function GamePage(eleName) {
     function slotsAction(action, flag) {
         slots.forEach(function(slot, index) {
             if (flag) {
-                slot[action] && slot[action](config[index], gameComplete)
+                // if(index==0)
+                    slot[action] && slot[action](config[index], gameComplete)
             } else {
                 slot[action] && slot[action]()
             }

@@ -1,4 +1,45 @@
 /**
+ * 预加载图片
+ * @param  {[type]}   loadimages [description]
+ * @param  {Function} callback   [description]
+ * @return {[type]}              [description]
+ */
+function preload(images, callback) {
+    var newimages = [];
+    var count = images.length;
+    var complete = function(name,src) {
+        --count;
+        if(!count){
+            callback();
+        }
+    };
+
+    for (var i = 0; i < images.length; i++) {
+        newimages[i]     = new Image()
+        newimages[i].src = images[i];
+
+        newimages[i].onload = (function(src) {
+            return function() {
+                complete('onload', src)
+            }
+        })(images[i]);
+
+        newimages[i].onerror = (function(src) {
+            return function() {
+                complete('onerror', src)
+            }
+        })(images[i]);
+
+        newimages[i].onabort = (function(src) {
+            return function() {
+                complete('onabort', src)
+            }
+        })(images[i]);
+    }
+
+}
+
+/**
  * 游戏开始
  * @return {[type]} [description]
  */
@@ -52,7 +93,7 @@ function slotGames() {
     //微信音频处理
     document.addEventListener("WeixinJSBridgeReady", function() {
         WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-            // createAudio();
+            createAudio();
         });
     }, false);
 
@@ -111,7 +152,7 @@ function slotGames() {
     });
 
 
-    $enter.trigger(utils.END_EV)
+    // $enter.trigger(utils.END_EV)
 
 }
 
@@ -122,5 +163,9 @@ function slotGames() {
  * @return {[type]}   [description]
  */
 $(function() {
-    slotGames();
+    if (slotGames.conf.preloadimages.length) {
+        preload(slotGames.conf.preloadimages, slotGames)
+    } else {
+        slotGames();
+    }
 })
