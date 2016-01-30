@@ -460,6 +460,8 @@ body {
 .slot-gamepage-roll-container ul {
     position: absolute;
     width: 100%;
+    transition-timing-function: linear;
+    webkit-transition-timing-function: linear;
 }
 .slot-gamepage-roll-container ul li {
     width: 100%;
