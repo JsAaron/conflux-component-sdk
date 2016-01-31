@@ -39,13 +39,12 @@ function GamePage(eleName) {
      * @param  {[type]} domName [description]
      * @return {[type]}         [description]
      */
-    function createSlot(domName) {
-        return new SlotMachine("#" + domName, slotGames.conf.games)
+    function createSlot(domName, i) {
+        return new SlotMachine("#" + domName, i, slotGames.conf.games)
     }
     for (; i <= slotNum; i++) {
-        slots.push(createSlot("slot-roll-" + i))
+        slots.push(createSlot("slot-roll-" + i, i))
     }
-
 
     /**
      * 随机
@@ -190,7 +189,7 @@ function GamePage(eleName) {
      * @return {[type]} [description]
      */
     function updateConf() {
-        if (collect.state && collect.active) { //成功
+        if (collect.state && collect.active && collect.active.length) { //成功
             actives.forEach(function(active, index) {
                 config[index]['active'] = collect.active;
             })
@@ -206,8 +205,9 @@ function GamePage(eleName) {
     function slotsAction(action, flag) {
         slots.forEach(function(slot, index) {
             if (flag) {
+                var active = config[index]["active"][index];
                 // if(index==0)
-                    slot[action] && slot[action](config[index], gameComplete)
+                slot[action] && slot[action](config[index], active, gameComplete)
             } else {
                 slot[action] && slot[action]()
             }
@@ -272,7 +272,7 @@ function GamePage(eleName) {
         }
         if (collect.state) {
             //页面与礼品编号必须存在
-            if (collect.active && collect.prize) {
+            if (collect.active && collect.active.length && collect.prize) {
                 return true;
             }
         } else {
@@ -489,7 +489,7 @@ function GamePage(eleName) {
          * 奖品处理
          * prize 对应奖品图片的标记
          */
-        if (collect.active && collect.prize) {
+        if (collect.active && collect.active.length && collect.prize) {
             gift(collect.prize);
         }
 

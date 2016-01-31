@@ -66,10 +66,14 @@ var SlotMachine = function() {
      * 创建列表
      * @return {[type]} [description]
      */
-    function createli(imgUrl, height) {
+    function createli(index, imgUrl, height) {
         height = Math.ceil(height)
         var str = '';
-        imgUrl.forEach(function(url, index) {
+
+        var url = imgUrl[index - 1];
+        var urls = url.concat(url);
+
+        urls.forEach(function(url, index) {
             str += '<li style="height:' + height + 'px;">' + '<img src="' + url + '";></img>' + '</li>';
         })
         return str;
@@ -79,8 +83,7 @@ var SlotMachine = function() {
      * 构造器
      * @param {[type]} element [description]
      */
-    function SlotClass(slot, options) {
-
+    function SlotClass(slot, index, options) {
         //设置参数
         this.settings = $.extend({}, defaults, options);
         this.defaults = defaults;
@@ -94,7 +97,7 @@ var SlotMachine = function() {
         //jQuery元素
         this.$slot = $(slot);
 
-        var structure = '<ul>' + createli(options.imgUrl, this.$slot.outerHeight()) + '</ul>'
+        var structure = '<ul>' + createli(index, options.imgUrl, this.$slot.outerHeight()) + '</ul>'
         var $structure = $(structure);
 
         //溢出包裹元素
@@ -264,7 +267,7 @@ var SlotMachine = function() {
              * @type {String}
              */
             key: 'run',
-            value: function run(options, complete) {
+            value: function run(options, active, complete) {
                 if (this.running) return;
                 //成功回调
                 this._oncompleteStack.push(complete);
@@ -276,7 +279,7 @@ var SlotMachine = function() {
                     }.bind(this), options.delay)
                     return;
                 }
-                var active = options.active;
+                
                 var rotate = options.rotate;
                 --active;
 

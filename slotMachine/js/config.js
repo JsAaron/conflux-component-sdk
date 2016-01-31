@@ -18,7 +18,7 @@ slotGames.conf = {
          * 让图片产生模糊
          * @type {Boolean}
          */
-        fade: true,
+        fade: false,
         /**
          * 模式
          * 0 常规修改magin-top的方式
@@ -37,12 +37,21 @@ slotGames.conf = {
          * @type {Array}
          */
         imgUrl: [
-            "./images/slotMachine/roll/1.png",
-            "./images/slotMachine/roll/2.png",
-            "./images/slotMachine/roll/3.png",
-            "./images/slotMachine/roll/1.png",
-            "./images/slotMachine/roll/2.png",
-            "./images/slotMachine/roll/3.png"
+            [
+                "./images/slotMachine/roll/1.png",
+                "./images/slotMachine/roll/2.png",
+                "./images/slotMachine/roll/3.png"
+            ],
+            [
+                "./images/slotMachine/roll/2.png",
+                "./images/slotMachine/roll/1.png",
+                "./images/slotMachine/roll/3.png"
+            ],
+            [
+                "./images/slotMachine/roll/3.png",
+                "./images/slotMachine/roll/2.png",
+                "./images/slotMachine/roll/1.png"
+            ]
         ],
         /**
          * 初始化显示第几张图片
@@ -78,13 +87,19 @@ slotGames.conf = {
             var Rand = Math.random();
             return (Min + Math.round(Rand * Range));
         }
-        
+
         //模拟异步ajax请求
         //修改状态
         setTimeout(function() {
-            res.state  = GetRandomNum(1, 2) == 1? true : false //显示中奖页面
-            res.active = GetRandomNum(1, 3)  //老虎机中奖图片1,2,3 
-            res.prize  = GetRandomNum(1, 10) ; //奖品编号
+
+            res.state  = true;
+            res.active = [2,1,2] //返回每一组正确的图片索引
+            res.prize  = GetRandomNum(1, 10); //奖品编号
+
+
+            // res.state =  GetRandomNum(1, 2) == 1 ? true : false //显示中奖页面
+            // res.active   = GetRandomNum(1, 3)   //老虎机中奖图片1,2,3 
+            // res.prize    = GetRandomNum(1, 10); //奖品编号
             console.log(res)
         }, 1000)
     },
