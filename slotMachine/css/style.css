@@ -539,7 +539,6 @@ body {
 }
 .slot-gamepage-result {
     display: none;
-    
     z-index: 80;
 }
 .slot-gamepage .slot-gamepage-result-bg {

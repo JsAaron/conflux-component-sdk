@@ -79,13 +79,14 @@ function GamePage(eleName) {
         return function() {
             --count;
             if (!count) {
+                $resultLottery.show();
                 setTimeout(function() {
                     --gameCount;
                     resultPage(collect.state, gameCount , function(){
                         stateGame.click = false;
                         resetGame();
                     });
-                }, 500)
+                }, 1500)
             }
         }
     }
@@ -107,8 +108,8 @@ function GamePage(eleName) {
     actives.forEach(function(active, index) {
         config[index] = {
             rotate: slotGames.conf.games.rotate, //转动圈数
-            active: active //停留页面
-                // delay    : index * 1000 //动画延时
+            active: active, //停留页面
+            delay : index * 500 //动画延时
         }
     })
 
@@ -379,18 +380,6 @@ function GamePage(eleName) {
 
 
     /**
-     * 显示内容
-     * @return {[type]}       [description]
-     */
-    var content = function(state) {
-        if (state) {
-            $resultLottery.show();
-        } else {
-            $resultNone.show();
-        }
-    }
-
-    /**
      * 弹跳动画
      * @return {[type]} [description]
      */
@@ -478,9 +467,6 @@ function GamePage(eleName) {
         var title = gameCount ? "你今天还有剩下" + gameCount + "次机会" : "3次抽奖结束"
 
         var $p = appendTitle(title)
-
-        //显示内容页面
-        content(state);
 
         //显示结果页面
         resultBg(state);

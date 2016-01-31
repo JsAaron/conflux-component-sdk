@@ -268,18 +268,11 @@ var SlotMachine = function() {
              */
             key: 'run',
             value: function run(options, active, complete) {
+
                 if (this.running) return;
                 //成功回调
                 this._oncompleteStack.push(complete);
-                //运行游戏
-                //如果有延时
-                if (options.delay) {
-                    setTimeout(function() {
-                        this._run(options);
-                    }.bind(this), options.delay)
-                    return;
-                }
-                
+
                 var rotate = options.rotate;
                 --active;
 
@@ -291,6 +284,15 @@ var SlotMachine = function() {
                     } else {
                         this.futureActive = active
                     }
+                }
+
+                //运行游戏
+                //如果有延时
+                if (options.delay) {
+                    setTimeout(function() {
+                        this._run(rotate, active);
+                    }.bind(this), options.delay)
+                    return;
                 }
 
                 this._run(rotate, active);

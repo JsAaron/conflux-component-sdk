@@ -92,9 +92,9 @@ slotGames.conf = {
         //修改状态
         setTimeout(function() {
 
-            res.state  = true;
-            res.active = [2,1,2] //返回每一组正确的图片索引
-            res.prize  = GetRandomNum(1, 10); //奖品编号
+            res.state = true;
+            res.active = [2, 1, 2] //返回每一组正确的图片索引
+            res.prize = GetRandomNum(1, 10); //奖品编号
 
 
             // res.state =  GetRandomNum(1, 2) == 1 ? true : false //显示中奖页面
@@ -113,6 +113,22 @@ slotGames.conf = {
         "./images/slotMachine/help.png",
         "./images/slotMachine/introduce.png",
         "./images/slotMachine/enter.png",
-        "./images/slotMachine/help-back.png"
+        "./images/slotMachine/help-back.png",
+        "./images/slotMachine/game-result-bg.png",
+        "./images/slotMachine/game-result-none-bg.png",
+        "./images/slotMachine/result/paper.png",
+        "./images/slotMachine/result/envelope-bg.png",
+        "./images/slotMachine/result/help-monkey.png",
+        "./images/slotMachine/result/gem.png",
+
+
+        "./images/slotMachine/result/sign-a.png",
+        "./images/slotMachine/result/sign-b.png",
+        "./images/slotMachine/result/sign-c.png",
+
+
+        "./images/slotMachine/result/monkey-left.png",
+        "./images/slotMachine/result/monkey-middle.png",
+        "./images/slotMachine/result/monkey-right.png"
     ]
 }
