@@ -149,6 +149,11 @@ slotGames.conf = {
         "./images/slotMachine/result/sign-c.png",
 
 
+        "./images/slotMachine/roll/1.png",
+        "./images/slotMachine/roll/2.png",
+        "./images/slotMachine/roll/4.png",
+        "./images/slotMachine/roll/3.png",
+
         "./images/slotMachine/result/monkey-left.png",
         "./images/slotMachine/result/monkey-middle.png",
         "./images/slotMachine/result/monkey-right.png"

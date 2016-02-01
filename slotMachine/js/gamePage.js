@@ -261,11 +261,13 @@ function GamePage(eleName) {
             return;
         }
         //停止背景音乐
-        slotGames.audio.pause();
+        slotGames.audio && slotGames.audio.pause();
         //开始摇杆音乐
-        audioStart.play(function() {
-            audioEnd.play();
-        });
+        audioStart.play();
+
+        setTimeout(function(){
+             audioEnd.play()
+        },1000)
 
         stateGame.state = true;
         //增加动作

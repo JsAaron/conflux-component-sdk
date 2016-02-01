@@ -108,20 +108,20 @@ var utils = (function() {
         }
 
 
-        audio.addEventListener("ended", function() {
-            callback && callback();
-        }, true);
+        // audio.addEventListener("ended", function() {
+        //     alert(callback)
+        //     callback && callback();
+        // }, true);
 
         return {
 
             //暂停复位
             pauseReset: function() {
                 if (audio) {
-                    audio.currentTime = 0;
                     audio.pause();
+                    audio.currentTime = 0;
                 }
             },
-
             pause:function(){
                 if (audio) {
                     audio.pause();
@@ -129,7 +129,6 @@ var utils = (function() {
             },
             play:function(cb){
                 audio && audio.play();
-                callback = cb
             }
         }
     }
