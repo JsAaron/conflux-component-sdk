@@ -40,9 +40,11 @@ slotGames.conf = {
             [
                 "./images/slotMachine/roll/1.png",
                 "./images/slotMachine/roll/2.png",
+                "./images/slotMachine/roll/4.png",
                 "./images/slotMachine/roll/3.png"
             ],
             [
+                "./images/slotMachine/roll/4.png",
                 "./images/slotMachine/roll/2.png",
                 "./images/slotMachine/roll/1.png",
                 "./images/slotMachine/roll/3.png"
@@ -50,7 +52,8 @@ slotGames.conf = {
             [
                 "./images/slotMachine/roll/3.png",
                 "./images/slotMachine/roll/2.png",
-                "./images/slotMachine/roll/1.png"
+                "./images/slotMachine/roll/1.png",
+                "./images/slotMachine/roll/4.png"
             ]
         ],
         /**
@@ -112,7 +115,7 @@ slotGames.conf = {
         setTimeout(function() {
 
             res.state = true;
-            res.active = [2, 1, 2] //返回每一组正确的图片索引
+            res.active = [1, 3, 3] //返回每一组正确的图片索引
             res.prize = GetRandomNum(1, 10); //奖品编号
 
 

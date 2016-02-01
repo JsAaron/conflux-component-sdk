@@ -137,6 +137,8 @@ var SlotMachine = function() {
         //状态
         this.running = false;
         this.stopping = false;
+
+        this.imgUrlRow = this.settings.imgUrl[0].length
     }
 
 
@@ -331,7 +333,7 @@ var SlotMachine = function() {
                 //设定一个延时
                 var duration = this.settings.duration * 3;
 
-                var to = this.getOffset(this.futureActive + 3);
+                var to = this.getOffset(this.futureActive + this.imgUrlRow);
 
                 var _complete = function() {
                     self.stopping = false;
@@ -342,6 +344,7 @@ var SlotMachine = function() {
                         cb();
                     }
                 }
+
 
                 if (this.settings.mode) {
                     var transform = utils.style.transform;
