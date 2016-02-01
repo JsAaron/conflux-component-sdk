@@ -66,8 +66,9 @@ function slotGames() {
     var createAudio = function() {
         if (audio) return;
         $music.addClass("slot-music-rotate");
-        audio = utils.audio('music/scene.mp3');
+        audio =  slotGames.audio = utils.audio('music/scene.mp3',true);
         state = "play";
+        audio.play();
     }
 
     //微信音频处理
@@ -76,6 +77,7 @@ function slotGames() {
             createAudio();
         });
     }, false);
+    // createAudio();
 
     $music.on(utils.END_EV, function() {
         if (state === "play") {

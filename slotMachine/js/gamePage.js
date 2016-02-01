@@ -260,6 +260,13 @@ function GamePage(eleName) {
         if (stateGame.state) {
             return;
         }
+        //停止背景音乐
+        slotGames.audio.pause();
+        //开始摇杆音乐
+        audioStart.play(function() {
+            audioEnd.play();
+        });
+
         stateGame.state = true;
         //增加动作
         $rod.addClass("rod-up");
@@ -301,9 +308,6 @@ function GamePage(eleName) {
         if (stateGame.click) {
             return;
         }
-
-        audioStart.play();
-
         //点击了开始按钮
         stateGame.click = true;
 
@@ -425,7 +429,6 @@ function GamePage(eleName) {
         //重新获取状态
         requestState();
         collectComplete = delayGame();
-        audioEnd.pause();
         setTimeout(function() {
             $resultPage.hide();
             resetResultPage();
@@ -487,6 +490,10 @@ function GamePage(eleName) {
      * @return {[type]} [description]
      */
     function resultPage(state, gameCount, cb) {
+        
+        audioStart.pauseReset()
+        audioEnd.pauseReset()
+        slotGames.audio.play()
 
         var title = gameCount ? "你今天还有剩下" + gameCount + "次机会" : "3次抽奖结束"
 
@@ -506,9 +513,6 @@ function GamePage(eleName) {
         //切换后回调
         setTimeout(function() {
             cb();
-            WeixinJSBridge && WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-                audioEnd.play()
-            });
         }, 0)
 
         //弹跳动画

@@ -90,6 +90,8 @@ var utils = (function() {
      */
     function Hmlt5Audio(url, loop, preload) {
         var audio;
+        var callback;
+
         if (window.gloAudio) {
             audio = gloAudio;
             audio.url = url;
@@ -105,15 +107,29 @@ var utils = (function() {
             audio.play();
         }
 
+
+        audio.addEventListener("ended", function() {
+            callback && callback();
+        }, true);
+
         return {
-            pause:function(){
+
+            //暂停复位
+            pauseReset: function() {
                 if (audio) {
                     audio.currentTime = 0;
                     audio.pause();
                 }
             },
-            play:function(){
+
+            pause:function(){
+                if (audio) {
+                    audio.pause();
+                }
+            },
+            play:function(cb){
                 audio && audio.play();
+                callback = cb
             }
         }
     }
