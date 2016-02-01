@@ -7,6 +7,11 @@ function GamePage(eleName) {
 
     var $gamePage = $(eleName);
 
+    //预加载音频
+    var audioStart = utils.audio(slotGames.conf.mp3Url.play, false, true)
+    var audioEnd   = utils.audio(slotGames.conf.mp3Url.end, false, true)
+
+
     var findele = function(className) {
         return $gamePage.find(className)
     }
@@ -208,10 +213,9 @@ function GamePage(eleName) {
         slots.forEach(function(slot, index) {
             if (flag) {
                 var active = config[index]['active'];
-                if(active.length){
+                if (active.length) {
                     active = active[index];
-                }   
-        console.log(active)
+                }
                 slot[action] && slot[action](config[index], active, gameComplete)
             } else {
                 slot[action] && slot[action]()
@@ -287,7 +291,6 @@ function GamePage(eleName) {
         return true
     }
 
-
     /**
      * 开始摇奖
      * @return {[type]}   [description]
@@ -298,6 +301,9 @@ function GamePage(eleName) {
         if (stateGame.click) {
             return;
         }
+
+        audioStart.play();
+
         //点击了开始按钮
         stateGame.click = true;
 
@@ -419,6 +425,7 @@ function GamePage(eleName) {
         //重新获取状态
         requestState();
         collectComplete = delayGame();
+        audioEnd.pause();
         setTimeout(function() {
             $resultPage.hide();
             resetResultPage();
@@ -499,6 +506,9 @@ function GamePage(eleName) {
         //切换后回调
         setTimeout(function() {
             cb();
+            WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+                audioEnd.play()
+            });
         }, 0)
 
         //弹跳动画

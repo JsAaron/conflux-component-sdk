@@ -82,5 +82,44 @@ var utils = (function() {
 
     me.createClass = _createClass;
 
+
+    /**
+     * 背景音乐
+     * @param {[type]} url  [description]
+     * @param {[type]} loop [description]
+     */
+    function Hmlt5Audio(url, loop, preload) {
+        var audio;
+        if (window.gloAudio) {
+            audio = gloAudio;
+            audio.url = url;
+        } else {
+            audio = new Audio(url);
+        }
+        //预加载
+        if (preload) {
+            audio.preload = "preload";
+        } else {
+            audio.autoplay = true;
+            audio.loop  = loop ||  false; //是否循环
+            audio.play();
+        }
+
+        return {
+            pause:function(){
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.pause();
+                }
+            },
+            play:function(){
+                audio && audio.play();
+            }
+        }
+    }
+
+    me.audio = Hmlt5Audio;
+
+
     return me;
 })();

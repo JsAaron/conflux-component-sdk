@@ -55,26 +55,6 @@ function slotGames() {
     var $introduceBack    = $hmoepage.find(".introduce-back");
     var $helpBack         = $hmoepage.find(".help-back");
 
-    /**
-     * 背景音乐
-     * @param {[type]} url  [description]
-     * @param {[type]} loop [description]
-     */
-    function Hmlt5Audio(url,loop) {
-        var audio = new Audio(url);
-        audio.autoplay = true;
-        audio.loop = loop|| false; //是否循环
-        audio.play();
-        return {
-            pause:function(){
-               audio && audio.pause();
-            },
-            play:function(){
-                audio && audio.play();
-            }
-        }
-    }
-
 
     /**
      * 全局音乐
@@ -86,7 +66,7 @@ function slotGames() {
     var createAudio = function() {
         if (audio) return;
         $music.addClass("slot-music-rotate");
-        audio = Hmlt5Audio('music/scene.mp3');
+        audio = utils.audio('music/scene.mp3');
         state = "play";
     }
 

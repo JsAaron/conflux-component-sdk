@@ -65,6 +65,25 @@ slotGames.conf = {
          */
         rotate: 10
     },
+
+
+    /**
+     * mp3地址
+     * @type {Object}
+     */
+    mp3Url: {
+        /**
+         * 开始摇奖
+         * @type {String}
+         */
+        play: 'music/play.WAV',
+        /**
+         * 结尾音频
+         * @type {String}
+         */
+        end:'music/through.mp3'
+    },
+
     /**
      * 每次执行游戏需要发送的请求
      * res.state
