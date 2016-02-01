@@ -114,7 +114,7 @@ slotGames.conf = {
         //修改状态
         setTimeout(function() {
 
-            res.state = true;
+            res.state = false;
             res.active = [1, 3, 3] //返回每一组正确的图片索引
             res.prize = GetRandomNum(1, 10); //奖品编号
 

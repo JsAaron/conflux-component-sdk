@@ -196,7 +196,7 @@ function GamePage(eleName) {
      * @return {[type]} [description]
      */
     function updateConf() {
-        if (collect.state && collect.active && collect.active.length) { //成功
+        if (collect.active && collect.active.length) { //成功
             actives.forEach(function(active, index) {
                 config[index]['active'] = collect.active;
             })
@@ -506,7 +506,7 @@ function GamePage(eleName) {
         //切换后回调
         setTimeout(function() {
             cb();
-            WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+            WeixinJSBridge && WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
                 audioEnd.play()
             });
         }, 0)
