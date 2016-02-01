@@ -188,6 +188,46 @@ var SlotMachine = function() {
                 };
             }
         }, {
+            /**
+             * 运行游戏
+             * rotate 圈速
+             * active 期望的目标
+             * complete 完成回调
+             * @type {String}
+             */
+            key: 'run',
+            value: function run(options, active, complete) {
+
+                if (this.running) return;
+                //成功回调
+                this._oncompleteStack.push(complete);
+
+                var rotate = options.rotate;
+                --active;
+
+                //期待的目标元素
+                //传值/随机
+                if (this.futureActive === null) {
+                    if (void 0 == active) {
+                        this.futureActive = this.custom;
+                    } else {
+                        this.futureActive = active
+                    }
+                }
+
+
+                //运行游戏
+                //如果有延时
+                if (options.delay) {
+                    setTimeout(function() {
+                        this._run(rotate, active);
+                    }.bind(this), options.delay)
+                    return;
+                }
+
+                this._run(rotate, active);
+            }
+        }, {
             key: '_run',
             value: function _run(rotate, active) {
 
@@ -224,7 +264,7 @@ var SlotMachine = function() {
                     //重置初始值
                     self._activeTop = self.getOffset(self.active)
                     if (rotate - 1 <= 0) {
-                         self.stop();
+                        self.stop();
                     } else {
                         setTimeout(function() {
                             var newValue = (rotate - 1);
@@ -260,73 +300,20 @@ var SlotMachine = function() {
             }
         }, {
             /**
-             * 运行游戏
-             * rotate 圈速
-             * active 期望的目标
-             * complete 完成回调
+             * 停止游戏
              * @type {String}
              */
-            key: 'run',
-            value: function run(options, active, complete) {
-
-                if (this.running) return;
-                //成功回调
-                this._oncompleteStack.push(complete);
-
-                var rotate = options.rotate;
-                --active;
-
-                //期待的目标元素
-                //传值/随机
-                if (this.futureActive === null) {
-                    if (void 0 == active) {
-                        this.futureActive = this.custom;
-                    } else {
-                        this.futureActive = active
-                    }
-                }
-
-                //运行游戏
-                //如果有延时
-                if (options.delay) {
-                    setTimeout(function() {
-                        this._run(rotate, active);
-                    }.bind(this), options.delay)
+            key: 'stop',
+            value: function stop() {
+                if (!this.running) {
                     return;
                 }
-
-                this._run(rotate, active);
-            }
-        }, {
-
-            /**
-             * 销毁
-             * @type {String}
-             */
-            key: 'destroy',
-            value: function destroy() {
-                this.$container.off();
-                this.$container.remove();
-            }
-
-        }, {
-            /**
-             * 复位接口
-             * @type {String}
-             */
-            key: 'reset',
-            value: function reset() {
-                if (this.running) {
-                    return;
-                }
-                this.reseting = true;
                 //停止动画队列
                 this.$container.clearQueue().stop(true, false);
-                this.$container.css(utils.style.transitionDuration, "")
-                this._activeTop = this.direction.initial;
-                this._animationFX = FX_STOP;
-                this.running = false;
+                //反弹处理
+                this._rebound();
             }
+
         }, {
             /**
              * 反弹处理
@@ -383,21 +370,35 @@ var SlotMachine = function() {
 
             }
         }, {
+
             /**
-             * 停止游戏
+             * 销毁
              * @type {String}
              */
-            key: 'stop',
-            value: function stop() {
-                if (!this.running) {
-                    return;
-                }
-                //停止动画队列
-                this.$container.clearQueue().stop(true, false);
-                //反弹处理
-                this._rebound();
+            key: 'destroy',
+            value: function destroy() {
+                this.$container.off();
+                this.$container.remove();
             }
 
+        }, {
+            /**
+             * 复位接口
+             * @type {String}
+             */
+            key: 'reset',
+            value: function reset() {
+                if (this.running) {
+                    return;
+                }
+                this.reseting = true;
+                //停止动画队列
+                this.$container.clearQueue().stop(true, false);
+                this.$container.css(utils.style.transitionDuration, "")
+                this._activeTop = this.direction.initial;
+                this._animationFX = FX_STOP;
+                this.running = false;
+            }
         }, {
             key: 'raf',
             value: function raf(cb, timeout) {

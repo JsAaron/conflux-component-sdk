@@ -79,7 +79,8 @@ function GamePage(eleName) {
         return function() {
             --count;
             if (!count) {
-                $resultLottery.show();
+                //页面内容
+                content(collect.state);
                 setTimeout(function() {
                     --gameCount;
                     resultPage(collect.state, gameCount , function(){
@@ -206,8 +207,11 @@ function GamePage(eleName) {
     function slotsAction(action, flag) {
         slots.forEach(function(slot, index) {
             if (flag) {
-                var active = config[index]["active"][index];
-                // if(index==0)
+                var active = config[index]['active'];
+                if(active.length){
+                    active = active[index];
+                }   
+        console.log(active)
                 slot[action] && slot[action](config[index], active, gameComplete)
             } else {
                 slot[action] && slot[action]()
@@ -457,6 +461,19 @@ function GamePage(eleName) {
             console.log('礼品编号prize：' + prize)
         },2000)
     }
+
+
+    /**
+     * 显示内容
+     * @return {[type]}       [description]
+     */
+    var content = function(state) {
+        if (state) {
+            $resultLottery.show();
+        } else {
+            $resultNone.show();
+        }
+    }    
 
     /**
      * 结果页面
