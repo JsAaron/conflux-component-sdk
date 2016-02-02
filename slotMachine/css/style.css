@@ -135,6 +135,7 @@ body {
     width: 100%;
     height: 100%;
     background-image: url("../images/slotMachine/homepage-bg.png");
+    display: none;
 }
 
 
@@ -355,6 +356,7 @@ body {
     background-size: 100% 100%;
 }
 .slot-gamepage {
+    display: none;
     position: absolute;
     background-image: url("../images/slotMachine/gamepage-bg.png");
 }
@@ -462,6 +464,10 @@ body {
     width: 100%;
     transition-timing-function: linear;
     webkit-transition-timing-function: linear;
+    -webkit-transform-style: preserve-3d; 
+    transform-style: preserve-3d; 
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 .slot-gamepage-roll-container ul li {
     width: 100%;

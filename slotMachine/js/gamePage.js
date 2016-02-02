@@ -7,6 +7,8 @@ function GamePage(eleName) {
 
     var $gamePage = $(eleName);
 
+    $gamePage.show();
+
     //预加载音频
     var audioStart = utils.audio(slotGames.conf.mp3Url.play, false, true)
     var audioEnd   = utils.audio(slotGames.conf.mp3Url.end, false, true)
@@ -495,14 +497,17 @@ function GamePage(eleName) {
         
         audioStart.pauseReset()
         audioEnd.pauseReset()
-        slotGames.audio.play()
+        slotGames.audio && slotGames.audio.play()
 
         var title = gameCount ? "你今天还有剩下" + gameCount + "次机会" : "3次抽奖结束"
 
         var $p = appendTitle(title)
 
         //显示结果页面
-        resultBg(state);
+        setTimeout(function() {
+            resultBg(state);
+        }, 0)
+
 
         /**
          * 奖品处理
@@ -527,6 +532,8 @@ function GamePage(eleName) {
             monkey('addClass');
             $p.addClass("flipInX")
         }, 2000);
+
+        
     }
 
 }

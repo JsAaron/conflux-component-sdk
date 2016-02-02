@@ -77,7 +77,10 @@ function slotGames() {
             createAudio();
         });
     }, false);
-    // createAudio();
+
+    if (utils.hasTouch) {
+        // createAudio();
+    }
 
     $music.on(utils.END_EV, function() {
         if (state === "play") {
@@ -121,8 +124,7 @@ function slotGames() {
      * @return {[type]}   [description]
      */
     $enter.on(utils.END_EV, function(e) {
-        //隐藏主页
-        $hmoepage.hide();
+
         //游戏页面
         var gameObj = new GamePage(".slot-gamepage");
         //退出游戏
@@ -130,12 +132,19 @@ function slotGames() {
             $hmoepage.show();
             gameObj.destroy();
         })
+
+        setTimeout(function() {
+            //隐藏主页
+            $hmoepage.hide();
+        },500)
+
         return false;
     });
 
 
     // $enter.trigger(utils.END_EV)
 
+    $hmoepage.show();
 }
 
 
