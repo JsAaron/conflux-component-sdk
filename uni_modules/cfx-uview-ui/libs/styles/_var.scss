@@ -1,0 +1,201 @@
+// ======  组件配色 ==========
+
+$cw-type-primary: #2979ff;
+$cw-type-primary-disabled: #a0cfff;
+$cw-type-primary-light: #ecf5ff;
+
+//warning
+$cw-type-warning: #ffc43f;
+$cw-type-warning-disabled: #fcbd71;
+$cw-type-warning-dark: #f29100;
+$cw-type-warning-light: #fdf6ec;
+
+//success
+$cw-type-success: #67c23a;
+$cw-type-success-disabled: #71d5a1;
+$cw-type-success-dark: #18b566;
+$cw-type-success-light: #dbf1e1;
+
+//error
+$cw-type-error: #fa3534;
+$cw-type-error-disabled: #fab6b6;
+$cw-type-error-dark: #dd6161;
+$cw-type-error-light: #fef0f0;
+
+//info
+$cw-type-info: #909399;
+$cw-type-info-disabled: #c8c9cc;
+$cw-type-info-dark: #82848a;
+$cw-type-info-light: #f4f4f5;
+
+//颜色
+
+$cw-color-yellow: #ffc300; //ss-黄
+// $cw-color-orange: #f96226; //ss-橘
+$cw-color-orange: #ff7c17; //ss-橘
+// $cw-color-red: #ff3000; //ss-红
+$cw-color-pink: rgb(250, 67, 106);
+$cw-color-red: #ff2638;
+$cw-color-mauve: #b745cb;
+$cw-color-purple: #652abf; //rgba(101, 42, 191, 1); // ss-紫
+$cw-color-sky-blue: #4070ff;
+$cw-color-blue: #0081ff;
+$cw-color-cyan: #37c0fe;
+$cw-color-green: #00c621; //ss-绿
+$cw-color-olive: #8dc63f;
+$cw-color-grey: #8799a3;
+$cw-color-brown: #a5673f;
+$cw-color-black: #484848; //ss-黑
+$cw-color-golden: #e9b461; //ss-金
+$cw-color-gray: #aaaaaa;
+
+$colors: ();
+$colors: map-merge(
+  (
+    'yellow': $cw-color-yellow,
+    'orange': $cw-color-orange,
+    'red': $cw-color-red,
+    'pink': $cw-color-pink,
+    'mauve': $cw-color-mauve,
+    'purple': $cw-color-purple,
+    'violet': $cw-color-purple,
+    'blue': $cw-color-blue,
+    'cyan': $cw-color-cyan,
+    'green': $cw-color-green,
+    'olive': $cw-color-olive,
+    'grey': $cw-color-grey,
+    'brown': $cw-color-brown,
+    'black': $cw-color-black,
+    'golden': $cw-color-golden,
+    'sky-blue': $cw-color-sky-blue
+  ),
+  $colors
+);
+
+//灰度
+$cw-color-white: #ffffff;
+$cw-color-gray-f: #f8f9fa;
+$cw-color-gray-e: #eeeeee;
+$cw-color-gray-d: #dddddd;
+$cw-color-gray-c: #cccccc;
+$cw-color-gray-b: #bbbbbb;
+$cw-color-gray-a: #aaaaaa;
+
+$cw-color-dark-9: #999999;
+$cw-color-dark-8: #888888;
+$cw-color-dark-7: #777777;
+$cw-color-dark-6: #666666;
+$cw-color-dark-5: #555555;
+$cw-color-dark-4: #484848; //ss-黑
+$cw-color-dark-3: #333333;
+$cw-color-dark-2: #222222;
+$cw-color-dark-1: #111111;
+$cw-color-black: #000000;
+
+$grays: ();
+$grays: map-merge(
+  (
+    'white': $cw-color-white,
+    'gray-f': $cw-color-gray-f,
+    'gray-e': $cw-color-gray-e,
+    'gray-d': $cw-color-gray-d,
+    'gray-c': $cw-color-gray-c,
+    'gray-b': $cw-color-gray-b,
+    'gray-a': $cw-color-gray-a,
+    'gray': $cw-color-gray-a
+  ),
+  $grays
+);
+
+$darks: ();
+$darks: map-merge(
+  (
+    'dark-9': $cw-color-dark-9,
+    'dark-8': $cw-color-dark-8,
+    'dark-7': $cw-color-dark-7,
+    'dark-6': $cw-color-dark-6,
+    'dark-5': $cw-color-dark-5,
+    'dark-4': $cw-color-dark-4,
+    'dark-3': $cw-color-dark-3,
+    'dark-2': $cw-color-dark-2,
+    'dark-1': $cw-color-dark-1,
+    'black': $cw-color-black
+  ),
+  $darks
+);
+
+// radius圆角
+$cw-radius: 10rpx !default; // 默认圆角大小
+$radius: (
+  3: 3px,
+  5: 5px,
+  7: 7px,
+  10: 10px,
+  15: 15px,
+  20: 20px,
+  30: 30px,
+  'half': 50%,
+  'round': 100%,
+  't-12': 12px 12px 0 0,
+  100: 100px
+);
+
+//flex比例
+$flex-basis: (
+  10: 10%,
+  20: 20%,
+  30: 30%,
+  40: 40%,
+  50: 50%,
+  60: 50%,
+  70: 60%,
+  80: 70%,
+  90: 80%
+);
+
+$spacing-sizes: (
+  0: 0,
+  2: 2rpx,
+  5: 5rpx,
+  10: 10rpx,
+  15: 15rpx,
+  20: 20rpx,
+  25: 25rpx,
+  30: 30rpx,
+  40: 40rpx,
+  50: 50rpx
+);
+
+//flex 布局
+
+// row主轴
+$flex-row: (
+  left: flex-start,
+  start: flex-start,
+  right: flex-end,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around
+);
+// col交叉轴
+$flex-col: (
+  top: flex-start,
+  start: flex-start,
+  end: flex-end,
+  bottom: flex-end,
+  center: center,
+  stretch: stretch
+);
+
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+$spacing-directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left
+);
+$spacing-directions-merge: (lr, tb);

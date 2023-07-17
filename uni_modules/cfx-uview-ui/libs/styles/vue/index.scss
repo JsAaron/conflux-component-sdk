@@ -1,0 +1,167 @@
+page,
+block,
+view,
+scroll-view,
+swiper,
+movable-view,
+icon,
+text,
+progress,
+button,
+checkbox,
+form,
+input,
+label,
+picker,
+picker-view,
+radio,
+slider,
+switch,
+textarea,
+navigator,
+audio,
+image,
+video,
+map,
+canvas,
+contact-button,
+cover-image,
+cover-view {
+  box-sizing: border-box;
+}
+
+/* start--去除webkit的默认样式--start */
+// “-webkit-appearance: none; ”来改变按钮在iPhone下的默认风格
+.cw-fix-ios-appearance {
+  -webkit-appearance: none;
+}
+
+/* end--去除webkit的默认样式--end */
+
+/* ==================
+          图片
+ ==================== */
+
+image {
+  display: inline-block;
+}
+
+/* -- 阴影 -- */
+
+.cw-shadow[class*='white'] {
+  --ShadowSize: 0 1rpx 6rpx;
+}
+
+.cw-shadow-lg {
+  --ShadowSize: 0rpx 40rpx 100rpx 0rpx;
+}
+
+.cw-shadow-warp {
+  position: relative;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.cw-shadow-warp:before,
+.cw-shadow-warp:after {
+  position: absolute;
+  content: '';
+  top: 20rpx;
+  bottom: 30rpx;
+  left: 20rpx;
+  width: 50%;
+  box-shadow: 0 30rpx 20rpx rgba(0, 0, 0, 0.2);
+  transform: rotate(-3deg);
+  z-index: -1;
+}
+
+.cw-shadow-warp:after {
+  right: 20rpx;
+  left: auto;
+  transform: rotate(3deg);
+}
+
+.cw-shadow-blur {
+  position: relative;
+}
+
+.cw-shadow-blur::before {
+  content: '';
+  display: block;
+  background: inherit;
+  filter: blur(10rpx);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 10rpx;
+  left: 10rpx;
+  z-index: -1;
+  opacity: 0.4;
+  transform-origin: 0 0;
+  border-radius: inherit;
+  transform: scale(1, 1);
+}
+
+/* ==================
+          布局
+ ==================== */
+
+/* grid布局 */
+
+.cw-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cw-grid.col-1 > view {
+  width: 100%;
+}
+
+.cw-grid.col-2 > view {
+  width: 50%;
+}
+
+.cw-grid.col-3 > view {
+  width: 33.33%;
+}
+
+.cw-grid.col-4 > view {
+  width: 25%;
+}
+
+.cw-grid.col-5 > view {
+  width: 20%;
+}
+
+.cw-text-Abc {
+  text-transform: Capitalize;
+}
+
+.cw-text-ABC {
+  text-transform: Uppercase;
+}
+
+.cw-text-abc {
+  text-transform: Lowercase;
+}
+
+.cw-font-price::before {
+  content: '¥';
+  font-size: 80%;
+  margin-right: 4rpx;
+}
+
+.cw-font-price-xs::before {
+  content: '¥';
+  font-size: 40%;
+  margin-right: 4rpx;
+}
+
+.cw-font-price-sm::before {
+  content: '¥';
+  font-size: 60%;
+  margin-right: 4rpx;
+}
+
+.cw-inline-block {
+  display: inline-block;
+}

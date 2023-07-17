@@ -1,94 +1,101 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/example/components",
-			"style": {
-				"navigationBarTitleText": "uView Vue3.0 CONFLUX SDK"
-			}
-		},
-		{
-			"path": "uni_modules/vk-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
-			"style": {
-				"navigationBarTitleText": "头像裁剪",
-				"navigationBarBackgroundColor": "#000000"
-			}
-		}
-	],
-	"subPackages": [
-		//  区块链组件
-		{
-			"root": "pages/blockchain",
-			"pages": [{
-				"path": "authorize/index",
-				"style": {
-					"navigationBarTitleText": "用户授权"
-				}
-			}]
-		},
-		{
-			"root": "pages/componentsA",
-			"pages": [{
-					"path": "keyboard/index",
-					"style": {
-						"navigationBarTitleText": "keyboard-键盘"
-					}
-				},
-				{
-					"path": "tabs/index",
-					"style": {
-						"navigationBarTitleText": "tabs-标签"
-					}
-				},
-				{
-					"path": "avatarCropper/index",
-					"style": {
-						"navigationBarTitleText": "avatarCropper-头像裁剪"
-					}
-				}
-			]
-		},
-		{
-			"root": "pages/componentsB",
-			"pages": [{
-				"path": "picker/index",
-				"style": {
-					"navigationBarTitleText": "picker-选择器"
-				}
-			}]
-		},
-		{
-			"root": "pages/componentsC",
-			"pages": [{
-					"path": "numberBox/index",
-					"style": {
-						"navigationBarTitleText": "numberBox-步进器"
-					}
-				},
-				{
-					"path": "countDown/index",
-					"style": {
-						"navigationBarTitleText": "countDown-倒计时"
-					}
-				},
-				{
-					"path": "countTo/index",
-					"style": {
-						"navigationBarTitleText": "countTo-数字滚动"
-					}
-				},
-				{
-					"path": "button/index",
-					"style": {
-						"navigationBarTitleText": "button-按钮"
-					}
-				}
-			]
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uView Vue3.0 横空出世，继承uView1.0意志，再战江湖，风云再起！",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/example/components",
+      "style": {
+        "navigationBarTitleText": "uView Vue3.0 CONFLUX SDK"
+      }
+    },
+    {
+      "path": "uni_modules/cfx-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+      "style": {
+        "navigationBarTitleText": "头像裁剪",
+        "navigationBarBackgroundColor": "#000000"
+      }
+    }
+  ],
+  "subPackages": [
+    //  区块链组件
+    {
+      "root": "pages/blockchain",
+      "pages": [
+        {
+          "path": "ConnectWallet/index",
+          "style": {
+            "navigationBarTitleText": "连接钱包"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/componentsA",
+      "pages": [
+        {
+          "path": "keyboard/index",
+          "style": {
+            "navigationBarTitleText": "keyboard-键盘"
+          }
+        },
+        {
+          "path": "tabs/index",
+          "style": {
+            "navigationBarTitleText": "tabs-标签"
+          }
+        },
+        {
+          "path": "avatarCropper/index",
+          "style": {
+            "navigationBarTitleText": "avatarCropper-头像裁剪"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/componentsB",
+      "pages": [
+        {
+          "path": "picker/index",
+          "style": {
+            "navigationBarTitleText": "picker-选择器"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/componentsC",
+      "pages": [
+        {
+          "path": "numberBox/index",
+          "style": {
+            "navigationBarTitleText": "numberBox-步进器"
+          }
+        },
+        {
+          "path": "countDown/index",
+          "style": {
+            "navigationBarTitleText": "countDown-倒计时"
+          }
+        },
+        {
+          "path": "countTo/index",
+          "style": {
+            "navigationBarTitleText": "countTo-数字滚动"
+          }
+        },
+        {
+          "path": "button/index",
+          "style": {
+            "navigationBarTitleText": "button-按钮"
+          }
+        }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uView Vue3.0 横空出世，继承uView1.0意志，再战江湖，风云再起！",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
 }

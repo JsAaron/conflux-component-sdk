@@ -1,0 +1,43 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* ==================
+          边框
+ ==================== */
+
+/* -- 实线 -- */
+/* #ifndef APP-NVUE */
+.cw-border {
+  overflow: initial !important;
+  @at-root [class*='cw-border'] {
+    position: relative;
+    &.dline {
+      --cw-border: var(--ui-bg-3);
+    }
+    &::after {
+      content: ' ';
+      width: 200%;
+      height: 200%;
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      pointer-events: none;
+      box-sizing: border-box;
+      border-radius: inherit;
+    }
+    &.radius::after {
+      border-radius: calc(#{$cw-radius} * 2);
+    }
+  }
+  &::after {
+    border: 1px solid var(--cw-border);
+  }
+  @each $value in (top, right, bottom, left) {
+    &-#{$value}::after {
+      border-#{$value}: 1px solid var(--cw-border);
+    }
+  }
+}
+/* #endif */

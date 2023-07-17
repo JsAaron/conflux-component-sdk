@@ -1,0 +1,74 @@
+@import '../var.scss';
+@import '../mixins.scss';
+
+/* ==================
+          背景
+ ==================== */
+@each $key, $value in map-merge($colors, $darks) {
+  .cw-bg-#{$key} {
+    background-color: $value !important;
+    // 白色背景单独处理
+    @if $key == 'white' {
+      color: #666666;
+    } @else {
+      color: #ffffff;
+    }
+  }
+}
+
+@each $color, $value in $grays {
+  .cw-bg-#{$color} {
+    background-color: $value !important;
+    color: #333333 !important;
+  }
+}
+
+/* -- 渐变色 -- */
+.cw-bg-yellow-gradient {
+  background-image: linear-gradient(45deg, #f5fe00, #ff6600) !important;
+  color: $cw-color-dark-3 !important;
+}
+.cw-bg-orange-gradient {
+  background-image: linear-gradient(90deg, #ff6000, #fe832a) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-red-gradient {
+  background-image: linear-gradient(45deg, #ff3000, #ed0586) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-pink-gradient {
+  background-image: linear-gradient(45deg, #fea894, #ff1047) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-mauve-gradient {
+  background-image: linear-gradient(45deg, #c01f95, #7115cc) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-purple-gradient {
+  background-image: linear-gradient(45deg, #9829ea, #5908fb) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-blue-gradient {
+  background-image: linear-gradient(45deg, #00b8f9, #0166eb) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-cyan-gradient {
+  background-image: linear-gradient(45deg, #06edfe, #48b2fe) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-green-gradient {
+  background-image: linear-gradient(45deg, #3ab54a, #8cc63f) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-olive-gradient {
+  background-image: linear-gradient(45deg, #90e630, #39d266) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-grey-gradient {
+  background-image: linear-gradient(45deg, #9aadb9, #354855) !important;
+  color: $cw-color-white !important;
+}
+.cw-bg-brown-gradient {
+  background-image: linear-gradient(45deg, #ca6f2e, #cb1413) !important;
+  color: $cw-color-white !important;
+}

@@ -1,0 +1,24 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* =======================
+				字体颜色
+ ========================= */
+@each $key, $value in $colors {
+  .cw-tc-#{$key} {
+    color: $value;
+  }
+}
+
+/* 浅色 */
+@each $key, $value in $grays {
+  .cw-tc-#{$key} {
+    color: $value;
+  }
+}
+
+/* 深色 */
+@each $key, $value in $darks {
+  .cw-tc-#{$key} {
+    color: $value;
+  }
+}

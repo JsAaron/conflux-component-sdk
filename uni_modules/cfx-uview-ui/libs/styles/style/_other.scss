@@ -1,0 +1,70 @@
+@import '../var.scss';
+@import '../mixins.scss';
+
+/* =======================
+						安全区
+ ========================= */
+/* #ifndef APP-NVUE */
+@each $directionkey, $directionVal in $spacing-directions {
+  .cw-safe-area-#{$directionVal} {
+    padding-#{$directionVal}: 0;
+    padding-#{$directionVal}: constant(safe-area-inset-#{$directionVal});
+    padding-#{$directionVal}: env(safe-area-inset-#{$directionVal});
+  }
+}
+/* #endif */
+
+/* ==================
+      其他
+ ==================== */
+
+.cw-overflow-hide {
+  overflow: hidden;
+}
+
+.cw-image-border {
+  width: 100%;
+  height: 100%;
+  /* #ifndef APP-NVUE */
+  vertical-align: bottom;
+  /* #endif */
+}
+
+.cw-image-slide {
+  width: 100%;
+  /* #ifndef APP-NVUE */
+  display: block;
+  /* #endif */
+}
+
+// 去除button的所有默认样式，让其表现跟普通的view、text元素一样
+.cw-reset-button {
+  padding: 0;
+  background-color: transparent;
+  /* #ifndef APP-NVUE */
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  /* #endif */
+  border-width: 0;
+}
+
+.cw-reset-button::after {
+  /* #ifndef APP-NVUE */
+  border: none;
+  /* #endif */
+  /* #ifdef APP-NVUE */
+  border: 0;
+  /* #endif */
+}
+
+// input默认样式
+.cw-reset-input {
+  /* #ifndef APP-NVUE */
+  box-sizing: border-box;
+  border: none;
+  /* #endif */
+  /* #ifdef APP-NVUE */
+  border: 0;
+  /* #endif */
+}

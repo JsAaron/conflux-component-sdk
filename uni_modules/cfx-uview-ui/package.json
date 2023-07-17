@@ -1,21 +1,21 @@
 {
-  "id": "vk-uview-ui",
-	"name": "vk-uview-ui",
+  "id": "cfx-uview-ui",
+  "name": "cfx-uview-ui",
   "displayName": "【开箱即用】uView Vue3 横空出世，继承uView1意志，再战江湖，风云再起！",
   "version": "1.5.0",
   "description": "同时支持 Vue3.0 和 Vue2.0，你没看错，现在 uView 支持 Vue3.0 了！（不支持nvue，此版本为uView1.0的分支）",
   "keywords": [
-    "vk-uview-ui",
+    "cfx-uview-ui",
     "vk云开发",
     "vue3.0",
     "uniapp",
     "uview"
-],
-  "repository": "https://gitee.com/vk-uni/vk-uview-ui.git",
+  ],
+  "repository": "https://gitee.com/vk-uni/cfx-uview-ui.git",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
-"dcloudext": {
+  "dcloudext": {
     "sale": {
       "regular": {
         "price": "0.00"

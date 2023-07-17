@@ -1,0 +1,75 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* ==================
+          阴影
+ ==================== */
+
+/* #ifndef APP-NVUE */
+.cw-shadow {
+  box-shadow: var(--cw-shadow);
+}
+
+.cw-shadow[class*='-red'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(204, 69, 59, 0.2);
+}
+
+.cw-shadow[class*='-orange'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(217, 109, 26, 0.2);
+}
+
+.cw-shadow[class*='-yellow'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(224, 170, 7, 0.2);
+}
+
+.cw-shadow[class*='-olive'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(124, 173, 55, 0.2);
+}
+
+.cw-shadow[class*='-green'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(48, 156, 63, 0.2);
+}
+
+.cw-shadow[class*='-cyan'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(28, 187, 180, 0.2);
+}
+
+.cw-shadow[class*='-blue'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(0, 102, 204, 0.2);
+}
+
+.cw-shadow[class*='-purple'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(88, 48, 156, 0.2);
+}
+
+.cw-shadow[class*='-mauve'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(133, 33, 150, 0.2);
+}
+
+.cw-shadow[class*='-pink'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(199, 50, 134, 0.2);
+}
+
+.cw-shadow[class*='-brown'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(140, 88, 53, 0.2);
+}
+
+.cw-shadow[class*='-grey'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(114, 130, 138, 0.2);
+}
+
+.cw-shadow[class*='-gray'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(114, 130, 138, 0.2);
+}
+
+.cw-shadow[class*='-black'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(26, 26, 26, 0.2);
+}
+
+.cw-shadow[class*='-white'] {
+  box-shadow: 6rpx 6rpx 8rpx rgba(26, 26, 26, 0.2);
+}
+
+.cw-box-shadow {
+  box-shadow: 0rpx 5rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+/* #endif */

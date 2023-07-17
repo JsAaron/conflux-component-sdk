@@ -1,0 +1,30 @@
+@import './theme/index'; //系统主题
+
+@import './style/background'; //背色
+@import './style/color'; //字色
+@import './style/font'; //字体
+@import './style/shadow'; //阴影
+@import './style/size'; //尺寸
+@import './style/radius'; //radius
+@import './style/text'; //文本
+@import './style/border'; //边
+@import './style/position'; //定位
+@import './style/flex'; //flex
+@import './style/other'; //其他
+
+// 非nvue的样式
+/* #ifndef APP-NVUE */
+@import './vue/index.scss';
+@import './vue/component.scss';
+@import './vue/animation.scss'; //其他
+/* #endif */
+
+// nvue的特有样式
+/* #ifdef APP-NVUE */
+@import './nvue/index.scss';
+/* #endif */
+
+// H5特有的样式
+/* #ifdef H5 */
+@import './h5/index.scss';
+/* #endif */

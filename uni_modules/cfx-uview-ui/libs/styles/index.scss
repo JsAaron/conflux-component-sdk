@@ -1,0 +1,30 @@
+@import './mixins';
+@import './ui';
+
+page {
+  /* #ifndef APP-NVUE */
+  -webkit-overflow-scrolling: touch; // 解决ios滑动不流畅
+  background-color: var(--cw-bg-1) !important;
+  /* #endif */
+}
+
+/* #ifndef APP-NVUE */
+body {
+  color: var(--cw-tc);
+  background-color: var(--cw-bg-1) !important;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+/* #endif */
+
+/* #ifndef APP-NVUE */
+/* 解决小程序和app滚动条的问题 */
+::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+  background: transparent;
+  color: transparent;
+}
+/* #endif */

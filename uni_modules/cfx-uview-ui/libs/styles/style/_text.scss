@@ -1,0 +1,73 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* =======================
+		溢出省略号
+    @param {Number} 行数
+ ========================= */
+
+// 超出行数，自动显示行尾省略号，最多5行
+@for $i from 1 through 5 {
+  .cw-line-#{$i} {
+    /* #ifdef APP-NVUE */
+    // nvue下，可以直接使用lines属性，这是weex特有样式
+    lines: $i;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    /* #endif */
+
+    /* #ifndef APP-NVUE */
+    // vue下，单行和多行显示省略号需要单独处理
+    @if $i == 1 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    } @else {
+      display: -webkit-box !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      -webkit-line-clamp: $i;
+      -webkit-box-orient: vertical !important;
+    }
+    /* #endif */
+  }
+}
+
+//对齐
+@each $var in (left, center, right) {
+  .cw-text-#{$var} {
+    text-align: $var !important;
+  }
+}
+
+/* =======================
+					文字属性
+ ========================= */
+@each $var in (400, 500, 600, 700, 800, 900) {
+  .cw-font-weight-#{$var} {
+    font-weight: $var !important;
+  }
+}
+
+@each $var in (normal, bold, 800, 900) {
+  .cw-font-#{$var} {
+    font-weight: $var !important;
+  }
+}
+/* #ifndef APP-NVUE */
+@each $var in (lighter, bolder) {
+  .cw-font-#{$var} {
+    font-weight: $var !important;
+  }
+}
+/* #endif */
+
+.cw-text-decoration {
+  text-decoration: line-through;
+}
+
+.cw-text-wrap {
+  word-break: break-all;
+  word-wrap: break-word;
+}

@@ -1,0 +1,79 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* ==================
+      定位
+ ==================== */
+
+.cw-absolute {
+  position: absolute !important;
+  z-index: 1;
+}
+
+.cw-absolute-lt {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.cw-absolute-lb {
+  position: absolute !important;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.cw-absolute-cb {
+  position: absolute !important;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.cw-absolute-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+.cw-absolute-x-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* #ifndef APP-NVUE */
+.cw-absolute-y-center {
+  position: absolute;
+  top: 50%;
+  left: translateY(-50%);
+  z-index: 0;
+}
+
+/* #endif */
+
+.cw-relative {
+  position: relative;
+}
+
+.cw-fixed {
+  position: fixed !important;
+}
+
+.cw-fixed-lt {
+  width: 100%;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.cw-fixed-b {
+  width: 100%;
+  position: fixed !important;
+  bottom: 0;
+  z-index: 1;
+}

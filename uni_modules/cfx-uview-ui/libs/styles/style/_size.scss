@@ -1,0 +1,205 @@
+@import '../var.scss';
+@import '../mixins.scss';
+/* =======================
+				百分比尺寸
+ ========================= */
+.cw-wh-100-pt {
+  height: 100%;
+  width: 100%;
+}
+.cw-w-100-pt {
+  /* #ifdef APP-NVUE */
+  width: 750rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 100%;
+  /* #endif */
+}
+.cw-h-100-pt {
+  /* #ifndef APP-NVUE */
+  height: 100%;
+  /* #endif */
+}
+.cw-w-90-pt {
+  /* #ifdef APP-NVUE */
+  width: 750rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 90%;
+  /* #endif */
+}
+.cw-w-80-pt {
+  /* #ifdef APP-NVUE */
+  width: 750rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 80%;
+  /* #endif */
+}
+.cw-w-50-pt {
+  /* #ifdef APP-NVUE */
+  width: 375rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 50%;
+  /* #endif */
+}
+
+.cw-w-30-pt {
+  /* #ifdef APP-NVUE */
+  width: 225rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 30%;
+  /* #endif */
+}
+
+.cw-w-20-pt {
+  /* #ifdef APP-NVUE */
+  width: 150rpx;
+  /* #endif */
+  /* #ifndef APP-NVUE */
+  width: 20%;
+  /* #endif */
+}
+
+.cw-w-auto {
+  width: auto;
+}
+
+.cw-h-auto {
+  height: auto;
+}
+
+/* =======================
+					绝对尺寸
+ ========================= */
+@for $i from 0 through 200 {
+  @if $i%5==0 {
+    .cw-w-#{$i} {
+      width: $i + rpx;
+    }
+    .cw-h-#{$i } {
+      height: $i + rpx;
+    }
+    .cw-wh-#{$i } {
+      width: $i + rpx;
+      height: $i + rpx;
+    }
+  }
+}
+
+/* 特殊尺寸 */
+@each $size in (1, 32, 48, 58, 64) {
+  .cw-w-#{$size} {
+    width: $size + rpx;
+  }
+  .cw-h-#{$size} {
+    height: $size + rpx;
+  }
+  .cw-wh-#{$size} {
+    width: $size + rpx;
+    height: $size + rpx;
+  }
+}
+
+/* ==================
+
+    margin padding: 内外边距
+
+ ==================== */
+@for $i from 0 through 100 {
+  // 只要双数和能被5除尽的数
+  @if $i % 2==0 or $i % 5==0 {
+    // 得出：u-margin-30或者u-m-30
+    .cw-m-#{$i} {
+      margin: $i + rpx;
+    }
+    .cw-m-x-#{$i} {
+      margin-left: $i + rpx;
+      margin-right: $i + rpx;
+    }
+    .cw-m-y-#{$i} {
+      margin-top: $i + rpx;
+      margin-bottom: $i + rpx;
+    }
+
+    // 得出：u-padding-30或者u-p-30
+    .cw-p-#{$i} {
+      padding: $i + rpx;
+    }
+    .cw-p-x-#{$i} {
+      padding-left: $i + rpx;
+      padding-right: $i + rpx;
+    }
+    .cw-p-y-#{$i} {
+      padding-top: $i + rpx;
+      padding-bottom: $i + rpx;
+    }
+
+    @each $short, $long in l left, t top, r right, b bottom {
+      // 缩写版，结果如： u-m-l-30
+      // 定义外边距
+      .cw-m-#{$short}-#{$i} {
+        margin-#{$long}: $i + rpx;
+      }
+      // 定义内边距
+      .cw-p-#{$short}-#{$i} {
+        padding-#{$long}: $i + rpx;
+      }
+    }
+  }
+}
+
+// @each $sizekey, $sizeval in $spacing-sizes {
+//   //m: margin, p: padding,
+//   @each $typeshort, $typelong in $spacing-types {
+//     // cw-m-50
+//     // .cw-#{$typelong}-#{$sizekey} {
+//     // 	#{$typelong}: $sizeval !important;
+//     // }
+//     // cw-m-50
+//     // nvue下不能加 !important，报错
+//     .cw-#{$typeshort}-#{$sizekey} {
+//       #{$typelong}: $sizeval;
+//     }
+
+//     //  	t: top,r: right,b: bottom,	l: left,
+//     @each $directionkey, $direction in $spacing-directions {
+//       // cw-mrgin-top-50
+//       // .cw-#{$typelong}-#{$direction}-#{$sizekey} {
+//       // 	#{$typelong}-#{$direction}: $sizeval !important;
+//       // }
+//       //cw-m-t-50
+//       .cw-#{$typeshort}-#{$directionkey}-#{$sizekey} {
+//         #{$typelong}-#{$direction}: $sizeval !important;
+//       }
+//     }
+
+//     // margin-tb-xs padding-tb-xs
+//     @each $directionkey in $spacing-directions-merge {
+//       // cw-m-y-50
+//       // .cw-#{$typelong}-#{$directionkey}-#{$sizekey} {
+//       // 	@if $directionkey == 'lr' {
+//       // 		#{$typelong}-left: $sizeval !important;
+//       // 		#{$typelong}-right: $sizeval !important;
+//       // 	}
+//       // 	@if $directionkey == 'tb' {
+//       // 		#{$typelong}-top: $sizeval !important;
+//       // 		#{$typelong}-bottom: $sizeval !important;
+//       // 	}
+//       // }
+//       //cw-m-y-50
+//       .cw-#{$typeshort}-#{$directionkey}-#{$sizekey} {
+//         @if $directionkey == 'lr' {
+//           #{$typelong}-left: $sizeval !important;
+//           #{$typelong}-right: $sizeval !important;
+//         }
+//         @if $directionkey == 'tb' {
+//           #{$typelong}-top: $sizeval !important;
+//           #{$typelong}-bottom: $sizeval !important;
+//         }
+//       }
+//     }
+//   }
+// }

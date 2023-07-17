@@ -1,0 +1,251 @@
+@import '../var.scss';
+@import '../mixins.scss';
+
+/* ==================
+      flex弹性布局
+ ==================== */
+
+.cw-flex {
+  @include cw-flex;
+}
+.cw-flex-x-middle {
+  @include cw-flex-x-middle;
+}
+.cw-flex-y-middle {
+  @include cw-flex-y-middle;
+}
+
+// 换行
+.cw-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.cw-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+// ===========
+// 	主轴对齐
+// ============
+@each $key, $value in $flex-row {
+  .cw-jc-#{$key} {
+    justify-content: $value !important;
+  }
+}
+
+// ===========
+// 	交叉轴起点对齐
+// ============
+@each $key, $value in $flex-col {
+  .cw-ai-#{$key} {
+    align-items: $value !important;
+  }
+}
+
+// 定义flex等分
+@for $i from 0 through 12 {
+  .cw-flex-#{ $i} {
+    flex: $i;
+  }
+}
+
+/* #ifndef APP-NVUE */
+// 放大比例
+// 如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。
+// 如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍
+.cw-flex-grow {
+  flex-grow: 1;
+}
+
+// 是否可以缩小
+.cw-flex-shrink {
+  flex-shrink: 1;
+}
+// flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。
+// 浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+@each $basiskey, $basisval in $flex-basis {
+  .cw-basis-#{$basiskey} {
+    flex-basis: $basisval;
+  }
+}
+
+.cw-ai-baseline {
+  align-items: baseline;
+}
+// ===========
+// 属性允许单个项目有与其他项目不一样的对齐方式
+// 可覆盖align-items
+// ============
+
+@each $key, $value in $flex-col {
+  .cw-as-#{$key} {
+    align-self: $value;
+  }
+}
+
+// ===========
+// 多轴交叉时的对齐方式
+// ============
+// 起点对齐
+@each $key, $value in $flex-row {
+  .cw-ac-#{$key} {
+    align-content: $value;
+  }
+}
+/* #endif */
+
+// ========================
+// 				row x方向
+// ========================
+
+.cw-flex-x {
+  @include cw-flex;
+}
+.cw-flex-x-left {
+  @include cw-flex-x-left;
+}
+.cw-flex-x-right {
+  @include cw-flex-x-right;
+}
+.cw-flex-x-center {
+  @include cw-flex-x-center;
+}
+.cw-flex-x-around {
+  @include cw-flex-x-around;
+}
+.cw-flex-x-between {
+  @include cw-flex-x-between;
+}
+
+// ======== left ==========
+.cw-flex-x-left-y-top {
+  @include cw-flex-x-left-y-top;
+}
+.cw-flex-x-left-y-center {
+  @include cw-flex-x-left-y-center;
+}
+.cw-flex-x-left-y-bottom {
+  @include cw-flex-x-left-y-bottom;
+}
+
+// ======== center ==========
+.cw-flex-x-center-y-top {
+  @include cw-flex-x-center-y-top;
+}
+.cw-flex-x-center-y-center {
+  @include cw-flex-x-center-y-center;
+}
+.cw-flex-x-center-y-bottom {
+  @include cw-flex-x-center-y-bottom;
+}
+
+// ======== right ==========
+.cw-flex-x-right-y-top {
+  @include cw-flex-x-right-y-top;
+}
+.cw-flex-x-right-y-center {
+  @include cw-flex-x-right-y-center;
+}
+.cw-flex-x-right-y-bottom {
+  @include cw-flex-x-right-y-bottom;
+}
+
+// ======== between==========
+.cw-flex-x-between-y-top {
+  @include cw-flex-x-between-y-top;
+}
+.cw-flex-x-between-y-center {
+  @include cw-flex-x-between-y-center;
+}
+.cw-flex-x-between-y-bottom {
+  @include cw-flex-x-between-y-bottom;
+}
+
+// ======== around ==========
+.cw-flex-x-around-y-top {
+  @include cw-flex-x-around-y-top;
+}
+.cw-flex-x-around-y-center {
+  @include cw-flex-x-around-y-center;
+}
+.cw-flex-x-around-y-bottom {
+  @include cw-flex-x-around-y-bottom;
+}
+
+// ========================
+// 				y col方向
+// ========================
+.cw-flex-y {
+  @include cw-flex-y;
+}
+.cw-flex-y-top {
+  @include cw-flex-y-top;
+}
+.cw-flex-y-center {
+  @include cw-flex-y-center;
+}
+.cw-flex-y-bottom {
+  @include cw-flex-y-bottom;
+}
+.cw-flex-y-between {
+  @include cw-flex-y-between;
+}
+.cw-flex-y-around {
+  @include cw-flex-y-around;
+}
+
+//横向两端对齐
+//  ==== top =====
+.cw-flex-y-top-x-left {
+  @include cw-flex-y-top-x-left;
+}
+.cw-flex-y-top-x-center {
+  @include cw-flex-y-top-x-center;
+}
+.cw-flex-y-top-x-right {
+  @include cw-flex-y-top-x-right;
+}
+
+//  ==== center =====
+.cw-flex-y-center-x-left {
+  @include cw-flex-y-center-x-left;
+}
+.cw-flex-y-center-x-center {
+  @include cw-flex-y-center-x-center;
+}
+.cw-flex-y-center-x-right {
+  @include cw-flex-y-center-x-right;
+}
+
+//  ==== bottom =====
+.cw-flex-y-bottom-x-left {
+  @include cw-flex-y-bottom-x-left;
+}
+.cw-flex-y-bottom-x-center {
+  @include cw-flex-y-bottom-x-center;
+}
+.cw-flex-y-bottom-x-right {
+  @include cw-flex-y-bottom-x-right;
+}
+
+//  ==== between =====
+.cw-flex-y-between-x-left {
+  @include cw-flex-y-between-x-left;
+}
+.cw-flex-y-between-x-center {
+  @include cw-flex-y-between-x-center;
+}
+.cw-flex-y-between-x-right {
+  @include cw-flex-y-between-x-right;
+}
+
+//  ==== around =====
+.cw-flex-y-around-x-left {
+  @include cw-flex-y-around-x-left;
+}
+.cw-flex-y-around-x-center {
+  @include cw-flex-y-around-x-center;
+}
+.cw-flex-y-around-x-right {
+  @include cw-flex-y-around-x-right;
+}
