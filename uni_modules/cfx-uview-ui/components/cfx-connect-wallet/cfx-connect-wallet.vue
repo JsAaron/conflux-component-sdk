@@ -4,7 +4,7 @@
       <view class="main-title cfx-flex cfx-row-between cfx-border-bottom cfx-p-40">
         <block v-if="walletVar.show">
           <view @click="walletVar.show = false">
-            <cfx-icon name="arrow-left" size="30"></cfx-icon>
+            <cfx-icon v-if="chainList.length > 1" name="arrow-left" size="30"></cfx-icon>
             <text class="cfx-m-l-10">{{ walletVar.title }}</text>
           </view>
           <cfx-icon name="close" size="30" @click="close"></cfx-icon>
@@ -155,19 +155,6 @@ export default {
           this.close()
         }
       }
-    },
-    chainCode: {
-      immediate: true,
-      handler(val) {
-        if (val == 'all') {
-          this.chainList = [...CHAINLIST]
-        } else {
-          let val_arr = val.split(',')
-          this.chainList = CHAINLIST.filter(item => {
-            return val_arr.find(vitem => vitem == item.code)
-          })
-        }
-      }
     }
   },
 
@@ -181,7 +168,25 @@ export default {
   },
 
   methods: {
+    getChainList() {
+      let chainCode = this.chainCode
+      if (chainCode == 'all') {
+        this.chainList = [...CHAINLIST]
+      } else {
+        let val_arr = chainCode.split(',')
+        let chainList = CHAINLIST.filter(item => {
+          return val_arr.find(vitem => vitem == item.code)
+        })
+        if (chainList.length == 1) {
+          this.onChain(chainList[0])
+        } else {
+          this.chainList = chainList
+        }
+      }
+    },
+
     open() {
+      this.getChainList()
       this.change('visibleSync', true)
     },
 

@@ -1,8 +1,10 @@
 <template>
   <view class="u-demo">
     <view class="btn-box">
-      <cfx-button @click="show = true" type="primary">连接钱包</cfx-button>
-      <cfx-connect-wallet chainCode="all" v-model="show"></cfx-connect-wallet>
+      <cfx-button @click="show1 = true" type="primary">树图链钱包</cfx-button>
+      <cfx-button @click="show2 = true" type="primary">全部链钱包</cfx-button>
+      <cfx-connect-wallet chainCode="CONFLUX_MAINNET" v-model="show1"></cfx-connect-wallet>
+      <cfx-connect-wallet chainCode="all" v-model="show2"></cfx-connect-wallet>
     </view>
   </view>
 </template>
@@ -12,7 +14,8 @@ var numObj = {}
 export default {
   data() {
     return {
-      show: false
+      show1: false,
+      show2: false
     }
   },
   methods: {
