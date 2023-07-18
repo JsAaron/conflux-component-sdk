@@ -6,13 +6,6 @@
       "style": {
         "navigationBarTitleText": "uView Vue3.0 CONFLUX SDK"
       }
-    },
-    {
-      "path": "uni_modules/cfx-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
-      "style": {
-        "navigationBarTitleText": "头像裁剪",
-        "navigationBarBackgroundColor": "#000000"
-      }
     }
   ],
   "subPackages": [

@@ -10,6 +10,10 @@ import Vue from 'vue'
 // 使用 uView UI
 Vue.use(uView)
 
+import Vconsole from 'vconsole'
+const vConsole = new Vconsole()
+Vue.use(vConsole)
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

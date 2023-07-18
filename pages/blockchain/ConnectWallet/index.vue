@@ -1,7 +1,8 @@
 <template>
   <view class="u-demo">
     <view class="btn-box">
-      <cfx-connect-wallet chainCode="all" @click="btnClick('A1')" timer-id="A">按钮A1</cfx-connect-wallet>
+      <cfx-button @click="show = true" type="primary">连接钱包</cfx-button>
+      <cfx-connect-wallet chainCode="all" v-model="show"></cfx-connect-wallet>
     </view>
   </view>
 </template>
@@ -10,7 +11,9 @@
 var numObj = {}
 export default {
   data() {
-    return {}
+    return {
+      show: false
+    }
   },
   methods: {
     btnClick(name) {

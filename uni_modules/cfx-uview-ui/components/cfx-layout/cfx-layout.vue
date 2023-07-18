@@ -12,7 +12,11 @@ export default {
   emits: ['click', 'close'],
   props: {},
   data() {
-    return {}
+    return { test: 1111 }
+  },
+  mounted() {
+    console.log(123, this.$children[0])
+    // this.$children[0].$$onReady()
   },
   computed: {},
   methods: {
