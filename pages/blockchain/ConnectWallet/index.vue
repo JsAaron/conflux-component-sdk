@@ -1,7 +1,7 @@
 <template>
   <view class="u-demo">
     <view class="btn-box">
-      <cfx-connect-wallet @click="btnClick('A1')" timer-id="A">按钮A1</cfx-connect-wallet>
+      <cfx-connect-wallet chainCode="all" @click="btnClick('A1')" timer-id="A">按钮A1</cfx-connect-wallet>
     </view>
   </view>
 </template>
