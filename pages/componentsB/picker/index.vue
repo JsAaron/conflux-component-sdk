@@ -213,7 +213,7 @@ export default {
 
 <style lang="scss" scoped>
 .input {
-  border: 1px solid $u-light-color;
+  border: 1px solid $cfx-light-color;
   border-radius: 4px;
   margin-bottom: 20px;
   height: 30px;

@@ -2,13 +2,13 @@
   <cfx-layout>
     <u-popup v-model="show" mode="center" length="95%" height="60%" border-radius="20">
       <view class="main">
-        <view class="main-title u-flex u-row-between u-border-bottom u-p-40">
+        <view class="main-title cfx-flex cfx-row-between cfx-border-bottom cfx-p-40">
           <text>Connect Wallet</text>
           <u-icon name="close"></u-icon>
         </view>
         <scroll-view scroll-y="true" class="main-scroll-y">
           <view class="main-grid main-col-2">
-            <view class="main-row u-text-center u-border-bottom" v-for="item in chainList" :key="item.code">
+            <view class="main-row cfx-text-center cfx-border-bottom" v-for="item in chainList" :key="item.code">
               <image style="width: 100rpx" mode="widthFix" :src="item.icon"></image>
               <view class="main-name">{{ item.name }}</view>
             </view>
@@ -85,11 +85,16 @@ export default {
   &-title {
     font-size: 40rpx;
     font-weight: bold;
-    color: $u-type-primary;
+    color: $cfx-type-primary;
+  }
+  &-grid {
+    :active {
+      background-color: $cfx-type-primary;
+    }
   }
   &-row {
     padding: 40rpx;
-    color: $u-type-primary;
+    color: $cfx-type-primary;
   }
   &-scroll-y {
     height: calc(52vh);
