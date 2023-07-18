@@ -1,5 +1,5 @@
 <template>
-  <cfx-popup v-model="show" mode="center" length="95%" height="60%" border-radius="20">
+  <cfx-popup v-model="visibleSync" mode="center" length="95%" height="60%" border-radius="20">
     <view class="main">
       <view class="main-title cfx-flex cfx-row-between cfx-border-bottom cfx-p-40">
         <block v-if="walletVar.show">
@@ -7,11 +7,11 @@
             <cfx-icon name="arrow-left" size="30"></cfx-icon>
             <text class="cfx-m-l-10">{{ walletVar.title }}</text>
           </view>
-          <cfx-icon name="close" size="30" @click="show = false"></cfx-icon>
+          <cfx-icon name="close" size="30" @click="close"></cfx-icon>
         </block>
         <block v-else>
           <text>{{ title }}</text>
-          <cfx-icon name="close" size="30" @click="show = false"></cfx-icon>
+          <cfx-icon name="close" size="30" @click="close"></cfx-icon>
         </block>
       </view>
       <scroll-view scroll-y="true" class="main-scroll-y">
@@ -92,12 +92,8 @@ const CHAINLIST = [
 
 export default {
   name: 'cfx-connect-wallet',
-  emits: ['click', 'close'],
+  emits: ['update:modelValue', 'open', 'close'],
   props: {
-    show: {
-      type: Boolean,
-      default: false
-    },
     title: {
       type: String,
       default: 'Connect Wallet'
@@ -105,10 +101,20 @@ export default {
     chainCode: {
       type: String,
       default: 'all'
+    },
+    // ======== v-model ========
+    value: {
+      type: Boolean,
+      default: false
+    },
+    modelValue: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      visibleSync: false,
       chainList: [],
       walletVar: {
         show: false,
@@ -126,7 +132,30 @@ export default {
       }
     }
   },
+
+  computed: {
+    valueCom() {
+      // #ifndef VUE3
+      return this.value
+      // #endif
+
+      // #ifdef VUE3
+      return this.modelValue
+      // #endif
+    }
+  },
+
   watch: {
+    valueCom: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.open()
+        } else {
+          this.close()
+        }
+      }
+    },
     chainCode: {
       immediate: true,
       handler(val) {
@@ -141,13 +170,48 @@ export default {
       }
     }
   },
-  computed: {},
 
   created() {
     $cfxcore.init()
   },
 
+  mounted() {
+    // 组件渲染完成时，检查value是否为true，如果是，弹出popup
+    this.valueCom && this.open()
+  },
+
   methods: {
+    open() {
+      this.change('visibleSync', true)
+    },
+
+    close() {
+      this.change('visibleSync', false)
+    },
+
+    change(param1, status) {
+      this[param1] = status
+      this.$emit('input', status)
+      this.$emit('update:modelValue', status)
+
+      if (status) {
+        // #ifdef H5 || MP
+        this.timer = setTimeout(() => {
+          this.$emit(status ? 'open' : 'close')
+        }, 50)
+        // #endif
+        // #ifndef H5 || MP
+        this.$nextTick(() => {
+          this.$emit(status ? 'open' : 'close')
+        })
+        // #endif
+      } else {
+        this.timer = setTimeout(() => {
+          this.$emit(status ? 'open' : 'close')
+        }, this.duration)
+      }
+    },
+
     geTel(tel) {
       return tel.substring(0, 20) + '****' + tel.substr(tel.length - 20)
     },
@@ -177,15 +241,6 @@ export default {
       this.show = false
       this.walletVar.show = false
       console.log(item)
-    },
-
-    // 点击内容
-    click() {
-      this.$emit('click')
-    },
-    // 点击关闭按钮
-    close() {
-      this.$emit('close')
     }
   }
 }
