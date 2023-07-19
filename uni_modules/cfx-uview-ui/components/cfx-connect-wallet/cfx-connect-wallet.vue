@@ -1,55 +1,58 @@
 <template>
-  <cfx-popup v-model="visibleSync" mode="center" length="95%" height="60%" border-radius="20">
-    <view class="main">
-      <view class="main-title cfx-flex cfx-row-between cfx-border-bottom cfx-p-40">
-        <block v-if="walletVar.show">
-          <view @click="walletVar.show = false">
-            <cfx-icon v-if="chainList.length > 1" name="arrow-left" size="30"></cfx-icon>
-            <text class="cfx-m-l-10">{{ walletVar.title }}</text>
-          </view>
-          <cfx-icon name="close" size="30" @click="close"></cfx-icon>
-        </block>
-        <block v-else>
-          <text>{{ title }}</text>
-          <cfx-icon name="close" size="30" @click="close"></cfx-icon>
-        </block>
-      </view>
-      <scroll-view scroll-y="true" class="main-scroll-y">
-        <view class="main-grid">
-          <!-- 钱包 -->
+  <view>
+    <cfx-popup v-model="visibleSync" mode="center" length="95%" height="60%" border-radius="20" @close="close">
+      <view class="main">
+        <view class="main-title cfx-flex cfx-row-between cfx-border-bottom cfx-p-40">
           <block v-if="walletVar.show">
-            <view class="cfx-p-20">
-              <view
-                class="main-wallet-row cfx-text-left cfx-font-28"
-                v-for="item in walletVar.list"
-                :key="item.address"
-                @click="onWallet(item)"
-              >
-                <view class="cfx-type-primary">
-                  <text>账户名称：{{ item.name }}</text>
-                </view>
-                <view class="cfx-type-info cfx-m-t-5">
-                  <text class="cfx-font-25">{{ item.address }}</text>
-                </view>
-              </view>
+            <view @click="walletVar.show = false">
+              <cfx-icon v-if="chainList.length > 1" name="arrow-left" size="30"></cfx-icon>
+              <text class="cfx-m-l-10">{{ walletVar.title }}</text>
             </view>
+            <cfx-icon name="close" size="30" @click="close"></cfx-icon>
           </block>
           <block v-else>
-            <!-- 链 -->
-            <view
-              class="main-row cfx-text-center cfx-border-bottom"
-              v-for="item in chainList"
-              :key="item.code"
-              @click="onChain(item)"
-            >
-              <image style="width: 100rpx" mode="widthFix" :src="item.icon"></image>
-              <view class="main-name">{{ item.name }}</view>
-            </view>
+            <text>{{ title }}</text>
+            <cfx-icon name="close" size="30" @click="close"></cfx-icon>
           </block>
         </view>
-      </scroll-view>
-    </view>
-  </cfx-popup>
+        <scroll-view scroll-y="true" class="main-scroll-y">
+          <view class="main-grid">
+            <!-- 钱包 -->
+            <block v-if="walletVar.show">
+              <view class="cfx-p-20">
+                <view
+                  class="main-wallet-row cfx-text-left cfx-font-28"
+                  v-for="item in walletVar.list"
+                  :key="item.address"
+                  @click="onWallet(item)"
+                >
+                  <view class="cfx-type-primary">
+                    <text>账户名称：{{ item.name }}</text>
+                  </view>
+                  <view class="cfx-type-info cfx-m-t-5">
+                    <text class="cfx-font-25">{{ item.address }}</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+            <block v-else>
+              <!-- 链 -->
+              <view
+                class="main-row cfx-text-center cfx-border-bottom"
+                v-for="item in chainList"
+                :key="item.code"
+                @click="onChain(item)"
+              >
+                <image style="width: 100rpx" mode="widthFix" :src="item.icon"></image>
+                <view class="main-name">{{ item.name }}</view>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+    </cfx-popup>
+    <cfx-toast ref="cfxToast" />
+  </view>
 </template>
 
 <script>
@@ -222,23 +225,30 @@ export default {
     },
 
     onChain(item) {
-      $cfxcore.getContext(cfxContext => {
-        cfxContext.getWalletInfo({
-          chainCode: item.code,
-          refresh: 0,
-          success: res => {
-            this.walletVar.title = item.name
-            this.walletVar.list = res.data.map(item => {
-              item.address = this.geTel(item.address)
-              return item
-            })
-            this.walletVar.show = true
-            console.log('🚀 ~ file: cfx-connect-wallet.vue:138 ~ onChain ~ res:', res, this.walletVar)
-          },
-          fail: err => {},
-          complete: res => {}
+      $cfxcore
+        .getContext()
+        .then(context => {
+          cfxContext.getWalletInfo({
+            chainCode: item.code,
+            refresh: 0,
+            success: res => {
+              this.walletVar.title = item.name
+              this.walletVar.list = res.data.map(item => {
+                item.address = this.geTel(item.address)
+                return item
+              })
+              this.walletVar.show = true
+            },
+            fail: err => {},
+            complete: res => {}
+          })
         })
-      })
+        .catch(() => {
+          this.$refs.cfxToast.show({
+            title: '请先安装web3钱包',
+            type: 'error'
+          })
+        })
     },
 
     //选中钱包

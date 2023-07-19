@@ -14,6 +14,12 @@
       "root": "pages/blockchain",
       "pages": [
         {
+          "path": "ConnectUser/index",
+          "style": {
+            "navigationBarTitleText": "获取用户信息"
+          }
+        },
+        {
           "path": "ConnectWallet/index",
           "style": {
             "navigationBarTitleText": "连接钱包"

@@ -13,9 +13,12 @@ export default {
     })
   },
   getContext(callback) {
-    if (callback) {
-      callback(cfxObj)
-    }
-    return cfxObj
+    return new Promise((resovle, reject) => {
+      if (cfxObj) {
+        resovle(cfxObj)
+      } else {
+        reject(cfxObj)
+      }
+    })
   }
 }
