@@ -4,15 +4,15 @@ export default [
     groupName_en: 'Blockchain components',
     list: [
       {
-        path: '/pages/blockchain/ConnectUser/index',
-        icon: 'button',
-        title: 'ConnectUser 用户信息',
+        path: '/pages/blockchain/ConnectWallet/index',
+        icon: 'picker',
+        title: 'ConnectWallet 连接钱包',
         title_en: 'Button'
       },
       {
-        path: '/pages/blockchain/ConnectWallet/index',
+        path: '/pages/blockchain/ConnectUser/index',
         icon: 'button',
-        title: 'ConnectWallet 连接钱包',
+        title: 'ConnectUser 用户信息',
         title_en: 'Button'
       }
     ]

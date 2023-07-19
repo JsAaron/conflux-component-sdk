@@ -1,10 +1,8 @@
 <template>
   <view class="u-demo">
     <view class="btn-box">
-      <cfx-button @click="show1 = true" type="primary">树图链钱包</cfx-button>
-      <cfx-button @click="show2 = true" type="primary">全部链钱包</cfx-button>
-      <cfx-connect-wallet chainCode="CONFLUX_MAINNET" v-model="show1"></cfx-connect-wallet>
-      <cfx-connect-wallet chainCode="all" v-model="show2"></cfx-connect-wallet>
+      <cfx-button @click="show1 = true" type="primary">获取用户信息</cfx-button>
+      <cfx-connect-user v-model="show2"></cfx-connect-user>
     </view>
   </view>
 </template>
@@ -18,15 +16,7 @@ export default {
       show2: false
     }
   },
-  methods: {
-    btnClick(name) {
-      if (!numObj[name]) numObj[name] = 0
-      numObj[name]++
-      let str = `按钮 ${name} 被点击 ${numObj[name]} 次`
-      console.log(str)
-      this.$u.toast(str)
-    }
-  }
+  methods: {}
 }
 </script>
 

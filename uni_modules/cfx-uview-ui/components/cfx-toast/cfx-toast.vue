@@ -1,15 +1,15 @@
 <template>
   <view
-    class="u-toast"
-    :class="[isShow ? 'u-show' : '', 'u-type-' + tmpConfig.type, 'u-position-' + tmpConfig.position]"
+    class="cfx-toast"
+    :class="[isShow ? 'cfx-show' : '', 'cfx-type-' + tmpConfig.type, 'cfx-position-' + tmpConfig.position]"
     :style="{
       zIndex: uZIndex
     }"
   >
-    <view class="u-icon-wrap">
-      <cfx-icon v-if="tmpConfig.icon" class="u-icon" :name="iconName" :size="30" :color="tmpConfig.type"></cfx-icon>
+    <view class="cfx-icon-wrap">
+      <cfx-icon v-if="tmpConfig.icon" class="cfx-icon" :name="iconName" :size="30" :color="tmpConfig.type"></cfx-icon>
     </view>
-    <text class="u-text">{{ tmpConfig.title }}</text>
+    <text class="cfx-text">{{ tmpConfig.title }}</text>
   </view>
 </template>
 
@@ -19,7 +19,7 @@
  * @description 此组件表现形式类似uni的uni.showToastAPI，但也有不同的地方。
  * @property {String} z-index toast展示时的z-index值
  * @event {Function} show 显示toast，如需一进入页面就显示toast，请在onReady生命周期调用
- * @example <u-toast ref="uToast" />
+ * @example <cfx-toast ref="uToast" />
  */
 export default {
   name: 'cfx-toast',
@@ -65,7 +65,7 @@ export default {
   methods: {
     // 显示toast组件，由父组件通过this.$refs.xxx.show(options)形式调用
     show(options) {
-      // 不降结果合并到this.config变量，避免多次条用u-toast，前后的配置造成混论
+      // 不降结果合并到this.config变量，避免多次条用cfx-toast，前后的配置造成混论
       this.tmpConfig = this.$u.deepMerge(this.config, options)
       if (this.timer) {
         // 清除定时器
@@ -137,7 +137,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../libs/css/style.components.scss';
 
-.u-toast {
+.cfx-toast {
   position: fixed;
   z-index: -1;
   transition: opacity 0.3s;
@@ -154,18 +154,18 @@ export default {
   padding: 18rpx 40rpx;
 }
 
-.u-toast.u-show {
+.cfx-toast.cfx-show {
   opacity: 1;
 }
 
-.u-icon {
+.cfx-icon {
   margin-right: 10rpx;
   @include vue-flex;
   align-items: center;
   line-height: normal;
 }
 
-.u-position-center {
+.cfx-position-center {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -174,49 +174,49 @@ export default {
   /* #endif */
 }
 
-.u-position-top {
+.cfx-position-top {
   left: 50%;
   top: 20%;
   transform: translate(-50%, -50%);
 }
 
-.u-position-bottom {
+.cfx-position-bottom {
   left: 50%;
   bottom: 20%;
   transform: translate(-50%, -50%);
 }
 
-.u-type-primary {
+.cfx-type-primary {
   color: $cfx-type-primary;
   background-color: $cfx-type-primary-light;
   border: 1px solid rgb(215, 234, 254);
 }
 
-.u-type-success {
+.cfx-type-success {
   color: $cfx-type-success;
   background-color: $cfx-type-success-light;
   border: 1px solid #bef5c8;
 }
 
-.u-type-error {
+.cfx-type-error {
   color: $cfx-type-error;
   background-color: $cfx-type-error-light;
   border: 1px solid #fde2e2;
 }
 
-.u-type-warning {
+.cfx-type-warning {
   color: $cfx-type-warning;
   background-color: $cfx-type-warning-light;
   border: 1px solid #faecd8;
 }
 
-.u-type-info {
+.cfx-type-info {
   color: $cfx-type-info;
   background-color: $cfx-type-info-light;
   border: 1px solid #ebeef5;
 }
 
-.u-type-default {
+.cfx-type-default {
   color: #fff;
   background-color: #585858;
 }

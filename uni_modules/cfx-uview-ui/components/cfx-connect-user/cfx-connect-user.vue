@@ -21,20 +21,17 @@
             <block v-if="walletVar.show">
               <view class="cfx-p-20">
                 <view
-                  class="main-wallet-wrap cfx-flex cfx-row-between cfx-col-center cfx-flex-1 cfx-font-28"
+                  class="main-wallet-row cfx-text-left cfx-font-28"
                   v-for="item in walletVar.list"
                   :key="item.address"
                   @click="onWallet(item)"
                 >
-                  <view class="">
-                    <view class="cfx-type-primary">
-                      <text>账户名称：{{ item.name }}</text>
-                    </view>
-                    <view class="cfx-type-info cfx-m-t-5 cfx-line-1" style="width: 550rpx">
-                      <text class="cfx-font-25">{{ item.addressEncrypt }}</text>
-                    </view>
+                  <view class="cfx-type-primary">
+                    <text>账户名称：{{ item.name }}</text>
                   </view>
-                  <radio :checked="item.checked" />
+                  <view class="cfx-type-info cfx-m-t-5">
+                    <text class="cfx-font-25">{{ item.address }}</text>
+                  </view>
                 </view>
               </view>
             </block>
@@ -127,12 +124,10 @@ export default {
         title: '树图公链',
         list: [
           {
-            checked: false,
             name: 1111,
             address: 'cfx:sdfafasdfasfsaddfasdfasdfasdfdsdfafasdfasfsaddfasdfasdfasdfdsdfafasdfasfsaddfasdfasdfasdfd'
           },
           {
-            checked: false,
             name: 1111,
             address: 'cfx:vxcvdfgdagsd131231213'
           }
@@ -193,7 +188,34 @@ export default {
       }
     },
 
-    open() {
+    getUserInfo(item) {
+      $cfxcore
+        .getContext()
+        .then(context => {
+          cfxContext.getUserAuthorizeInfo({
+            chainCode: item.code,
+            refresh: 0,
+            success: res => {
+              this.walletVar.title = item.name
+              this.walletVar.list = res.data.map(item => {
+                item.address = this.geTel(item.address)
+                return item
+              })
+              this.walletVar.show = true
+            },
+            fail: err => {},
+            complete: res => {}
+          })
+        })
+        .catch(() => {
+          this.$refs.cfxToast.show({
+            title: '请先安装web3钱包',
+            type: 'error'
+          })
+        })
+    },
+
+    getUserInfo() {
       this.getChainList()
       this.change('visibleSync', true)
     },
@@ -229,47 +251,11 @@ export default {
       return tel.substring(0, 20) + '****' + tel.substr(tel.length - 20)
     },
 
-    onChain(item) {
-      $cfxcore
-        .getContext()
-        .then(cfxContext => {
-          cfxContext.getWalletInfo({
-            chainCode: item.code,
-            refresh: 0,
-            success: res => {
-              this.walletVar.title = item.name
-              let walletAddress = $cfxcore.getWalletAddress()
-              this.walletVar.list = res.data.map(item => {
-                item.addressEncrypt = this.geTel(item.address)
-                item.checked = walletAddress == item.address ? true : false
-                return item
-              })
-              this.walletVar.show = true
-            },
-            fail: err => {},
-            complete: res => {}
-          })
-        })
-        .catch(() => {
-          this.$refs.cfxToast.show({
-            title: '请先安装web3钱包',
-            type: 'error'
-          })
-        })
-    },
-
     //选中钱包
     onWallet(item) {
-      this.walletVar.list.forEach(item => {
-        item.checked = false
-      })
-      item.checked = true
-      $cfxcore.saveWallet(item)
-
-      setTimeout(() => {
-        this.show = false
-        this.walletVar.show = false
-      }, 200)
+      this.show = false
+      this.walletVar.show = false
+      console.log(item)
     }
   }
 }
@@ -288,6 +274,9 @@ export default {
     color: $cfx-type-primary;
   }
   &-grid {
+    :active {
+      background-color: $cfx-type-primary-light;
+    }
   }
   &-row {
     padding: 40rpx;
@@ -302,15 +291,12 @@ export default {
     font-weight: bold;
     margin-top: 10rpx;
   }
-  &-wallet-wrap {
+  &-wallet-row {
     margin: 0 0 20rpx 0;
     padding: 30rpx 20rpx;
     background: #ffffff;
     box-shadow: 0px 5rpx 10rpx 0rpx rgba(0, 0, 0, 0.09);
     border-radius: 10rpx;
-    // :active {
-    //   background-color: $cfx-type-primary-light;
-    // }
   }
 }
 </style>
