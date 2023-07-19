@@ -5,13 +5,13 @@ export default [
     list: [
       {
         path: '/pages/blockchain/ConnectWallet/index',
-        icon: 'picker',
+        icon: 'grid-fill',
         title: 'ConnectWallet 连接钱包',
         title_en: 'Button'
       },
       {
         path: '/pages/blockchain/ConnectUser/index',
-        icon: 'button',
+        icon: 'grid-fill',
         title: 'ConnectUser 用户信息',
         title_en: 'Button'
       }

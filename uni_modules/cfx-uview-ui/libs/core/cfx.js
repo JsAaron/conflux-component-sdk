@@ -3,6 +3,7 @@ import CfxWeb3 from '../conflux/sdk'
 
 let cfxObj = null
 let walletInfo = null
+let userInfo = null
 export default {
   init() {
     return new Promise((resovle, reject) => {
@@ -23,6 +24,10 @@ export default {
   },
   saveWallet(item) {
     walletInfo = item
+  },
+  saveUserInfo(item) {
+    userInfo = item
+    console.log('🚀 ~ file: cfx.js:30 ~ saveUserInfo ~ userInfo:', userInfo)
   },
   // 钱包地址
   getWalletAddress() {

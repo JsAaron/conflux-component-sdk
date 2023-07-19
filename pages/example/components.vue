@@ -16,7 +16,8 @@
           :key="index1"
         >
           <template v-slot:icon>
-            <image class="u-cell-icon" :src="getIcon(item1.icon)" mode="widthFix"></image>
+            <cfx-icon size="30" class="cfx-m-r-20" :name="item1.icon"></cfx-icon>
+            <!-- <image class="u-cell-icon" :src="getIcon(item1.icon)" mode="widthFix"></image> -->
           </template>
         </cfx-cell-item>
       </cfx-cell-group>
