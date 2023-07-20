@@ -1,5 +1,5 @@
-const superagent = require('superagent');
-const BaseProvider = require('./BaseProvider');
+const superagent = require('superagent')
+const BaseProvider = require('./BaseProvider')
 
 /**
  * Http protocol json rpc provider.
@@ -11,9 +11,9 @@ class HttpProvider extends BaseProvider {
       .retry(this.retry)
       .set(this.headers)
       .send(data)
-      .timeout(this.timeout);
+      .timeout(this.timeout)
 
-    return body || {};
+    return body || {}
   }
 
   async requestBatch(dataArray) {
@@ -22,9 +22,9 @@ class HttpProvider extends BaseProvider {
       .retry(this.retry)
       .set(this.headers)
       .send(dataArray)
-      .timeout(this.timeout);
-    return body || [];
+      .timeout(this.timeout)
+    return body || []
   }
 }
 
-module.exports = HttpProvider;
+module.exports = HttpProvider

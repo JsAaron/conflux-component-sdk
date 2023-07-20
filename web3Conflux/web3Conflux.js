@@ -1,4 +1,5 @@
-const { Conflux, Drip } = require('js-conflux-sdk')
+// const { Conflux, Drip } = require('js-conflux-sdk')
+import { Conflux, Drip } from './sdk/js-conflux-sdk/index'
 import cosNativeSdk from './sdk/native-conflux-sdk/index'
 import cosNativeConfig from './cosNativeConfig'
 
@@ -46,16 +47,14 @@ class Web3Conflux {
    * @param {*} url
    * @returns
    */
-  connectConflux(url) {
+  async connectConflux(url) {
     //如果已经连接
     if (url == this._confluxUrl && this.cfxClient) {
       return this.cfxClient
     }
     this._confluxUrl = url
-    this.cfxClient = new Conflux({
-      url: url,
-      networkId: 1,
-      logger: console
+    this.cfxClient = await Conflux.create({
+      url
     })
   }
 
@@ -71,10 +70,13 @@ class Web3Conflux {
    */
   async getBalance({ chainCode, address, format = 'cfx' } = args) {
     const url = this.transformUrl(chainCode)
-    this.connectConflux(url)
+    await this.connectConflux(url)
     const balance = await this.cfxClient.getBalance(address)
     if (format == 'cfx') {
       return Drip(balance).toCFX()
+    }
+    if ((format = 'drip')) {
+      return Drip(balance).toGdrip()
     }
     return balance
   }

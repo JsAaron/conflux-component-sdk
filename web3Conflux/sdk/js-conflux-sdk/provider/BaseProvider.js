@@ -1,5 +1,5 @@
-const EventEmitter = require('events');
-const RPCError = require('./RPCError');
+const EventEmitter = require('events')
+const RPCError = require('./RPCError')
 
 class BaseProvider extends EventEmitter {
   /**
@@ -16,19 +16,19 @@ class BaseProvider extends EventEmitter {
     retry = 1,
     timeout = 5 * 60 * 1000,
     keepAlive = false,
-    logger = { info: () => undefined, error: () => undefined },
+    logger = { info: () => undefined, error: () => undefined }
   }) {
-    super();
-    this.url = url;
-    this.retry = retry;
-    this.timeout = timeout;
-    this.logger = logger;
-    this.keepAlive = keepAlive;
-    const headers = {};
+    super()
+    this.url = url
+    this.retry = retry
+    this.timeout = timeout
+    this.logger = logger
+    this.keepAlive = keepAlive
+    const headers = {}
     if (keepAlive) {
-      headers.Connection = 'Keep-Alive';
+      headers.Connection = 'Keep-Alive'
     }
-    this.headers = headers;
+    this.headers = headers
   }
 
   /**
@@ -38,15 +38,15 @@ class BaseProvider extends EventEmitter {
    * @return {string}
    */
   requestId() {
-    return `${Date.now().toString(16)}${Math.random().toString(16).slice(2)}`;
+    return `${Date.now().toString(16)}${Math.random().toString(16).slice(2)}`
   }
 
   request() {
-    throw new Error(`NotImplementError: ${this.constructor.name}.request not implement.`);
+    throw new Error(`NotImplementError: ${this.constructor.name}.request not implement.`)
   }
 
   requestBatch() {
-    throw new Error(`NotImplementError: ${this.constructor.name}.requestBatch not implement.`);
+    throw new Error(`NotImplementError: ${this.constructor.name}.requestBatch not implement.`)
   }
 
   /**
@@ -61,19 +61,19 @@ class BaseProvider extends EventEmitter {
    * > await provider.call('cfx_getBlockByHash', blockHash);
    */
   async call(method, ...params) {
-    const startTime = Date.now();
-    const data = { jsonrpc: '2.0', id: this.requestId(), method, params };
+    const startTime = Date.now()
+    const data = { jsonrpc: '2.0', id: this.requestId(), method, params }
 
-    const { result, error } = await this.request(data);
+    const { result, error } = await this.request(data)
 
     if (error) {
-      this.logger.error({ data, error, duration: Date.now() - startTime });
-      throw new RPCError(error, { method, params });
+      this.logger.error({ data, error, duration: Date.now() - startTime })
+      throw new RPCError(error, { method, params })
     } else {
-      this.logger.info({ data, result, duration: Date.now() - startTime });
+      this.logger.info({ data, result, duration: Date.now() - startTime })
     }
 
-    return result;
+    return result
   }
 
   /**
@@ -92,20 +92,20 @@ class BaseProvider extends EventEmitter {
    */
   async batch(array) {
     if (!array.length) {
-      return [];
+      return []
     }
 
-    const startTime = Date.now();
-    const dataArray = array.map(data => ({ jsonrpc: '2.0', id: this.requestId(), ...data }));
+    const startTime = Date.now()
+    const dataArray = array.map(data => ({ jsonrpc: '2.0', id: this.requestId(), ...data }))
 
-    const returnArray = await this.requestBatch(dataArray);
+    const returnArray = await this.requestBatch(dataArray)
 
-    this.logger.info({ dataArray, returnArray, duration: Date.now() - startTime });
-    return returnArray.map(({ result, error }, i) => (error ? new RPCError(error, array[i]) : result));
+    this.logger.info({ dataArray, returnArray, duration: Date.now() - startTime })
+    return returnArray.map(({ result, error }, i) => (error ? new RPCError(error, array[i]) : result))
   }
 
   close() {}
 }
 
-module.exports = BaseProvider;
-module.exports.RPCError = RPCError;
+module.exports = BaseProvider
+module.exports.RPCError = RPCError
