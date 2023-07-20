@@ -1,16 +1,14 @@
 <template>
   <view class="u-demo">
     <view class="btn-box">
-      <cfx-button type="success" @click="getBanlance">点击-无界面UI</cfx-button>
-      <cfx-button @click="show1 = true" type="primary">点击-有界面UI</cfx-button>
-      <cfx-balance ref="cfxBalance"></cfx-balance>
-      <cfx-balance chainCode="CONFLUX_MAINNET"></cfx-balance>
+      <cfx-button type="success" @click="getBanlance">点击-获取CFX余额</cfx-button>
     </view>
+    <cfx-toast ref="cfxToast" />
   </view>
 </template>
 
 <script>
-var numObj = {}
+import { Web3Conflux } from 'web3Conflux'
 export default {
   data() {
     return {
@@ -19,9 +17,17 @@ export default {
     }
   },
   methods: {
-    getBanlance() {
-      this.$refs.cfxBalance.getBalance().then(res => {
-        console.log(111, res)
+    async getBanlance() {
+      this.web3Conflux = new Web3Conflux()
+      const balance = await this.web3Conflux.getBalance({
+        format: 'cfx',
+        chainCode: 'CONFLUX_TESTNET',
+        address: 'cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb'
+      })
+      this.$refs.cfxToast.show({
+        title: `cfx数量：${balance}`,
+        type: 'success',
+        icon: false
       })
     }
   }

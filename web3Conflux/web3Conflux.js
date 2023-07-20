@@ -47,10 +47,15 @@ class Web3Conflux {
    * @returns
    */
   connectConflux(url) {
-    return new Conflux({
+    //如果已经连接
+    if (url == this._confluxUrl && this.cfxClient) {
+      return this.cfxClient
+    }
+    this._confluxUrl = url
+    this.cfxClient = new Conflux({
       url: url,
       networkId: 1,
-      logger: console // use console to print log
+      logger: console
     })
   }
 
@@ -64,11 +69,11 @@ class Web3Conflux {
   /**
    * 获取余额
    */
-  async getBalance({ chainCode, address, format } = args) {
+  async getBalance({ chainCode, address, format = 'cfx' } = args) {
     const url = this.transformUrl(chainCode)
-    const conflux = this.connectConflux(url)
-    const balance = await conflux.getBalance(address)
-    if (format == 'toCFX') {
+    this.connectConflux(url)
+    const balance = await this.cfxClient.getBalance(address)
+    if (format == 'cfx') {
       return Drip(balance).toCFX()
     }
     return balance
