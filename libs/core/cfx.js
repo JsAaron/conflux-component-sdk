@@ -1,5 +1,5 @@
 import cfxConfig from '../conflux/config'
-import CfxWeb3 from '../conflux/sdk/index'
+import CfxWeb3 from '../conflux/native-conflux-sdk/index'
 
 let cfxObj = null
 let userInfo = null

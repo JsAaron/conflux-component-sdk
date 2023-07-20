@@ -1,7 +1,7 @@
 import App from './App'
 
 // 引入 uView UI
-import uView from './uni_modules/cfx-uview-ui'
+import uView from './index.js'
 
 // #ifndef VUE3
 

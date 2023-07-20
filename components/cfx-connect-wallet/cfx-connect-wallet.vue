@@ -59,42 +59,7 @@
 </template>
 
 <script>
-import $cfxcore from '../../libs/core/cfx'
-/**
- * cfx-connect-wallet 钱包连接
- */
-const CHAINLIST = [
-  {
-    name: '树图公链',
-    code: 'CONFLUX_MAINNET',
-    icon: 'http://dev.confluxos.cfx.art/doc/image/logo.png'
-  },
-  {
-    name: '树图测试链',
-    code: 'CONFLUX_TESTNET',
-    icon: 'http://www.hncfx.com/images/pl1.png'
-  },
-  {
-    name: '树图ESPACE主链',
-    code: 'ESPACE_MAINNET',
-    icon: 'http://www.hncfx.com/images/ban1.png'
-  },
-  {
-    name: '树图ESPACE测试链',
-    code: 'ESPACE_TESTNET',
-    icon: 'http://www.hncfx.com/images/team.jpg'
-  },
-  {
-    name: '树图联盟正式链',
-    code: 'CONFLUX_CONSORTIUM_MAINNET',
-    icon: 'http://www.hncfx.com/images/js.png'
-  },
-  {
-    name: '树图联盟测试链',
-    code: 'CONFLUX_CONSORTIUM_TESTNET',
-    icon: 'http://www.hncfx.com/images/Android.png'
-  }
-]
+import { Web3Conflux, Constant } from 'web3Conflux'
 
 export default {
   name: 'cfx-connect-wallet',
@@ -167,7 +132,13 @@ export default {
   },
 
   created() {
-    $cfxcore.init()
+    this.web3Conflux = new Web3Conflux()
+    this.web3Conflux.watch('error', errMsg => {
+      this.$refs.cfxToast.show({
+        title: errMsg,
+        type: 'error'
+      })
+    })
   },
 
   mounted() {
@@ -179,10 +150,10 @@ export default {
     getChainList() {
       let chainCode = this.chainCode
       if (chainCode == 'all') {
-        this.chainList = [...CHAINLIST]
+        this.chainList = [...Constant.CHAIN_LIST]
       } else {
         let val_arr = chainCode.split(',')
-        let chainList = CHAINLIST.filter(item => {
+        let chainList = Constant.CHAIN_LIST.filter(item => {
           return val_arr.find(vitem => vitem == item.code)
         })
         if (chainList.length == 1) {
@@ -230,31 +201,20 @@ export default {
     },
 
     onChain(item) {
-      $cfxcore
-        .getContext()
-        .then(cfxContext => {
-          cfxContext.getWalletInfo({
-            chainCode: item.code,
-            refresh: 0,
-            success: res => {
-              this.walletVar.title = item.name
-              let walletAddress = $cfxcore.getWalletAddress()
-              this.walletVar.list = res.data.map(item => {
-                item.addressEncrypt = this.geTel(item.address)
-                item.checked = walletAddress == item.address ? true : false
-                return item
-              })
-              this.walletVar.show = true
-            },
-            fail: err => {},
-            complete: res => {}
-          })
+      this.web3Conflux
+        .getWallet({
+          chainCode: item.code
         })
-        .catch(() => {
-          this.$refs.cfxToast.show({
-            title: '请先安装web3钱包',
-            type: 'error'
+        .then(res => {
+          console.log('🚀 ~ file: cfx-connect-wallet.vue:210 ~ onChain ~ res:', res)
+          this.walletVar.title = item.name
+          let walletAddress = this.web3Conflux.getStorage('address')
+          this.walletVar.list = res.data.map(item => {
+            item.addressEncrypt = this.geTel(item.address)
+            item.checked = walletAddress == item.address ? true : false
+            return item
           })
+          this.walletVar.show = true
         })
     },
 
@@ -264,8 +224,8 @@ export default {
         item.checked = false
       })
       item.checked = true
-      $cfxcore.saveWallet(item)
-
+      this.web3Conflux.setStorage('chainCode', item.chainCode)
+      this.web3Conflux.setStorage('address', item.address)
       setTimeout(() => {
         this.show = false
         this.walletVar.show = false

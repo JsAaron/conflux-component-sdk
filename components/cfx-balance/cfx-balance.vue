@@ -60,8 +60,8 @@
 
 <script>
 // const { Conflux } = require('../../libs/conflux/src')
-import $cfxapi from '../../libs/core/cfx'
-const { Conflux, Drip } = require('../../node_modules/js-conflux-sdk')
+import { Web3Conflux, Constant } from 'web3Conflux'
+// const { Conflux, Drip } = require('../../node_modules/js-conflux-sdk')
 
 /**
  * cfx-connect-wallet 钱包连接
@@ -180,7 +180,13 @@ export default {
   },
 
   created() {
-    $cfxapi.init()
+    this.web3Conflux = new Web3Conflux()
+    this.web3Conflux.watch('error', errMsg => {
+      this.$refs.cfxToast.show({
+        title: errMsg,
+        type: 'error'
+      })
+    })
   },
 
   mounted() {
@@ -193,41 +199,17 @@ export default {
       return new Promise(async (resove, reject) => {
         if (!args) {
           args = {
-            chainCode: $cfxapi.getChainCode(),
-            address: $cfxapi.getWalletAddress()
+            format: 'toCFX',
+            chainCode: 'CONFLUX_TESTNET' || this.web3Conflux.getStorage('chainCode'),
+            address: 'cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb' || this.web3Conflux.getStorage('address')
           }
         }
-        const conflux = new Conflux({
-          url: 'http://test.confluxrpc.org/v2',
-          networkId: 1,
-          logger: console // use console to print log
+        const balance = await this.web3Conflux.getBalance(args)
+        this.$refs.cfxToast.show({
+          title: `cfx数量：${balance}`,
+          type: 'success',
+          icon: false
         })
-
-        const balance = await conflux.getBalance('cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb')
-        console.log(balance) // "4999998839889983249999999950307784"
-        console.log(Drip(balance).toGDrip()) // "4999998839889983249999999.950307784"
-        console.log(Drip(balance).toCFX()) // "4999998839889983.249999999950307784"
-
-        // $cfxapi
-        //   .getContext()
-        //   .then(context => {
-        //     console.log('🚀 ~ file: cfx-balance.vue:200 ~ returnnewPromise ~ context:', context)
-        //     context.getBalanceCFX({
-        //       ...args,
-        //       success: res => {
-        //         console.log('🚀 ~ file: cfx-balance.vue:203 ~ returnnewPromise ~ res:', res)
-        //       },
-        //       fail: err => {
-        //         console.log('🚀 ~ file: cfx-balance.vue:207 ~ fail ~ err:', err)
-        //       }
-        //     })
-        //   })
-        //   .catch(errMsg => {
-        //     this.$refs.cfxToast.show({
-        //       title: errMsg,
-        //       type: 'error'
-        //     })
-        //   })
       })
     },
 
