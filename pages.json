@@ -4,7 +4,7 @@
     {
       "path": "pages/example/components",
       "style": {
-        "navigationBarTitleText": "uView Vue3.0 CONFLUX SDK"
+        "navigationBarTitleText": "CONFLUX COMPONENT SDK"
       }
     }
   ],
@@ -23,6 +23,12 @@
           "path": "ConnectWallet/index",
           "style": {
             "navigationBarTitleText": "连接钱包"
+          }
+        },
+        {
+          "path": "Balance/index",
+          "style": {
+            "navigationBarTitleText": "余额查询"
           }
         }
       ]

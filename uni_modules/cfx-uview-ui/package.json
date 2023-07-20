@@ -78,5 +78,8 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "js-conflux-sdk": "^2.1.12"
   }
 }

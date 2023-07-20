@@ -14,6 +14,12 @@ export default [
         icon: 'grid-fill',
         title: 'ConnectUser 用户信息',
         title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/Balance/index',
+        icon: 'grid-fill',
+        title: 'Balance 余额查询',
+        title_en: 'Button'
       }
     ]
   }

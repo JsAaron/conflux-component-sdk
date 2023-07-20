@@ -1,9 +1,13 @@
 import cfxConfig from '../conflux/config'
-import CfxWeb3 from '../conflux/sdk'
+import CfxWeb3 from '../conflux/sdk/index'
 
 let cfxObj = null
-let walletInfo = null
 let userInfo = null
+
+//相关操作信息
+let walletAddress = null
+let chainCode = null
+
 export default {
   init() {
     return new Promise((resovle, reject) => {
@@ -18,22 +22,27 @@ export default {
       if (cfxObj) {
         resovle(cfxObj)
       } else {
-        reject(cfxObj)
+        reject('请先安装web3钱包')
       }
     })
   },
   saveWallet(item) {
-    walletInfo = item
+    console.log('🚀 ~ file: cfx.js:31 ~ saveWallet ~ item:', item)
+    walletAddress = item.address
+    chainCode = item.chainCode
   },
   saveUserInfo(item) {
+    console.log('🚀 ~ file: cfx.js:37 ~ saveUserInfo ~ item:', item)
     userInfo = item
-    console.log('🚀 ~ file: cfx.js:30 ~ saveUserInfo ~ userInfo:', userInfo)
+    walletAddress = item.accountAddress
+    chainCode = item.chainCode
   },
   // 钱包地址
   getWalletAddress() {
-    if (!walletInfo) {
-      return ''
-    }
-    return walletInfo.address
+    return walletAddress || ''
+  },
+  //code
+  getChainCode() {
+    return chainCode || ''
   }
 }

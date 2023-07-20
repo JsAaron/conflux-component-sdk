@@ -5,12 +5,15 @@
       <!-- <image class="logo" src="https://cdn.uviewui.com/uview/common/logo.png" mode="widthFix"></image> -->
       <view class="nav-info">
         <view class="nav-title__text">cfxView Vue3.0</view>
-        <view class="nav-slogan">多平台快速开发UI框架</view>
+        <view class="nav-slogan">多平台开发UI框架，快速构建Web3应用</view>
       </view>
       <!-- 			<image class="logo vk-logo" src="/static/logo.png" mode="widthFix"></image> -->
     </view>
     <view class="nav-desc">
-      <view>cfxView Vue3.0 是 uView 的 Vue3.0 版本（由 Conflux 维护，同时兼容 Vue2.0），扩展区块链组件。</view>
+      <view>
+        cfxView Vue3.0 是 uView 的 Vue3.0 版本（由 Conflux 维护，同时兼容 Vue2.0），用于 web3 开发的各种语言的
+        SDK、智能合约、工具和基础设施，扩展区块链组件。
+      </view>
       <view class="mt15">cfxView 官网：https://confluxos.cfx.art/doc</view>
     </view>
   </view>

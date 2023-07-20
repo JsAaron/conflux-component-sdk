@@ -1,0 +1,27 @@
+{
+  "name": "abi-util-lite",
+  "version": "0.1.0",
+  "description": "A light impletation to parse abi string array to abi json",
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "prepublish": "npm run tsc",
+    "test": "jest"
+  },
+  "repository": "https://github.com/conflux-fans/abi-util-lite.git",
+  "keywords": [],
+  "author": "wenda.zhang@confluxnetwork.org",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "files": [
+    "lib/"
+  ],
+  "dependencies": {
+    "@ethersproject/logger": "^5.5.0"
+  }
+}
