@@ -41,24 +41,6 @@ class Web3Conflux {
   }
 
   /**
-   * 连接 Conflux
-   * @param {*} url
-   * @returns
-   */
-  async createProvider(chainCode, address) {
-    // //如果已经连接
-    // if (url == this._confluxUrl && this.cfxClient) {
-    //   return this.cfxClient
-    // }
-    // this._confluxUrl = url
-    // this.cfxClient = await Conflux.create({
-    //   url
-    // })
-    this.provider = providerFactory(chainCode, address)
-    console.log('🚀 ~ file: web3Conflux.js:69 ~ Web3Conflux ~ createProvider ~ this.provider:', this.provider)
-  }
-
-  /**
    * 获取余额
    */
   async getBalance({ chainCode, address, format = 'cfx' } = args) {
