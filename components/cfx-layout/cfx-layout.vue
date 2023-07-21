@@ -37,6 +37,12 @@ export default {
         wallet: 'cfxtest:aajfzr7sdpnea2wv97ajhzc8mc5aw6e9mj4sr09wk5',
         private: '3ca15c8d280393987d7dc2b8bed04a2456f92a0b364295ee5959d5ff51c48a9b'
       },
+      {
+        text: 'ESPACE测试网',
+        value: 'ESPACE_TESTNET',
+        wallet: '0xeB9eE0F249A50B22E2b61AB4C81a51c581C60B89',
+        private: '66326889af5965d84d55abcaaf99bbc440617c19399b6326d9de27136552cf9b'
+      },
       // {
       //   text: '树图联盟链正式',
       //   value: 'CONFLUX_CONSORTIUM_MAINNET'
@@ -46,17 +52,11 @@ export default {
         value: 'CONFLUX_CONSORTIUM_TESTNET',
         wallet: '0x19034eef6fad0c566ff75793294e6d03ea6f1536',
         private: '0xc1f69a6fae1d34d6e9b9f578ca2823a30c6aeca5677850a26be798efdf3be87b'
-      },
+      }
       // {
       //   text: 'ESPACE主网',
       //   value: 'ESPACE_MAINNET'
       // },
-      {
-        text: 'ESPACE测试网',
-        value: 'ESPACE_TESTNET',
-        wallet: '0xeB9eE0F249A50B22E2b61AB4C81a51c581C60B89',
-        private: '66326889af5965d84d55abcaaf99bbc440617c19399b6326d9de27136552cf9b'
-      }
     ]
 
     getApp().globalData.chianItem = actionSheetList[getApp().globalData.chainIndex]

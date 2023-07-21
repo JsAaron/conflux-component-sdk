@@ -3,8 +3,6 @@ import cosNativeSdk from './sdk/native-conflux-sdk/index'
 import cosNativeConfig from './cosNativeConfig'
 import providerFactory from './provider'
 
-import Web3 from 'web3'
-
 /**
  * A sdk of web3Conflux
  * chainCode	CONFLUX_MAINNET	树图公链 Conflux Core(Hydra)
