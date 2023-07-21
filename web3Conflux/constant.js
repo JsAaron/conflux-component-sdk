@@ -56,7 +56,7 @@ const CHAIN_HASH = {
 
 const CHAIN_URL = {
   CONFLUX_MAINNET: 'https://main.confluxrpc.com',
-  CONFLUX_TESTNET: 'http://test.confluxrpc.org/v2',
+  CONFLUX_TESTNET: 'https://test.confluxrpc.org',
   ESPACE_MAINNET: '	https://evm.confluxrpc.com',
   ESPACE_TESTNET: 'https://evmtestnet.confluxrpc.com',
   CONFLUX_CONSORTIUM_MAINNET: '树图联盟正式链',
