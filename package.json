@@ -3,6 +3,7 @@
     "vconsole": "^3.15.1"
   },
   "dependencies": {
-    "js-conflux-sdk": "^2.1.12"
+    "js-conflux-sdk": "^2.1.12",
+    "web3": "^1.7.4"
   }
 }

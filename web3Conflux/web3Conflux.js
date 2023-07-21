@@ -1,9 +1,9 @@
-// const { Conflux, Drip } = require('js-conflux-sdk')
-import { Conflux, Drip } from './sdk/js-conflux-sdk/index'
+import { Drip } from './sdk/js-conflux-sdk/index'
 import cosNativeSdk from './sdk/native-conflux-sdk/index'
 import cosNativeConfig from './cosNativeConfig'
+import providerFactory from './provider'
 
-const Constant = require('./constant')
+import Web3 from 'web3'
 
 /**
  * A sdk of web3Conflux
@@ -47,31 +47,25 @@ class Web3Conflux {
    * @param {*} url
    * @returns
    */
-  async connectConflux(url) {
-    //如果已经连接
-    if (url == this._confluxUrl && this.cfxClient) {
-      return this.cfxClient
-    }
-    this._confluxUrl = url
-    this.cfxClient = await Conflux.create({
-      url
-    })
-  }
-
-  /**
-   * 转化请求的URl
-   */
-  transformUrl(chainCode) {
-    return Constant.CHAIN_URL[chainCode]
+  async createProvider(chainCode, address) {
+    // //如果已经连接
+    // if (url == this._confluxUrl && this.cfxClient) {
+    //   return this.cfxClient
+    // }
+    // this._confluxUrl = url
+    // this.cfxClient = await Conflux.create({
+    //   url
+    // })
+    this.provider = providerFactory(chainCode, address)
+    console.log('🚀 ~ file: web3Conflux.js:69 ~ Web3Conflux ~ createProvider ~ this.provider:', this.provider)
   }
 
   /**
    * 获取余额
    */
   async getBalance({ chainCode, address, format = 'cfx' } = args) {
-    const url = this.transformUrl(chainCode)
-    await this.connectConflux(url)
-    const balance = await this.cfxClient.getBalance(address)
+    this.provider = providerFactory(chainCode, address)
+    const balance = await this.provider.getBalance(address)
     if (format == 'cfx') {
       return Drip(balance).toCFX()
     }

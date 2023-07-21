@@ -1,10 +1,12 @@
 <template>
-  <view class="u-demo">
-    <view class="btn-box">
-      <cfx-button type="success" @click="getBanlance">点击-获取CFX余额</cfx-button>
+  <cfx-layout>
+    <view class="u-demo">
+      <view class="btn-box">
+        <cfx-button type="success" @click="getBanlance">点击-获取CFX余额</cfx-button>
+      </view>
+      <cfx-toast ref="cfxToast" />
     </view>
-    <cfx-toast ref="cfxToast" />
-  </view>
+  </cfx-layout>
 </template>
 
 <script>
@@ -18,11 +20,12 @@ export default {
   },
   methods: {
     async getBanlance() {
+      const chainItem = getApp().getChain()
       this.web3Conflux = new Web3Conflux()
       const balance = await this.web3Conflux.getBalance({
         format: 'cfx',
-        chainCode: 'CONFLUX_TESTNET',
-        address: 'cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb'
+        chainCode: chainItem.value || 'CONFLUX_TESTNET',
+        address: chainItem.wallet || 'cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb'
       })
       this.$refs.cfxToast.show({
         title: `cfx数量：${balance}`,

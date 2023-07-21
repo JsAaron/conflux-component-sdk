@@ -1,5 +1,10 @@
 <script>
 export default {
+  globalData: {
+    chianItem: {},
+    chainIndex: 0
+  },
+
   onLaunch: function () {
     console.log('App Launch')
   },
@@ -8,6 +13,11 @@ export default {
   },
   onHide: function () {
     console.log('App Hide')
+  },
+  methods: {
+    getChain() {
+      return this.globalData.chianItem
+    }
   }
 }
 </script>
