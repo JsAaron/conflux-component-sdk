@@ -6,7 +6,7 @@ class ConfluxProvider extends BaseProvider {
     super(options)
   }
 
-  async createProvider() {
+  async accessProvider() {
     if (this.client) {
       return this.client
     }
@@ -14,7 +14,7 @@ class ConfluxProvider extends BaseProvider {
   }
 
   async getBalance(address) {
-    await this.createProvider()
+    await this.accessProvider()
     const balance = await this.client.eth.getBalance(address)
     return balance
   }

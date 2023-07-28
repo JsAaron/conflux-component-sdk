@@ -6,6 +6,7 @@ class BaseProvider extends EventEmitter {
     super()
     this.address = options.address
     this.chainCode = options.chainCode
+    this.tokenId = options.tokenId
     this.requestUrl = Constant.CHAIN_URL[options.chainCode]
   }
 }

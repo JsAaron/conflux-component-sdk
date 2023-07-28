@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="cfx-layout" :style="[bgMain]">
     <!-- subsection -->
     <cfx-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></cfx-action-sheet>
     <view v-if="subsection" class="cfx-p-20">
@@ -18,6 +18,13 @@ export default {
   name: 'u-alert-tips',
   emits: ['click', 'close'],
   props: {
+    // 全局背景色
+    bgColor: {
+      type: String,
+      default() {
+        return 'transparent'
+      }
+    },
     subsection: {
       type: Boolean,
       default() {
@@ -52,6 +59,12 @@ export default {
         value: 'CONFLUX_CONSORTIUM_TESTNET',
         wallet: '0x19034eef6fad0c566ff75793294e6d03ea6f1536',
         private: '0xc1f69a6fae1d34d6e9b9f578ca2823a30c6aeca5677850a26be798efdf3be87b'
+      },
+      {
+        text: 'MetaMask',
+        value: 'METAMASK_MAINNET',
+        wallet: '0x4cf596148c11180870Ae6FA5F2033F43d5430Ed6',
+        private: 'b746ee49d833e2022ba85c4715baa3d23f82c54761c16b8c7657d34f8200594c'
       }
       // {
       //   text: 'ESPACE主网',
@@ -71,7 +84,13 @@ export default {
     }
   },
   mounted() {},
-  computed: {},
+  computed: {
+    bgMain() {
+      return {
+        background: this.bgColor
+      }
+    }
+  },
   methods: {
     actionSheetCallback(index) {
       let item = this.actionSheetList[index]
@@ -83,4 +102,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cfx-layout {
+  max-width: 100%;
+  min-height: calc(100vh - var(--window-top));
+}
+</style>

@@ -30,6 +30,12 @@
           "style": {
             "navigationBarTitleText": "余额查询"
           }
+        },
+        {
+          "path": "Ntf/index",
+          "style": {
+            "navigationBarTitleText": "藏品"
+          }
         }
       ]
     },

@@ -20,6 +20,12 @@ export default [
         icon: 'grid-fill',
         title: 'Balance 余额查询',
         title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/Ntf/index',
+        icon: 'grid-fill',
+        title: 'NFC 藏品',
+        title_en: 'Button'
       }
     ]
   }

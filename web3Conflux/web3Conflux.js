@@ -3,6 +3,8 @@ import cosNativeSdk from './sdk/native-conflux-sdk/index'
 import cosNativeConfig from './cosNativeConfig'
 import providerFactory from './provider'
 
+const superagent = require('superagent')
+
 /**
  * A sdk of web3Conflux
  * chainCode	CONFLUX_MAINNET	树图公链 Conflux Core(Hydra)
@@ -15,14 +17,31 @@ import providerFactory from './provider'
 class Web3Conflux {
   static async create(options) {}
 
-  constructor() {
-    //内部回调
+  constructor(options) {
+    this.options = options
     this.errorCallback = []
+
     try {
       this.cosNativeObj = cosNativeSdk.createApp({ ...cosNativeConfig })
     } catch (e) {
       this.emitCallback(e)
     }
+
+    //构建内部provider
+    if (options.chainCode && options.address) {
+      this.provider = providerFactory(options.chainCode, options.address)
+    }
+  }
+
+  accessProvider(chainCode, address) {
+    if (this.provider && this.options.chainCode == chainCode) {
+      return this.provider
+    }
+    this.provider = providerFactory(chainCode, address)
+  }
+
+  getStatus() {
+    return this.provider.getStatus()
   }
 
   getWallet({ chainCode } = args) {
@@ -40,11 +59,29 @@ class Web3Conflux {
     })
   }
 
+  async getNft() {
+    return new Promise((resovle, reject) => {
+      uni.request({
+        url: 'https://testnet.confluxscan.net/stat/nft/checker/preview', //仅为示例，并非真实接口地址。
+        data: {
+          contractAddress: this.options.address,
+          tokenId: this.options.tokenId
+        },
+        header: {
+          'Content-Type': 'application/json'
+        },
+        success: res => {
+          resovle(res.data.data)
+        }
+      })
+    })
+  }
+
   /**
    * 获取余额
    */
   async getBalance({ chainCode, address, format = 'cfx' } = args) {
-    this.provider = providerFactory(chainCode, address)
+    this.accessProvider(chainCode, address)
     const balance = await this.provider.getBalance(address)
     if (format == 'cfx') {
       return Drip(balance).toCFX()

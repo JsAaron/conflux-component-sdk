@@ -18,15 +18,35 @@ export default {
       show2: false
     }
   },
+
+  async mounted() {
+    const chainItem = getApp().getChain()
+    this.web3Conflux = new Web3Conflux({
+      chainCode: chainItem.value,
+      address: chainItem.wallet
+    })
+
+    console.log(
+      '🚀 ~ file: index.vue:29 ~ mounted ~  this.web3Conflux.getStatus():',
+      await this.web3Conflux.getStatus()
+    )
+  },
+
   methods: {
     async getBanlance() {
       const chainItem = getApp().getChain()
-      this.web3Conflux = new Web3Conflux()
+
+      this.web3Conflux = new Web3Conflux({
+        chainCode: chainItem.value,
+        address: chainItem.wallet
+      })
+
       const balance = await this.web3Conflux.getBalance({
         format: 'cfx',
-        chainCode: chainItem.value || 'CONFLUX_TESTNET',
-        address: chainItem.wallet || 'cfxtest:aar8jzybzv0fhzreav49syxnzut8s0jt1a1pdeeuwb'
+        chainCode: chainItem.value,
+        address: chainItem.wallet
       })
+
       this.$refs.cfxToast.show({
         title: `cfx数量：${balance}`,
         type: 'success',
