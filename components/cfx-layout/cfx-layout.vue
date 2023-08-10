@@ -94,9 +94,10 @@ export default {
   methods: {
     actionSheetCallback(index) {
       let item = this.actionSheetList[index]
-      getApp().globalData.chianItem = { ...item }
+      let chianItem = { ...item }
+      getApp().globalData.chianItem = chianItem
       this.form.chain = item.text
-      this.$emit('chainChange')
+      this.$emit('chainChange', chianItem)
     }
   }
 }

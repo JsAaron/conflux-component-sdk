@@ -3,6 +3,9 @@
     "vconsole": "^3.15.1"
   },
   "dependencies": {
+    "@thirdweb-dev/sdk": "^3.10.42",
+    "@thirdweb-dev/wallets": "^1.1.6",
+    "ethers": "5",
     "js-conflux-sdk": "^2.1.12",
     "web3": "^1.7.4"
   }

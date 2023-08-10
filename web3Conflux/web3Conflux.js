@@ -77,6 +77,16 @@ class Web3Conflux {
     })
   }
 
+  //获取资产列表
+  getAssetsList() {
+    return this.provider.getAssetsList()
+  }
+
+  //交易记录
+  getTransaction(transferType, limit) {
+    return this.provider.getTransaction(transferType, limit)
+  }
+
   /**
    * 获取余额
    */

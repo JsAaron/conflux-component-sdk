@@ -1,14 +1,8 @@
 export default [
   {
-    groupName: '区块链组件',
+    groupName: '区块链SDK',
     groupName_en: 'Blockchain components',
     list: [
-      {
-        path: '/pages/blockchain/ConnectWallet/index',
-        icon: 'grid-fill',
-        title: 'ConnectWallet 连接钱包',
-        title_en: 'Button'
-      },
       {
         path: '/pages/blockchain/ConnectUser/index',
         icon: 'grid-fill',
@@ -18,7 +12,73 @@ export default [
       {
         path: '/pages/blockchain/Balance/index',
         icon: 'grid-fill',
-        title: 'Balance 余额查询',
+        title: '钱包余额查询',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/Acchain/index',
+        icon: 'grid-fill',
+        title: '数字资产',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/CollectionType/index',
+        icon: 'grid-fill',
+        title: '藏品类型',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/Transaction/index',
+        icon: 'grid-fill',
+        title: '交易记录',
+        title_en: 'Button'
+      }
+    ]
+  },
+  {
+    groupName: '区块链UI组件',
+    groupName_en: 'Blockchain components',
+    list: [
+      {
+        path: '/pages/blockchain/ConnectWallet/index',
+        icon: 'grid-fill',
+        title: 'ConnectWallet 连接钱包',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/NftNav/index',
+        icon: 'grid-fill',
+        title: '标题导航',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/NftNav/index',
+        icon: 'grid-fill',
+        title: '文本组件',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/NftNav/index',
+        icon: 'grid-fill',
+        title: '图片组件',
+        title_en: 'Button'
+      },
+      {
+        path: '/pages/blockchain/NftNav/index',
+        icon: 'grid-fill',
+        title: '列表组件',
+        title_en: 'Button'
+      }
+    ]
+  },
+  {
+    groupName: '基础组件',
+    groupName_en: 'Blockchain components',
+    list: [
+      {
+        path: '/pages/blockchain/ConnectWallet/index',
+        icon: 'grid-fill',
+        title: 'ConnectWallet 连接钱包',
         title_en: 'Button'
       },
       {
@@ -28,6 +88,11 @@ export default [
         title_en: 'Button'
       }
     ]
+  },
+  {
+    groupName: '扩展组件',
+    groupName_en: 'Blockchain components',
+    list: []
   }
   // ,{
   // 	groupName: '基础组件',

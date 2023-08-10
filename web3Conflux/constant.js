@@ -2,22 +2,26 @@ const CHAIN_LIST = [
   {
     name: '树图公链',
     code: 'CONFLUX_MAINNET',
-    icon: 'http://dev.confluxos.cfx.art/doc/image/logo.png'
+    icon: 'http://dev.confluxos.cfx.art/doc/image/logo.png',
+    scan: 'https://confluxscan.net'
   },
   {
     name: '树图测试链',
     code: 'CONFLUX_TESTNET',
-    icon: 'http://www.hncfx.com/images/pl1.png'
+    icon: 'http://www.hncfx.com/images/pl1.png',
+    scan: 'https://testnet.confluxscan.net'
   },
   {
     name: '树图ESPACE主链',
     code: 'ESPACE_MAINNET',
-    icon: 'http://www.hncfx.com/images/ban1.png'
+    icon: 'http://www.hncfx.com/images/ban1.png',
+    scan: 'https://api.confluxscan.net'
   },
   {
     name: '树图ESPACE测试链',
     code: 'ESPACE_TESTNET',
-    icon: 'http://www.hncfx.com/images/team.jpg'
+    icon: 'http://www.hncfx.com/images/team.jpg',
+    scan: 'https://api-testnet.confluxscan.net'
   },
   {
     name: '树图联盟正式链',
@@ -63,8 +67,18 @@ const CHAIN_URL = {
   CONFLUX_CONSORTIUM_TESTNET: '树图联盟测试链'
 }
 
+const SCAN_URL = {
+  CONFLUX_MAINNET: 'https://confluxscan.net',
+  CONFLUX_TESTNET: 'https://testnet.confluxscan.net',
+  ESPACE_MAINNET: 'https://api.confluxscan.net',
+  ESPACE_TESTNET: 'https://api-testnet.confluxscan.net',
+  CONFLUX_CONSORTIUM_MAINNET: '树图联盟正式链',
+  CONFLUX_CONSORTIUM_TESTNET: '树图联盟测试链'
+}
+
 module.exports = {
   CHAIN_URL,
+  SCAN_URL,
   CHAIN_LIST,
   CHAIN_HASH
 }

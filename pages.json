@@ -32,9 +32,39 @@
           }
         },
         {
+          "path": "Acchain/index",
+          "style": {
+            "navigationBarTitleText": "数字资产"
+          }
+        },
+        {
+          "path": "CollectionType/index",
+          "style": {
+            "navigationBarTitleText": "藏品类型"
+          }
+        },
+        {
+          "path": "Transaction/index",
+          "style": {
+            "navigationBarTitleText": "交易查询"
+          }
+        },
+        {
           "path": "Ntf/index",
           "style": {
             "navigationBarTitleText": "藏品"
+          }
+        },
+        {
+          "path": "NftNav/index",
+          "style": {
+            "navigationBarTitleText": "资产管理 标题导航"
+          }
+        },
+        {
+          "path": "Thirdweb/index",
+          "style": {
+            "navigationBarTitleText": "Thirdweb测试"
           }
         }
       ]
