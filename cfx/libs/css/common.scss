@@ -1,0 +1,178 @@
+.cfx-relative,
+.cfx-rela {
+  position: relative;
+}
+
+.cfx-absolute,
+.cfx-abso {
+  position: absolute;
+}
+
+// nvue不能用标签命名样式，不能放在微信组件中，否则微信开发工具会报警告，无法使用标签名当做选择器
+/* #ifndef APP-NVUE */
+image {
+  display: inline-block;
+}
+
+// 在weex，也即nvue中，所有元素默认为border-box
+view,
+text {
+  box-sizing: border-box;
+}
+/* #endif */
+
+.cfx-font-xs {
+  font-size: 22rpx;
+}
+
+.cfx-font-sm {
+  font-size: 26rpx;
+}
+
+.cfx-font-md {
+  font-size: 28rpx;
+}
+
+.cfx-font-lg {
+  font-size: 30rpx;
+}
+
+.cfx-font-xl {
+  font-size: 34rpx;
+}
+
+.cfx-flex {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: row;
+  align-items: center;
+}
+
+.cfx-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.cfx-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.cfx-col-center {
+  align-items: center;
+}
+
+.cfx-col-top {
+  align-items: flex-start;
+}
+
+.cfx-col-bottom {
+  align-items: flex-end;
+}
+
+.cfx-row-center {
+  justify-content: center;
+}
+
+.cfx-row-left {
+  justify-content: flex-start;
+}
+
+.cfx-row-right {
+  justify-content: flex-end;
+}
+
+.cfx-row-between {
+  justify-content: space-between;
+}
+
+.cfx-row-around {
+  justify-content: space-around;
+}
+
+.cfx-text-left {
+  text-align: left;
+}
+
+.cfx-text-center {
+  text-align: center;
+}
+
+.cfx-text-right {
+  text-align: right;
+}
+
+.cfx-flex-col {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: column;
+}
+
+// 定义flex等分
+@for $i from 0 through 12 {
+  .cfx-flex-#{$i} {
+    flex: $i;
+  }
+}
+
+// 定义字体(px)单位，小于20都为px单位字体
+@for $i from 9 to 20 {
+  .cfx-font-#{$i} {
+    font-size: $i + px;
+  }
+}
+
+// 定义字体(rpx)单位，大于或等于20的都为rpx单位字体
+@for $i from 20 through 40 {
+  .cfx-font-#{$i} {
+    font-size: $i + rpx;
+  }
+}
+
+// 定义内外边距，历遍1-80
+@for $i from 0 through 80 {
+  // 只要双数和能被5除尽的数
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    // 得出：u-margin-30或者u-m-30
+    .cfx-margin-#{$i},
+    .cfx-m-#{$i} {
+      margin: $i + rpx !important;
+    }
+
+    // 得出：u-padding-30或者u-p-30
+    .cfx-padding-#{$i},
+    .cfx-p-#{$i} {
+      padding: $i + rpx !important;
+    }
+
+    @each $short, $long in l left, t top, r right, b bottom {
+      // 缩写版，结果如： u-m-l-30
+      // 定义外边距
+      .cfx-m-#{$short}-#{$i} {
+        margin-#{$long}: $i + rpx !important;
+      }
+
+      // 定义内边距
+      .cfx-p-#{$short}-#{$i} {
+        padding-#{$long}: $i + rpx !important;
+      }
+
+      // 完整版，结果如：u-margin-left-30
+      // 定义外边距
+      .cfx-margin-#{$long}-#{$i} {
+        margin-#{$long}: $i + rpx !important;
+      }
+
+      // 定义内边距
+      .cfx-padding-#{$long}-#{$i} {
+        padding-#{$long}: $i + rpx !important;
+      }
+    }
+  }
+}
+
+// 重置nvue的默认关于flex的样式
+.cfx-reset-nvue {
+  flex-direction: row;
+  align-items: center;
+}

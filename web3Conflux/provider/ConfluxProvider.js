@@ -24,7 +24,7 @@ class ConfluxProvider extends BaseProvider {
 
   async getAssetsList() {
     return Request({
-      url: this.scanUrl + `/v1/token/accountAddress=${this.accountAddress}&fields=iconUrl`,
+      url: this.scanUrl + `/v1/token?accountAddress=${this.accountAddress}&fields=iconUrl`,
       method: 'GET'
     })
   }

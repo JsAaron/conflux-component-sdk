@@ -1,9 +1,9 @@
 })
 <template>
   <cfx-layout @chainChange="onChainChange">
-    <view class="u-demo">数字资产总数: {{ total }}条</view>
-    <view class="u-demo">721交易记录: {{ e721 }}条</view>
-    <view class="u-demo">1155交易记录: {{ e1155 }}条</view>
+    <view class="u-demo">链标识: {{ chainItem.value }}</view>
+    <view class="u-demo">钱包地址: {{ chainItem.wallet }}</view>
+    <view class="u-demo">数字资产总数: {{ total }}个</view>
   </cfx-layout>
 </template>
 
@@ -12,14 +12,15 @@ import { Web3Conflux } from 'web3Conflux'
 export default {
   data() {
     return {
+      chainItem: {},
       total: 0,
-      e721: 0,
-      e1155: 0
+      indexList: []
     }
   },
 
   async mounted() {
     const chainItem = getApp().getChain()
+    this.chainItem = chainItem
     this.web3Conflux = new Web3Conflux({
       chainCode: chainItem.value,
       address: chainItem.wallet
@@ -27,12 +28,16 @@ export default {
 
     //获取资产列表
     this.web3Conflux.getAssetsList().then(res => {
+      this.total = res.data.total
+      this.list = res.data.list
       console.log('🚀 ~ file: index.vue:29 ~ this.web3Conflux.getAssetsList ~ res:', res)
     })
   },
 
   methods: {
-    onChainChange(e) {}
+    onChainChange(e) {
+      console.log('🚀 ~ file: index.vue:40 ~ onChainChange ~ e:', e)
+    }
   }
 }
 </script>
@@ -40,6 +45,6 @@ export default {
 <style lang="scss" scoped>
 .btn-box {
   display: flex;
-  margin-top: 20rpx;
+  margin-top: 10rpx;
 }
 </style>
