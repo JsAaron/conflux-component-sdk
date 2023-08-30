@@ -4,6 +4,12 @@ export default [
     groupName_en: 'Blockchain components',
     list: [
       {
+        path: '/pages/sdk/ConnectWallet/index',
+        icon: 'grid-fill',
+        title: '连接Fluent钱包',
+        title_en: 'Button'
+      },
+      {
         path: '/pages/blockchain/ConnectUser/index',
         icon: 'grid-fill',
         title: 'ConnectUser 用户信息',
