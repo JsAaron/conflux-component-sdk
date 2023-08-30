@@ -1,3 +1,4 @@
+import detectProvider from '@fluent-wallet/detect-provider'
 import { Drip } from './sdk/js-conflux-sdk/index'
 import cosNativeSdk from './sdk/native-conflux-sdk/index'
 import cosNativeConfig from './cosNativeConfig'
@@ -132,6 +133,50 @@ class Web3Conflux {
       console.log('🚀 ~ file: web3Conflux.js:69 ~ Web3Conflux ~ getStorage ~ e:', e)
     }
   }
+
+  //=============== Fluent扩展 =================
+
+  async initFluent() {
+    const provider = await detectProvider({
+      injectFlag: 'conflux',
+      defaultWalletFlag: 'isFluent'
+    })
+    if (provider) {
+      if (provider !== window.conflux) {
+        console.error('Do you have multiple wallets installed?')
+        this.initFluentComplete = false
+        return
+      }
+    } else {
+      console.error('Please install Fluent Wallet!')
+      this.initFluentComplete = false
+      return
+    }
+    window.conflux.on('chainChanged', this.handleChainChanged)
+    this.initFluentComplete = true
+  }
+
+  handleChainChanged(chainId) {
+    window.location.reload()
+  }
+
+  //连接钱包
+  async connectFluentWallet() {
+    if (!this.initFluentComplete) {
+      await this.initFluent()
+    }
+    const accounts = await window.conflux.request({ method: 'cfx_requestAccounts' }).catch(err => {
+      if (err.code === 4001) {
+        console.log('Please connect to Fluent Wallet.')
+      } else {
+        console.error(err)
+      }
+    })
+    // const account = accounts[0]
+    // this.currentAccount = account
+  }
+
+  handleAccountsChanged(accounts) {}
 }
 
 module.exports = Web3Conflux
